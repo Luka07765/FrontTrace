@@ -8,10 +8,30 @@ export default function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Client-side validation
+    if (!username || !email || !password) {
+      alert('All fields are required.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    if (password.length < 6) {
+      alert('Password must be at least 6 characters long.');
+      return;
+    }
+
+    setIsLoading(true);
 
     const registerData = {
       username,
@@ -21,12 +41,21 @@ export default function Register() {
 
     try {
       await axios.post('http://localhost:5044/api/Auth/Register', registerData);
-
       alert('Registration successful! Please log in.');
       router.push('/login');
     } catch (error) {
       console.error('There was an error registering!', error);
-      alert('Registration failed');
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        alert(error.response.data.message);
+      } else {
+        alert('Registration failed. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -67,8 +96,12 @@ export default function Register() {
             style={{ width: '100%', padding: 8 }}
           />
         </div>
-        <button type="submit" style={{ padding: 10, width: '100%' }}>
-          Register
+        <button
+          type="submit"
+          disabled={isLoading}
+          style={{ padding: 10, width: '100%' }}
+        >
+          {isLoading ? 'Registering...' : 'Register'}
         </button>
       </form>
     </div>
