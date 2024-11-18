@@ -41,7 +41,7 @@ export default function Login() {
       console.log(response.data.accessToken);
 
       // Redirect to the dashboard
-      router.push('/dashboard');
+      router.push('/mindvault/trace');
     } catch (error) {
       console.error('Login error:', error);
 

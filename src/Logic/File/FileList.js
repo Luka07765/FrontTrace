@@ -1,6 +1,11 @@
 'use client';
 import { useQuery, useMutation } from '@apollo/client';
-import { GET_FILES, CREATE_FILE, DELETE_FILE, UPDATE_FILE } from '../quieries'; // Ensure the correct path to your queries
+import {
+  GET_FILES,
+  CREATE_FILE,
+  DELETE_FILE,
+  UPDATE_FILE,
+} from '../Apollo/Queries'; // Ensure the correct path to your queries
 import { useState } from 'react';
 
 export default function FileList() {

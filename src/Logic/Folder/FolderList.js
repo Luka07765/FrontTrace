@@ -5,7 +5,7 @@ import {
   CREATE_FOLDER,
   DELETE_FOLDER,
   UPDATE_FOLDER,
-} from '../quieries'; // Ensure the path is correct
+} from '../Apollo/Queries'; // Ensure the path is correct
 import { useState } from 'react';
 
 export default function FolderList() {
