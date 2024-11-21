@@ -1,71 +1,31 @@
 'use client';
 
 import { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useLoginLogic } from '@/Data/Auth/Login';
 
 export default function Login() {
-  const [email, setEmail] = useState(''); // Change username to email
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Reset error state and start loading
-    setError('');
-    setIsLoading(true);
-
-    // Basic input validation
-    if (!email || !password) {
-      setError('Email and password are required.');
-      setIsLoading(false);
-      return;
-    }
-
-    const loginData = {
-      email, // Send email instead of username
-      password,
-    };
-
-    try {
-      const response = await axios.post(
-        'http://localhost:5044/api/Auth/Login', // Ensure the backend accepts email
-        loginData
-      );
-
-      // Save the token in localStorage
-      localStorage.setItem('token', response.data.accessToken);
-      console.log(response.data.accessToken);
-
-      // Redirect to the dashboard
-      router.push('/mindvault/trace');
-    } catch (error) {
-      console.error('Login error:', error);
-
-      // Set appropriate error messages
-      if (error.response && error.response.status === 401) {
-        setError('Invalid email or password.');
-      } else {
-        setError('Something went wrong. Please try again later.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { handleSubmit } = useLoginLogic(
+    email,
+    password,
+    setError,
+    setIsLoading
+  );
 
   return (
     <div style={{ maxWidth: 400, margin: '0 auto', padding: '20px' }}>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: 10 }}>
-          <label>Email:</label> {/* Updated label */}
+          <label>Email:</label>
           <br />
           <input
-            type="email" // Updated input type
-            value={email} // Updated to use email state
+            type="email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
             style={{

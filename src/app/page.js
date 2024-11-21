@@ -6,7 +6,7 @@ export default function Home() {
   const router = useRouter();
 
   const handleLoginClick = () => {
-    router.push('/login'); // Navigate to the login page
+    router.push('/auth/login'); // Navigate to the login page
   };
 
   return (
