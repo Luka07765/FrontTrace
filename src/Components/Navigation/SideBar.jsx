@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-
+import { FolderModal } from './Test/Prompt';
+import { ContextMenu } from './Test/Click';
 export default function FolderList() {
   const {
     folders,
@@ -11,53 +12,67 @@ export default function FolderList() {
     handleUpdateFolder,
   } = useFolderListLogic();
 
-  const [selectedFolderId, setSelectedFolderId] = useState(null);
-
-  // Context Menu State
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
     y: 0,
   });
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [folderName, setFolderName] = useState('');
+  const [parentFolderId, setParentFolderId] = useState('');
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedFolderId, setSelectedFolderId] = useState(null);
 
-  // Create Folder Modal State
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [newFolderName, setNewFolderName] = useState('');
-
-  // Edit Folder State
-  const [editFolderId, setEditFolderId] = useState(null);
-  const [editFolderName, setEditFolderName] = useState('');
-  const [editParentFolderId, setEditParentFolderId] = useState('');
-
-  const resetEditState = () => {
-    setEditFolderId(null);
-    setEditFolderName('');
-    setEditParentFolderId('');
+  const resetModalState = () => {
+    setModalVisible(false);
+    setFolderName('');
+    setParentFolderId('');
+    setIsEditMode(false);
   };
 
-  const CreateFolder = () =>
-    handleCreateFolder({
-      title: newFolderName,
-      parentFolderId: selectedFolderId,
-    });
-
-  const handleSubmitUpdate = () => {
-    handleUpdateFolder({
-      id: editFolderId,
-      title: editFolderName,
-      parentFolderId: editParentFolderId
-        ? parseInt(editParentFolderId, 10)
-        : null,
-    });
-    resetEditState();
+  const handleCreate = () => {
+    setModalTitle('Create Folder');
+    setIsEditMode(false);
+    setModalVisible(true);
+    setContextMenuVisible(false);
   };
 
-  const contextMenuRef = useRef(null);
-
-  const handleClickInside = (e) => {
-    if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
-      setContextMenuVisible(false);
+  const handleRename = () => {
+    const folderToEdit = folders.find((f) => f.id === selectedFolderId);
+    if (folderToEdit) {
+      setFolderName(folderToEdit.title);
+      setParentFolderId(
+        folderToEdit.parentFolderId
+          ? folderToEdit.parentFolderId.toString()
+          : ''
+      );
+      setModalTitle('Edit Folder');
+      setIsEditMode(true);
+      setModalVisible(true);
     }
+    setContextMenuVisible(false);
+  };
+
+  const handleDelete = () => {
+    handleDeleteFolder(selectedFolderId);
+    setContextMenuVisible(false);
+  };
+
+  const handleSubmit = () => {
+    if (isEditMode) {
+      handleUpdateFolder({
+        id: selectedFolderId,
+        title: folderName,
+        parentFolderId: parentFolderId ? parseInt(parentFolderId, 10) : null,
+      });
+    } else {
+      handleCreateFolder({
+        title: folderName,
+        parentFolderId: selectedFolderId,
+      });
+    }
+    resetModalState();
   };
 
   if (loading)
@@ -66,6 +81,7 @@ export default function FolderList() {
         <p className="text-gray-500">Loading folders...</p>
       </div>
     );
+
   if (error)
     return (
       <div className="flex items-center justify-center h-screen">
@@ -75,161 +91,54 @@ export default function FolderList() {
 
   return (
     <div
-      className="flex relative w-64 bg-gray-800 text-white h-screen p-4"
-      onClick={handleClickInside}
+      className="relative w-64 bg-gray-800 text-white h-screen p-4"
+      onClick={() => setContextMenuVisible(false)}
     >
       <ul className="space-y-2">
         {folders.map((folder) => (
           <li
             key={folder.id}
-            onClick={() => {
-              setSelectedFolderId(folder.id); // Set selected folder on left-click
-              console.log(`Selected Folder ID: ${folder.id}`);
-            }}
+            onClick={() => setSelectedFolderId(folder.id)}
             onContextMenu={(e) => {
               e.preventDefault();
-              setSelectedFolderId(folder.id); // Set selected folder on right-click
-              setContextMenuVisible(true); // Show context menu
+              setSelectedFolderId(folder.id);
+              setContextMenuVisible(true);
               setContextMenuPosition({ x: e.pageX, y: e.pageY });
             }}
-            className={`flex items-center justify-between p-2 rounded cursor-pointer ${
-              selectedFolderId === folder.id
-                ? 'border-2 border-blue-500 bg-gray-600'
-                : 'bg-gray-700 hover:bg-gray-600'
+            className={`p-2 rounded cursor-pointer hover:bg-gray-600 ${
+              selectedFolderId === folder.id ? 'border-2 border-blue-500' : ''
             }`}
           >
-            <div>
-              <strong>{folder.title}</strong>
-              <span className="text-sm text-gray-300 ml-2">
-                (ID: {folder.id})
-              </span>
-              {folder.parentFolderId !== null && (
-                <span className="text-sm text-gray-300 ml-2">
-                  (Parent ID: {folder.parentFolderId})
-                </span>
-              )}
-            </div>
+            <strong>{folder.title}</strong>
+            <span className="text-sm text-gray-300 ml-2">
+              (ID: {folder.id} + Parant +{folder.parentFolderId})
+            </span>
+            <span className="text-sm text-gray-300 ml-2">(ID:)</span>
           </li>
         ))}
       </ul>
 
-      {/* Edit Folder Modal */}
-      {editFolderId && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-gray-700 p-6 rounded">
-            <h3 className="text-lg font-semibold mb-2">Edit Folder</h3>
-            <input
-              type="text"
-              placeholder="Folder Title"
-              value={editFolderName}
-              onChange={(e) => setEditFolderName(e.target.value)}
-              className="w-full px-2 py-1 mb-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:border-blue-400"
-            />
-            <input
-              type="number"
-              placeholder="Parent Folder ID"
-              value={editParentFolderId}
-              onChange={(e) => setEditParentFolderId(e.target.value)}
-              className="w-full px-2 py-1 mb-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:border-blue-400"
-            />
-            <div className="flex space-x-2">
-              <button
-                onClick={handleSubmitUpdate}
-                className="w-full px-2 py-1 bg-green-500 rounded hover:bg-green-600 focus:outline-none"
-              >
-                Save Changes
-              </button>
-              <button
-                onClick={resetEditState}
-                className="w-full px-2 py-1 bg-gray-500 rounded hover:bg-gray-600 focus:outline-none"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Context Menu */}
-      {contextMenuVisible && (
-        <ul
-          ref={contextMenuRef}
-          className="absolute bg-black border rounded shadow-md z-50"
-          style={{
-            top: contextMenuPosition.y,
-            left: contextMenuPosition.x,
-            position: 'fixed',
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <li
-            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-            onClick={() => {
-              setContextMenuVisible(false);
-              setShowCreateModal(true);
-              setNewFolderName('');
-            }}
-          >
-            Create Folder
-          </li>
-          <li
-            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-            onClick={() => {
-              setContextMenuVisible(false);
-              const folderToEdit = folders.find(
-                (f) => f.id === selectedFolderId
-              ); // Use selectedFolderId
-              if (folderToEdit) {
-                setEditFolderId(folderToEdit.id);
-                setEditFolderName(folderToEdit.title);
-                setEditParentFolderId(
-                  folderToEdit.parentFolderId
-                    ? folderToEdit.parentFolderId.toString()
-                    : ''
-                );
-              }
-            }}
-          >
-            Rename Folder
-          </li>
-          <li
-            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-            onClick={() => {
-              setContextMenuVisible(false);
-              handleDeleteFolder(selectedFolderId); // Use selectedFolderId
-            }}
-          >
-            Delete Folder
-          </li>
-        </ul>
-      )}
+      <ContextMenu
+        isVisible={contextMenuVisible}
+        position={contextMenuPosition}
+        onCreate={handleCreate}
+        onRename={handleRename}
+        onDelete={handleDelete}
+      />
 
-      {/* Create Folder Modal */}
-      {showCreateModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded">
-            <input
-              type="text"
-              placeholder="Folder Title"
-              value={newFolderName}
-              onChange={(e) => setNewFolderName(e.target.value)}
-              className="w-full px-2 py-1 mb-2 border border-gray-600 rounded focus:outline-none focus:border-blue-400"
-            />
-            <div className="flex space-x-2">
-              <button
-                onClick={() => {
-                  CreateFolder();
-                  setShowCreateModal(false);
-                  setNewFolderName('');
-                }}
-                className="w-full px-2 py-1 bg-indigo-500 rounded hover:bg-indigo-600 focus:outline-none"
-              >
-                Create Folder
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Folder Modal */}
+      <FolderModal
+        isVisible={modalVisible}
+        title={modalTitle}
+        folderName={folderName}
+        setFolderName={setFolderName}
+        parentFolderId={parentFolderId}
+        setParentFolderId={setParentFolderId}
+        onSubmit={handleSubmit}
+        onCancel={resetModalState}
+        showParentInput={isEditMode}
+      />
     </div>
   );
 }
