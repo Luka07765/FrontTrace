@@ -26,7 +26,7 @@ export function useLoginLogic(email, password, setError, setIsLoading) {
       );
 
       localStorage.setItem('token', response.data.accessToken);
-      router.push('/mindvault/workspace');
+      router.push('/workspace/notes');
     } catch (error) {
       if (error.response?.status === 401) {
         setError('Invalid email or password.');

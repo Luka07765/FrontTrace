@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 
-import File from '@/Logic/NotePage/File';
-import SideBar from '@/Logic/SideBar/SideBar';
-import { useToken } from '@/Data/Auth/Token';
-import { useLogout } from '@/Data/Auth/Logout';
+import File from '@/Components/NotePage/WorkSpace';
+import SideBar from '@/Components/Navigation/SideBar';
+import { useToken } from '@/Server/Auth/Token';
+import { useLogout } from '@/Server/Auth/Logout';
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -57,7 +57,6 @@ export default function Dashboard() {
       <div className="flex">
         {/* Sidebar on the left */}
         <div className="w-1/4 p-4">
-          <h2 className="text-xl font-semibold mb-2">Folders</h2>
           <SideBar />
         </div>
         {/* Files on the right */}

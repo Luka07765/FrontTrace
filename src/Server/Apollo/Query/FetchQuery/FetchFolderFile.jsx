@@ -8,7 +8,7 @@ import {
   CREATE_FILE,
   DELETE_FILE,
   UPDATE_FILE,
-} from './Queries';
+} from '../Queries/FolderFileQueries';
 
 // Fetch folders
 export const useFetchFolders = () => {

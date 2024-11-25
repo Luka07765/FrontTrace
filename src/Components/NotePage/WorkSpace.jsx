@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useFileListLogic } from '@/Data/Apollo/Logic/QueryFile';
+import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 
 export default function FileList() {
   const {

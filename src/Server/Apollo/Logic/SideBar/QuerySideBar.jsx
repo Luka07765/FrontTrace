@@ -5,7 +5,7 @@ import {
   useCreateFolder,
   useDeleteFolder,
   useUpdateFolder,
-} from '../Query/FetchQuery';
+} from '@/Server/Apollo/Query/FetchQuery/FetchFolderFile';
 
 export function useFolderListLogic() {
   const { folders, loading, error, refetch } = useFetchFolders();

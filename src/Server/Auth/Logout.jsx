@@ -26,7 +26,7 @@ export function useLogout(client) {
       }
 
       localStorage.removeItem('token');
-      router.push('/auth/login');
+      router.push('/home/auth/login');
     } catch (error) {
       console.error('Error during logout:', error);
     }

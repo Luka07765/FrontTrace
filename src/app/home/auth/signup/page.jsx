@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRegisterLogic } from '@/Data/Auth/Sign_Up';
+import { useRegisterLogic } from '@/Server/Auth/Sign_Up';
 
 export default function Register() {
   const [username, setUsername] = useState('');

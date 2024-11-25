@@ -33,7 +33,7 @@ export function useToken() {
         error.response?.data || error.message
       );
       localStorage.removeItem('token');
-      router.push('/auth/login');
+      router.push('/home/auth/login');
     } finally {
       isRefreshing = false;
     }
