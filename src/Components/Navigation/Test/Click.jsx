@@ -1,22 +1,21 @@
 import React from 'react';
+import { Click } from '@/Zustang/ClickLogic';
 
-export const ContextMenu = ({
-  isVisible,
-  position,
-  onCreate,
-  onRename,
-  onDelete,
-}) => {
-  if (!isVisible) return null;
+export const ContextMenu = ({ onCreate, onRename, onDelete }) => {
+  const { contextMenuVisible, contextMenuPosition, setContextMenuVisible } =
+    Click();
+
+  if (!contextMenuVisible) return null;
 
   return (
     <ul
       className="absolute bg-black border rounded shadow-md z-50"
       style={{
-        top: position.y,
-        left: position.x,
+        top: contextMenuPosition.y,
+        left: contextMenuPosition.x,
         position: 'fixed',
       }}
+      onClick={() => setContextMenuVisible(false)} // Optional: hide menu on click
     >
       <li
         className="px-4 py-2 hover:bg-gray-200 cursor-pointer"

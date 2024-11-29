@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { useRouter } from 'next/navigation';
-
+import { Click } from '@/Zustang/ClickLogic';
 import File from '@/Components/NotePage/WorkSpace';
 import SideBar from '@/Components/Navigation/SideBar';
 import { useToken } from '@/Server/Auth/Token';
@@ -15,6 +15,8 @@ export default function Dashboard() {
   const router = useRouter();
   const { checkAuthentication, scheduleTokenRefresh } = useToken();
   const { handleLogout } = useLogout(client);
+  const { setContextMenuVisible, selectedFolderId, setSelectedFolderId } =
+    Click();
 
   useEffect(() => {
     let cleanup; // Declare cleanup variable in the outer scope
@@ -44,9 +46,14 @@ export default function Dashboard() {
   if (loading) {
     return <p>Loading...</p>;
   }
+  const handleClick = () => {
+    if (setContextMenuVisible) {
+      setContextMenuVisible(false);
+    }
+  };
 
   return (
-    <div>
+    <div onClick={handleClick}>
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
       <button
         onClick={handleLogout}
@@ -54,6 +61,7 @@ export default function Dashboard() {
       >
         Logout
       </button>
+
       <div className="flex">
         {/* Sidebar on the left */}
         <div className="w-1/4 p-4">

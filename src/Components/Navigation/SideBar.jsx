@@ -3,6 +3,7 @@ import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { FolderModal } from './Test/Prompt';
 import { ContextMenu } from './Test/Click';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa'; // Import icons
+import { Click } from '@/Zustang/ClickLogic';
 
 export default function FolderList() {
   const {
@@ -13,20 +14,26 @@ export default function FolderList() {
     handleDeleteFolder,
     handleUpdateFolder,
   } = useFolderListLogic();
+  const {
+    contextMenuVisible,
+    setContextMenuVisible,
+    setContextMenuPosition,
+    selectedFolderId,
+    setSelectedFolderId,
+    parentFolderId,
+    setParentFolderId,
+    modalVisible,
+    setModalVisible,
+    modalTitle,
+    setModalTitle,
+    isEditMode,
+    setIsEditMode,
+    handleCreate,
+    handleDelete,
+  } = Click();
 
-  const [contextMenuVisible, setContextMenuVisible] = useState(false);
-  const [contextMenuPosition, setContextMenuPosition] = useState({
-    x: 0,
-    y: 0,
-  });
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalTitle, setModalTitle] = useState('');
   const [folderName, setFolderName] = useState('');
-  const [parentFolderId, setParentFolderId] = useState(null);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedFolderId, setSelectedFolderId] = useState(null);
 
-  // State to track expanded folders
   const [expandedFolders, setExpandedFolders] = useState({});
 
   function buildNestedStructure(folders) {
@@ -56,7 +63,7 @@ export default function FolderList() {
   // Updated renderFolders function with expandable/collapsible functionality
   function renderFolders(folders) {
     return (
-      <ul className="space-y-1">
+      <ul>
         {folders.map((folder) => {
           const isExpanded = expandedFolders[folder.id];
           const hasChildren = folder.children.length > 0;
@@ -100,13 +107,15 @@ export default function FolderList() {
                 {/* Folder Title */}
                 <div
                   onClick={() =>
-                    setSelectedFolderId((prev) =>
-                      prev === folder.id ? null : folder.id
+                    setSelectedFolderId(
+                      selectedFolderId === folder.id ? null : folder.id
                     )
                   }
                   className="flex-grow"
                 >
-                  <strong>{folder.title}</strong>
+                  <strong>{folder.title + ' '}</strong>
+                  <strong>{' ID: ' + folder.id}</strong>
+                  <strong>{'  FOLDER ' + folder.parentFolderId}</strong>
                 </div>
               </div>
 
@@ -120,26 +129,19 @@ export default function FolderList() {
       </ul>
     );
   }
-
   const resetModalState = () => {
     setModalVisible(false);
-    setFolderName('');
+    setFolderName(''); // Local state
     setParentFolderId(null);
     setIsEditMode(false);
     setSelectedFolderId(null);
   };
 
-  const handleCreate = () => {
-    setModalTitle('Create Folder');
-    setIsEditMode(false);
-    setModalVisible(true);
-    setContextMenuVisible(false);
-  };
-
+  // Update handleRename to use consistent state management
   const handleRename = () => {
     const folderToEdit = folders.find((f) => f.id === selectedFolderId);
     if (folderToEdit) {
-      setFolderName(folderToEdit.title);
+      setFolderName(folderToEdit.title); // Local state
       setParentFolderId(folderToEdit.parentFolderId);
       setModalTitle('Edit Folder');
       setIsEditMode(true);
@@ -148,10 +150,8 @@ export default function FolderList() {
     setContextMenuVisible(false);
   };
 
-  const handleDelete = () => {
-    handleDeleteFolder(selectedFolderId);
-    setContextMenuVisible(false);
-    setSelectedFolderId(null);
+  const onDelete = () => {
+    handleDelete(handleDeleteFolder);
   };
 
   const handleSubmit = () => {
@@ -170,16 +170,6 @@ export default function FolderList() {
     resetModalState();
   };
 
-  useEffect(() => {
-    if (folders && folders.length > 0) {
-      const nestedFolders = buildNestedStructure(folders);
-      console.log(
-        'Nested Folder Structure (JSON):',
-        JSON.stringify(nestedFolders, null, 2)
-      );
-    }
-  }, [folders]);
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -196,16 +186,12 @@ export default function FolderList() {
     );
   }
 
-  // Build the nested folder structure
   const nestedFolders =
     folders && folders.length > 0 ? buildNestedStructure(folders) : [];
 
   return (
     <div
       className="relative w-64 bg-gray-800 text-white h-screen p-4 overflow-auto"
-      onClick={() => {
-        setContextMenuVisible(false);
-      }}
       onContextMenu={(e) => {
         e.preventDefault();
         setContextMenuVisible(true);
@@ -218,15 +204,11 @@ export default function FolderList() {
         <p className="text-gray-500">No folders to display.</p>
       )}
 
-      {/* Context Menu */}
       {contextMenuVisible && (
         <ContextMenu
-          isVisible={contextMenuVisible}
-          position={contextMenuPosition}
           onCreate={handleCreate}
           onRename={handleRename}
-          onDelete={handleDelete}
-          onClose={() => setContextMenuVisible(false)}
+          onDelete={onDelete}
         />
       )}
 
