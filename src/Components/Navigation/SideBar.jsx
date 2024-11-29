@@ -11,7 +11,7 @@ export default function FolderList() {
     loading,
     error,
     handleCreateFolder,
-    handleDeleteFolder,
+
     handleUpdateFolder,
   } = useFolderListLogic();
   const {
@@ -137,10 +137,6 @@ export default function FolderList() {
     handleRename(folders, setFolderName); // Pass folders and setFolderName as arguments
   };
 
-  const onDelete = () => {
-    handleDelete(handleDeleteFolder);
-  };
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -176,11 +172,7 @@ export default function FolderList() {
       )}
 
       {contextMenuVisible && (
-        <ContextMenu
-          onCreate={handleCreate}
-          onRename={onRename}
-          onDelete={onDelete}
-        />
+        <ContextMenu onCreate={handleCreate} onRename={onRename} />
       )}
 
       {/* Folder Modal */}

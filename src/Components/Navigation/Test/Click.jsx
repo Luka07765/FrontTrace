@@ -1,12 +1,20 @@
 import React from 'react';
 import { Click } from '@/Zustang/ClickLogic';
-
-export const ContextMenu = ({ onCreate, onRename, onDelete }) => {
-  const { contextMenuVisible, contextMenuPosition, setContextMenuVisible } =
-    Click();
+import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
+export const ContextMenu = ({ onCreate, onRename }) => {
+  const { handleCreateFolder, handleDeleteFolder, handleUpdateFolder } =
+    useFolderListLogic();
+  const {
+    contextMenuVisible,
+    contextMenuPosition,
+    setContextMenuVisible,
+    handleDelete,
+  } = Click();
 
   if (!contextMenuVisible) return null;
-
+  const onDelete = () => {
+    handleDelete(handleDeleteFolder);
+  };
   return (
     <ul
       className="absolute bg-black border rounded shadow-md z-50"
