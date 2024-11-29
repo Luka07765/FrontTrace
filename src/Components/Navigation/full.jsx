@@ -206,11 +206,6 @@ export default function FolderList() {
       onClick={() => {
         setContextMenuVisible(false);
       }}
-      onContextMenu={(e) => {
-        e.preventDefault();
-        setContextMenuVisible(true);
-        setContextMenuPosition({ x: e.pageX, y: e.pageY });
-      }}
     >
       {nestedFolders.length > 0 ? (
         renderFolders(nestedFolders)

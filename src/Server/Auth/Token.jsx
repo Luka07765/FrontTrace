@@ -10,14 +10,12 @@ export function useToken() {
   // Function to refresh the token
   const refreshToken = async () => {
     if (isRefreshing) {
-      console.log('Token refresh already in progress.');
       return;
     }
 
     isRefreshing = true;
 
     try {
-      console.log('Attempting to refresh token...');
       const refreshResponse = await axios.post(
         'http://localhost:5044/api/Auth/RefreshToken',
         {}, // Empty body
@@ -25,7 +23,7 @@ export function useToken() {
       );
 
       const newAccessToken = refreshResponse.data.AccessToken;
-      console.log('Token refreshed successfully:', newAccessToken);
+
       localStorage.setItem('token', newAccessToken);
     } catch (error) {
       console.error(
@@ -43,18 +41,15 @@ export function useToken() {
   const checkAuthentication = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
-      console.log('No access token found. Redirecting to login...');
       router.push('/auth/login');
       return;
     }
 
     try {
-      console.log('Validating access token...');
       await axios.get('http://localhost:5044/api/Auth/ValidateToken', {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
-      console.log('Access token is valid.');
     } catch (error) {
       console.error('Token validation failed:', error);
       // Attempt to refresh the token if validation fails

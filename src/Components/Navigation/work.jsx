@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { FolderModal } from './Test/Prompt';
 import { ContextMenu } from './Test/Click';
-import { FaChevronRight, FaChevronDown } from 'react-icons/fa'; // Import icons
-
+import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 export default function FolderList() {
   const {
     folders,
@@ -25,9 +24,7 @@ export default function FolderList() {
   const [parentFolderId, setParentFolderId] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedFolderId, setSelectedFolderId] = useState(null);
-
-  // State to track expanded folders
-  const [expandedFolders, setExpandedFolders] = useState({});
+  const [expandedFolders, setExpandedFolders] = useState({}); // novo
 
   function buildNestedStructure(folders) {
     const folderMap = {};
@@ -39,9 +36,7 @@ export default function FolderList() {
     const nested = [];
     folders.forEach((folder) => {
       const parentFolderId =
-        folder.parentFolderId === 'None' || folder.parentFolderId === null
-          ? null
-          : folder.parentFolderId;
+        folder.parentFolderId === 'None' ? null : folder.parentFolderId;
 
       if (parentFolderId === null) {
         nested.push(folderMap[folder.id]);
@@ -53,70 +48,39 @@ export default function FolderList() {
     return nested;
   }
 
-  // Updated renderFolders function with expandable/collapsible functionality
+  // Updated renderFolders function with proper event handlers
   function renderFolders(folders) {
     return (
-      <ul className="space-y-1">
-        {folders.map((folder) => {
-          const isExpanded = expandedFolders[folder.id];
-          const hasChildren = folder.children.length > 0;
-
-          return (
-            <li key={folder.id}>
-              <div
-                className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
-                  selectedFolderId === folder.id
-                    ? 'border-2 border-blue-500'
-                    : ''
-                }`}
-                onContextMenu={(e) => {
-                  e.preventDefault();
-                  setSelectedFolderId(folder.id);
-                  setContextMenuVisible(true);
-                  setContextMenuPosition({ x: e.pageX, y: e.pageY });
-                }}
-              >
-                {/* Expand/Collapse Icon */}
-                {hasChildren ? (
-                  <span
-                    onClick={() =>
-                      setExpandedFolders((prev) => ({
-                        ...prev,
-                        [folder.id]: !isExpanded,
-                      }))
-                    }
-                    className="mr-1"
-                  >
-                    {isExpanded ? (
-                      <FaChevronDown className="inline" />
-                    ) : (
-                      <FaChevronRight className="inline" />
-                    )}
-                  </span>
-                ) : (
-                  <span className="mr-4" /> // Empty space for alignment
-                )}
-
-                {/* Folder Title */}
-                <div
-                  onClick={() =>
-                    setSelectedFolderId((prev) =>
-                      prev === folder.id ? null : folder.id
-                    )
-                  }
-                  className="flex-grow"
-                >
-                  <strong>{folder.title}</strong>
-                </div>
-              </div>
-
-              {/* Render children recursively if expanded */}
-              {hasChildren && isExpanded && (
-                <div className="ml-4">{renderFolders(folder.children)}</div>
-              )}
-            </li>
-          );
-        })}
+      <ul className="space-y-2">
+        {folders.map((folder) => (
+          <li key={folder.id}>
+            <div
+              onClick={() =>
+                setSelectedFolderId((prev) =>
+                  prev === folder.id ? null : folder.id
+                )
+              }
+              onContextMenu={(e) => {
+                e.preventDefault();
+                setSelectedFolderId(folder.id);
+                setContextMenuVisible(true);
+                setContextMenuPosition({ x: e.pageX, y: e.pageY });
+              }}
+              className={`p-2 rounded cursor-pointer hover:bg-gray-600 ${
+                selectedFolderId === folder.id ? 'border-2 border-blue-500' : ''
+              }`}
+            >
+              <strong>{folder.title}</strong>
+              <span className="text-sm text-gray-300 ml-2">
+                (ID: {folder.id} Parent: {folder.parentFolderId})
+              </span>
+            </div>
+            {/* Render children recursively */}
+            {folder.children.length > 0 && (
+              <div className="ml-4">{renderFolders(folder.children)}</div>
+            )}
+          </li>
+        ))}
       </ul>
     );
   }
@@ -164,7 +128,7 @@ export default function FolderList() {
     } else {
       handleCreateFolder({
         title: folderName,
-        parentFolderId: selectedFolderId, // Create under selected folder
+        parentFolderId: selectedFolderId, // Set as the parent ID if creating under selected folder
       });
     }
     resetModalState();
@@ -202,7 +166,7 @@ export default function FolderList() {
 
   return (
     <div
-      className="relative w-64 bg-gray-800 text-white h-screen p-4 overflow-auto"
+      className="relative w-64 bg-gray-800 text-white h-screen p-4"
       onClick={() => {
         setContextMenuVisible(false);
       }}
