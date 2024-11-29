@@ -30,9 +30,11 @@ export default function FolderList() {
     setIsEditMode,
     handleCreate,
     handleDelete,
+    handleRename,
+    folderName,
+    setFolderName,
+    resetModalState,
   } = Click();
-
-  const [folderName, setFolderName] = useState('');
 
   const [expandedFolders, setExpandedFolders] = useState({});
 
@@ -129,25 +131,9 @@ export default function FolderList() {
       </ul>
     );
   }
-  const resetModalState = () => {
-    setModalVisible(false);
-    setFolderName(''); // Local state
-    setParentFolderId(null);
-    setIsEditMode(false);
-    setSelectedFolderId(null);
-  };
 
-  // Update handleRename to use consistent state management
-  const handleRename = () => {
-    const folderToEdit = folders.find((f) => f.id === selectedFolderId);
-    if (folderToEdit) {
-      setFolderName(folderToEdit.title); // Local state
-      setParentFolderId(folderToEdit.parentFolderId);
-      setModalTitle('Edit Folder');
-      setIsEditMode(true);
-      setModalVisible(true);
-    }
-    setContextMenuVisible(false);
+  const onRename = () => {
+    handleRename(folders, setFolderName); // Pass folders and setFolderName as arguments
   };
 
   const onDelete = () => {
@@ -207,7 +193,7 @@ export default function FolderList() {
       {contextMenuVisible && (
         <ContextMenu
           onCreate={handleCreate}
-          onRename={handleRename}
+          onRename={onRename}
           onDelete={onDelete}
         />
       )}

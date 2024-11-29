@@ -22,7 +22,18 @@ export const Click = create((set, get) => ({
 
   isEditMode: false,
   setIsEditMode: (editMode) => set({ isEditMode: editMode }),
+  folderName: '', // Add folderName to the store
+  setFolderName: (name) => set({ folderName: name }),
 
+  resetModalState: () => {
+    set({
+      modalVisible: false,
+      folderName: '',
+      parentFolderId: null,
+      isEditMode: false,
+      selectedFolderId: null,
+    });
+  },
   handleDelete: (handleDeleteFolder) => {
     const { selectedFolderId } = get();
     if (selectedFolderId) {
@@ -38,5 +49,27 @@ export const Click = create((set, get) => ({
       modalVisible: true,
       contextMenuVisible: false,
     });
+  },
+
+  // Add handleRename function
+  handleRename: (folders, setFolderName) => {
+    const {
+      selectedFolderId,
+      setParentFolderId,
+      setModalTitle,
+      setIsEditMode,
+      setModalVisible,
+      setContextMenuVisible,
+    } = get();
+
+    const folderToEdit = folders.find((f) => f.id === selectedFolderId);
+    if (folderToEdit) {
+      setFolderName(folderToEdit.title); // Local state
+      setParentFolderId(folderToEdit.parentFolderId);
+      setModalTitle('Edit Folder');
+      setIsEditMode(true);
+      setModalVisible(true);
+    }
+    setContextMenuVisible(false);
   },
 }));
