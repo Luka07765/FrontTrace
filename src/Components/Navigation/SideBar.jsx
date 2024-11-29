@@ -34,6 +34,7 @@ export default function FolderList() {
     folderName,
     setFolderName,
     resetModalState,
+    handleSubmit,
   } = Click();
 
   const [expandedFolders, setExpandedFolders] = useState({});
@@ -140,22 +141,6 @@ export default function FolderList() {
     handleDelete(handleDeleteFolder);
   };
 
-  const handleSubmit = () => {
-    if (isEditMode) {
-      handleUpdateFolder({
-        id: selectedFolderId,
-        title: folderName,
-        parentFolderId: parentFolderId,
-      });
-    } else {
-      handleCreateFolder({
-        title: folderName,
-        parentFolderId: selectedFolderId, // Create under selected folder
-      });
-    }
-    resetModalState();
-  };
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -207,7 +192,7 @@ export default function FolderList() {
           setFolderName={setFolderName}
           parentFolderId={parentFolderId}
           setParentFolderId={setParentFolderId}
-          onSubmit={handleSubmit}
+          onSubmit={() => handleSubmit(handleCreateFolder, handleUpdateFolder)}
           onCancel={resetModalState}
           showParentInput={isEditMode}
         />

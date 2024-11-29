@@ -72,4 +72,27 @@ export const Click = create((set, get) => ({
     }
     setContextMenuVisible(false);
   },
+  handleSubmit: (handleCreateFolder, handleUpdateFolder) => {
+    const {
+      isEditMode,
+      selectedFolderId,
+      folderName,
+      parentFolderId,
+      resetModalState,
+    } = get();
+
+    if (isEditMode) {
+      handleUpdateFolder({
+        id: selectedFolderId,
+        title: folderName,
+        parentFolderId: parentFolderId,
+      });
+    } else {
+      handleCreateFolder({
+        title: folderName,
+        parentFolderId: selectedFolderId, // Create under selected folder
+      });
+    }
+    resetModalState();
+  },
 }));
