@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 
 export const Click = create((set, get) => ({
-  // State variables
   contextMenuVisible: false,
   setContextMenuVisible: (isVisible) => set({ contextMenuVisible: isVisible }),
 
@@ -13,9 +12,6 @@ export const Click = create((set, get) => ({
 
   modalVisible: false,
   setModalVisible: (isVisible) => set({ modalVisible: isVisible }),
-
-  modalTitle: '',
-  setModalTitle: (title) => set({ modalTitle: title }),
 
   isEditMode: false,
   setIsEditMode: (editMode) => set({ isEditMode: editMode }),
@@ -29,7 +25,6 @@ export const Click = create((set, get) => ({
       folderName: '',
       isEditMode: false,
       selectedFolderId: null,
-      // Removed parentFolderId from reset
     });
   },
 
@@ -41,9 +36,9 @@ export const Click = create((set, get) => ({
     }
   },
 
+  // LOGIC
   handleCreate: () => {
     set({
-      modalTitle: 'Create Folder',
       isEditMode: false,
       modalVisible: true,
       contextMenuVisible: false,
@@ -53,7 +48,7 @@ export const Click = create((set, get) => ({
   handleRename: (folders) => {
     const {
       selectedFolderId,
-      setModalTitle,
+
       setIsEditMode,
       setModalVisible,
       setContextMenuVisible,
@@ -64,7 +59,7 @@ export const Click = create((set, get) => ({
 
     if (folderToEdit) {
       setFolderName(folderToEdit.title); // Set the folder name in the modal
-      setModalTitle('Edit Folder');
+
       setIsEditMode(true);
       setModalVisible(true);
     } else {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { FolderModal } from './Test/Prompt';
 import { ContextMenu } from './Test/Click';
@@ -6,40 +6,19 @@ import { FaChevronRight, FaChevronDown } from 'react-icons/fa'; // Import icons
 import { Click } from '@/Zustang/ClickLogic';
 import { buildNestedStructure } from '@/Utils/SideBar/Structure';
 export default function FolderList() {
-  const {
-    folders,
-    loading,
-    error,
-    handleCreateFolder,
-
-    handleUpdateFolder,
-  } = useFolderListLogic();
+  const { folders, loading, error } = useFolderListLogic();
   const {
     contextMenuVisible,
     setContextMenuVisible,
     setContextMenuPosition,
     selectedFolderId,
     setSelectedFolderId,
-    parentFolderId,
-    setParentFolderId,
+
     modalVisible,
-    setModalVisible,
-    modalTitle,
-    setModalTitle,
-    isEditMode,
-    setIsEditMode,
-    handleCreate,
-    handleDelete,
-    handleRename,
-    folderName,
-    setFolderName,
-    resetModalState,
-    handleSubmit,
   } = Click();
 
   const [expandedFolders, setExpandedFolders] = useState({});
 
-  // Updated renderFolders function with expandable/collapsible functionality
   function renderFolders(folders) {
     return (
       <ul>
@@ -83,7 +62,6 @@ export default function FolderList() {
                   <span className="mr-4" /> // Empty space for alignment
                 )}
 
-                {/* Folder Title */}
                 <div
                   onClick={() =>
                     setSelectedFolderId(
@@ -108,10 +86,6 @@ export default function FolderList() {
       </ul>
     );
   }
-
-  const onRename = () => {
-    handleRename(folders, setFolderName); // Pass folders and setFolderName as arguments
-  };
 
   if (loading) {
     return (
@@ -147,24 +121,9 @@ export default function FolderList() {
         <p className="text-gray-500">No folders to display.</p>
       )}
 
-      {contextMenuVisible && (
-        <ContextMenu onCreate={handleCreate} onRename={onRename} />
-      )}
+      {contextMenuVisible && <ContextMenu />}
 
-      {/* Folder Modal */}
-      {modalVisible && (
-        <FolderModal
-          isVisible={modalVisible}
-          title={modalTitle}
-          folderName={folderName}
-          setFolderName={setFolderName}
-          parentFolderId={parentFolderId}
-          setParentFolderId={setParentFolderId}
-          onSubmit={() => handleSubmit(handleCreateFolder, handleUpdateFolder)}
-          onCancel={resetModalState}
-          showParentInput={isEditMode}
-        />
-      )}
+      {modalVisible && <FolderModal />}
     </div>
   );
 }

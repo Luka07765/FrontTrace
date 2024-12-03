@@ -1,17 +1,29 @@
 import React from 'react';
 import { Click } from '@/Zustang/ClickLogic';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-export const ContextMenu = ({ onCreate, onRename }) => {
-  const { handleCreateFolder, handleDeleteFolder, handleUpdateFolder } =
-    useFolderListLogic();
+export const ContextMenu = ({ onCreate }) => {
+  const {
+    handleDeleteFolder,
+
+    folders,
+  } = useFolderListLogic();
   const {
     contextMenuVisible,
     contextMenuPosition,
     setContextMenuVisible,
     handleDelete,
+    setFolderName,
+    handleRename,
+    handleCreate,
   } = Click();
 
+  //Optimizacija sranje veliko neka ga...
   if (!contextMenuVisible) return null;
+
+  const onRename = () => {
+    handleRename(folders, setFolderName); // Pass folders and setFolderName as arguments
+  };
+
   const onDelete = () => {
     handleDelete(handleDeleteFolder);
   };
@@ -27,7 +39,7 @@ export const ContextMenu = ({ onCreate, onRename }) => {
     >
       <li
         className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-        onClick={onCreate}
+        onClick={handleCreate}
       >
         Create Folder
       </li>

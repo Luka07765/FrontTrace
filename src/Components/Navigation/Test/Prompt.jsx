@@ -1,18 +1,23 @@
-export const FolderModal = ({
-  isVisible,
-  title,
-  folderName,
-  setFolderName,
+import { Click } from '@/Zustang/ClickLogic';
+import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
+export const FolderModal = () => {
+  const {
+    folderName,
+    setFolderName,
+    modalVisible,
+    resetModalState,
+    handleSubmit,
+  } = Click();
+  const {
+    handleCreateFolder,
 
-  onSubmit,
-  onCancel,
-}) => {
-  if (!isVisible) return null;
+    handleUpdateFolder,
+  } = useFolderListLogic();
+  if (!modalVisible) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-gray-700 p-6 rounded">
-        <h3 className="text-lg font-semibold mb-2">{title}</h3>
         <input
           type="text"
           placeholder="Folder Title"
@@ -23,13 +28,13 @@ export const FolderModal = ({
 
         <div className="flex space-x-2">
           <button
-            onClick={onSubmit}
+            onClick={() => handleSubmit(handleCreateFolder, handleUpdateFolder)}
             className="w-full px-2 py-1 bg-green-500 rounded hover:bg-green-600 focus:outline-none"
           >
             Save
           </button>
           <button
-            onClick={onCancel}
+            onClick={resetModalState}
             className="w-full px-2 py-1 bg-gray-500 rounded hover:bg-gray-600 focus:outline-none"
           >
             Cancel
