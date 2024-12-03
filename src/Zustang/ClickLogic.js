@@ -19,6 +19,15 @@ export const Click = create((set, get) => ({
   folderName: '',
   setFolderName: (name) => set({ folderName: name }),
 
+  expandedFolders: {},
+  setExpandedFolders: (folderId) =>
+    set((state) => ({
+      expandedFolders: {
+        ...state.expandedFolders,
+        [folderId]: !state.expandedFolders[folderId],
+      },
+    })),
+
   resetModalState: () => {
     set({
       modalVisible: false,

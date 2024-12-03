@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { FolderModal } from './Test/Prompt';
 import { ContextMenu } from './Test/Click';
-import { FaChevronRight, FaChevronDown } from 'react-icons/fa'; // Import icons
+import { FolderTree } from './render';
 import { Click } from '@/Zustang/ClickLogic';
 import { buildNestedStructure } from '@/Utils/SideBar/Structure';
 export default function FolderList() {
@@ -11,81 +10,8 @@ export default function FolderList() {
     contextMenuVisible,
     setContextMenuVisible,
     setContextMenuPosition,
-    selectedFolderId,
-    setSelectedFolderId,
-
     modalVisible,
   } = Click();
-
-  const [expandedFolders, setExpandedFolders] = useState({});
-
-  function renderFolders(folders) {
-    return (
-      <ul>
-        {folders.map((folder) => {
-          const isExpanded = expandedFolders[folder.id];
-          const hasChildren = folder.children.length > 0;
-
-          return (
-            <li key={folder.id}>
-              <div
-                className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
-                  selectedFolderId === folder.id
-                    ? 'border-2 border-blue-500'
-                    : ''
-                }`}
-                onContextMenu={(e) => {
-                  e.preventDefault();
-                  setSelectedFolderId(folder.id);
-                  setContextMenuVisible(true);
-                  setContextMenuPosition({ x: e.pageX, y: e.pageY });
-                }}
-              >
-                {/* Expand/Collapse Icon */}
-                {hasChildren ? (
-                  <span
-                    onClick={() =>
-                      setExpandedFolders((prev) => ({
-                        ...prev,
-                        [folder.id]: !isExpanded,
-                      }))
-                    }
-                    className="mr-1"
-                  >
-                    {isExpanded ? (
-                      <FaChevronDown className="inline" />
-                    ) : (
-                      <FaChevronRight className="inline" />
-                    )}
-                  </span>
-                ) : (
-                  <span className="mr-4" /> // Empty space for alignment
-                )}
-
-                <div
-                  onClick={() =>
-                    setSelectedFolderId(
-                      selectedFolderId === folder.id ? null : folder.id
-                    )
-                  }
-                  className="flex-grow"
-                >
-                  <strong>{folder.title + ' '}</strong>
-                  <strong>{' ID: ' + folder.id}</strong>
-                  <strong>{'  PARANT ' + folder.parentFolderId}</strong>
-                </div>
-              </div>
-
-              {/* Render children recursively if expanded */}
-              {hasChildren && isExpanded && (
-                <div className="ml-4">{renderFolders(folder.children)}</div>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    );
-  }
 
   if (loading) {
     return (
@@ -116,13 +42,12 @@ export default function FolderList() {
       }}
     >
       {nestedFolders.length > 0 ? (
-        renderFolders(nestedFolders)
+        <FolderTree folders={nestedFolders} />
       ) : (
         <p className="text-gray-500">No folders to display.</p>
       )}
 
       {contextMenuVisible && <ContextMenu />}
-
       {modalVisible && <FolderModal />}
     </div>
   );

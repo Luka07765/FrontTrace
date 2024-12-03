@@ -1,32 +1,24 @@
+// FolderTree.jsx
 import React from 'react';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
+import { Click } from '@/Zustang/ClickLogic';
 
-export function RenderFolders({
-  folders,
-  expandedFolders,
-  setExpandedFolders,
-  selectedFolderId,
-  setSelectedFolderId,
-  setContextMenuVisible,
-  setContextMenuPosition,
-  setEditingFolderId,
-  setEditingFolderTitle,
-  setParentFolderId,
-  editingFolderId,
-  editingFolderTitle,
-  saveEdit,
-  folderName,
-  setFolderName,
-  handleUpdateFolder,
-  handleCreateFolder,
-  Create,
-  parentFolderId,
-}) {
+export const FolderTree = ({ folders }) => {
+  const {
+    expandedFolders,
+    setExpandedFolders,
+    selectedFolderId,
+    setSelectedFolderId,
+    setContextMenuVisible,
+    setContextMenuPosition,
+  } = Click();
+
   return (
     <ul>
       {folders.map((folder) => {
         const isExpanded = expandedFolders[folder.id];
         const hasChildren = folder.children.length > 0;
+
         return (
           <li key={folder.id}>
             <div
@@ -40,14 +32,10 @@ export function RenderFolders({
                 setContextMenuPosition({ x: e.pageX, y: e.pageY });
               }}
             >
+              {/* Expand/Collapse Icon */}
               {hasChildren ? (
                 <span
-                  onClick={() =>
-                    setExpandedFolders((prev) => ({
-                      ...prev,
-                      [folder.id]: !isExpanded,
-                    }))
-                  }
+                  onClick={() => setExpandedFolders(folder.id)}
                   className="mr-1"
                 >
                   {isExpanded ? (
@@ -57,83 +45,27 @@ export function RenderFolders({
                   )}
                 </span>
               ) : (
-                <span className="mr-4" />
+                <span className="mr-4" /> // Empty space for alignment
               )}
-              {editingFolderId !== folder.id ? (
-                <div
-                  className="flex-grow cursor-pointer"
-                  onClick={() =>
-                    setSelectedFolderId(
-                      selectedFolderId === folder.id ? null : folder.id
-                    )
-                  }
-                  onDoubleClick={() => {
-                    setEditingFolderId(folder.id);
-                    setEditingFolderTitle(folder.title);
-                    setParentFolderId(folder.parentFolderId);
-                  }}
-                >
-                  <strong>{folder.title}</strong>
-                </div>
-              ) : (
-                <input
-                  className="bg-gray-800 text-white px-2 py-1 rounded focus:outline-none"
-                  value={editingFolderTitle}
-                  onChange={(e) => setEditingFolderTitle(e.target.value)}
-                  onBlur={() =>
-                    saveEdit(
-                      folder.id,
-                      editingFolderTitle,
-                      folder.parentFolderId,
-                      handleUpdateFolder
-                    )
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      saveEdit(
-                        folder.id,
-                        editingFolderTitle,
-                        folder.parentFolderId,
-                        handleUpdateFolder
-                      );
-                    }
-                  }}
-                  autoFocus
-                />
-              )}
-              <button
-                onClick={() => {
-                  setParentFolderId(folder.id);
-                  setFolderName('');
-                }}
-                className="ml-2 bg-blue-500 text-white px-2 py-1 rounded"
+
+              <div
+                onClick={() =>
+                  setSelectedFolderId(
+                    selectedFolderId === folder.id ? null : folder.id
+                  )
+                }
+                className="flex-grow"
               >
-                + Add
-              </button>
+                <strong>{folder.title + ' '}</strong>
+                <strong>{' ID: ' + folder.id}</strong>
+                <strong>{'  PARENT ' + folder.parentFolderId}</strong>
+              </div>
             </div>
+
+            {/* Render children recursively if expanded */}
             {hasChildren && isExpanded && (
               <div className="ml-4">
-                <RenderFolders
-                  folders={folder.children}
-                  expandedFolders={expandedFolders}
-                  setExpandedFolders={setExpandedFolders}
-                  selectedFolderId={selectedFolderId}
-                  setSelectedFolderId={setSelectedFolderId}
-                  setContextMenuVisible={setContextMenuVisible}
-                  setContextMenuPosition={setContextMenuPosition}
-                  setEditingFolderId={setEditingFolderId}
-                  setEditingFolderTitle={setEditingFolderTitle}
-                  setParentFolderId={setParentFolderId}
-                  editingFolderId={editingFolderId}
-                  editingFolderTitle={editingFolderTitle}
-                  saveEdit={saveEdit}
-                  folderName={folderName}
-                  setFolderName={setFolderName}
-                  handleUpdateFolder={handleUpdateFolder}
-                  handleCreateFolder={handleCreateFolder}
-                  Create={Create}
-                  parentFolderId={parentFolderId}
-                />
+                <FolderTree folders={folder.children} />
               </div>
             )}
           </li>
@@ -141,4 +73,4 @@ export function RenderFolders({
       })}
     </ul>
   );
-}
+};
