@@ -3,11 +3,9 @@ export const FolderModal = ({
   title,
   folderName,
   setFolderName,
-  parentFolderId,
-  setParentFolderId,
+
   onSubmit,
   onCancel,
-  showParentInput = true,
 }) => {
   if (!isVisible) return null;
 
@@ -22,15 +20,7 @@ export const FolderModal = ({
           onChange={(e) => setFolderName(e.target.value)}
           className="w-full px-2 py-1 mb-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:border-blue-400"
         />
-        {showParentInput && (
-          <input
-            type="number"
-            placeholder="Parent Folder ID"
-            value={parentFolderId}
-            onChange={(e) => setParentFolderId(e.target.value)}
-            className="w-full px-2 py-1 mb-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:border-blue-400"
-          />
-        )}
+
         <div className="flex space-x-2">
           <button
             onClick={onSubmit}

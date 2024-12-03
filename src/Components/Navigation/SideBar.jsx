@@ -4,7 +4,7 @@ import { FolderModal } from './Test/Prompt';
 import { ContextMenu } from './Test/Click';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa'; // Import icons
 import { Click } from '@/Zustang/ClickLogic';
-
+import { buildNestedStructure } from '@/Utils/SideBar/Structure';
 export default function FolderList() {
   const {
     folders,
@@ -38,30 +38,6 @@ export default function FolderList() {
   } = Click();
 
   const [expandedFolders, setExpandedFolders] = useState({});
-
-  function buildNestedStructure(folders) {
-    const folderMap = {};
-
-    folders.forEach((folder) => {
-      folderMap[folder.id] = { ...folder, children: [] };
-    });
-
-    const nested = [];
-    folders.forEach((folder) => {
-      const parentFolderId =
-        folder.parentFolderId === 'None' || folder.parentFolderId === null
-          ? null
-          : folder.parentFolderId;
-
-      if (parentFolderId === null) {
-        nested.push(folderMap[folder.id]);
-      } else if (folderMap[parentFolderId]) {
-        folderMap[parentFolderId].children.push(folderMap[folder.id]);
-      }
-    });
-
-    return nested;
-  }
 
   // Updated renderFolders function with expandable/collapsible functionality
   function renderFolders(folders) {
@@ -118,7 +94,7 @@ export default function FolderList() {
                 >
                   <strong>{folder.title + ' '}</strong>
                   <strong>{' ID: ' + folder.id}</strong>
-                  <strong>{'  FOLDER ' + folder.parentFolderId}</strong>
+                  <strong>{'  PARANT ' + folder.parentFolderId}</strong>
                 </div>
               </div>
 
