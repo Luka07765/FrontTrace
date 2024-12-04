@@ -52,6 +52,11 @@ export default function Dashboard() {
     }
   };
 
+  const handleFolderClick = (folderId, event) => {
+    event.stopPropagation(); // Prevent global click handler from resetting selection
+    setSelectedFolderId(folderId); // Set selected folder ID
+  };
+
   return (
     <div onClick={handleClick}>
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>

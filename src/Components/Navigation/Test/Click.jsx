@@ -12,7 +12,7 @@ export const ContextMenu = ({ onCreate }) => {
     contextMenuPosition,
     setContextMenuVisible,
     handleDelete,
-    setFolderName,
+
     handleRename,
     handleCreate,
   } = Click();
@@ -21,7 +21,7 @@ export const ContextMenu = ({ onCreate }) => {
   if (!contextMenuVisible) return null;
 
   const onRename = () => {
-    handleRename(folders, setFolderName); // Pass folders and setFolderName as arguments
+    handleRename(folders); // Pass folders and setFolderName as arguments
   };
 
   const onDelete = () => {

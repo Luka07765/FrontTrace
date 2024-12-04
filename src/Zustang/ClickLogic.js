@@ -10,11 +10,11 @@ export const Click = create((set, get) => ({
   selectedFolderId: null,
   setSelectedFolderId: (id) => set({ selectedFolderId: id }),
 
-  modalVisible: false,
-  setModalVisible: (isVisible) => set({ modalVisible: isVisible }),
+  showEdit: false,
+  setShowEdit: (editMode) => set({ showEdit: editMode }),
 
-  isEditMode: false,
-  setIsEditMode: (editMode) => set({ isEditMode: editMode }),
+  showCreate: false,
+  setShowCreate: (createMode) => set({ showCreate: createMode }),
 
   folderName: '',
   setFolderName: (name) => set({ folderName: name }),
@@ -30,7 +30,8 @@ export const Click = create((set, get) => ({
 
   resetModalState: () => {
     set({
-      modalVisible: false,
+      showCreate: false,
+      showEdit: false,
       folderName: '',
       isEditMode: false,
       selectedFolderId: null,
@@ -45,21 +46,17 @@ export const Click = create((set, get) => ({
     }
   },
 
-  // LOGIC
   handleCreate: () => {
     set({
-      isEditMode: false,
-      modalVisible: true,
       contextMenuVisible: false,
+      showCreate: true,
     });
   },
 
   handleRename: (folders) => {
     const {
       selectedFolderId,
-
-      setIsEditMode,
-      setModalVisible,
+      setShowEdit,
       setContextMenuVisible,
       setFolderName,
     } = get();
@@ -67,10 +64,9 @@ export const Click = create((set, get) => ({
     const folderToEdit = folders.find((f) => f.id === selectedFolderId);
 
     if (folderToEdit) {
-      setFolderName(folderToEdit.title); // Set the folder name in the modal
+      setFolderName(folderToEdit.title);
 
-      setIsEditMode(true);
-      setModalVisible(true);
+      setShowEdit(true);
     } else {
       console.error('Folder to edit not found');
     }
@@ -78,23 +74,26 @@ export const Click = create((set, get) => ({
     setContextMenuVisible(false);
   },
 
-  handleSubmit: (handleCreateFolder, handleUpdateFolder) => {
-    const { isEditMode, selectedFolderId, folderName, resetModalState } = get();
+  submitCreate: (handleCreateFolder) => {
+    const { folderName, selectedFolderId, resetModalState } = get();
 
-    if (isEditMode) {
-      // Rename operation
-      handleUpdateFolder({
-        id: selectedFolderId,
-        title: folderName,
-        // Do not include parentFolderId to prevent unintended changes
-      });
-    } else {
-      // Create operation
-      handleCreateFolder({
-        title: folderName,
-        parentFolderId: selectedFolderId, // Create under selected folder
-      });
-    }
+    handleCreateFolder({
+      title: folderName,
+      parentFolderId: selectedFolderId, // Create under selected folder
+    });
+
+    resetModalState(); // Optionally reset modal state after creation
+  },
+
+  submitEdit: (handleUpdateFolder) => {
+    const { selectedFolderId, folderName, resetModalState } = get();
+
+    // Rename operation
+    handleUpdateFolder({
+      id: selectedFolderId,
+      title: folderName,
+      // Do not include parentFolderId to prevent unintended changes
+    });
 
     resetModalState();
   },

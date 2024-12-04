@@ -1,16 +1,19 @@
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import { FolderModal } from './Test/Prompt';
+
 import { ContextMenu } from './Test/Click';
 import { FolderTree } from './render';
 import { Click } from '@/Zustang/ClickLogic';
 import { buildNestedStructure } from '@/Utils/SideBar/Structure';
+import { CreateModal } from './Test/create';
+import { EditModal } from './Test/edit';
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
   const {
     contextMenuVisible,
     setContextMenuVisible,
     setContextMenuPosition,
-    modalVisible,
+    showEdit,
+    showCreate,
   } = Click();
 
   if (loading) {
@@ -48,7 +51,9 @@ export default function FolderList() {
       )}
 
       {contextMenuVisible && <ContextMenu />}
-      {modalVisible && <FolderModal />}
+
+      {showEdit && <EditModal />}
+      {showCreate && <CreateModal />}
     </div>
   );
 }

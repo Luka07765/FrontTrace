@@ -1,4 +1,3 @@
-// FolderTree.jsx
 import React from 'react';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { Click } from '@/Zustang/ClickLogic';
@@ -20,7 +19,7 @@ export const FolderTree = ({ folders }) => {
         const hasChildren = folder.children.length > 0;
 
         return (
-          <li key={folder.id}>
+          <li key={folder.id} className="relative">
             <div
               className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
                 selectedFolderId === folder.id ? 'border-2 border-blue-500' : ''
@@ -61,6 +60,18 @@ export const FolderTree = ({ folders }) => {
                 <strong>{'  PARENT ' + folder.parentFolderId}</strong>
               </div>
             </div>
+
+            {/* Vertical Line */}
+            {isExpanded && (
+              <div
+                className="absolute  left-3.5 transform -translate-y-1/2 border-l-2 border-gray-400"
+                style={{
+                  height: '  80%',
+                  paddingBottom: '10px',
+                  paddingTop: '10px',
+                }}
+              />
+            )}
 
             {/* Render children recursively if expanded */}
             {hasChildren && isExpanded && (
