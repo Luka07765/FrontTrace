@@ -1,7 +1,7 @@
 // FolderTree.js
 import React from 'react';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
-import { Click } from '@/Zustang/ClickLogic';
+import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
 export const FolderTree = ({ folders }) => {

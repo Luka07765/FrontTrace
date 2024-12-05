@@ -1,5 +1,5 @@
 import React from 'react';
-import { Click } from '@/Zustang/ClickLogic';
+import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 export const ContextMenu = () => {
   const { handleDeleteFolder } = useFolderListLogic();
@@ -11,7 +11,7 @@ export const ContextMenu = () => {
     selectedFolderId,
     setEditingFolderId,
     setCreatingFolderParentId,
-    folderName,
+
     setFolderName,
   } = Click();
 

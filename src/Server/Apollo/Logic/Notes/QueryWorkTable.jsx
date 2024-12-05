@@ -1,5 +1,3 @@
-// hooks/useFileListLogic.js
-
 import {
   useFetchFiles,
   useCreateFile,

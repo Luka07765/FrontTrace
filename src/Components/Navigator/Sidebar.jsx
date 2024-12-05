@@ -1,9 +1,9 @@
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
-import { ContextMenu } from './Test/Click';
-import { FolderTree } from './render';
-import { Click } from '@/Zustang/ClickLogic';
-import { buildNestedStructure } from '@/Utils/SideBar/Structure';
+import { ContextMenu } from './Tools/Right_Click';
+import { FolderTree } from './Tools/Basic_Render';
+import { Click } from '@/Zustand/Click_Store';
+import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();

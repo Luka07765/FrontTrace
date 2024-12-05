@@ -1,5 +1,3 @@
-// hooks/useFolderListLogic.js
-
 import {
   useFetchFolders,
   useCreateFolder,

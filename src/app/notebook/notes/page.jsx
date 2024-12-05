@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { useRouter } from 'next/navigation';
-import { Click } from '@/Zustang/ClickLogic';
-import File from '@/Components/NotePage/WorkSpace';
-import SideBar from '@/Components/Navigation/SideBar';
+import { Click } from '@/Zustand/Click_Store';
+import File from '@/Components/Work_Space/NotePage';
+import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
 import { useLogout } from '@/Server/Auth/Logout';
 
@@ -15,8 +15,7 @@ export default function Dashboard() {
   const router = useRouter();
   const { checkAuthentication, scheduleTokenRefresh } = useToken();
   const { handleLogout } = useLogout(client);
-  const { setContextMenuVisible, selectedFolderId, setSelectedFolderId } =
-    Click();
+  const { setContextMenuVisible } = Click();
 
   useEffect(() => {
     let cleanup; // Declare cleanup variable in the outer scope
@@ -52,11 +51,6 @@ export default function Dashboard() {
     }
   };
 
-  const handleFolderClick = (folderId, event) => {
-    event.stopPropagation(); // Prevent global click handler from resetting selection
-    setSelectedFolderId(folderId); // Set selected folder ID
-  };
-
   return (
     <div onClick={handleClick}>
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
@@ -70,7 +64,7 @@ export default function Dashboard() {
       <div className="flex">
         {/* Sidebar on the left */}
         <div className="w-1/4 p-4">
-          <SideBar />
+          <Sidebar />
         </div>
         {/* Files on the right */}
         <div className="w-3/4 p-4">
