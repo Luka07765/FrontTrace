@@ -1,27 +1,37 @@
 import React from 'react';
 import { Click } from '@/Zustang/ClickLogic';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-export const ContextMenu = ({ onCreate }) => {
-  const {
-    handleDeleteFolder,
-
-    folders,
-  } = useFolderListLogic();
+export const ContextMenu = () => {
+  const { handleDeleteFolder } = useFolderListLogic();
   const {
     contextMenuVisible,
     contextMenuPosition,
     setContextMenuVisible,
     handleDelete,
-
-    handleRename,
-    handleCreate,
+    selectedFolderId,
+    setEditingFolderId,
+    setCreatingFolderParentId,
+    folderName,
+    setFolderName,
   } = Click();
 
   //Optimizacija sranje veliko neka ga...
   if (!contextMenuVisible) return null;
 
-  const onRename = () => {
-    handleRename(folders); // Pass folders and setFolderName as arguments
+  const handleRenameClick = () => {
+    setFolderName(''); // Optional: set to current folder name
+    setEditingFolderId(selectedFolderId);
+    setContextMenuVisible(false);
+  };
+
+  const handleCreateClick = () => {
+    setFolderName('');
+    if (selectedFolderId) {
+      setCreatingFolderParentId(selectedFolderId); // Create inside the selected folder
+    } else {
+      setCreatingFolderParentId(null); // Create at the root level
+    }
+    setContextMenuVisible(false);
   };
 
   const onDelete = () => {
@@ -39,13 +49,13 @@ export const ContextMenu = ({ onCreate }) => {
     >
       <li
         className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-        onClick={handleCreate}
+        onClick={handleCreateClick}
       >
         Create Folder
       </li>
       <li
         className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-        onClick={onRename}
+        onClick={handleRenameClick}
       >
         Rename Folder
       </li>

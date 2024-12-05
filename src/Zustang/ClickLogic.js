@@ -10,11 +10,11 @@ export const Click = create((set, get) => ({
   selectedFolderId: null,
   setSelectedFolderId: (id) => set({ selectedFolderId: id }),
 
-  showEdit: false,
-  setShowEdit: (editMode) => set({ showEdit: editMode }),
+  editingFolderId: null,
+  setEditingFolderId: (id) => set({ editingFolderId: id }),
 
-  showCreate: false,
-  setShowCreate: (createMode) => set({ showCreate: createMode }),
+  creatingFolderParentId: undefined,
+  setCreatingFolderParentId: (id) => set({ creatingFolderParentId: id }),
 
   folderName: '',
   setFolderName: (name) => set({ folderName: name }),
@@ -30,10 +30,8 @@ export const Click = create((set, get) => ({
 
   resetModalState: () => {
     set({
-      showCreate: false,
-      showEdit: false,
       folderName: '',
-      isEditMode: false,
+
       selectedFolderId: null,
     });
   },
@@ -49,14 +47,13 @@ export const Click = create((set, get) => ({
   handleCreate: () => {
     set({
       contextMenuVisible: false,
-      showCreate: true,
     });
   },
 
   handleRename: (folders) => {
     const {
       selectedFolderId,
-      setShowEdit,
+
       setContextMenuVisible,
       setFolderName,
     } = get();
@@ -65,8 +62,6 @@ export const Click = create((set, get) => ({
 
     if (folderToEdit) {
       setFolderName(folderToEdit.title);
-
-      setShowEdit(true);
     } else {
       console.error('Folder to edit not found');
     }

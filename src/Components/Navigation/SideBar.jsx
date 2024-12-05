@@ -4,17 +4,11 @@ import { ContextMenu } from './Test/Click';
 import { FolderTree } from './render';
 import { Click } from '@/Zustang/ClickLogic';
 import { buildNestedStructure } from '@/Utils/SideBar/Structure';
-import { CreateModal } from './Test/create';
-import { EditModal } from './Test/edit';
+
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
-  const {
-    contextMenuVisible,
-    setContextMenuVisible,
-    setContextMenuPosition,
-    showEdit,
-    showCreate,
-  } = Click();
+  const { contextMenuVisible, setContextMenuVisible, setContextMenuPosition } =
+    Click();
 
   if (loading) {
     return (
@@ -51,9 +45,6 @@ export default function FolderList() {
       )}
 
       {contextMenuVisible && <ContextMenu />}
-
-      {showEdit && <EditModal />}
-      {showCreate && <CreateModal />}
     </div>
   );
 }
