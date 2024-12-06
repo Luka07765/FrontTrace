@@ -2,7 +2,7 @@ import React from 'react';
 import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 export const ContextMenu = () => {
-  const { handleDeleteFolder } = useFolderListLogic();
+  const { handleDeleteFolder, handleDeleteFile } = useFolderListLogic();
   const {
     contextMenuVisible,
     contextMenuPosition,
@@ -27,9 +27,9 @@ export const ContextMenu = () => {
   const handleCreateClick = () => {
     setFolderName('');
     if (selectedFolderId) {
-      setCreatingFolderParentId(selectedFolderId); // Create inside the selected folder
+      setCreatingFolderParentId(selectedFolderId);
     } else {
-      setCreatingFolderParentId(null); // Create at the root level
+      setCreatingFolderParentId(null);
     }
     setContextMenuVisible(false);
   };

@@ -2,7 +2,7 @@ export function buildNestedStructure(folders) {
   const folderMap = {};
 
   folders.forEach((folder) => {
-    folderMap[folder.id] = { ...folder, children: [] };
+    folderMap[folder.id] = { ...folder, children: [], files: [] };
   });
 
   const nested = [];

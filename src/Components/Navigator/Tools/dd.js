@@ -1,9 +1,8 @@
-// FolderTree.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { Click } from '@/Zustand/Click_Store';
-import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
+import { useFileListLogic } from '@/Server/Apollo/Query/FetchQuery/FetchFolderFile';
+
 export const FolderTree = ({ folders }) => {
   const {
     expandedFolders,
@@ -20,14 +19,15 @@ export const FolderTree = ({ folders }) => {
     setFolderName,
   } = Click();
 
-  const { handleCreateFolder, handleUpdateFolder } = useFolderListLogic();
   const {
-    files = [],
+    files,
     loading: filesLoading,
     error: filesError,
     handleCreateFile,
+    handleDeleteFile,
+    handleUpdateFile,
   } = useFileListLogic();
-  // FolderTree.js
+
   const handleRename = (folderId) => {
     if (folderName.trim() !== '') {
       handleUpdateFolder({ id: folderId, title: folderName.trim() });
@@ -40,8 +40,15 @@ export const FolderTree = ({ folders }) => {
     if (folderName.trim() !== '') {
       handleCreateFolder({ title: folderName.trim(), parentFolderId });
     }
-    setCreatingFolderParentId(undefined); // Reset to undefined
+    setCreatingFolderParentId(undefined);
     setFolderName('');
+  };
+
+  const handleExpandFolder = (folderId) => {
+    setExpandedFolders((prev) => ({
+      ...prev,
+      [folderId]: !prev[folderId],
+    }));
   };
 
   const handleCreateFileForFolder = (folderId) => {
@@ -75,7 +82,6 @@ export const FolderTree = ({ folders }) => {
               onContextMenu={(e) => {
                 e.preventDefault();
                 setSelectedFolderId(folder.id);
-
                 setContextMenuVisible(true);
                 setContextMenuPosition({ x: e.pageX, y: e.pageY });
               }}
@@ -83,7 +89,7 @@ export const FolderTree = ({ folders }) => {
               {/* Expand/Collapse Icon */}
               {hasChildren || folderFiles(folder.id).length > 0 ? (
                 <span
-                  onClick={() => setExpandedFolders(folder.id)}
+                  onClick={() => handleExpandFolder(folder.id)}
                   className="mr-1"
                 >
                   {isExpanded ? (
@@ -105,7 +111,6 @@ export const FolderTree = ({ folders }) => {
                 className="flex-grow"
               >
                 {isEditing ? (
-                  // Render input for in-line editing
                   <input
                     className="bg-gray-800 text-white border-b-2 border-gray-900 h-7 focus:outline-none"
                     type="text"
@@ -124,9 +129,7 @@ export const FolderTree = ({ folders }) => {
                   />
                 ) : (
                   <>
-                    <strong>{folder.title + '- ID:'}</strong>
-                    <strong>{folder.id + 'PARANT '}</strong>
-                    <strong>{folder.parentFolderId}</strong>
+                    <strong>{folder.title}</strong>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -140,6 +143,8 @@ export const FolderTree = ({ folders }) => {
                 )}
               </div>
             </div>
+
+            {/* Render files if folder is expanded */}
             {isExpanded && folderFiles(folder.id).length > 0 && (
               <ul className="ml-4">
                 {folderFiles(folder.id).map((file) => (
@@ -205,7 +210,7 @@ export const FolderTree = ({ folders }) => {
               if (e.key === 'Enter') {
                 handleCreate(null);
               } else if (e.key === 'Escape') {
-                setCreatingFolderParentId(undefined); // Reset to undefined
+                setCreatingFolderParentId(undefined);
                 setFolderName('');
               }
             }}
