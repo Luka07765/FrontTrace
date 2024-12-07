@@ -8,8 +8,7 @@ export default function FileList() {
     files,
     loading,
     error,
-    handleCreateFile,
-    handleDeleteFile,
+
     handleUpdateFile,
   } = useFileListLogic();
 
@@ -31,19 +30,6 @@ export default function FileList() {
   if (loading) return <p className="text-gray-500">Loading files...</p>;
   if (error)
     return <p className="text-red-500">Error loading files: {error.message}</p>;
-
-  const handleSubmitCreate = () => {
-    const newFileId = `file-${Date.now()}`; // Generate unique file ID
-    handleCreateFile({
-      id: newFileId,
-      title: fileName,
-      content: fileContent,
-      folderId: parseInt(folderId, 10),
-    });
-    setFileName('');
-    setFileContent('');
-    setFolderId('');
-  };
 
   const handleSubmitUpdate = () => {
     handleUpdateFile({
@@ -76,15 +62,6 @@ export default function FileList() {
               <h3 className="text-xl font-semibold">{file.title}</h3>
               <p className="text-gray-600 mt-1">{file.content}</p>
             </div>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDeleteFile(file.id);
-              }}
-              className="text-red-500 hover:text-red-700"
-            >
-              Delete
-            </button>
           </li>
         ))}
       </ul>
@@ -123,7 +100,7 @@ export default function FileList() {
             className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <div className="flex space-x-2">
-            {editFileId ? (
+            {editFileId && (
               <>
                 <button
                   onClick={handleSubmitUpdate}
@@ -138,13 +115,6 @@ export default function FileList() {
                   Cancel
                 </button>
               </>
-            ) : (
-              <button
-                onClick={handleSubmitCreate}
-                className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
-              >
-                Create File
-              </button>
             )}
           </div>
         </div>

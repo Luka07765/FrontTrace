@@ -2,24 +2,30 @@
 
 import React, { useState } from 'react';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-
+import useFileStore from '@/Zustand/File_Store';
 export default function FileList() {
   const {
     files,
     loading,
     error,
-    handleCreateFile,
-    handleDeleteFile,
+
     handleUpdateFile,
   } = useFileListLogic();
 
-  const [fileName, setFileName] = useState('');
-  const [fileContent, setFileContent] = useState('');
-  const [folderId, setFolderId] = useState('');
-
-  const [editFileId, setEditFileId] = useState(null);
-  const [editFileName, setEditFileName] = useState('');
-  const [editFileContent, setEditFileContent] = useState('');
+  const {
+    editFileId,
+    setEditFileId,
+    fileName,
+    setFileName,
+    fileContent,
+    setFileContent,
+    folderId,
+    setFolderId,
+    editFileName,
+    setEditFileName,
+    editFileContent,
+    setEditFileContent,
+  } = useFileStore();
 
   const resetEditState = () => {
     setEditFileId(null);
@@ -31,19 +37,6 @@ export default function FileList() {
   if (loading) return <p className="text-gray-500">Loading files...</p>;
   if (error)
     return <p className="text-red-500">Error loading files: {error.message}</p>;
-
-  const handleSubmitCreate = () => {
-    const newFileId = `file-${Date.now()}`; // Generate unique file ID
-    handleCreateFile({
-      id: newFileId,
-      title: fileName,
-      content: fileContent,
-      folderId: parseInt(folderId, 10),
-    });
-    setFileName('');
-    setFileContent('');
-    setFolderId('');
-  };
 
   const handleSubmitUpdate = () => {
     handleUpdateFile({
@@ -58,72 +51,44 @@ export default function FileList() {
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-6">Files</h2>
-      <ul className="space-y-4">
-        {files.map((file) => (
-          <li
-            key={file.id}
-            onClick={() => {
-              setEditFileId(file.id);
-              setEditFileName(file.title);
-              setEditFileContent(file.content);
-              setFolderId(file.folderId);
-            }}
-            className={`bg-white shadow-md rounded-lg p-4 flex justify-between items-center cursor-pointer ${
-              editFileId === file.id ? 'ring-2 ring-indigo-500' : ''
-            }`}
-          >
-            <div>
-              <h3 className="text-xl font-semibold">{file.title}</h3>
-              <p className="text-gray-600 mt-1">{file.content}</p>
-            </div>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDeleteFile(file.id);
-              }}
-              className="text-red-500 hover:text-red-700"
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
-
       <div className="mt-10">
-        <h3 className="text-xl font-semibold mb-4">
-          {editFileId ? 'Edit File' : 'Create File'}
-        </h3>
         <div className="space-y-4">
-          <input
-            type="text"
-            placeholder="File Title"
-            value={editFileId ? editFileName : fileName}
-            onChange={(e) =>
-              editFileId
-                ? setEditFileName(e.target.value)
-                : setFileName(e.target.value)
-            }
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <textarea
-            placeholder="File Content"
-            value={editFileId ? editFileContent : fileContent}
-            onChange={(e) =>
-              editFileId
-                ? setEditFileContent(e.target.value)
-                : setFileContent(e.target.value)
-            }
-            className="w-full px-4 py-2 border rounded h-32 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <input
-            type="text"
-            placeholder="Folder ID"
-            value={folderId}
-            onChange={(e) => setFolderId(e.target.value)}
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
+          {editFileId && (
+            <>
+              {' '}
+              <input
+                type="text"
+                placeholder="File Title"
+                value={editFileId ? editFileName : fileName}
+                onChange={(e) =>
+                  editFileId
+                    ? setEditFileName(e.target.value)
+                    : setFileName(e.target.value)
+                }
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <textarea
+                placeholder="File Content"
+                value={editFileId ? editFileContent : fileContent}
+                onChange={(e) =>
+                  editFileId
+                    ? setEditFileContent(e.target.value)
+                    : setFileContent(e.target.value)
+                }
+                className="w-full px-4 py-2 border rounded h-32 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <input
+                type="text"
+                placeholder="Folder ID"
+                value={folderId}
+                onChange={(e) => setFolderId(e.target.value)}
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </>
+          )}
+
           <div className="flex space-x-2">
-            {editFileId ? (
+            {editFileId && (
               <>
                 <button
                   onClick={handleSubmitUpdate}
@@ -138,13 +103,6 @@ export default function FileList() {
                   Cancel
                 </button>
               </>
-            ) : (
-              <button
-                onClick={handleSubmitCreate}
-                className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
-              >
-                Create File
-              </button>
             )}
           </div>
         </div>

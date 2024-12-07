@@ -1,9 +1,8 @@
-// FolderTree.js
-import React from 'react';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
+import useFileStore from '@/Zustand/File_Store';
 export const FolderTree = ({ folders }) => {
   const {
     expandedFolders,
@@ -22,12 +21,40 @@ export const FolderTree = ({ folders }) => {
 
   const { handleCreateFolder, handleUpdateFolder } = useFolderListLogic();
   const {
+    editFileId,
+    setEditFileId,
+
+    folderId,
+    setFolderId,
+    editFileName,
+    setEditFileName,
+    editFileContent,
+    setEditFileContent,
+  } = useFileStore();
+
+  const resetEditState = () => {
+    setEditFileId(null);
+    setEditFileName('');
+    setEditFileContent('');
+    setFolderId('');
+  };
+  const handleSubmitUpdate = () => {
+    handleUpdateFile({
+      id: editFileId,
+      title: editFileName,
+      content: editFileContent,
+      folderId,
+    });
+    resetEditState();
+  };
+  const {
     files = [],
-    loading: filesLoading,
-    error: filesError,
+
     handleCreateFile,
+    handleDeleteFile,
   } = useFileListLogic();
   // FolderTree.js
+
   const handleRename = (folderId) => {
     if (folderName.trim() !== '') {
       handleUpdateFolder({ id: folderId, title: folderName.trim() });
@@ -145,12 +172,21 @@ export const FolderTree = ({ folders }) => {
                 {folderFiles(folder.id).map((file) => (
                   <li
                     key={file.id}
-                    className="flex items-center justify-between"
+                    onClick={() => {
+                      setEditFileId(file.id);
+                      setEditFileName(file.title);
+                      setEditFileContent(file.content);
+                      setFolderId(folder.id);
+                    }}
+                    className={`bg-red-400 shadow-md rounded-lg p-4 flex justify-between  cursor-pointer ${
+                      editFileId === file.id ? 'ring-2 ring-indigo-500' : ''
+                    }`}
                   >
                     <span>{file.title}</span>
+                    <span>{file.id}</span>
                     <button
                       onClick={() => handleDeleteFile(file.id)}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-red-100 hover:text-red-700"
                     >
                       Delete
                     </button>
