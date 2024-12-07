@@ -27,7 +27,9 @@ export default function FolderList() {
   }
 
   const nestedFolders =
-    folders && folders.length > 0 ? buildNestedStructure(folders) : [];
+    Array.isArray(folders) && folders.length > 0
+      ? buildNestedStructure(folders)
+      : null;
 
   return (
     <div
@@ -38,7 +40,7 @@ export default function FolderList() {
         setContextMenuPosition({ x: e.pageX, y: e.pageY });
       }}
     >
-      {nestedFolders.length > 0 ? (
+      {nestedFolders ? (
         <FolderTree folders={nestedFolders} />
       ) : (
         <p className="text-gray-500">No folders to display.</p>
