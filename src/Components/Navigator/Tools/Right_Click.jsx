@@ -2,7 +2,7 @@ import React from 'react';
 import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 export const ContextMenu = () => {
-  const { handleDeleteFolder, handleDeleteFile } = useFolderListLogic();
+  const { handleDeleteFolder, folders } = useFolderListLogic();
   const {
     contextMenuVisible,
     contextMenuPosition,
@@ -19,11 +19,18 @@ export const ContextMenu = () => {
   if (!contextMenuVisible) return null;
 
   const handleRenameClick = () => {
-    setFolderName(''); // Optional: set to current folder name
-    setEditingFolderId(selectedFolderId);
-    setContextMenuVisible(false);
-  };
+    // Get the selected folder
+    const folderToEdit = folders.find((f) => f.id === selectedFolderId);
 
+    if (folderToEdit) {
+      // Set the folder's current title as the folderName
+      setFolderName(folderToEdit.title);
+      // Now set editingFolderId
+      setEditingFolderId(selectedFolderId);
+      // Close the context menu
+      setContextMenuVisible(false);
+    }
+  };
   const handleCreateClick = () => {
     setFolderName('');
     if (selectedFolderId) {

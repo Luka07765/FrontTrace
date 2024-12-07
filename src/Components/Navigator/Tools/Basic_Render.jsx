@@ -59,8 +59,8 @@ export const FolderTree = ({ folders }) => {
     if (folderName.trim() !== '') {
       handleUpdateFolder({ id: folderId, title: folderName.trim() });
     }
+
     setEditingFolderId(null);
-    setFolderName('');
   };
 
   const handleCreate = (parentFolderId) => {
@@ -151,9 +151,8 @@ export const FolderTree = ({ folders }) => {
                   />
                 ) : (
                   <>
-                    <strong>{folder.title + '- ID:'}</strong>
-                    <strong>{folder.id + 'PARANT '}</strong>
-                    <strong>{folder.parentFolderId}</strong>
+                    <strong>{folder.title}</strong>
+
                     <button
                       onClick={(e) => {
                         e.stopPropagation();

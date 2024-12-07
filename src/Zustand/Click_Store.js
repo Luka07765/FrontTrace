@@ -28,68 +28,11 @@ export const Click = create((set, get) => ({
       },
     })),
 
-  resetModalState: () => {
-    set({
-      folderName: '',
-
-      selectedFolderId: null,
-    });
-  },
-
   handleDelete: (handleDeleteFolder) => {
     const { selectedFolderId } = get();
     if (selectedFolderId) {
       handleDeleteFolder(selectedFolderId); // Execute delete
       set({ contextMenuVisible: false, selectedFolderId: null }); // Update state
     }
-  },
-
-  handleCreate: () => {
-    set({
-      contextMenuVisible: false,
-    });
-  },
-
-  handleRename: (folders) => {
-    const {
-      selectedFolderId,
-
-      setContextMenuVisible,
-      setFolderName,
-    } = get();
-
-    const folderToEdit = folders.find((f) => f.id === selectedFolderId);
-
-    if (folderToEdit) {
-      setFolderName(folderToEdit.title);
-    } else {
-      console.error('Folder to edit not found');
-    }
-
-    setContextMenuVisible(false);
-  },
-
-  submitCreate: (handleCreateFolder) => {
-    const { folderName, selectedFolderId, resetModalState } = get();
-
-    handleCreateFolder({
-      title: folderName,
-      parentFolderId: selectedFolderId, // Create under selected folder
-    });
-
-    resetModalState(); // Optionally reset modal state after creation
-  },
-
-  submitEdit: (handleUpdateFolder) => {
-    const { selectedFolderId, folderName, resetModalState } = get();
-
-    // Rename operation
-    handleUpdateFolder({
-      id: selectedFolderId,
-      title: folderName,
-      // Do not include parentFolderId to prevent unintended changes
-    });
-
-    resetModalState();
   },
 }));
