@@ -62,13 +62,11 @@ export default function Dashboard() {
       </button>
 
       <div className="flex">
-        {/* Sidebar on the left */}
         <div className="w-1/4 p-4">
           <Sidebar />
         </div>
-        {/* Files on the right */}
+
         <div className="w-3/4 p-4">
-          <h2 className="text-xl font-semibold mb-2">Files</h2>
           <File />
         </div>
       </div>
