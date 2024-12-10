@@ -9,28 +9,33 @@ export function useToken() {
 
   // Function to refresh the token
   const refreshToken = async () => {
-    if (isRefreshing) {
-      return;
-    }
+    if (isRefreshing) return;
 
     isRefreshing = true;
 
     try {
+      const storedRefreshToken = localStorage.getItem('refreshToken');
+      if (!storedRefreshToken) {
+        throw new Error('No refresh token available');
+      }
+
       const refreshResponse = await axios.post(
         'http://localhost:5044/api/Auth/RefreshToken',
-        {}, // Empty body
-        { withCredentials: true }
+        { refreshToken: storedRefreshToken }
       );
 
-      const newAccessToken = refreshResponse.data.AccessToken;
-
-      localStorage.setItem('token', newAccessToken);
+      // Store new tokens
+      localStorage.setItem('token', refreshResponse.data.accessToken);
+      localStorage.setItem('refreshToken', refreshResponse.data.refreshToken);
     } catch (error) {
       console.error(
         'Failed to refresh token:',
         error.response?.data || error.message
       );
+
+      // Clear tokens and redirect on failure
       localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
       router.push('/home/auth/login');
     } finally {
       isRefreshing = false;
@@ -48,7 +53,6 @@ export function useToken() {
     try {
       await axios.get('http://localhost:5044/api/Auth/ValidateToken', {
         headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
       });
     } catch (error) {
       console.error('Token validation failed:', error);
@@ -59,13 +63,12 @@ export function useToken() {
 
   // Function to schedule token refresh
   const scheduleTokenRefresh = () => {
-    const refreshIntervalDuration = 5000000; // Refresh token every 14 minutes
+    const refreshIntervalDuration = 10000; // 14 minutes
 
     const refreshInterval = setInterval(() => {
       refreshToken();
     }, refreshIntervalDuration);
 
-    // Return a cleanup function to clear the interval
     return () => clearInterval(refreshInterval);
   };
 
