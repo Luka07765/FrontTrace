@@ -1,6 +1,7 @@
 import React from 'react';
 import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
+import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 export const ContextMenu = () => {
   const { handleDeleteFolder, folders } = useFolderListLogic();
   const {
@@ -14,7 +15,7 @@ export const ContextMenu = () => {
 
     setFolderName,
   } = Click();
-
+  const { handleDeleteFile } = useFileListLogic();
   //Optimizacija sranje veliko neka ga...
   if (!contextMenuVisible) return null;
 
@@ -41,8 +42,12 @@ export const ContextMenu = () => {
     setContextMenuVisible(false);
   };
 
-  const onDelete = () => {
+  const onDeleteFolder = () => {
     handleDelete(handleDeleteFolder);
+  };
+
+  const onDeleteFile = () => {
+    handleDeleteFile(file.id);
   };
   return (
     <ul
@@ -68,7 +73,7 @@ export const ContextMenu = () => {
       </li>
       <li
         className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-        onClick={onDelete}
+        onClick={onDeleteFolder}
       >
         Delete Folder
       </li>

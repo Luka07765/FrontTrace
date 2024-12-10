@@ -6,6 +6,12 @@ export const GET_FOLDERS = gql`
       id
       title
       parentFolderId
+      files {
+        id
+        title
+        content
+        folderId
+      }
     }
   }
 `;

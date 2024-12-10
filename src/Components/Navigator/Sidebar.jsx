@@ -1,5 +1,5 @@
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-
+import ForceDirectedTree from '@/Components/MindMap/TreeMap';
 import { ContextMenu } from './Tools/Right_Click';
 import { FolderTree } from './Tools/Basic_Render';
 import { Click } from '@/Zustand/Click_Store';
@@ -31,6 +31,7 @@ export default function FolderList() {
       ? buildNestedStructure(folders)
       : null;
 
+  console.log(JSON.stringify(nestedFolders, null, 2));
   return (
     <div
       className="relative w-64 bg-gray-800 text-white h-screen p-4 overflow-auto"
@@ -45,6 +46,7 @@ export default function FolderList() {
       ) : (
         <p className="text-gray-500">No folders to display.</p>
       )}
+      <ForceDirectedTree structure={nestedFolders} />
 
       {contextMenuVisible && <ContextMenu />}
     </div>
