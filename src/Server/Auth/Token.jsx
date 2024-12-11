@@ -44,7 +44,6 @@ export function useToken() {
       // Clear tokens and redirect to login page
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
-      window.location.href = '/home/auth/login';
 
       throw error; // Ensure caller is aware of failure
     }
@@ -55,7 +54,7 @@ export function useToken() {
     const token = localStorage.getItem('accessToken');
     if (!token) {
       console.warn('No access token found. Redirecting to login...');
-      router.push('/home/auth/login');
+
       return;
     }
 
@@ -72,7 +71,6 @@ export function useToken() {
         await refreshToken();
       } catch (refreshError) {
         console.error('Failed to refresh token. Redirecting to login...');
-        router.push('/home/auth/login');
       }
     }
   };

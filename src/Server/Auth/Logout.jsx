@@ -19,7 +19,10 @@ export function useLogout(client) {
             },
           }
         );
+
         console.log('Logout successful.');
+        localStorage.removeItem('token');
+        console.log('Removed Token.');
       }
 
       // Clear Apollo Client cache if needed
@@ -31,7 +34,7 @@ export function useLogout(client) {
       // Redirect after logout
       setTimeout(() => {
         router.push('/home/auth/login');
-      }, 1000); // Adjust the delay as needed
+      }, 10000); // Adjust the delay as needed
     } catch (error) {
       console.error(
         'Error during logout:',
@@ -41,7 +44,7 @@ export function useLogout(client) {
       // Redirect after logging the error
       setTimeout(() => {
         router.push('/home/auth/login');
-      }, 1000);
+      }, 10000);
     }
   };
 
