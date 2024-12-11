@@ -35,7 +35,7 @@ export function useRegisterLogic(username, email, password, setIsLoading) {
     try {
       await axios.post('http://localhost:5044/api/Auth/Register', registerData);
       alert('Registration successful! Please log in.');
-      router.push('/login');
+      router.push('home/auth/login');
     } catch (error) {
       console.error('There was an error registering!', error);
       if (

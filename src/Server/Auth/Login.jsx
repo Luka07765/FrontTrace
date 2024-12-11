@@ -17,26 +17,42 @@ export function useLoginLogic(email, password, setError, setIsLoading) {
     }
 
     try {
+      // Send login request
       const response = await axios.post(
         'http://localhost:5044/api/Auth/Login',
-        { email, password }
+        { email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       );
 
+      const { accessToken, refreshToken } = response.data;
+
+      // Validate tokens
+      if (!accessToken || !refreshToken) {
+        throw new Error('Failed to retrieve tokens from the server.');
+      }
+
       // Store tokens
-      localStorage.setItem('token', response.data.accessToken);
-      localStorage.setItem('refreshToken', response.data.refreshToken);
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+
+      console.log('Login successful. Tokens stored.');
 
       // Redirect to the notes page
       router.push('/notebook/notes');
     } catch (error) {
+      // Handle errors
       if (error.response?.status === 401) {
         setError('Invalid email or password.');
       } else {
-        console.error('Login failed:', error);
+        console.error('Login failed:', error.response?.data || error.message);
         setError('Something went wrong. Please try again later.');
       }
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Reset loading state
     }
   };
 

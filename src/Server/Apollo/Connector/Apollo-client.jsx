@@ -4,12 +4,12 @@ import { onError } from '@apollo/client/link/error';
 import axios from 'axios';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5044/graphql',
+  uri: 'http://localhost:5044/graphql', // Replace with your GraphQL endpoint
 });
 
 // Auth link to add Authorization header
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('accessToken'); // Use 'accessToken' consistently
   return {
     headers: {
       ...headers,
@@ -20,36 +20,38 @@ const authLink = setContext((_, { headers }) => {
 
 // Error handling link for refreshing tokens
 const errorLink = onError(
-  ({ graphQLErrors, networkError, operation, forward }) => {
+  async ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       for (const err of graphQLErrors) {
         if (err.extensions.code === 'UNAUTHENTICATED') {
-          // Attempt to refresh the token
-          return axios
-            .post('http://localhost:5044/api/Auth/RefreshToken', {
-              refreshToken: localStorage.getItem('refreshToken'),
-            })
-            .then((response) => {
-              const newToken = response.data.accessToken;
-              localStorage.setItem('token', newToken);
+          try {
+            // Attempt to refresh the token
+            const refreshResponse = await axios.post(
+              'http://localhost:5044/api/Auth/RefreshToken',
+              { refreshToken: localStorage.getItem('refreshToken') }
+            );
 
-              // Retry the failed request with the new token
-              const oldHeaders = operation.getContext().headers;
-              operation.setContext({
-                headers: {
-                  ...oldHeaders,
-                  Authorization: `Bearer ${newToken}`,
-                },
-              });
+            const newToken = refreshResponse.data.accessToken;
+            localStorage.setItem('accessToken', newToken); // Store refreshed token
 
-              return forward(operation);
-            })
-            .catch((refreshError) => {
-              console.error('Token refresh failed', refreshError);
-              localStorage.removeItem('token');
-              localStorage.removeItem('refreshToken');
-              window.location.href = '/auth/login';
+            // Retry the failed request with the new token
+            const oldHeaders = operation.getContext().headers;
+            operation.setContext({
+              headers: {
+                ...oldHeaders,
+                Authorization: `Bearer ${newToken}`,
+              },
             });
+
+            return forward(operation); // Retry the operation
+          } catch (refreshError) {
+            console.error('Token refresh failed:', refreshError);
+
+            // Clear tokens and redirect to login
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            window.location.href = '/home/auth/login'; // Redirect to login page
+          }
         }
       }
     }
@@ -62,7 +64,7 @@ const errorLink = onError(
 
 // Combine links
 const client = new ApolloClient({
-  link: errorLink.concat(authLink).concat(httpLink),
+  link: errorLink.concat(authLink).concat(httpLink), // Ensure correct order
   cache: new InMemoryCache(),
 });
 

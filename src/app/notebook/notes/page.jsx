@@ -28,7 +28,7 @@ export default function Dashboard() {
       } catch (error) {
         console.error('Authentication failed:', error);
         setLoading(false);
-        router.push('/auth/login'); // Redirect to login on failure
+        router.push('/home/auth/login'); // Redirect to login on failure
       }
     };
 
