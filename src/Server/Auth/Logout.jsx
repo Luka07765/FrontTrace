@@ -1,18 +1,18 @@
+// hooks/useLogout.js
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-
+import { toast } from 'react-toastify';
 export function useLogout(client) {
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
-      if (!token) {
-        console.warn('No access token found. Skipping server logout.');
-      } else {
+      const token = localStorage.getItem('accessToken'); // Consistent key
+      if (token) {
+        console.log('Attempting to log out on the server...');
         await axios.post(
           'http://localhost:5044/api/Auth/Logout',
-          {}, // Assuming no request body is needed
+          {}, // No request body
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -20,35 +20,32 @@ export function useLogout(client) {
           }
         );
 
-        console.log('Logout successful.');
-        localStorage.removeItem('token');
-        console.log('Removed Token.');
+        toast.success('Logged out successfully!');
+        localStorage.removeItem('accessToken'); // Correct key
+        console.log('Access token removed from localStorage.');
+      } else {
+        console.warn('No access token found. Skipping server logout.');
       }
 
-      // Clear Apollo Client cache if needed
+      // Clear Apollo Client cache if provided
       if (client) {
         console.log('Clearing Apollo Client cache...');
         await client.clearStore();
+        console.log('Apollo Client cache cleared.');
       }
 
-      // Redirect after logout
-      setTimeout(() => {
-        router.push('/home/auth/login');
-      }, 10000); // Adjust the delay as needed
+      // Redirect immediately after logout
+      router.push('/home/auth/login');
     } catch (error) {
       console.error(
         'Error during logout:',
         error.response?.data || error.message
       );
 
-      // Redirect after logging the error
-      setTimeout(() => {
-        router.push('/home/auth/login');
-      }, 10000);
+      // Redirect even if an error occurs during logout
+      router.push('/home/auth/login');
     }
   };
 
-  return {
-    handleLogout,
-  };
+  return { handleLogout };
 }

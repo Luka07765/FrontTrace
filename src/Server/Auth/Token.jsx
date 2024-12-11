@@ -1,3 +1,4 @@
+// Token.jsx
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
@@ -16,7 +17,7 @@ export function useToken() {
 
       const response = await axios.post(
         'http://localhost:5044/api/Auth/RefreshToken',
-        { refreshToken: currentRefreshToken },
+        { refreshToken: currentRefreshToken }, // JSON object
         {
           headers: {
             'Content-Type': 'application/json',
@@ -44,6 +45,7 @@ export function useToken() {
       // Clear tokens and redirect to login page
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
+      // Redirect to login
 
       throw error; // Ensure caller is aware of failure
     }
@@ -74,10 +76,16 @@ export function useToken() {
       }
     }
   };
+  const cancelTokenRefresh = () => {
+    if (refreshIntervalRef.current) {
+      clearInterval(refreshIntervalRef.current);
+      refreshIntervalRef.current = null;
+    }
+  };
 
   // Function to schedule token refresh
   const scheduleTokenRefresh = () => {
-    const refreshIntervalDuration = 10000; // 14 minutes
+    const refreshIntervalDuration = 5000; // 14 minutes
     const refreshInterval = setInterval(() => {
       refreshToken();
     }, refreshIntervalDuration);
@@ -85,5 +93,5 @@ export function useToken() {
     return () => clearInterval(refreshInterval);
   };
 
-  return { checkAuthentication, scheduleTokenRefresh };
+  return { checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh };
 }
