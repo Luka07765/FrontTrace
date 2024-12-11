@@ -12,7 +12,7 @@ export function useLogout(client) {
       } else {
         await axios.post(
           'http://localhost:5044/api/Auth/Logout',
-          {},
+          {}, // Assuming no request body is needed
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -22,32 +22,30 @@ export function useLogout(client) {
         console.log('Logout successful.');
       }
 
+      // Clear Apollo Client cache if needed
       if (client) {
         console.log('Clearing Apollo Client cache...');
         await client.clearStore();
       }
 
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-
-      console.log('Redirecting to: /home/auth/login');
-
-      // Add a small delay before redirecting
+      // Redirect after logout
       setTimeout(() => {
-        router.push('/home/auth/login'); // Ensure correct path is pushed
-      }, 10000); // 1 second delay
+        router.push('/home/auth/login');
+      }, 1000); // Adjust the delay as needed
     } catch (error) {
       console.error(
         'Error during logout:',
         error.response?.data || error.message
       );
 
-      // Add a delay here as well, in case an error occurs
+      // Redirect after logging the error
       setTimeout(() => {
-        router.push('/home/auth/login'); // Redirect after logging the error
-      }, 10000);
+        router.push('/home/auth/login');
+      }, 1000);
     }
   };
 
-  return { handleLogout };
+  return {
+    handleLogout,
+  };
 }
