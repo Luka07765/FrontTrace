@@ -11,37 +11,44 @@ import { useLogout } from '@/Server/Auth/Logout';
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
-  const client = useApolloClient();
+  const client = useApolloClient(); // If not used, consider removing
   const router = useRouter();
-  const { checkAuthentication, scheduleTokenRefresh } = useToken();
-  const { handleLogout } = useLogout(client);
+  const { checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh } =
+    useToken();
+  const { handleLogout } = useLogout(); // Removed client parameter
   const { setContextMenuVisible } = Click();
 
   useEffect(() => {
-    let cleanup; // Declare cleanup variable in the outer scope
+    let cleanup; // To store the cleanup function returned by scheduleTokenRefresh
+    let isMounted = true; // Flag to track if the component is still mounted
 
     const authenticate = async () => {
       try {
         await checkAuthentication();
-        setLoading(false);
-        cleanup = scheduleTokenRefresh(); // Schedule token refresh after authentication
+        if (isMounted) {
+          setLoading(false);
+          cleanup = scheduleTokenRefresh(); // Schedule token refresh after authentication
+        }
       } catch (error) {
         console.error('Authentication failed:', error);
-        setLoading(false);
-        router.push('/home/auth/login'); // Redirect to login on failure
+        if (isMounted) {
+          setLoading(false);
+          // Note: Redirection is already handled in the useToken hook
+        }
       }
     };
 
     authenticate();
 
-    // Return the cleanup function directly from useEffect
+    // Cleanup function
     return () => {
+      isMounted = false; // Prevent state updates after unmount
       if (cleanup) {
-        cleanup(); // Cleanup the interval on unmount
+        cleanup();
       }
+      cancelTokenRefresh(); // Ensure any remaining intervals are cleared
     };
-  }, [checkAuthentication, scheduleTokenRefresh, router]);
-
+  }, [checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh]);
   if (loading) {
     return <p>Loading...</p>;
   }

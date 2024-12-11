@@ -1,48 +1,39 @@
-// hooks/useLogout.js
-import { useRouter } from 'next/navigation';
+// Logout.jsx
 import axios from 'axios';
-import { toast } from 'react-toastify';
-export function useLogout(client) {
+import { useRouter } from 'next/navigation';
+import { useToken } from './Token'; // Adjust the import path as necessary
+import { useApolloClient } from '@apollo/client';
+export function useLogout() {
   const router = useRouter();
-
+  const { cancelTokenRefresh } = useToken(); // Function to cancel token refresh
+  const client = useApolloClient();
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem('accessToken'); // Consistent key
-      if (token) {
-        console.log('Attempting to log out on the server...');
-        await axios.post(
-          'http://localhost:5044/api/Auth/Logout',
-          {}, // No request body
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        toast.success('Logged out successfully!');
-        localStorage.removeItem('accessToken'); // Correct key
-        console.log('Access token removed from localStorage.');
-      } else {
-        console.warn('No access token found. Skipping server logout.');
-      }
-
-      // Clear Apollo Client cache if provided
-      if (client) {
-        console.log('Clearing Apollo Client cache...');
-        await client.clearStore();
-        console.log('Apollo Client cache cleared.');
-      }
-
-      // Redirect immediately after logout
       router.push('/home/auth/login');
-    } catch (error) {
-      console.error(
-        'Error during logout:',
-        error.response?.data || error.message
-      );
 
-      // Redirect even if an error occurs during logout
+      await axios.post(
+        'http://localhost:5044/api/Auth/Logout',
+        {}, // Assuming no body is needed
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Include token if required
+          },
+        }
+      );
+      cancelTokenRefresh();
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      await client.clearStore();
+      console.log('Logout successful. Tokens cleared.');
+
+      // Redirect to login page
+    } catch (error) {
+      console.error('Logout failed:', error.response?.data || error.message);
+      // Even if logout fails, clear tokens and redirect
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      cancelTokenRefresh();
       router.push('/home/auth/login');
     }
   };
