@@ -1,9 +1,10 @@
-import axios from 'axios';
+'use client';
+import api from './Api'; // Use the configured Axios instance
 import { useRouter } from 'next/navigation';
+// Updated import
 
 export function useLoginLogic(email, password, setError, setIsLoading) {
   const router = useRouter();
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,28 +20,19 @@ export function useLoginLogic(email, password, setError, setIsLoading) {
 
     try {
       // Send login request with JSON payload
-      const response = await axios.post(
-        `${API_BASE_URL}/Auth/Login`,
-        { email, password }, // JSON object
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await api.post('/Auth/Login', { email, password });
 
-      const { accessToken, refreshToken } = response.data;
+      const { accessToken } = response.data;
 
-      // Validate tokens
-      if (!accessToken || !refreshToken) {
-        throw new Error('Failed to retrieve tokens from the server.');
+      // Validate access token
+      if (!accessToken) {
+        throw new Error('Failed to retrieve access token from the server.');
       }
 
-      // Store tokens
+      // Store access token (consider storing it in memory or a state management library)
       localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
 
-      console.log('Login successful. Tokens stored.');
+      console.log('Login successful. Access token stored.');
 
       // Redirect to the notes page
       router.push('/notebook/notes');

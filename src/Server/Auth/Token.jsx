@@ -1,58 +1,28 @@
-// Token.jsx
+'use client';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
+// Updated import
+import axios from './Api'; // Use the configured Axios instance
 import { useRef, useCallback } from 'react';
 
 export function useToken() {
   const router = useRouter();
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const refreshIntervalRef = useRef(null);
 
   // Function to refresh the token
   const refreshToken = useCallback(async () => {
     try {
-      const currentRefreshToken = localStorage.getItem('refreshToken');
+      const response = await axios.post('/Auth/RefreshToken');
 
-      if (!currentRefreshToken) {
-        console.warn('No refresh token available. Redirecting to login...');
-        // Clear any existing tokens just in case
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        // Redirect to login
-        router.push('/login'); // Ensure '/login' is your actual login route
-        return; // Stop further execution
+      const { accessToken } = response.data;
+
+      if (!accessToken) {
+        throw new Error('Invalid access token received from server.');
       }
 
-      // Proceed to refresh the access token
-      const response = await axios.post(
-        `${API_BASE_URL}/Auth/RefreshToken`,
-        { refreshToken: currentRefreshToken }, // Ensure this matches the backend model
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      const { accessToken, refreshToken: newRefreshToken } = response.data;
-
-      if (!accessToken || !newRefreshToken) {
-        console.error(
-          'Invalid tokens received from server. Redirecting to login...'
-        );
-        // Clear invalid tokens
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        // Redirect to login
-        router.push('/login');
-        return; // Stop further execution
-      }
-
-      // Store the new tokens
+      // Store the new access token
       localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', newRefreshToken);
 
-      console.log('Tokens refreshed successfully.');
+      console.log('Access token refreshed successfully.');
       return accessToken; // Return the new access token
     } catch (error) {
       console.error(
@@ -60,16 +30,15 @@ export function useToken() {
         error.response?.data || error.message
       );
 
-      // Clear tokens from localStorage
+      // Clear access token from localStorage
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
 
       // Redirect to login page
-      router.push('/login'); // Ensure '/login' is your actual login route
+      router.push('/login');
 
       throw error; // Ensure the caller is aware of the failure
     }
-  }, [API_BASE_URL, router]);
+  }, [router]);
 
   // Function to check authentication
   const checkAuthentication = useCallback(async () => {
@@ -77,12 +46,12 @@ export function useToken() {
     if (!token) {
       console.warn('No access token found. Redirecting to login...');
       // Redirect to login
-      router.push('/login'); // Ensure '/login' is your actual login route
+      router.push('/login');
       throw new Error('No access token found'); // Stop further execution
     }
 
     try {
-      await axios.get(`${API_BASE_URL}/Auth/ValidateToken`, {
+      await axios.get('/Auth/ValidateToken', {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log('Access token is valid.');
@@ -95,23 +64,15 @@ export function useToken() {
       } catch (refreshError) {
         console.error('Failed to refresh token. Redirecting to login...');
         // Redirect to login
-        router.push('/login'); // Ensure '/login' is your actual login route
+        router.push('/login');
         throw refreshError; // Stop further execution
       }
     }
-  }, [refreshToken, router, API_BASE_URL]);
+  }, [refreshToken, router]);
 
   // Function to schedule token refresh
   const scheduleTokenRefresh = useCallback(() => {
-    const refreshIntervalDuration = 5000; // 14 minutes in milliseconds
-    const currentRefreshToken = localStorage.getItem('refreshToken');
-
-    if (!currentRefreshToken) {
-      console.log(
-        'User logged out or refresh token is expired. No token refresh scheduled.'
-      );
-      return; // Stop further execution
-    }
+    const refreshIntervalDuration = 6000; // 14 minutes in milliseconds
 
     refreshIntervalRef.current = setInterval(() => {
       refreshToken();
