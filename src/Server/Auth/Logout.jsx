@@ -12,7 +12,7 @@ export function useLogout() {
       router.push('/home/auth/login');
 
       await axios.post(
-        'http://localhost:5044/api/Auth/Logout',
+        'https://localhost:7167/api/Auth/Logout',
         {}, // Assuming no body is needed
         {
           headers: {

@@ -33,7 +33,10 @@ export function useRegisterLogic(username, email, password, setIsLoading) {
     };
 
     try {
-      await axios.post('http://localhost:5044/api/Auth/Register', registerData);
+      await axios.post(
+        'https://localhost:7167/api/Auth/Register',
+        registerData
+      );
       alert('Registration successful! Please log in.');
       router.push('home/auth/login');
     } catch (error) {

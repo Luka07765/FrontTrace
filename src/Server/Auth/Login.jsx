@@ -19,7 +19,7 @@ export function useLoginLogic(email, password, setError, setIsLoading) {
     try {
       // Send login request with JSON payload
       const response = await axios.post(
-        'http://localhost:5044/api/Auth/Login',
+        'https://localhost:7167/api/Auth/Login',
         { email, password }, // JSON object
         {
           headers: {

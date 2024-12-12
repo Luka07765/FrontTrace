@@ -24,7 +24,7 @@ export function useToken() {
 
       // Proceed to refresh the access token
       const response = await axios.post(
-        'http://localhost:5044/api/Auth/RefreshToken',
+        'https://localhost:7167/api/Auth/RefreshToken',
         { refreshToken: currentRefreshToken }, // Ensure this matches the backend model
         {
           headers: {
@@ -81,7 +81,7 @@ export function useToken() {
     }
 
     try {
-      await axios.get('http://localhost:5044/api/Auth/ValidateToken', {
+      await axios.get('https://localhost:7167/api/Auth/ValidateToken', {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log('Access token is valid.');
