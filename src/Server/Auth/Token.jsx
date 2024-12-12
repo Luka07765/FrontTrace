@@ -5,6 +5,7 @@ import { useRef, useCallback } from 'react';
 
 export function useToken() {
   const router = useRouter();
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const refreshIntervalRef = useRef(null);
 
   // Function to refresh the token
@@ -24,7 +25,7 @@ export function useToken() {
 
       // Proceed to refresh the access token
       const response = await axios.post(
-        'https://localhost:7167/api/Auth/RefreshToken',
+        `${API_BASE_URL}/Auth/RefreshToken`,
         { refreshToken: currentRefreshToken }, // Ensure this matches the backend model
         {
           headers: {
@@ -68,7 +69,7 @@ export function useToken() {
 
       throw error; // Ensure the caller is aware of the failure
     }
-  }, [router]);
+  }, [API_BASE_URL, router]);
 
   // Function to check authentication
   const checkAuthentication = useCallback(async () => {
@@ -81,7 +82,7 @@ export function useToken() {
     }
 
     try {
-      await axios.get('https://localhost:7167/api/Auth/ValidateToken', {
+      await axios.get(`${API_BASE_URL}/Auth/ValidateToken`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log('Access token is valid.');
@@ -98,11 +99,11 @@ export function useToken() {
         throw refreshError; // Stop further execution
       }
     }
-  }, [refreshToken, router]);
+  }, [refreshToken, router, API_BASE_URL]);
 
   // Function to schedule token refresh
   const scheduleTokenRefresh = useCallback(() => {
-    const refreshIntervalDuration = 55000; // 14 minutes in milliseconds
+    const refreshIntervalDuration = 5000; // 14 minutes in milliseconds
     const currentRefreshToken = localStorage.getItem('refreshToken');
 
     if (!currentRefreshToken) {

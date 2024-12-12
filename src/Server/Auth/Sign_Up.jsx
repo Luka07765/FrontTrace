@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 
 export function useRegisterLogic(username, email, password, setIsLoading) {
   const router = useRouter();
-
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -33,10 +33,7 @@ export function useRegisterLogic(username, email, password, setIsLoading) {
     };
 
     try {
-      await axios.post(
-        'https://localhost:7167/api/Auth/Register',
-        registerData
-      );
+      await axios.post(`${API_BASE_URL}/Auth/Register`, registerData);
       alert('Registration successful! Please log in.');
       router.push('home/auth/login');
     } catch (error) {

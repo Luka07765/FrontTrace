@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 
 export function useLoginLogic(email, password, setError, setIsLoading) {
   const router = useRouter();
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ export function useLoginLogic(email, password, setError, setIsLoading) {
     try {
       // Send login request with JSON payload
       const response = await axios.post(
-        'https://localhost:7167/api/Auth/Login',
+        `${API_BASE_URL}/Auth/Login`,
         { email, password }, // JSON object
         {
           headers: {

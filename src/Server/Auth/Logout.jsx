@@ -8,11 +8,12 @@ export function useLogout() {
   const { cancelTokenRefresh } = useToken(); // Function to cancel token refresh
   const client = useApolloClient();
   const handleLogout = async () => {
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
     try {
       router.push('/home/auth/login');
 
       await axios.post(
-        'https://localhost:7167/api/Auth/Logout',
+        `${API_BASE_URL}/Auth/Logout`,
         {}, // Assuming no body is needed
         {
           headers: {
