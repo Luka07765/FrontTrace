@@ -1,8 +1,6 @@
-'use client';
-
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import useFileStore from '@/Zustand/File_Store';
-import { useEffect } from 'react';
+import { useFileStore } from '@/Zustand/File_Store';
+
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
 

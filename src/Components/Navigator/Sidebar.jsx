@@ -4,12 +4,12 @@ import { ContextMenu } from './Tools/Right_Click';
 import { FolderTree } from './Tools/Basic_Render';
 import { Click } from '@/Zustand/Click_Store';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
-
+import { Select } from '@/Zustand/Select_Store';
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
   const { contextMenuVisible, setContextMenuVisible, setContextMenuPosition } =
     Click();
-
+  const { setSelectedFolderId } = Select();
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -26,6 +26,10 @@ export default function FolderList() {
     );
   }
 
+  const handleParentClick = () => {
+    setSelectedFolderId(null);
+  };
+
   const nestedFolders =
     Array.isArray(folders) && folders.length > 0
       ? buildNestedStructure(folders)
@@ -34,8 +38,10 @@ export default function FolderList() {
   return (
     <div
       className="relative w-64 bg-gray-800 text-white h-screen p-4 overflow-auto"
+      onClick={handleParentClick}
       onContextMenu={(e) => {
         e.preventDefault();
+
         setContextMenuVisible(true);
         setContextMenuPosition({ x: e.pageX, y: e.pageY });
       }}

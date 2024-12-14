@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export const Click = create((set, get) => ({
+export const Click = create((set) => ({
   contextMenuVisible: false,
   setContextMenuVisible: (isVisible) => set({ contextMenuVisible: isVisible }),
 
@@ -28,11 +28,18 @@ export const Click = create((set, get) => ({
       },
     })),
 
-  handleDelete: (handleDeleteFolder) => {
-    const { selectedFolderId } = get();
+  handleDelete: (handleDeleteFolder, selectedFolderId) => {
     if (selectedFolderId) {
       handleDeleteFolder(selectedFolderId); // Execute delete
       set({ contextMenuVisible: false, selectedFolderId: null }); // Update state
+    }
+  },
+  handleCreateClick: (selectedFolderId) => {
+    setFolderName('');
+    if (selectedFolderId) {
+      setCreatingFolderParentId(selectedFolderId);
+    } else {
+      setCreatingFolderParentId(null);
     }
   },
 }));

@@ -12,9 +12,7 @@ import {
 
 // Fetch folders
 export const useFetchFolders = () => {
-  const { data, loading, error, refetch } = useQuery(GET_FOLDERS, {
-    pollInterval: 5000,
-  });
+  const { data, loading, error, refetch } = useQuery(GET_FOLDERS);
 
   // Transform data if necessary
   const folders = data?.getFolders.map((folder) => ({
@@ -42,9 +40,7 @@ export const useUpdateFolder = () => {
 
 //Files
 export const useFetchFiles = () => {
-  const { data, loading, error, refetch } = useQuery(GET_FILES, {
-    pollInterval: 5000,
-  });
+  const { data, loading, error, refetch } = useQuery(GET_FILES);
 
   // Transform data if necessary
   const files = data?.getFiles.map((file) => ({

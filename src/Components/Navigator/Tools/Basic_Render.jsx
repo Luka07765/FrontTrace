@@ -2,13 +2,14 @@ import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import useFileStore from '@/Zustand/File_Store';
+import { useFileStore } from '@/Zustand/File_Store';
+import { Select } from '@/Zustand/Select_Store';
+import { handleCreate } from '@/Utils/Folder/FolderLogic';
 export const FolderTree = ({ folders }) => {
   const {
     expandedFolders,
     setExpandedFolders,
-    selectedFolderId,
-    setSelectedFolderId,
+
     setContextMenuVisible,
     setContextMenuPosition,
     editingFolderId,
@@ -18,7 +19,7 @@ export const FolderTree = ({ folders }) => {
     folderName,
     setFolderName,
   } = Click();
-
+  const { selectedFolderId, setSelectedFolderId } = Select();
   const { handleCreateFolder, handleUpdateFolder } = useFolderListLogic();
   const {
     editFileId,
@@ -30,14 +31,15 @@ export const FolderTree = ({ folders }) => {
     setEditFileName,
     editFileContent,
     setEditFileContent,
+    resetEditState,
   } = useFileStore();
+  const {
+    files = [],
 
-  const resetEditState = () => {
-    setEditFileId(null);
-    setEditFileName('');
-    setEditFileContent('');
-    setFolderId('');
-  };
+    handleCreateFile,
+    handleDeleteFile,
+  } = useFileListLogic();
+
   const handleSubmitUpdate = () => {
     handleUpdateFile({
       id: editFileId,
@@ -47,13 +49,6 @@ export const FolderTree = ({ folders }) => {
     });
     resetEditState();
   };
-  const {
-    files = [],
-
-    handleCreateFile,
-    handleDeleteFile,
-  } = useFileListLogic();
-  // FolderTree.js
 
   const handleRename = (folderId) => {
     if (folderName.trim() !== '') {
@@ -63,13 +58,12 @@ export const FolderTree = ({ folders }) => {
     setEditingFolderId(null);
   };
 
-  const handleCreate = (parentFolderId) => {
-    if (folderName.trim() !== '') {
-      handleCreateFolder({ title: folderName.trim(), parentFolderId });
-    }
-    setCreatingFolderParentId(undefined); // Reset to undefined
-    setFolderName('');
-  };
+  const handleCreateWrapper = handleCreate({
+    folderName,
+    setCreatingFolderParentId,
+    setFolderName,
+    handleCreateFolder,
+  });
 
   const handleCreateFileForFolder = (folderId) => {
     const fileName = prompt('Enter file name:');
@@ -101,6 +95,7 @@ export const FolderTree = ({ folders }) => {
               }`}
               onContextMenu={(e) => {
                 e.preventDefault();
+
                 setSelectedFolderId(folder.id);
 
                 setContextMenuVisible(true);
@@ -124,11 +119,12 @@ export const FolderTree = ({ folders }) => {
               )}
 
               <div
-                onClick={() =>
+                onClick={(e) => {
+                  e.stopPropagation();
                   setSelectedFolderId(
                     selectedFolderId === folder.id ? null : folder.id
-                  )
-                }
+                  );
+                }}
                 className="flex-grow"
               >
                 {isEditing ? (
@@ -154,8 +150,7 @@ export const FolderTree = ({ folders }) => {
                     <strong>{folder.title}</strong>
 
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
+                      onClick={() => {
                         handleCreateFileForFolder(folder.id);
                       }}
                       className="ml-2 px-2 py-1 bg-blue-500 text-white text-sm rounded"
@@ -171,8 +166,9 @@ export const FolderTree = ({ folders }) => {
                 {folderFiles(folder.id).map((file) => (
                   <li
                     key={file.id}
-                    onClick={() => {
+                    onClick={(e) => {
                       setEditFileId(file.id);
+                      e.stopPropagation();
                       setEditFileName(file.title);
                       setEditFileContent(file.content);
                       setFolderId(folder.id);
@@ -210,10 +206,10 @@ export const FolderTree = ({ folders }) => {
                   placeholder="New Folder"
                   value={folderName}
                   onChange={(e) => setFolderName(e.target.value)}
-                  onBlur={() => handleCreate(folder.id)}
+                  onBlur={() => handleCreateWrapper(folder.id)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
-                      handleCreate(folder.id);
+                      handleCreateWrapper(folder.id);
                     } else if (e.key === 'Escape') {
                       setCreatingFolderParentId(null);
                       setFolderName('');
@@ -235,10 +231,10 @@ export const FolderTree = ({ folders }) => {
             placeholder="New Folder"
             value={folderName}
             onChange={(e) => setFolderName(e.target.value)}
-            onBlur={() => handleCreate(null)}
+            onBlur={() => handleCreateWrapper(null)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                handleCreate(null);
+                handleCreateWrapper(null);
               } else if (e.key === 'Escape') {
                 setCreatingFolderParentId(undefined); // Reset to undefined
                 setFolderName('');

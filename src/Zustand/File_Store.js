@@ -1,23 +1,25 @@
 import { create } from 'zustand';
 
-const useFileStore = create((set) => ({
+export const useFileStore = create((set) => ({
+  fileName: '',
+  fileContent: '',
+  folderId: '',
+  editFileName: '',
+  editFileContent: '',
   editFileId: null,
   setEditFileId: (id) => set({ editFileId: id }),
-
-  fileName: '',
   setFileName: (name) => set({ fileName: name }),
-
-  fileContent: '',
   setFileContent: (content) => set({ fileContent: content }),
-
-  folderId: '',
   setFolderId: (id) => set({ folderId: id }),
-
-  editFileName: '',
   setEditFileName: (name) => set({ editFileName: name }),
-
-  editFileContent: '',
   setEditFileContent: (content) => set({ editFileContent: content }),
-}));
 
-export default useFileStore;
+  // Action to reset the edit state
+  resetEditState: () =>
+    set({
+      editFileId: null,
+      editFileName: '',
+      editFileContent: '',
+      folderId: '',
+    }),
+}));

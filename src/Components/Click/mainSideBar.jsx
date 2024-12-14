@@ -1,9 +1,7 @@
 import React from 'react';
 import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-
-import { Select } from '@/Zustand/Select_Store';
-
+import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 export const ContextMenu = () => {
   const { handleDeleteFolder, folders } = useFolderListLogic();
   const {
@@ -11,25 +9,26 @@ export const ContextMenu = () => {
     contextMenuPosition,
     setContextMenuVisible,
     handleDelete,
-
+    selectedFolderId,
     setEditingFolderId,
     setCreatingFolderParentId,
 
     setFolderName,
   } = Click();
-  const { selectedFolderId } = Select();
-
+  const { handleDeleteFile } = useFileListLogic();
   //Optimizacija sranje veliko neka ga...
   if (!contextMenuVisible) return null;
 
   const handleRenameClick = () => {
+    // Get the selected folder
     const folderToEdit = folders.find((f) => f.id === selectedFolderId);
 
     if (folderToEdit) {
+      // Set the folder's current title as the folderName
       setFolderName(folderToEdit.title);
-
+      // Now set editingFolderId
       setEditingFolderId(selectedFolderId);
-
+      // Close the context menu
       setContextMenuVisible(false);
     }
   };
@@ -43,6 +42,13 @@ export const ContextMenu = () => {
     setContextMenuVisible(false);
   };
 
+  const onDeleteFolder = () => {
+    handleDelete(handleDeleteFolder);
+  };
+
+  const onDeleteFile = () => {
+    handleDeleteFile(file.id);
+  };
   return (
     <ul
       className="absolute bg-black border rounded shadow-md z-50"
@@ -67,7 +73,7 @@ export const ContextMenu = () => {
       </li>
       <li
         className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-        onClick={() => handleDelete(handleDeleteFolder, selectedFolderId)}
+        onClick={onDeleteFolder}
       >
         Delete Folder
       </li>
