@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
@@ -5,6 +6,10 @@ import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
 import { Select } from '@/Zustand/Select_Store';
 import { handleCreate } from '@/Utils/Folder/FolderLogic';
+import fileIcon from '@/assets/file.png';
+import folderOpenIcon from '@/assets/open-folder.png';
+import folderClosedIcon from '@/assets/folder.png';
+import Test from '../Test';
 export const FolderTree = ({ folders }) => {
   const {
     expandedFolders,
@@ -36,7 +41,6 @@ export const FolderTree = ({ folders }) => {
   const {
     files = [],
 
-    handleCreateFile,
     handleDeleteFile,
   } = useFileListLogic();
 
@@ -64,17 +68,6 @@ export const FolderTree = ({ folders }) => {
     setFolderName,
     handleCreateFolder,
   });
-
-  const handleCreateFileForFolder = (folderId) => {
-    const fileName = prompt('Enter file name:');
-    if (fileName) {
-      handleCreateFile({
-        title: fileName,
-        content: 'New File Content',
-        folderId,
-      });
-    }
-  };
 
   const folderFiles = (folderId) =>
     files.filter((file) => file.folderId === folderId);
@@ -108,6 +101,7 @@ export const FolderTree = ({ folders }) => {
                   onClick={() => setExpandedFolders(folder.id)}
                   className="mr-1"
                 >
+                  {' '}
                   {isExpanded ? (
                     <FaChevronDown className="inline" />
                   ) : (
@@ -147,16 +141,16 @@ export const FolderTree = ({ folders }) => {
                   />
                 ) : (
                   <>
-                    <strong>{folder.title}</strong>
-
-                    <button
-                      onClick={() => {
-                        handleCreateFileForFolder(folder.id);
-                      }}
-                      className="ml-2 px-2 py-1 bg-blue-500 text-white text-sm rounded"
-                    >
-                      + File
-                    </button>
+                    <div className="flex items-center space-x-2">
+                      <Image
+                        src={isExpanded ? folderOpenIcon : folderClosedIcon} // Dynamic folder image
+                        alt={isExpanded ? 'Folder Open' : 'Folder Closed'}
+                        width={20}
+                        height={20}
+                        className="filter invert"
+                      />
+                      <strong>{folder.title}</strong>
+                    </div>
                   </>
                 )}
               </div>
@@ -173,12 +167,23 @@ export const FolderTree = ({ folders }) => {
                       setEditFileContent(file.content);
                       setFolderId(folder.id);
                     }}
-                    className={`bg-red-400 shadow-md rounded-lg p-4 flex justify-between  cursor-pointer ${
+                    className={`bg-grey-800 shadow-md rounded-lg p-2 flex items-center justify-between cursor-pointer ${
                       editFileId === file.id ? 'ring-2 ring-indigo-500' : ''
                     }`}
                   >
-                    <span>{file.title}</span>
-                    <span>{file.id}</span>
+                    {/* Left section: Image and title */}
+                    <div className="flex items-center space-x-2">
+                      <Image
+                        src={fileIcon}
+                        alt="File Icon"
+                        width={20}
+                        height={20}
+                        className="filter invert"
+                      />
+                      <span className="text-left">{file.title}</span>
+                    </div>
+
+                    {/* Right section: Delete button */}
                     <button
                       onClick={() => handleDeleteFile(file.id)}
                       className="text-red-100 hover:text-red-700"
@@ -200,23 +205,7 @@ export const FolderTree = ({ folders }) => {
             {/* In-line folder creation */}
             {isCreatingChild && (
               <div className="ml-10">
-                <input
-                  className="bg-gray-800 text-white border-b-2 border-gray-900 h-7 focus:outline-none"
-                  type="text"
-                  placeholder="New Folder"
-                  value={folderName}
-                  onChange={(e) => setFolderName(e.target.value)}
-                  onBlur={() => handleCreateWrapper(folder.id)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleCreateWrapper(folder.id);
-                    } else if (e.key === 'Escape') {
-                      setCreatingFolderParentId(null);
-                      setFolderName('');
-                    }
-                  }}
-                  autoFocus
-                />
+                <Test folder={folder} />
               </div>
             )}
           </li>

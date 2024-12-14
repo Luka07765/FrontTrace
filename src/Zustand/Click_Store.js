@@ -34,12 +34,4 @@ export const Click = create((set) => ({
       set({ contextMenuVisible: false, selectedFolderId: null }); // Update state
     }
   },
-  handleCreateClick: (selectedFolderId) => {
-    setFolderName('');
-    if (selectedFolderId) {
-      setCreatingFolderParentId(selectedFolderId);
-    } else {
-      setCreatingFolderParentId(null);
-    }
-  },
 }));

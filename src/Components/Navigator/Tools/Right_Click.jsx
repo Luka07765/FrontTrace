@@ -1,7 +1,7 @@
 import React from 'react';
 import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-
+import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { Select } from '@/Zustand/Select_Store';
 
 export const ContextMenu = () => {
@@ -18,6 +18,17 @@ export const ContextMenu = () => {
     setFolderName,
   } = Click();
   const { selectedFolderId } = Select();
+  const { handleCreateFile } = useFileListLogic();
+  const handleCreateFileForFolder = (folderId) => {
+    const fileName = prompt('Enter file name:');
+    if (fileName) {
+      handleCreateFile({
+        title: fileName,
+        content: 'New File Content',
+        folderId,
+      });
+    }
+  };
 
   //Optimizacija sranje veliko neka ga...
   if (!contextMenuVisible) return null;
@@ -34,7 +45,6 @@ export const ContextMenu = () => {
     }
   };
   const handleCreateClick = () => {
-    setFolderName('');
     if (selectedFolderId) {
       setCreatingFolderParentId(selectedFolderId);
     } else {
@@ -70,6 +80,14 @@ export const ContextMenu = () => {
         onClick={() => handleDelete(handleDeleteFolder, selectedFolderId)}
       >
         Delete Folder
+      </li>
+      <li
+        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+        onClick={() => {
+          handleCreateFileForFolder(selectedFolderId);
+        }}
+      >
+        Create File
       </li>
     </ul>
   );
