@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useApolloClient } from '@apollo/client';
-import { useRouter } from 'next/navigation';
+
 import { Click } from '@/Zustand/Click_Store';
 import File from '@/Components/Work_Space/NotePage';
 import Sidebar from '@/Components/Navigator/Sidebar';
@@ -11,8 +10,7 @@ import { useLogout } from '@/Server/Auth/Logout';
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
-  const client = useApolloClient(); // If not used, consider removing
-  const router = useRouter();
+
   const { checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh } =
     useToken();
   const { handleLogout } = useLogout(); // Removed client parameter

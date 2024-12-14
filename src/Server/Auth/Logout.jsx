@@ -24,7 +24,7 @@ export function useLogout() {
       );
       cancelTokenRefresh();
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+
       await client.clearStore();
       console.log('Logout successful. Tokens cleared.');
 
@@ -33,7 +33,7 @@ export function useLogout() {
       console.error('Logout failed:', error.response?.data || error.message);
       // Even if logout fails, clear tokens and redirect
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+
       cancelTokenRefresh();
       router.push('/home/auth/login');
     }
