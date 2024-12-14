@@ -81,7 +81,14 @@ export const FolderTree = ({ folders }) => {
         const isCreatingChild = creatingFolderParentId === folder.id;
 
         return (
-          <li key={folder.id} className="relative">
+          <li
+            key={folder.id}
+            className={`relative ${
+              isExpanded
+                ? 'before:content-[""] before:absolute before:left-[15.590px] before:top-[38px] before:bottom-0 before:w-[0.750px] before:bg-gray-200'
+                : ''
+            }`}
+          >
             <div
               className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
                 selectedFolderId === folder.id ? 'border-2 border-blue-500' : ''
