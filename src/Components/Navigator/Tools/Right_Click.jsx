@@ -3,7 +3,7 @@ import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { Select } from '@/Zustand/Select_Store';
-
+import { useFileStore } from '@/Zustand/File_Store';
 export const ContextMenu = () => {
   const { handleDeleteFolder, folders } = useFolderListLogic();
   const {
@@ -19,6 +19,9 @@ export const ContextMenu = () => {
   } = Click();
   const { selectedFolderId } = Select();
   const { handleCreateFile } = useFileListLogic();
+  const { editFileId } = useFileStore();
+  const { handleDeleteFile } = useFileListLogic();
+
   const handleCreateFileForFolder = (folderId) => {
     const fileName = prompt('Enter file name:');
     if (fileName) {
@@ -88,6 +91,12 @@ export const ContextMenu = () => {
         }}
       >
         Create File
+      </li>
+      <li
+        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+        onClick={() => handleDeleteFile(editFileId)}
+      >
+        Delete File
       </li>
     </ul>
   );

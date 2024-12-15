@@ -1,12 +1,14 @@
 import { create } from 'zustand';
 
-export const useFileStore = create((set) => ({
+export const useFileStore = create((set, get) => ({
   fileName: '',
   fileContent: '',
   folderId: '',
   editFileName: '',
   editFileContent: '',
   editFileId: null,
+
+  // Setters
   setEditFileId: (id) => set({ editFileId: id }),
   setFileName: (name) => set({ fileName: name }),
   setFileContent: (content) => set({ fileContent: content }),
@@ -22,4 +24,22 @@ export const useFileStore = create((set) => ({
       editFileContent: '',
       folderId: '',
     }),
+
+  // Action to handle file update
+  handleSubmitUpdate: (handleUpdateFile) => {
+    const {
+      editFileId,
+      editFileName,
+      editFileContent,
+      folderId,
+      resetEditState,
+    } = get();
+    handleUpdateFile({
+      id: editFileId,
+      title: editFileName,
+      content: editFileContent,
+      folderId,
+    });
+    resetEditState();
+  },
 }));

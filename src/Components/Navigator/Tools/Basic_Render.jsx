@@ -142,12 +142,6 @@ export const FolderTree = ({ folders }) => {
                       />
                       <span className="text-left">{file.title}</span>
                     </div>
-                    <button
-                      onClick={() => handleDeleteFile(file.id)}
-                      className="text-red-100 hover:text-red-700"
-                    >
-                      Delete
-                    </button>
                   </li>
                 ))}
               </ul>

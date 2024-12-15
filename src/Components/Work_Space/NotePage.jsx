@@ -6,34 +6,19 @@ export default function FileList() {
 
   const {
     editFileId,
-    setEditFileId,
+
     fileName,
     setFileName,
     fileContent,
     setFileContent,
-    folderId,
-    setFolderId,
+
     editFileName,
     setEditFileName,
     editFileContent,
     setEditFileContent,
+    resetEditState,
+    handleSubmitUpdate,
   } = useFileStore();
-
-  const resetEditState = () => {
-    setEditFileId(null);
-    setEditFileName('');
-    setEditFileContent('');
-    setFolderId('');
-  };
-  const handleSubmitUpdate = () => {
-    handleUpdateFile({
-      id: editFileId,
-      title: editFileName,
-      content: editFileContent,
-      folderId,
-    });
-    resetEditState();
-  };
 
   return (
     <div className="max-w-3xl mx-auto p-6">
@@ -63,7 +48,7 @@ export default function FileList() {
               className="w-full px-4 py-2 border-b border-gray-500 focus:outline-none focus:border-transparent"
             />
             <button
-              onClick={handleSubmitUpdate}
+              onClick={() => handleSubmitUpdate(handleUpdateFile)}
               className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none"
             >
               Save Changes
