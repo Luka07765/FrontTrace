@@ -1,15 +1,15 @@
 import Image from 'next/image';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { Click } from '@/Zustand/Click_Store';
-import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
 import { Select } from '@/Zustand/Select_Store';
-import { handleCreate } from '@/Utils/Folder/FolderLogic';
+
 import fileIcon from '@/assets/file.png';
 import folderOpenIcon from '@/assets/open-folder.png';
 import folderClosedIcon from '@/assets/folder.png';
-import Test from '../Test';
+import NestedFolder from '../Tools/FolderLogic/NestedFolder';
+import RenameFolder from '../Tools/FolderLogic/RenameFolder';
 export const FolderTree = ({ folders }) => {
   const {
     expandedFolders,
@@ -18,56 +18,26 @@ export const FolderTree = ({ folders }) => {
     setContextMenuVisible,
     setContextMenuPosition,
     editingFolderId,
-    setEditingFolderId,
+
     creatingFolderParentId,
-    setCreatingFolderParentId,
-    folderName,
-    setFolderName,
   } = Click();
   const { selectedFolderId, setSelectedFolderId } = Select();
-  const { handleCreateFolder, handleUpdateFolder } = useFolderListLogic();
+
   const {
     editFileId,
     setEditFileId,
 
-    folderId,
     setFolderId,
-    editFileName,
+
     setEditFileName,
-    editFileContent,
+
     setEditFileContent,
-    resetEditState,
   } = useFileStore();
   const {
     files = [],
 
     handleDeleteFile,
   } = useFileListLogic();
-
-  const handleSubmitUpdate = () => {
-    handleUpdateFile({
-      id: editFileId,
-      title: editFileName,
-      content: editFileContent,
-      folderId,
-    });
-    resetEditState();
-  };
-
-  const handleRename = (folderId) => {
-    if (folderName.trim() !== '') {
-      handleUpdateFolder({ id: folderId, title: folderName.trim() });
-    }
-
-    setEditingFolderId(null);
-  };
-
-  const handleCreateWrapper = handleCreate({
-    folderName,
-    setCreatingFolderParentId,
-    setFolderName,
-    handleCreateFolder,
-  });
 
   const folderFiles = (folderId) =>
     files.filter((file) => file.folderId === folderId);
@@ -85,7 +55,7 @@ export const FolderTree = ({ folders }) => {
             key={folder.id}
             className={`relative ${
               isExpanded
-                ? 'before:content-[""] before:absolute before:left-[15.590px] before:top-[38px] before:bottom-0 before:w-[0.750px] before:bg-gray-200'
+                ? 'before:content-[""] before:absolute before:left-[15.70px] before:top-[38px] before:bottom-0 before:w-[0.750px] before:bg-gray-200'
                 : ''
             }`}
           >
@@ -116,7 +86,7 @@ export const FolderTree = ({ folders }) => {
                   )}
                 </span>
               ) : (
-                <span className="mr-4" /> // Empty space for alignment
+                <span className="mr-4" />
               )}
 
               <div
@@ -129,23 +99,7 @@ export const FolderTree = ({ folders }) => {
                 className="flex-grow"
               >
                 {isEditing ? (
-                  // Render input for in-line editing
-                  <input
-                    className="bg-gray-800 text-white border-b-2 border-gray-900 h-7 focus:outline-none"
-                    type="text"
-                    value={folderName}
-                    onChange={(e) => setFolderName(e.target.value)}
-                    onBlur={() => handleRename(folder.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        handleRename(folder.id);
-                      } else if (e.key === 'Escape') {
-                        setEditingFolderId(null);
-                        setFolderName('');
-                      }
-                    }}
-                    autoFocus
-                  />
+                  <RenameFolder folder={folder} />
                 ) : (
                   <>
                     <div className="flex items-center space-x-2">
@@ -178,7 +132,6 @@ export const FolderTree = ({ folders }) => {
                       editFileId === file.id ? 'ring-2 ring-indigo-500' : ''
                     }`}
                   >
-                    {/* Left section: Image and title */}
                     <div className="flex items-center space-x-2">
                       <Image
                         src={fileIcon}
@@ -189,8 +142,6 @@ export const FolderTree = ({ folders }) => {
                       />
                       <span className="text-left">{file.title}</span>
                     </div>
-
-                    {/* Right section: Delete button */}
                     <button
                       onClick={() => handleDeleteFile(file.id)}
                       className="text-red-100 hover:text-red-700"
@@ -202,17 +153,15 @@ export const FolderTree = ({ folders }) => {
               </ul>
             )}
 
-            {/* Render children recursively if expanded */}
             {hasChildren && isExpanded && (
               <div className="ml-4">
                 <FolderTree folders={folder.children} />
               </div>
             )}
 
-            {/* In-line folder creation */}
             {isCreatingChild && (
               <div className="ml-10">
-                <Test folder={folder} />
+                <NestedFolder parentId={folder?.id} />
               </div>
             )}
           </li>
@@ -221,23 +170,7 @@ export const FolderTree = ({ folders }) => {
 
       {creatingFolderParentId === null && (
         <li>
-          <input
-            className="bg-gray-800 text-white border-b-2 border-gray-900 h-7 focus:outline-none"
-            type="text"
-            placeholder="New Folder"
-            value={folderName}
-            onChange={(e) => setFolderName(e.target.value)}
-            onBlur={() => handleCreateWrapper(null)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleCreateWrapper(null);
-              } else if (e.key === 'Escape') {
-                setCreatingFolderParentId(undefined); // Reset to undefined
-                setFolderName('');
-              }
-            }}
-            autoFocus
-          />
+          <NestedFolder parentId={null} />
         </li>
       )}
     </ul>

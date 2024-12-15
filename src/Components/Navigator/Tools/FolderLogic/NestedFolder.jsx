@@ -1,19 +1,17 @@
-import React from 'react';
 import { Click } from '@/Zustand/Click_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import { handleCreate } from '@/Utils/Folder/FolderLogic';
 
-function Test({ folder }) {
-  // Accept folder as a prop
+function FolderInput({ parentId }) {
   const { setCreatingFolderParentId, folderName, setFolderName } = Click();
-  const { handleCreateFolder } = useFolderListLogic(); // Ensure this is initialized first
+  const { handleCreateFolder } = useFolderListLogic();
 
-  const handleCreateWrapper = handleCreate({
-    folderName,
-    setCreatingFolderParentId,
-    setFolderName,
-    handleCreateFolder, // Now this is defined
-  });
+  const handleCreate = (parentFolderId) => {
+    if (folderName.trim() !== '') {
+      handleCreateFolder({ title: folderName.trim(), parentFolderId });
+    }
+    setCreatingFolderParentId(undefined); // Reset to undefined
+    setFolderName('');
+  };
 
   return (
     <div>
@@ -23,12 +21,12 @@ function Test({ folder }) {
         placeholder="New Folder"
         value={folderName}
         onChange={(e) => setFolderName(e.target.value)}
-        onBlur={() => handleCreateWrapper(folder?.id)} // Use optional chaining to prevent undefined errors
+        onBlur={() => handleCreate(parentId)}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            handleCreateWrapper(folder?.id); // Use optional chaining here as well
+            handleCreate(parentId);
           } else if (e.key === 'Escape') {
-            setCreatingFolderParentId(null);
+            setCreatingFolderParentId(parentId === null ? undefined : null); // Handle both cases
             setFolderName('');
           }
         }}
@@ -38,4 +36,4 @@ function Test({ folder }) {
   );
 }
 
-export default Test;
+export default FolderInput;
