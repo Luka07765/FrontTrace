@@ -10,7 +10,7 @@ import folderOpenIcon from '@/assets/open-folder.png';
 import folderClosedIcon from '@/assets/folder.png';
 import NestedFolder from '../Tools/FolderLogic/NestedFolder';
 import RenameFolder from '../Tools/FolderLogic/RenameFolder';
-export const FolderTree = ({ folders }) => {
+export const Basic = ({ folders }) => {
   const {
     expandedFolders,
     setExpandedFolders,
@@ -149,7 +149,7 @@ export const FolderTree = ({ folders }) => {
 
             {hasChildren && isExpanded && (
               <div className="ml-4">
-                <FolderTree folders={folder.children} />
+                <Basic folders={folder.children} />
               </div>
             )}
 

@@ -1,7 +1,7 @@
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
 import { ContextMenu } from './Tools/Right_Click';
-import { FolderTree } from './Tools/Basic_Render';
+import { Basic } from './Tools/Basic_Render';
 import { Click } from '@/Zustand/Click_Store';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 import { Select } from '@/Zustand/Select_Store';
@@ -47,7 +47,7 @@ export default function FolderList() {
       }}
     >
       {nestedFolders ? (
-        <FolderTree folders={nestedFolders} />
+        <Basic folders={nestedFolders} />
       ) : (
         <p className="text-gray-500">No folders to display.</p>
       )}

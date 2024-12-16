@@ -34,6 +34,8 @@ const ForceDirectedTree = ({ structure }) => {
     // Transform each root folder into hierarchical data
     const transformedData = rootFolders.map((root) => transformStructure(root));
 
+    console.log('Transformed data:', JSON.stringify(transformedData, null, 2));
+
     // Create a separate d3 hierarchy for each root
     const hierarchies = transformedData.map((d) => d3.hierarchy(d));
 
