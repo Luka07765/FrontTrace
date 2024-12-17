@@ -45,16 +45,22 @@ export function useFileListLogic() {
   const handleUpdateFile = async (fileData) => {
     const { id, title, content, folderId } = fileData;
 
-    if (!id || !title) {
-      alert('File ID and File Name are required.');
+    if (!id) {
+      alert('File ID is required.');
       return;
     }
+
+    // Prepare input object dynamically
+    const input = {};
+    if (title !== undefined) input.title = title;
+    if (content !== undefined) input.content = content;
+    if (folderId !== undefined) input.folderId = folderId;
 
     try {
       await updateFile({
         variables: {
           id: parseInt(id, 10),
-          input: { title, content, folderId: folderId || null },
+          input, // Send only the fields that are present
         },
       });
       refetch();

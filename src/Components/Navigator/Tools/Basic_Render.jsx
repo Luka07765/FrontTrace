@@ -26,18 +26,15 @@ export const Basic = ({ folders }) => {
   const {
     editFileId,
     setEditFileId,
-
+    setFileName,
     setFolderId,
+    setFileContent,
 
     setEditFileName,
 
     setEditFileContent,
   } = useFileStore();
-  const {
-    files = [],
-
-    handleDeleteFile,
-  } = useFileListLogic();
+  const { files = [] } = useFileListLogic();
 
   const folderFiles = (folderId) =>
     files.filter((file) => file.folderId === folderId);
@@ -122,8 +119,12 @@ export const Basic = ({ folders }) => {
                   <li
                     key={file.id}
                     onClick={(e) => {
-                      setEditFileId(file.id);
                       e.stopPropagation();
+
+                      setFileName(file.title);
+                      setFileContent(file.content);
+
+                      setEditFileId(file.id);
                       setEditFileName(file.title);
                       setEditFileContent(file.content);
                       setFolderId(folder.id);
