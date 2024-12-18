@@ -18,39 +18,22 @@ export default function FileList() {
 
   const saveTimeout = useRef(null);
 
-  // Helper to parse JSON delta into plain text for rendering
-  const parseDeltaToPlainText = (deltaJson) => {
-    try {
-      const deltaArray = JSON.parse(deltaJson || '[{ "insert": "" }]');
-      return deltaArray.map((delta) => delta.insert || '').join('');
-    } catch {
-      return ''; // Fallback for invalid JSON
-    }
-  };
-
-  // Helper to convert plain text back into JSON delta
-  const convertPlainTextToDelta = (plainText) => {
-    return JSON.stringify([{ insert: plainText }]); // Simple delta structure
-  };
-
-  // Handle input changes
   const handleDebouncedChange = (e, setter, immediate = false) => {
     const newValue = e.target.value;
 
-    // Convert plain text to JSON delta for content updates
+    // Convert text input to a JSON structure for content
     if (setter === setEditFileContent) {
-      const newDelta = convertPlainTextToDelta(newValue);
-      setter(newDelta);
+      const newJson = JSON.stringify([{ insert: newValue }]);
+      setter(newJson);
     } else {
-      setter(newValue); // For file name updates, no conversion is needed
+      setter(newValue);
     }
 
-    // Clear existing timeout
+    // Clear the existing timeout
     if (saveTimeout.current) {
       clearTimeout(saveTimeout.current);
     }
 
-    // Debounced save
     saveTimeout.current = setTimeout(
       () => {
         snapshot();
@@ -60,28 +43,33 @@ export default function FileList() {
     );
   };
 
-  // Parse the JSON delta content for display in the <textarea>
-  const parsedFileContent = parseDeltaToPlainText(editFileContent);
+  // Parse the JSON content to display plain text in the textarea
+  const parsedFileContent = (() => {
+    try {
+      const parsed = JSON.parse(editFileContent || '[{ "insert": "" }]');
+      return parsed.map((delta) => delta.insert).join('');
+    } catch {
+      return '';
+    }
+  })();
 
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="space-y-4">
         {editFileId && (
           <>
-            {/* File Title Input */}
             <input
               className="w-full px-4 py-2 border-b border-gray-500 focus:outline-none focus:border-transparent"
               type="text"
               placeholder="File Title"
               value={editFileName}
-              onChange={(e) => handleDebouncedChange(e, setEditFileName, true)}
+              onChange={(e) => handleDebouncedChange(e, setEditFileName, true)} // Immediate save snapshot + update
             />
 
-            {/* File Content Textarea */}
             <textarea
               placeholder="File Content"
-              value={parsedFileContent} // Display plain text
-              onChange={(e) => handleDebouncedChange(e, setEditFileContent)} // Convert plain text back to delta
+              value={parsedFileContent} // Show parsed content
+              onChange={(e) => handleDebouncedChange(e, setEditFileContent)} // Convert back to JSON
               className="w-full px-4 py-2 border-b border-gray-500 focus:outline-none focus:border-transparent"
             />
 

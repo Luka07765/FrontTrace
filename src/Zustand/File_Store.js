@@ -25,15 +25,14 @@ export const useFileStore = create((set, get) => ({
 
   setEditFileContent: (content) => {
     const { editFileName, editFileContent, undoStack } = get();
-
     set({
       editFileContent: content,
       redoStack: [],
     });
   },
+
   snapshot: () => {
     const { editFileName, editFileContent, undoStack } = get();
-
     set({
       undoStack: [...undoStack, { editFileName, editFileContent }],
     });
@@ -51,6 +50,7 @@ export const useFileStore = create((set, get) => ({
       });
     }
   },
+
   redo: () => {
     const { undoStack, redoStack, editFileName, editFileContent } = get();
     if (redoStack.length > 0) {
@@ -68,11 +68,12 @@ export const useFileStore = create((set, get) => ({
     const { editFileId, editFileName, editFileContent, fileName, fileContent } =
       get();
     const delta = { id: editFileId };
+
     if (editFileName !== fileName && editFileName.trim() !== '') {
       delta.title = editFileName;
     }
     if (editFileContent !== fileContent && editFileContent.trim() !== '') {
-      delta.content = editFileContent;
+      delta.content = editFileContent; // This should be a valid JSON string of deltas
     }
 
     console.log('Delta Object:', delta);
