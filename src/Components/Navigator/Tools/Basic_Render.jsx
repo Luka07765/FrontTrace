@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
-import { Click } from '@/Zustand/Click_Store';
+import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
 import { Select } from '@/Zustand/Select_Store';
@@ -20,7 +20,7 @@ export const Basic = ({ folders }) => {
     editingFolderId,
 
     creatingFolderParentId,
-  } = Click();
+  } = useFolderStore();
   const { selectedFolderId, setSelectedFolderId } = Select();
 
   const {
@@ -107,7 +107,11 @@ export const Basic = ({ folders }) => {
                         height={20}
                         className="filter invert"
                       />
-                      <strong>{folder.title}</strong>
+                      <strong className="text-left">{folder.title}</strong>
+                      <strong className="text-left">
+                        {'p ' + folder.parentFolderId}
+                      </strong>
+                      <strong className="text-left">{'id' + folder.id}</strong>
                     </div>
                   </>
                 )}
@@ -141,7 +145,11 @@ export const Basic = ({ folders }) => {
                         height={20}
                         className="filter invert"
                       />
-                      <span className="text-left">{file.title}</span>
+                      <span className="text-left">{file.title + ''}</span>
+                      <span className="text-left">
+                        {'folderID+' + file.folderId}
+                      </span>
+                      <span className="text-left">{'=id+' + file.id}</span>
                     </div>
                   </li>
                 ))}

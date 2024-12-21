@@ -1,20 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
-import { Click } from '@/Zustand/Click_Store';
+import { useEffect, useState, useRef } from 'react';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+import { RightClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/NotePage';
 import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
-import { useLogout } from '@/Server/Auth/Logout';
 
 export default function Dashboard() {
+  const ref = useRef(null);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const { checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh } =
     useToken();
-  const { handleLogout } = useLogout(); // Removed client parameter
-  const { setContextMenuVisible } = Click();
+  // Removed client parameter
+  const { setContextMenuVisible } = RightClick();
 
   useEffect(() => {
     let cleanup; // To store the cleanup function returned by scheduleTokenRefresh
@@ -38,9 +39,8 @@ export default function Dashboard() {
 
     authenticate();
 
-    // Cleanup function
     return () => {
-      isMounted = false; // Prevent state updates after unmount
+      isMounted = false;
       if (cleanup) {
         cleanup();
       }
@@ -56,25 +56,37 @@ export default function Dashboard() {
     }
   };
 
+  const togglePanel = () => {
+    const panel = ref.current;
+    if (panel) {
+      if (isCollapsed) {
+        panel.expand(); // Use expand() to show the panel
+      } else {
+        panel.collapse();
+      }
+      setIsCollapsed(!isCollapsed); // Update the collapsed state
+    }
+  };
   return (
-    <div onClick={handleClick}>
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      <button
-        onClick={handleLogout}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Logout
+    <div className="h-screen w-screen overflow-hidden" onClick={handleClick}>
+      <button onClick={togglePanel}>
+        {isCollapsed ? 'Expand Panel' : 'Collapse Panel'}{' '}
+        {/* Dynamic button text */}
       </button>
 
-      <div className="flex">
-        <div className="w-1/4 p-4">
+      <PanelGroup direction="horizontal">
+        <Panel collapsible ref={ref} defaultSize={20} maxSize={40} minSize={15}>
           <Sidebar />
-        </div>
+        </Panel>
 
-        <div className="w-3/4 p-4">
+        <PanelResizeHandle />
+
+        <Panel minSize={30}>
           <File />
-        </div>
-      </div>
+        </Panel>
+
+        <PanelResizeHandle />
+      </PanelGroup>
     </div>
   );
 }

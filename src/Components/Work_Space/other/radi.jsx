@@ -102,7 +102,7 @@ export default function FileList() {
     // Append a new delta for the styled text
     const updatedDeltas = [
       ...deltas,
-      { insert: selectedText, attributes: newAttributes },
+      { Insert: selectedText, Attributes: newAttributes },
     ];
     setDeltas(updatedDeltas);
 

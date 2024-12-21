@@ -1,5 +1,5 @@
 import React from 'react';
-import { Click } from '@/Zustand/Click_Store';
+import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 export const ContextMenu = () => {
@@ -14,7 +14,7 @@ export const ContextMenu = () => {
     setCreatingFolderParentId,
 
     setFolderName,
-  } = Click();
+  } = useFolderStore();
   const { handleDeleteFile } = useFileListLogic();
   //Optimizacija sranje veliko neka ga...
   if (!contextMenuVisible) return null;

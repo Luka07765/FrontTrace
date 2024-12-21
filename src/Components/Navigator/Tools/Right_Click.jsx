@@ -1,5 +1,5 @@
 import React from 'react';
-import { Click } from '@/Zustand/Click_Store';
+import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { Select } from '@/Zustand/Select_Store';
@@ -16,7 +16,7 @@ export const ContextMenu = () => {
     setCreatingFolderParentId,
 
     setFolderName,
-  } = Click();
+  } = useFolderStore();
   const { selectedFolderId } = Select();
   const { handleCreateFile } = useFileListLogic();
   const { editFileId } = useFileStore();

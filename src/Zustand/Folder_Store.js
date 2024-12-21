@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export const Click = create((set) => ({
+export const useFolderStore = create((set) => ({
   contextMenuVisible: false,
   setContextMenuVisible: (isVisible) => set({ contextMenuVisible: isVisible }),
 

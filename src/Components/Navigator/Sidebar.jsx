@@ -1,15 +1,16 @@
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-
+import { useLogout } from '@/Server/Auth/Logout';
 import { ContextMenu } from './Tools/Right_Click';
 import { Basic } from './Tools/Basic_Render';
-import { Click } from '@/Zustand/Click_Store';
+import { RightClick } from '@/Zustand/Context_Store';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 import { Select } from '@/Zustand/Select_Store';
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
   const { contextMenuVisible, setContextMenuVisible, setContextMenuPosition } =
-    Click();
+    RightClick();
   const { setSelectedFolderId } = Select();
+  const { handleLogout } = useLogout();
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -37,7 +38,7 @@ export default function FolderList() {
 
   return (
     <div
-      className="relative w-64 bg-gray-800 text-white h-screen p-4 overflow-auto"
+      className=" h-full   bg-gray-800 text-white p-4 flex flex-col justify-between overflow-auto"
       onClick={handleParentClick}
       onContextMenu={(e) => {
         e.preventDefault();
@@ -51,8 +52,13 @@ export default function FolderList() {
       ) : (
         <p className="text-gray-500">No folders to display.</p>
       )}
-
-      {contextMenuVisible && <ContextMenu />}
+      {contextMenuVisible && <ContextMenu />}{' '}
+      <button
+        onClick={handleLogout}
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Logout
+      </button>
     </div>
   );
 }

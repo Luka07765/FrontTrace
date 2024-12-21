@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Click } from '@/Zustand/Click_Store';
+import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
 export const RenameFolder = ({ folder }) => {
-  const { setEditingFolderId, folderName, setFolderName } = Click();
+  const { setEditingFolderId, folderName, setFolderName } = useFolderStore();
   const { handleUpdateFolder } = useFolderListLogic();
 
   const [isExiting, setIsExiting] = useState(false); // Track transition state
