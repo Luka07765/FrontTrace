@@ -1,15 +1,6 @@
 import { create } from 'zustand';
 
 export const useFolderStore = create((set) => ({
-  contextMenuVisible: false,
-  setContextMenuVisible: (isVisible) => set({ contextMenuVisible: isVisible }),
-
-  contextMenuPosition: { x: 0, y: 0 },
-  setContextMenuPosition: (position) => set({ contextMenuPosition: position }),
-
-  selectedFolderId: null,
-  setSelectedFolderId: (id) => set({ selectedFolderId: id }),
-
   editingFolderId: null,
   setEditingFolderId: (id) => set({ editingFolderId: id }),
 

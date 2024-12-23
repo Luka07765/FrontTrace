@@ -6,7 +6,6 @@ export const useFileStore = create((set, get) => ({
   folderId: '',
   editFileName: '',
   editFileContent: '',
-  editFileId: null,
   undoStack: [],
   redoStack: [],
 

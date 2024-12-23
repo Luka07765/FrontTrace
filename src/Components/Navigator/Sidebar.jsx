@@ -36,6 +36,10 @@ export default function FolderList() {
       ? buildNestedStructure(folders)
       : null;
 
+  // Function to log the folder indexes recursively
+
+  // Call logFolderIndexes with nestedFolders
+
   return (
     <div
       className=" h-full   bg-gray-800 text-white p-4 flex flex-col justify-between overflow-auto"

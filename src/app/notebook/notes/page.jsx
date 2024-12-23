@@ -79,13 +79,15 @@ export default function Dashboard() {
           <Sidebar />
         </Panel>
 
-        <PanelResizeHandle />
+        <PanelResizeHandle
+          className="w-[2px] h-full bg-slate-600 transition-all duration-300
+    hover:w-1 hover:bg-slate-50 active:w-1 active:bg-slate-200 cursor-ew-resize"
+          hitAreaMargins={{ coarse: 20, fine: 5 }}
+        />
 
         <Panel minSize={30}>
           <File />
         </Panel>
-
-        <PanelResizeHandle />
       </PanelGroup>
     </div>
   );

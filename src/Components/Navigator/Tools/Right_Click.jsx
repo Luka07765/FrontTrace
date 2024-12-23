@@ -4,19 +4,17 @@ import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { Select } from '@/Zustand/Select_Store';
 import { useFileStore } from '@/Zustand/File_Store';
+import { RightClick } from '@/Zustand/Context_Store';
 export const ContextMenu = () => {
   const { handleDeleteFolder, folders } = useFolderListLogic();
   const {
-    contextMenuVisible,
-    contextMenuPosition,
-    setContextMenuVisible,
     handleDelete,
-
     setEditingFolderId,
     setCreatingFolderParentId,
-
     setFolderName,
   } = useFolderStore();
+  const { contextMenuVisible, contextMenuPosition, setContextMenuVisible } =
+    RightClick();
   const { selectedFolderId } = Select();
   const { handleCreateFile } = useFileListLogic();
   const { editFileId } = useFileStore();
@@ -66,32 +64,46 @@ export const ContextMenu = () => {
       }}
       onClick={() => setContextMenuVisible(false)} // Optional: hide menu on click
     >
-      <li
-        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-        onClick={handleCreateClick}
-      >
-        Create Folder
-      </li>
-      <li
-        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-        onClick={handleRenameClick}
-      >
-        Rename Folder
-      </li>
-      <li
-        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-        onClick={() => handleDelete(handleDeleteFolder, selectedFolderId)}
-      >
-        Delete Folder
-      </li>
-      <li
-        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-        onClick={() => {
-          handleCreateFileForFolder(selectedFolderId);
-        }}
-      >
-        Create File
-      </li>
+      {selectedFolderId === null ? (
+        // If selectedFolderId is null, show only "Create Folder"
+        <li
+          className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+          onClick={handleCreateClick}
+        >
+          Create Folder
+        </li>
+      ) : (
+        // If selectedFolderId is not null, show "Create Folder," "Rename Folder," and "Delete Folder"
+        <>
+          <li
+            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+            onClick={handleCreateClick}
+          >
+            Create Folder
+          </li>
+          <li
+            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+            onClick={handleRenameClick}
+          >
+            Rename Folder
+          </li>
+          <li
+            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+            onClick={() => handleDelete(handleDeleteFolder, selectedFolderId)}
+          >
+            Delete Folder
+          </li>
+          <li
+            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+            onClick={() => {
+              handleCreateFileForFolder(selectedFolderId);
+            }}
+          >
+            Create File
+          </li>
+        </>
+      )}
+
       <li
         className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
         onClick={() => handleDeleteFile(editFileId)}
