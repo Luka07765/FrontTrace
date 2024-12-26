@@ -2,12 +2,12 @@ import Image from 'next/image';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import { useFileStore } from '@/Zustand/File_Store';
+import ExampleD from './FolderLogic/example';
 import { Select } from '@/Zustand/Select_Store';
 
 import Example from '@/Components/Navigator/Tools/FileLogic/example';
-import folderOpenIcon from '@/assets/open-folder.png';
-import folderClosedIcon from '@/assets/folder.png';
+import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
+import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
 import NestedFolder from '../Tools/FolderLogic/NestedFolder';
 import RenameFolder from '../Tools/FolderLogic/RenameFolder';
 import { RightClick } from '@/Zustand/Context_Store';
@@ -20,8 +20,6 @@ export const Basic = ({ folders }) => {
 
     creatingFolderParentId,
   } = useFolderStore();
-  const { setContextMenuPosition, setContextMenuVisible } = RightClick();
-  const { selectedFolderId, setSelectedFolderId } = Select();
 
   const { files = [] } = useFileListLogic();
 
@@ -45,68 +43,7 @@ export const Basic = ({ folders }) => {
                 : ''
             }`}
           >
-            <div
-              className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
-                selectedFolderId === folder.id ? 'border-2 border-blue-500' : ''
-              }`}
-              onContextMenu={(e) => {
-                e.preventDefault();
-
-                setSelectedFolderId(folder.id);
-
-                setContextMenuVisible(true);
-                setContextMenuPosition({ x: e.pageX, y: e.pageY });
-              }}
-            >
-              {/* Expand/Collapse Icon */}
-              {hasChildren || folderFiles(folder.id).length > 0 ? (
-                <span
-                  onClick={() => setExpandedFolders(folder.id)}
-                  className="mr-1"
-                >
-                  {' '}
-                  {isExpanded ? (
-                    <FaChevronDown className="inline" />
-                  ) : (
-                    <FaChevronRight className="inline" />
-                  )}
-                </span>
-              ) : (
-                <span className="mr-4" />
-              )}
-
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedFolderId(
-                    selectedFolderId === folder.id ? null : folder.id
-                  );
-                }}
-                className="flex-grow"
-              >
-                {isEditing ? (
-                  <RenameFolder folder={folder} />
-                ) : (
-                  <>
-                    <div className="flex items-center space-x-2">
-                      <Image
-                        src={isExpanded ? folderOpenIcon : folderClosedIcon} // Dynamic folder image
-                        alt={isExpanded ? 'Folder Open' : 'Folder Closed'}
-                        width={20}
-                        height={20}
-                        className="filter invert"
-                      />
-                      <strong className="text-left">{folder.title}</strong>
-                      <strong className="text-left">
-                        {'p ' + folder.parentFolderId}
-                      </strong>
-                      <strong className="text-left">{'id' + folder.id}</strong>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-
+            <ExampleD folder={folder} />
             {/* FILES */}
             {isExpanded && folderFiles(folder.id).length > 0 && (
               <ul className="ml-4">
@@ -115,13 +52,11 @@ export const Basic = ({ folders }) => {
                 ))}
               </ul>
             )}
-
             {hasChildren && isExpanded && (
               <div className="ml-4">
                 <Basic folders={folder.children} />
               </div>
             )}
-
             {isCreatingChild && (
               <div className="ml-10">
                 <NestedFolder parentId={folder?.id} />

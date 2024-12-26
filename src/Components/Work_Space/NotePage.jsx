@@ -1,7 +1,7 @@
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
-import { useRef } from 'react';
-
+import { useRef, useEffect, use } from 'react';
+import Main from './Tab/Main';
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
   const {
@@ -38,7 +38,7 @@ export default function FileList() {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <div></div>
+      <Main />
       <div className="space-y-4">
         {editFileId && (
           <>

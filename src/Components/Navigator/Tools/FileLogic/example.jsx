@@ -1,17 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
-import fileIcon from '@/assets/file.png';
+import fileIcon from '@/assets/FolderFile_Icons/file.png';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 function Example({ file, folder }) {
   const {
     editFileId,
     setEditFileId,
-    setFileName,
-    setFolderId,
-    setFileContent,
-
     setEditFileName,
+    setTabs,
 
     setEditFileContent,
   } = useFileStore();
@@ -23,13 +20,9 @@ function Example({ file, folder }) {
         onClick={(e) => {
           e.stopPropagation();
 
-          setFileName(file.title);
-          setFileContent(file.content);
-
           setEditFileId(file.id);
           setEditFileName(file.title);
           setEditFileContent(file.content);
-          setFolderId(folder.id);
         }}
         className={`bg-grey-800 shadow-md rounded-lg p-2 flex items-center justify-between cursor-pointer ${
           editFileId === file.id ? 'ring-2 ring-indigo-500' : ''
