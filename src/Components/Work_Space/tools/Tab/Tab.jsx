@@ -53,7 +53,6 @@ export const Tab = () => {
         <motion.button
           className="w-8 h-8 bg-gray-200 rounded-full disabled:opacity-40 disabled:cursor-default flex items-center justify-center"
           onClick={add}
-          disabled={tabs.length === allIngredients.length}
           whileTap={{ scale: 0.9 }}
         >
           <AddIcon />
