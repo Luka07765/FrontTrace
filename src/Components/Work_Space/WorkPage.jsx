@@ -57,9 +57,7 @@ export default function FileList() {
                 className="flex  justify-start items-end flex-nowrap pr-2 space-x-2 w-full"
                 values={tabs}
               >
-                {' '}
                 <AnimatePresence initial={false}>
-                  {' '}
                   {tabs.map((tab) => (
                     <Tab
                       key={tab.fileId}
@@ -67,6 +65,7 @@ export default function FileList() {
                       isSelected={selectedTab === tab}
                       onClick={() => {
                         setSelectedTab(tab);
+                        console.log(tab + 'ovo je tab');
                       }}
                       onRemove={() => remove(tab)}
                     />

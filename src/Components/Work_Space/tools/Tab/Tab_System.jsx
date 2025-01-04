@@ -10,7 +10,7 @@ export const TabSystem = ({ item, onClick, onRemove, isSelected }) => {
       initial={{ opacity: 0, y: 30 }}
       animate={{
         opacity: 1,
-        backgroundColor: isSelected ? '#f3f3f3' : '#fff',
+        backgroundColor: isSelected ? '#f3f3' : '#fff',
         y: 0,
         transition: { duration: 0.15 },
       }}
