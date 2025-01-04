@@ -4,7 +4,7 @@ import { useFolderStore } from '@/Zustand/Folder_Store';
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
 import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
 import { RightClick } from '@/Zustand/Context_Store';
-import RenameFolder from '@/Components/Navigator/Tools/FolderLogic/RenameFolder';
+import RenameFolder from '@/Components/Navigator/Tools/FolderLogic/Rename_Folder';
 import { Select } from '@/Zustand/Select_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 function ExampleD({ folder }) {
@@ -15,13 +15,10 @@ function ExampleD({ folder }) {
     setExpandedFolders,
 
     editingFolderId,
-
-    creatingFolderParentId,
   } = useFolderStore();
   const isExpanded = expandedFolders[folder.id];
   const hasChildren = folder.children && folder.children.length > 0;
   const isEditing = editingFolderId === folder.id;
-  const isCreatingChild = creatingFolderParentId === folder.id;
 
   const { files = [] } = useFileListLogic();
   const folderFiles = (folderId) =>

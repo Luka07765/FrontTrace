@@ -17,7 +17,6 @@ export const useFileStore = create((set, get) => ({
   setFolderId: (id) => set({ folderId: id }),
 
   setEditFileName: (name) => {
-    const { editFileName, editFileContent, undoStack } = get();
     set({
       editFileName: name,
       redoStack: [],
@@ -25,7 +24,6 @@ export const useFileStore = create((set, get) => ({
   },
 
   setEditFileContent: (content) => {
-    const { editFileName, editFileContent, undoStack } = get();
     set({
       editFileContent: content,
       redoStack: [],
@@ -74,7 +72,7 @@ export const useFileStore = create((set, get) => ({
       delta.title = editFileName;
     }
     if (editFileContent !== fileContent && editFileContent.trim() !== '') {
-      delta.content = editFileContent; // This should be a valid JSON string of deltas
+      delta.content = editFileContent;
     }
 
     console.log('Delta Object:', delta);

@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { RightClick } from '@/Zustand/Context_Store';
-import File from '@/Components/Work_Space/NotePage';
+import File from '@/Components/Work_Space/WorkPage';
 import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
 

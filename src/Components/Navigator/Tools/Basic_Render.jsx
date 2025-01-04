@@ -1,25 +1,13 @@
-import Image from 'next/image';
-import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import ExampleD from './FolderLogic/example';
-import { Select } from '@/Zustand/Select_Store';
 
-import Example from '@/Components/Navigator/Tools/FileLogic/example';
-import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
-import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
-import NestedFolder from '../Tools/FolderLogic/NestedFolder';
-import RenameFolder from '../Tools/FolderLogic/RenameFolder';
-import { RightClick } from '@/Zustand/Context_Store';
+import FileRender from '@/Components/Navigator/Tools/FileLogic/File_Render';
+
+import CreateFolder from './FolderLogic/Create_Folder';
+
 export const Basic = ({ folders }) => {
-  const {
-    expandedFolders,
-    setExpandedFolders,
-
-    editingFolderId,
-
-    creatingFolderParentId,
-  } = useFolderStore();
+  const { expandedFolders, creatingFolderParentId } = useFolderStore();
 
   const { files = [] } = useFileListLogic();
 
@@ -31,7 +19,7 @@ export const Basic = ({ folders }) => {
       {folders.map((folder) => {
         const isExpanded = expandedFolders[folder.id];
         const hasChildren = folder.children && folder.children.length > 0;
-        const isEditing = editingFolderId === folder.id;
+
         const isCreatingChild = creatingFolderParentId === folder.id;
 
         return (
@@ -48,7 +36,7 @@ export const Basic = ({ folders }) => {
             {isExpanded && folderFiles(folder.id).length > 0 && (
               <ul className="ml-4">
                 {folderFiles(folder.id).map((file) => (
-                  <Example key={file.id} folder={folder} file={file} />
+                  <FileRender key={file.id} folder={folder} file={file} />
                 ))}
               </ul>
             )}
@@ -59,7 +47,7 @@ export const Basic = ({ folders }) => {
             )}
             {isCreatingChild && (
               <div className="ml-10">
-                <NestedFolder parentId={folder?.id} />
+                <CreateFolder parentId={folder?.id} />
               </div>
             )}
           </li>
@@ -68,7 +56,7 @@ export const Basic = ({ folders }) => {
 
       {creatingFolderParentId === null && (
         <li>
-          <NestedFolder parentId={null} />
+          <CreateFolder parentId={null} />
         </li>
       )}
     </ul>

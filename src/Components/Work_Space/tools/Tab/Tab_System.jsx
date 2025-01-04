@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, Reorder } from 'framer-motion';
 import { CloseIcon } from './Icons/CloseIcon';
 
-export const Tab = ({ item, onClick, onRemove, isSelected }) => {
+export const TabSystem = ({ item, onClick, onRemove, isSelected }) => {
   return (
     <Reorder.Item
       value={item}
@@ -19,8 +19,8 @@ export const Tab = ({ item, onClick, onRemove, isSelected }) => {
       className={isSelected ? 'selected' : ''}
       onPointerDown={onClick}
     >
-      <motion.span layout="position">{`${item.icon} ${item.label}`}</motion.span>
-      <motion.div layout className="close">
+      <motion.span layout="position">{`${item.title}${item.fileId}`}</motion.span>
+      <motion.div layout className="close bg-red-950">
         <motion.button
           onPointerDown={(event) => {
             event.stopPropagation();

@@ -1,17 +1,30 @@
-import React from 'react';
+import { useEffect } from 'react';
 import Image from 'next/image';
 import fileIcon from '@/assets/FolderFile_Icons/file.png';
 import { useFileStore } from '@/Zustand/File_Store';
-import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-function Example({ file, folder }) {
+
+function FileRender({ file }) {
   const {
     editFileId,
     setEditFileId,
     setEditFileName,
+    tabs,
     setTabs,
 
     setEditFileContent,
   } = useFileStore();
+
+  const addFileTab = (newFile) => {
+    if (!tabs.some((tab) => tab.fileId === newFile.fileId)) {
+      setTabs([...tabs, newFile]);
+    }
+  };
+
+  const SelectedFile = () => {
+    setEditFileId(file.id);
+    setEditFileName(file.title);
+    setEditFileContent(file.content);
+  };
 
   return (
     <div>
@@ -19,10 +32,8 @@ function Example({ file, folder }) {
         key={file.id}
         onClick={(e) => {
           e.stopPropagation();
-
-          setEditFileId(file.id);
-          setEditFileName(file.title);
-          setEditFileContent(file.content);
+          addFileTab({ fileId: file.id, title: file.title });
+          SelectedFile();
         }}
         className={`bg-grey-800 shadow-md rounded-lg p-2 flex items-center justify-between cursor-pointer ${
           editFileId === file.id ? 'ring-2 ring-indigo-500' : ''
@@ -45,4 +56,4 @@ function Example({ file, folder }) {
   );
 }
 
-export default Example;
+export default FileRender;

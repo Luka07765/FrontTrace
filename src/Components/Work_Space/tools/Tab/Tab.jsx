@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { motion, Reorder, AnimatePresence } from 'framer-motion';
-import { Tab } from './Tab_System';
+import { TabSystem } from './Tab_System';
 import { AddIcon } from './Icons/AddIcon';
 import { useFileStore } from '@/Zustand/File_Store';
-import { allIngredients, getNextIngredient } from './other/ingridiants';
+
 import { removeItem, closestItem } from '@/Utils/Tab_Logic';
 
-export default function App() {
+export const Tab = () => {
   const { tabs, setTabs } = useFileStore();
   const [selectedTab, setSelectedTab] = useState(tabs);
   const remove = (item) => {
@@ -17,7 +17,6 @@ export default function App() {
 
     setTabs(removeItem(tabs, item));
   };
-
   const add = () => {
     const nextItem = getNextIngredient(tabs);
 
@@ -39,11 +38,13 @@ export default function App() {
         >
           <AnimatePresence initial={false}>
             {tabs.map((item) => (
-              <Tab
-                key={item.label}
+              <TabSystem
+                key={item.fileId}
                 item={item}
                 isSelected={selectedTab === item}
-                onClick={() => setSelectedTab(item)}
+                onClick={() => {
+                  setSelectedTab(item);
+                }}
                 onRemove={() => remove(item)}
               />
             ))}
@@ -67,10 +68,11 @@ export default function App() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.15 }}
           >
-            {selectedTab ? selectedTab.icon : '😋'}
+            <h1>ja sam car</h1>
+            <textarea>hel</textarea>
           </motion.div>
         </AnimatePresence>
       </main>
     </div>
   );
-}
+};
