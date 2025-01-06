@@ -1,11 +1,11 @@
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useRef, useState } from 'react';
-import { Tab } from '@/Components/Work_Space/tools/Tab/Tab';
+import { TabSystem } from './tools/Tab/Tab_System';
 import { motion, Reorder, AnimatePresence } from 'framer-motion';
 import { AddIcon } from '@/Components/Work_Space/tools/Tab/Icons/AddIcon';
 import { removeItem } from '@/Utils/Tab_Logic';
-
+import Main from './Tab/Main';
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
   const {
@@ -59,7 +59,7 @@ export default function FileList() {
               >
                 <AnimatePresence initial={false}>
                   {tabs.map((tab) => (
-                    <Tab
+                    <TabSystem
                       key={tab.fileId}
                       item={tab}
                       isSelected={selectedTab === tab}

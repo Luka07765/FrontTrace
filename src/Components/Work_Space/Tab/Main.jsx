@@ -4,10 +4,10 @@ import { motion, Reorder, AnimatePresence } from 'framer-motion';
 import { TabSystem } from './Tab_System';
 import { AddIcon } from './Icons/AddIcon';
 import { useFileStore } from '@/Zustand/File_Store';
-
+import { allIngredients, getNextIngredient } from './other/ingridiants';
 import { removeItem, closestItem } from '@/Utils/Tab_Logic';
 
-export const Tab = () => {
+export default function App() {
   const { tabs, setTabs } = useFileStore();
   const [selectedTab, setSelectedTab] = useState(tabs);
   const remove = (item) => {
@@ -17,6 +17,7 @@ export const Tab = () => {
 
     setTabs(removeItem(tabs, item));
   };
+
   const add = () => {
     const nextItem = getNextIngredient(tabs);
 
@@ -37,15 +38,16 @@ export const Tab = () => {
           values={tabs}
         >
           <AnimatePresence initial={false}>
-            {tabs.map((item) => (
+            {tabs.map((tab) => (
               <TabSystem
-                key={item.fileId}
-                item={item}
-                isSelected={selectedTab === item}
+                key={tab.fileId}
+                item={tab}
+                isSelected={selectedTab === tab}
                 onClick={() => {
-                  setSelectedTab(item);
+                  setSelectedTab(tab);
+                  console.log(tab + 'ovo je tab');
                 }}
-                onRemove={() => remove(item)}
+                onRemove={() => remove(tab)}
               />
             ))}
           </AnimatePresence>
@@ -53,6 +55,7 @@ export const Tab = () => {
         <motion.button
           className="w-8 h-8 bg-gray-200 rounded-full disabled:opacity-40 disabled:cursor-default flex items-center justify-center"
           onClick={add}
+          disabled={tabs.length === allIngredients.length}
           whileTap={{ scale: 0.9 }}
         >
           <AddIcon />
@@ -67,11 +70,10 @@ export const Tab = () => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.15 }}
           >
-            <h1>ja sam car</h1>
-            <textarea>hel</textarea>
+            {selectedTab ? selectedTab.icon : '😋'}
           </motion.div>
         </AnimatePresence>
       </main>
     </div>
   );
-};
+}
