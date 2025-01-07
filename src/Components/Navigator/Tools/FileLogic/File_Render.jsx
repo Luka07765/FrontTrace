@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Image from 'next/image';
 import fileIcon from '@/assets/FolderFile_Icons/file.png';
 import { useFileStore } from '@/Zustand/File_Store';
@@ -10,7 +9,6 @@ function FileRender({ file }) {
     setEditFileName,
     tabs,
     setTabs,
-
     setEditFileContent,
   } = useFileStore();
 
@@ -20,12 +18,6 @@ function FileRender({ file }) {
     }
   };
 
-  const SelectedFile = () => {
-    setEditFileId(file.id);
-    setEditFileName(file.title);
-    setEditFileContent(file.content);
-  };
-
   return (
     <div>
       <li
@@ -33,7 +25,9 @@ function FileRender({ file }) {
         onClick={(e) => {
           e.stopPropagation();
           addFileTab({ fileId: file.id, title: file.title });
-          SelectedFile();
+          setEditFileId(file.id);
+          setEditFileName(file.title);
+          setEditFileContent(file.content);
         }}
         className={`bg-grey-800 shadow-md rounded-lg p-2 flex items-center justify-between cursor-pointer ${
           editFileId === file.id ? 'ring-2 ring-indigo-500' : ''

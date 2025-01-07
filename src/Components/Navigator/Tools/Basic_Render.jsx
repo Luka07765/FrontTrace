@@ -34,7 +34,7 @@ export const Basic = ({ folders }) => {
             <ExampleD folder={folder} />
             {/* FILES */}
             {isExpanded && folderFiles(folder.id).length > 0 && (
-              <ul className="ml-4">
+              <ul className="ml-8">
                 {folderFiles(folder.id).map((file) => (
                   <FileRender key={file.id} folder={folder} file={file} />
                 ))}

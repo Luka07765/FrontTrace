@@ -1,11 +1,11 @@
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TabSystem } from './tools/Tab/Tab_System';
 import { motion, Reorder, AnimatePresence } from 'framer-motion';
 import { AddIcon } from '@/Components/Work_Space/tools/Tab/Icons/AddIcon';
 import { removeItem } from '@/Utils/Tab_Logic';
-import Main from './Tab/Main';
+
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
   const {
@@ -23,28 +23,23 @@ export default function FileList() {
     setTabs,
   } = useFileStore();
   const [selectedTab, setSelectedTab] = useState(tabs);
+
   const remove = (item) => {
     setTabs(removeItem(tabs, item));
   };
-  const saveTimeout = useRef(null);
-  let Saved = useRef(false);
-  const handleDebouncedChange = (e, setter, immediate = false) => {
-    setter(e.target.value);
 
-    if (saveTimeout.current) {
-      s;
-      clearTimeout(saveTimeout.current);
-    }
+  // Auto save every 2 seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      snapshot(); // Take a snapshot before updating
+      handleSubmitUpdate(handleUpdateFile); // Submit update
+    }, 2000); // Save every 2 seconds
 
-    saveTimeout.current = setTimeout(
-      () => {
-        snapshot();
-
-        handleSubmitUpdate(handleUpdateFile);
-      },
-      immediate ? 0 : 2000
-    );
-  };
+    // Cleanup interval when the component is unmounted
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []); // This only runs once when the component mounts
 
   return (
     <div className="p-10 ">
@@ -56,7 +51,7 @@ export default function FileList() {
                 as="ul"
                 axis="x"
                 onReorder={setTabs}
-                className="flex  justify-start items-end flex-nowrap pr-2 space-x-2 w-full"
+                className="flex justify-start items-end flex-nowrap pr-2 space-x-2 w-full"
                 values={tabs}
               >
                 <AnimatePresence initial={false}>
@@ -89,9 +84,7 @@ export default function FileList() {
                 type="text"
                 placeholder="File Title"
                 value={editFileName}
-                onChange={(e) =>
-                  handleDebouncedChange(e, setEditFileName, true)
-                }
+                onChange={(e) => setEditFileName(e.target.value)}
               />
             </div>
 
@@ -106,7 +99,7 @@ export default function FileList() {
                 <textarea
                   placeholder="File Content"
                   value={editFileContent}
-                  onChange={(e) => handleDebouncedChange(e, setEditFileContent)} // Debounced save snapshot + update
+                  onChange={(e) => setEditFileContent(e.target.value)}
                   className="w-full h-screen text-white bg-[#12131c] px-4 py-2 border-b border-gray-500 focus:outline-none focus:border-transparent"
                 />
               </motion.div>
