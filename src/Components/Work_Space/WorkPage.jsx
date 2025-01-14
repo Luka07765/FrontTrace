@@ -5,7 +5,7 @@ import { TabSystem } from './tools/Tab/Tab_System';
 import { motion, Reorder, AnimatePresence } from 'framer-motion';
 import { AddIcon } from '@/Components/Work_Space/tools/Tab/Icons/AddIcon';
 import { removeItem } from '@/Utils/Tab_Logic';
-import Main from './Tab/Main';
+
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
   const {
@@ -27,19 +27,16 @@ export default function FileList() {
     setTabs(removeItem(tabs, item));
   };
   const saveTimeout = useRef(null);
-  let Saved = useRef(false);
+
   const handleDebouncedChange = (e, setter, immediate = false) => {
     setter(e.target.value);
 
     if (saveTimeout.current) {
-      s;
       clearTimeout(saveTimeout.current);
     }
-
     saveTimeout.current = setTimeout(
       () => {
         snapshot();
-
         handleSubmitUpdate(handleUpdateFile);
       },
       immediate ? 0 : 2000
