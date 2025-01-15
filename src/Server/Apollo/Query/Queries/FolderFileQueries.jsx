@@ -27,13 +27,13 @@ export const CREATE_FOLDER = gql`
 `;
 
 export const DELETE_FOLDER = gql`
-  mutation DeleteFolder($id: Int!) {
+  mutation DeleteFolder($id: UUID!) {
     deleteFolder(id: $id)
   }
 `;
 
 export const UPDATE_FOLDER = gql`
-  mutation UpdateFolder($id: Int!, $input: FolderInput!) {
+  mutation UpdateFolder($id: UUID!, $input: FolderInput!) {
     updateFolder(id: $id, input: $input) {
       id
       title
@@ -65,13 +65,13 @@ export const CREATE_FILE = gql`
 `;
 
 export const DELETE_FILE = gql`
-  mutation DeleteFile($id: ID!) {
+  mutation DeleteFile($id: UUID!) {
     deleteFile(id: $id)
   }
 `;
 
 export const UPDATE_FILE = gql`
-  mutation UpdateFile($id: ID!, $input: UpdateFileInput!) {
+  mutation UpdateFile($id: UUID!, $input: UpdateFileInput!) {
     updateFile(id: $id, input: $input) {
       id
       title

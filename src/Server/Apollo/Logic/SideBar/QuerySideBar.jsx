@@ -37,7 +37,7 @@ export function useFolderListLogic() {
 
   const handleDeleteFolder = async (id) => {
     try {
-      await deleteFolder({ variables: { id: parseInt(id, 10) } });
+      await deleteFolder({ variables: { id: id.toString() } });
       refetch();
     } catch (err) {
       console.error('Error deleting folder:', err);
@@ -56,7 +56,7 @@ export function useFolderListLogic() {
     try {
       await updateFolder({
         variables: {
-          id: parseInt(id, 10),
+          id: id.toString(),
           input: {
             title,
             parentFolderId: parentFolderId !== '' ? parentFolderId : null,
