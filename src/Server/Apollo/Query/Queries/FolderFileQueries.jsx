@@ -65,13 +65,13 @@ export const CREATE_FILE = gql`
 `;
 
 export const DELETE_FILE = gql`
-  mutation DeleteFile($id: Int!) {
+  mutation DeleteFile($id: ID!) {
     deleteFile(id: $id)
   }
 `;
 
 export const UPDATE_FILE = gql`
-  mutation UpdateFile($id: Int!, $input: UpdateFileInput!) {
+  mutation UpdateFile($id: ID!, $input: UpdateFileInput!) {
     updateFile(id: $id, input: $input) {
       id
       title

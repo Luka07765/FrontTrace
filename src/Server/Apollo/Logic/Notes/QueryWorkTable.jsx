@@ -50,7 +50,7 @@ export function useFileListLogic() {
       return;
     }
 
-    // Prepare input object dynamically
+    const fileId = id;
     const input = {};
     if (title !== undefined) input.title = title;
     if (content !== undefined) input.content = content;
@@ -59,14 +59,14 @@ export function useFileListLogic() {
     try {
       await updateFile({
         variables: {
-          id: parseInt(id, 10),
+          id: fileId.toString(),
           input, // Send only the fields that are present
         },
       });
       refetch();
     } catch (err) {
       console.error('Error updating file:', err.message);
-      alert('Failed to update file. Please try again.');
+      alert(fileId);
     }
   };
 
