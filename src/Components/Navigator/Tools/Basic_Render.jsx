@@ -1,6 +1,5 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import ExampleD from './FolderLogic/Structure';
 
 import FileRender from '@/Components/Navigator/Tools/FileLogic/File_Render';
 

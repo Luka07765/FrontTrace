@@ -5,6 +5,7 @@ import { Basic } from './Tools/Basic_Render';
 import { RightClick } from '@/Zustand/Context_Store';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 import { Select } from '@/Zustand/Select_Store';
+import CreateFolder from '@/Components/Navigator/Tools/FolderLogic/Create_Folder';
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
   const { contextMenuVisible, setContextMenuVisible, setContextMenuPosition } =
@@ -50,7 +51,11 @@ export default function FolderList() {
       {nestedFolders ? (
         <Basic folders={nestedFolders} />
       ) : (
-        <p className="text-gray-500">No folders to display.</p>
+        <div>
+          {' '}
+          <p className="text-gray-500">Create New Folder.</p>
+          <CreateFolder parentId={null} />
+        </div>
       )}
       {contextMenuVisible && <ContextMenu />}{' '}
       <button
