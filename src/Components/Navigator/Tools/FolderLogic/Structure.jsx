@@ -7,7 +7,7 @@ import { RightClick } from '@/Zustand/Context_Store';
 import RenameFolder from '@/Components/Navigator/Tools/FolderLogic/Rename_Folder';
 import { Select } from '@/Zustand/Select_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-function ExampleD({ folder }) {
+function Structure({ folder }) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
   const { selectedFolderId, setSelectedFolderId } = Select();
   const {
@@ -37,7 +37,6 @@ function ExampleD({ folder }) {
         setContextMenuPosition({ x: e.pageX, y: e.pageY });
       }}
     >
-      {/* Expand/Collapse Icon */}
       {hasChildren || folderFiles(folder.id).length > 0 ? (
         <span onClick={() => setExpandedFolders(folder.id)} className="mr-1">
           {' '}
@@ -73,10 +72,6 @@ function ExampleD({ folder }) {
                 className="filter invert"
               />
               <strong className="text-left">{folder.title}</strong>
-              <strong className="text-left">
-                {'p ' + folder.parentFolderId}
-              </strong>
-              <strong className="text-left">{'id' + folder.id}</strong>
             </div>
           </>
         )}
@@ -85,4 +80,4 @@ function ExampleD({ folder }) {
   );
 }
 
-export default ExampleD;
+export default Structure;

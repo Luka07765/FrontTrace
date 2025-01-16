@@ -7,6 +7,7 @@ import File from '@/Components/Work_Space/WorkPage';
 import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
 
+import Shelf from '@/Components/Navigator/Tools/SideTool/Shelf';
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const isResizing = useRef(false);
@@ -94,7 +95,9 @@ export default function Dashboard() {
           'group/sidebar bg-gray-800  h-screen flex relative overflow-y-auto z-[99999]  w-70'
         )}
       >
+        {' '}
         <Sidebar />
+        {/* <Shelf /> */}
         <div
           onMouseDown={mousePress}
           className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-gray-300 right-0 top-0"

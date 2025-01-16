@@ -1,8 +1,6 @@
 import { create } from 'zustand';
 
 export const useFileStore = create((set, get) => ({
-  isSaved: true,
-  setIsSaved: (value) => set({ isSaved: value }),
   tabs: [],
   fileName: '',
   fileContent: '',

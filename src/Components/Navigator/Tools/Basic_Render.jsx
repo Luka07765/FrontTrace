@@ -1,10 +1,11 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import ExampleD from './FolderLogic/example';
+import ExampleD from './FolderLogic/Structure';
 
 import FileRender from '@/Components/Navigator/Tools/FileLogic/File_Render';
 
 import CreateFolder from './FolderLogic/Create_Folder';
+import Structure from './FolderLogic/Structure';
 
 export const Basic = ({ folders }) => {
   const { expandedFolders, creatingFolderParentId } = useFolderStore();
@@ -31,12 +32,12 @@ export const Basic = ({ folders }) => {
                 : ''
             }`}
           >
-            <ExampleD folder={folder} />
+            <Structure folder={folder} />
             {/* FILES */}
             {isExpanded && folderFiles(folder.id).length > 0 && (
               <ul className="ml-8">
                 {folderFiles(folder.id).map((file) => (
-                  <FileRender key={file.id} folder={folder} file={file} />
+                  <FileRender key={file.id} file={file} />
                 ))}
               </ul>
             )}

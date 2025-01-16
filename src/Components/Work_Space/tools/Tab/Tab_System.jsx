@@ -19,7 +19,7 @@ export const TabSystem = ({ item, onClick, onRemove, isSelected }) => {
       className={isSelected ? 'selected' : ''}
       onPointerDown={onClick}
     >
-      <motion.span layout="position">{`${item.title}${item.fileId}`}</motion.span>
+      <motion.span layout="position">{`${item.title}`}</motion.span>
       <motion.div layout className="close bg-red-950">
         <motion.button
           onPointerDown={(event) => {

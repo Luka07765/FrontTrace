@@ -41,9 +41,7 @@ function FileRender({ file }) {
             height={20}
             className="filter invert"
           />
-          <span className="text-left">{file.title + ''}</span>
-          <span className="text-left">{'folderID+' + file.folderId}</span>
-          <span className="text-left">{'=id+' + file.id}</span>
+          <span className="text-left">{file.title}</span>
         </div>
       </li>
     </div>
