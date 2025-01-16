@@ -104,7 +104,7 @@ export default function Dashboard() {
         />
       </aside>
 
-      <div ref={navbarRef} className="w-3/4 p-4">
+      <div ref={navbarRef}>
         <File />
       </div>
     </div>

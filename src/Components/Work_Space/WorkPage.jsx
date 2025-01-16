@@ -45,7 +45,7 @@ export default function FileList() {
 
   return (
     <div className="p-10 ">
-      <div className="w-[800px] h-screen bg-#12131c rounded-lg shadow-lg flex flex-col overflow-hidden">
+      <div className="w-[800px] ml-40 overflow-hidden">
         {editFileId && (
           <>
             <nav className="p-1 pt-0 border-b border-gray-200 h-11 grid grid-cols-[1fr_35px]">
