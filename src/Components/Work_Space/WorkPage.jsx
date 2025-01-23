@@ -1,6 +1,6 @@
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { TabSystem } from './tools/Tab/Tab_System';
 import { motion, Reorder, AnimatePresence } from 'framer-motion';
 import { AddIcon } from '@/Components/Work_Space/tools/Tab/Icons/AddIcon';
