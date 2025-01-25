@@ -6,7 +6,7 @@ import { RightClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
 import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
-
+import Nesto from '@/Components/Navigator/Tools/Right_Click';
 import Shelf from '@/Components/Navigator/Tools/SideTool/Shelf';
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -97,6 +97,7 @@ export default function Dashboard() {
       >
         {' '}
         <Sidebar />
+        <Nesto />
         {/* <Shelf /> */}
         <div
           onMouseDown={mousePress}
