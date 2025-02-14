@@ -1,6 +1,6 @@
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { TabSystem } from './tools/Tab/Tab_System';
 import { motion, Reorder, AnimatePresence } from 'framer-motion';
 import { AddIcon } from '@/Components/Work_Space/tools/Tab/Icons/AddIcon';
@@ -27,16 +27,18 @@ export default function FileList() {
     setTabs(removeItem(tabs, item));
   };
   const saveTimeout = useRef(null);
-  const editorRef = useRef(null);
-  const handleManualSave = () => {
-    // On manual save, just snapshot and submit update
-    snapshot();
-    handleSubmitUpdate(handleUpdateFile);
-  };
+  const contentEditableRef = useRef(null);
+  const isUserInput = useRef(false);
 
-  const handleDebouncedChange = (e, setter, immediate = false) => {
-    setter(e.target.value);
+  useEffect(() => {
+    if (contentEditableRef.current && !isUserInput.current) {
+      contentEditableRef.current.innerHTML = editFileContent;
+    }
+    isUserInput.current = false;
+  }, [editFileContent]);
 
+  const handleDebouncedUpdate = (value, setter, immediate = false) => {
+    setter(value);
     if (saveTimeout.current) {
       clearTimeout(saveTimeout.current);
     }
@@ -93,47 +95,30 @@ export default function FileList() {
                 placeholder="File Title"
                 value={editFileName}
                 onChange={(e) =>
-                  handleDebouncedChange(e, setEditFileName, true)
+                  handleDebouncedUpdate(e.target.value, setEditFileName, true)
                 }
               />
             </div>
 
             <AnimatePresence mode="wait">
               <motion.div
-                key="textarea-wrapper"
+                key="contenteditable-wrapper"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.15 }}
               >
                 <div
-                  className="bg-white"
-                  ref={editorRef}
-                  contentEditable
-                  style={{
-                    border: '1px solid #ccc',
-                    minHeight: '200px',
-                    padding: '10px',
-                    marginBottom: '10px',
-                  }}
+                  ref={contentEditableRef}
+                  contentEditable={true}
                   onInput={(e) => {
-                    // Get the new content from contentEditable
-                    const newContent = e.currentTarget.innerHTML;
-
-                    // Update Zustand store with the new content
-                    setEditFileContent(newContent);
-
-                    // Auto-save changes after typing
-                    if (saveTimeout.current) {
-                      clearTimeout(saveTimeout.current);
-                    }
-                    saveTimeout.current = setTimeout(() => {
-                      snapshot();
-                      handleSubmitUpdate(handleUpdateFile);
-                    }, 2000);
+                    isUserInput.current = true;
+                    const html = e.currentTarget.innerHTML;
+                    handleDebouncedUpdate(html, setEditFileContent);
                   }}
-                  dangerouslySetInnerHTML={{ __html: editFileContent || '' }}
-                ></div>
+                  className="content-editable w-full h-screen text-white bg-[#12131c] px-4 py-2 border-b border-gray-500 focus:outline-none focus:border-transparent"
+                  placeholder="File Content"
+                />
               </motion.div>
             </AnimatePresence>
 
