@@ -54,58 +54,6 @@ const Toolbar = () => {
   const Center = {
     textAlign: 'center',
   };
-  const Game = {
-    button: {
-      background: '#6f2ed8',
-      color: 'white',
-      border: 'none',
-      borderRadius: '8px',
-      padding: '10px 15px',
-      cursor: 'pointer',
-      fontSize: '1.2rem',
-      transition: 'background 0.3s, transform 0.2s',
-      position: 'relative',
-      overflow: 'hidden',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
-    },
-    buttonHover: {
-      background: '#fe5f55',
-      transform: 'translateY(-3px)',
-    },
-    buttonBefore: {
-      content: "''",
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      width: '300%',
-      height: '300%',
-      background: 'rgba(255, 255, 255, 0.2)',
-      borderRadius: '50%',
-      transform: 'translate(-50%, -50%) scale(0)',
-      transition: 'transform 0.5s ease',
-      zIndex: 0,
-    },
-    editor: {
-      width: '70vw',
-      minHeight: '200px',
-      padding: '20px',
-      border: '2px solid #6f2ed8',
-      borderRadius: '8px',
-      background: 'green',
-      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-      overflow: 'auto',
-      transition: 'background 0.3s',
-    },
-    editorHover: {
-      background: 'rgba(0, 0, 0, 0.9)',
-    },
-    neonText: {
-      fontSize: '3rem',
-      textTransform: 'uppercase',
-      color: '#e6f14a',
-      textShadow: '0 0 5px #e6f14a, 0 0 10px #bf4080, 0 0 15px #fe5f55',
-    },
-  };
 
   return (
     <div>
@@ -151,26 +99,6 @@ const Toolbar = () => {
         <button onClick={() => applyStyle('div', Right)} title="Underline">
           <u>Right</u>
         </button>
-        <button
-          onClick={() => applyStyle('span', Game.neonText)}
-          title="Neon Text"
-        >
-          <u>Neon</u>
-        </button>
-
-        <button
-          onClick={() => applyStyle('span', Game.button)}
-          title="Styled Button"
-        >
-          <u>Styled Button</u>
-        </button>
-
-        <button
-          onClick={() => applyStyle('span', Game.editor)}
-          title="Styled Editor"
-        >
-          <u>Editor Style</u>
-        </button>
       </div>
 
       {/* Editable Area */}
@@ -186,17 +114,7 @@ const Toolbar = () => {
           marginTop: '10px',
         }}
       >
-        <p>Bold - Done</p>
-        <p>Icons - Done Advances checkBox</p>
-        <p>Highlight - Done</p>
-        <p>TextSize - Done</p>
-        <p>TextColor - Done</p>
-        <p>TextStyles - Done</p>
-        <p>TextShape with modern look</p>
-        <p>FORMATING DONE </p>
-
-        <p>Numbers ADVANCED OneNote</p>
-        <p>Nested Text ADVANCED </p>
+        <p>Rondom Text</p>
       </div>
     </div>
   );

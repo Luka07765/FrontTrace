@@ -1,6 +1,6 @@
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { TabSystem } from './tools/Tab/Tab_System';
 import { motion, Reorder, AnimatePresence } from 'framer-motion';
 import { AddIcon } from '@/Components/Work_Space/tools/Tab/Icons/AddIcon';
@@ -22,49 +22,15 @@ export default function FileList() {
     setEditFileId,
     setTabs,
   } = useFileStore();
-  const editorRef = useRef(null);
-  const applyStyle = (tag, style) => {
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      const selectedText = range.extractContents(); // Extract the selected text
-      const element = document.createElement(tag); // Create an element with the given tag
-
-      if (style) {
-        Object.assign(element.style, style); // Apply inline styles if provided
-      }
-
-      element.appendChild(selectedText); // Add the selected text to the new element
-      range.insertNode(element); // Insert the new element back into the editor
-    }
-  };
-
-  const size = {
-    fontSize: '50px',
-  };
-  const color = {
-    backgroundColor: 'blue',
-  };
-  const TextColor = {
-    color: 'red',
-  };
   const [selectedTab, setSelectedTab] = useState(tabs);
   const remove = (item) => {
     setTabs(removeItem(tabs, item));
   };
   const saveTimeout = useRef(null);
-  const contentEditableRef = useRef(null);
-  const isUserInput = useRef(false);
 
-  useEffect(() => {
-    if (contentEditableRef.current && !isUserInput.current) {
-      contentEditableRef.current.innerHTML = editFileContent;
-    }
-    isUserInput.current = false;
-  }, [editFileContent]);
+  const handleDebouncedChange = (e, setter, immediate = false) => {
+    setter(e.target.value);
 
-  const handleDebouncedUpdate = (value, setter, immediate = false) => {
-    setter(value);
     if (saveTimeout.current) {
       clearTimeout(saveTimeout.current);
     }
@@ -78,8 +44,8 @@ export default function FileList() {
   };
 
   return (
-    <div className="p-10 ">
-      <div className="w-[800px] ml-40 overflow-hidden">
+    <div className="max-w-3xl mx-auto p-6">
+      <div className="space-y-4">
         {editFileId && (
           <>
             <nav className="p-1 pt-0 border-b border-gray-200 h-11 grid grid-cols-[1fr_35px]">
@@ -104,7 +70,8 @@ export default function FileList() {
                     />
                   ))}
                 </AnimatePresence>
-              </Reorder.Group>{' '}
+              </Reorder.Group>
+
               <motion.button
                 className="w-8 h-8 bg-gray-200 rounded-full disabled:opacity-40 disabled:cursor-default flex items-center justify-center"
                 whileTap={{ scale: 0.9 }}
@@ -120,52 +87,29 @@ export default function FileList() {
                 placeholder="File Title"
                 value={editFileName}
                 onChange={(e) =>
-                  handleDebouncedUpdate(e.target.value, setEditFileName, true)
+                  handleDebouncedChange(e, setEditFileName, true)
                 }
               />
             </div>
 
             <AnimatePresence mode="wait">
               <motion.div
-                key="contenteditable-wrapper"
+                key="textarea-wrapper"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.15 }}
               >
-                <div
-                  ref={contentEditableRef}
-                  contentEditable={true}
-                  onInput={(e) => {
-                    isUserInput.current = true;
-                    const html = e.currentTarget.innerHTML;
-                    handleDebouncedUpdate(html, setEditFileContent);
-                  }}
-                  className="content-editable w-full h-screen text-white bg-[#12131c] px-4 py-2 border-b border-gray-500 focus:outline-none focus:border-transparent"
+                <textarea
                   placeholder="File Content"
+                  value={editFileContent}
+                  onChange={(e) => handleDebouncedChange(e, setEditFileContent)} // Debounced save snapshot + update
+                  className="w-full h-screen text-white bg-[#12131c] px-4 py-2 border-b border-gray-500 focus:outline-none focus:border-transparent"
                 />
               </motion.div>
             </AnimatePresence>
 
-            <div className="flex space-x-2 bg-white">
-              <button
-                onClick={() => applyStyle('span', size)}
-                title="Underline"
-              >
-                <u>H1</u>
-              </button>
-              <button
-                onClick={() => applyStyle('span', color)}
-                title="Underline"
-              >
-                <u>Blue</u>
-              </button>
-              <button
-                onClick={() => applyStyle('span', TextColor)}
-                title="Underline"
-              >
-                <u>TextColor</u>
-              </button>
+            <div className="flex space-x-2">
               <button onClick={undo} className="px-4 py-2 border rounded">
                 Undo
               </button>

@@ -10,6 +10,8 @@ import Nesto from '@/Components/Navigator/Tools/Right_Click';
 import Shelf from '@/Components/Navigator/Tools/SideTool/Shelf';
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
+  const startXRef = useRef(0);
+  const startWidthRef = useRef(0);
   const isResizing = useRef(false);
   const navbarRef = useRef(null);
   const sidebarRef = useRef(null);
@@ -26,12 +28,20 @@ export default function Dashboard() {
   const mousePress = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    document.body.style.cursor = 'ew-resize';
+    startXRef.current = e.clientX;
+    if (sidebarRef.current) {
+      startWidthRef.current = sidebarRef.current.offsetWidth;
+    }
+
     isResizing.current = true;
+    handleMouseMove(e);
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', mouseRelease);
   };
 
   const mouseRelease = () => {
+    document.body.style.cursor = 'default';
     isResizing.current = false;
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', mouseRelease);
@@ -39,19 +49,23 @@ export default function Dashboard() {
 
   const handleMouseMove = (e) => {
     if (!isResizing.current) return;
-    let newWidth = e.clientX;
 
-    if (newWidth < 240) newWidth = 240;
-    if (newWidth > 700) newWidth = 700;
+    requestAnimationFrame(() => {
+      const diff = e.clientX - startXRef.current;
+      let newWidth = startWidthRef.current + diff;
 
-    if (sidebarRef.current) {
-      sidebarRef.current.style.width = `${newWidth}px`;
-    }
+      if (newWidth < 240) newWidth = 240;
+      if (newWidth > 700) newWidth = 700;
 
-    if (navbarRef.current) {
-      navbarRef.current.style.width = `calc(100% - ${newWidth}px)`;
-      navbarRef.current.style.left = `${newWidth}px`;
-    }
+      if (sidebarRef.current) {
+        sidebarRef.current.style.width = `${newWidth}px`;
+      }
+
+      if (navbarRef.current) {
+        navbarRef.current.style.width = `calc(100% - ${newWidth}px)`;
+        navbarRef.current.style.left = `${newWidth}px`;
+      }
+    });
   };
 
   useEffect(() => {

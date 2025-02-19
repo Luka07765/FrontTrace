@@ -22,6 +22,32 @@ export default function FileList() {
     setEditFileId,
     setTabs,
   } = useFileStore();
+  const editorRef = useRef(null);
+  const applyStyle = (tag, style) => {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      const selectedText = range.extractContents(); // Extract the selected text
+      const element = document.createElement(tag); // Create an element with the given tag
+
+      if (style) {
+        Object.assign(element.style, style); // Apply inline styles if provided
+      }
+
+      element.appendChild(selectedText); // Add the selected text to the new element
+      range.insertNode(element); // Insert the new element back into the editor
+    }
+  };
+
+  const size = {
+    fontSize: '50px',
+  };
+  const color = {
+    backgroundColor: 'blue',
+  };
+  const TextColor = {
+    color: 'red',
+  };
   const [selectedTab, setSelectedTab] = useState(tabs);
   const remove = (item) => {
     setTabs(removeItem(tabs, item));
@@ -78,8 +104,7 @@ export default function FileList() {
                     />
                   ))}
                 </AnimatePresence>
-              </Reorder.Group>
-
+              </Reorder.Group>{' '}
               <motion.button
                 className="w-8 h-8 bg-gray-200 rounded-full disabled:opacity-40 disabled:cursor-default flex items-center justify-center"
                 whileTap={{ scale: 0.9 }}
@@ -122,7 +147,25 @@ export default function FileList() {
               </motion.div>
             </AnimatePresence>
 
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 bg-white">
+              <button
+                onClick={() => applyStyle('span', size)}
+                title="Underline"
+              >
+                <u>H1</u>
+              </button>
+              <button
+                onClick={() => applyStyle('span', color)}
+                title="Underline"
+              >
+                <u>Blue</u>
+              </button>
+              <button
+                onClick={() => applyStyle('span', TextColor)}
+                title="Underline"
+              >
+                <u>TextColor</u>
+              </button>
               <button onClick={undo} className="px-4 py-2 border rounded">
                 Undo
               </button>

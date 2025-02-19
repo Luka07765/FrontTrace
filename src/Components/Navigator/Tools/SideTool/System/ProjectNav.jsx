@@ -54,36 +54,6 @@ const ProjectNavigation = ({ selectedProject, isOpen, setSelectedProject }) => {
         <NavigationLink name="Progress">
           <ArrowTrendingUpIcon className="stroke-[0.75] stroke-inherit min-w-8 w-8" />
         </NavigationLink>
-        <NavigationLink name="Team Members">
-          <UserGroupIcon className="stroke-[0.75] stroke-inherit min-w-8 w-8" />
-        </NavigationLink>
-        <NavigationLink name="In Review">
-          <PencilIcon className="stroke-[0.75] stroke-inherit min-w-8 w-8" />
-        </NavigationLink>
-        <NavigationLink name="In Progress">
-          <BoltIcon className="stroke-[0.75] stroke-inherit min-w-8 w-8" />
-        </NavigationLink>
-        <NavigationLink name="Up Next">
-          <CursorArrowRaysIcon className="stroke-[0.75] stroke-inherit min-w-8 w-8" />
-        </NavigationLink>
-        <NavigationLink name="Project Settings">
-          <AdjustmentsHorizontalIcon className="stroke-[0.75] stroke-inherit min-w-8 w-8" />
-        </NavigationLink>
-      </div>
-      <div className="flex flex-col gap-5">
-        <h1 className="tracking-wide text-neutral-300">Team Members</h1>
-        <a href="#" className="flex flex-row gap-3 place-items-center">
-          <UserIcon className="w-8 p-1 rounded-full stroke-2 stroke-rose-800 bg-rose-200/70" />
-          <p className="tracking-wide text-neutral-400">Steve Jobs</p>
-        </a>
-        <a href="#" className="flex flex-row gap-3 place-items-center">
-          <UserIcon className="w-8 p-1 rounded-full stroke-2 stroke-emerald-800 bg-emerald-200/70" />
-          <p className="tracking-wide text-neutral-400">Bill Gates</p>
-        </a>
-        <a href="#" className="flex flex-row gap-3 place-items-center">
-          <UserIcon className="w-8 p-1 rounded-full stroke-2 stroke-indigo-800 bg-indigo-200/70" />
-          <p className="tracking-wide text-neutral-400">Jeff Bezos</p>
-        </a>
       </div>
     </motion.nav>
   );
