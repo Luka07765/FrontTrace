@@ -1,13 +1,4 @@
-import {
-  AdjustmentsHorizontalIcon,
-  ArrowTrendingUpIcon,
-  BoltIcon,
-  CursorArrowRaysIcon,
-  PencilIcon,
-  UserGroupIcon,
-  UserIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { ArrowTrendingUpIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import NavigationLink from './NavigationLink';
 

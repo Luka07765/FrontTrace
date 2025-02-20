@@ -104,23 +104,6 @@ const Navigation = () => {
           </button>
         </div>
         <div className="flex flex-col gap-3">
-          <NavigationLink name="Dashboard">
-            <ChartBarIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-          </NavigationLink>
-          <NavigationLink name="Projects">
-            <Square2StackIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-          </NavigationLink>
-          <NavigationLink name="Tasks">
-            <DocumentCheckIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-          </NavigationLink>
-          <NavigationLink name="Reporting">
-            <ChartPieIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-          </NavigationLink>
-          <NavigationLink name="Users">
-            <UsersIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-          </NavigationLink>
-        </div>
-        <div className="flex flex-col gap-3">
           <ProjectLink
             name="Virtual Reality"
             setSelectedProject={setSelectedProject}
