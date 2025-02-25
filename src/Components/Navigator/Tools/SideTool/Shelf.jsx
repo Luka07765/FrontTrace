@@ -1,13 +1,6 @@
 import { motion, useAnimationControls, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import NavigationLink from '@/Components/Navigator/Tools/SideTool/System/NavigationLink';
-import {
-  ChartBarIcon,
-  ChartPieIcon,
-  DocumentCheckIcon,
-  Square2StackIcon,
-  UsersIcon,
-} from '@heroicons/react/24/outline';
+
 import ProjectLink from './System/Projects';
 import ProjectNavigation from './System/ProjectNav';
 
@@ -77,6 +70,7 @@ const Navigation = () => {
         />
         <div className="flex flex-row w-full justify-between place-items-center">
           <div className="w-10 h-10 bg-gradient-to-br" />
+
           <button
             className="p-1 rounded-full flex"
             onClick={() => handleOpenClose()}
