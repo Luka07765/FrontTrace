@@ -6,24 +6,15 @@ import { RightClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
 import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
-import Nesto from '@/Components/Navigator/Tools/Right_Click';
-import Shelf from '@/Components/Navigator/Tools/SideTool/Shelf';
-import useResizable from './resize';
+import ContextMenu from '@/Components/Navigator/Tools/Right_Click';
+import useResizable from './tools/Resize-Bar';
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const { sidebarRef, contentRef, resizerRef, handleMouseDown } =
     useResizable();
-
   const { setContextMenuVisible } = RightClick();
-
   const { checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh } =
     useToken();
-
-  const rightClick = () => {
-    if (setContextMenuVisible) {
-      setContextMenuVisible(false);
-    }
-  };
 
   useEffect(() => {
     let cleanup;
@@ -66,18 +57,18 @@ export default function Dashboard() {
       <aside
         ref={sidebarRef}
         className={cn(
-          'group/sidebar bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
+          ' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
         )}
         style={{ width: '280px' }}
       >
         <Sidebar />
-        <Nesto />
+        <ContextMenu />
       </aside>
 
       <div
         ref={resizerRef}
         onMouseDown={handleMouseDown}
-        className="absolute top-0 bottom-0 w-[41px] cursor-ew-resize z-[1001] hover:after:bg-blue-500 active:after:bg-blue-500"
+        className="absolute top-0 bottom-0 w-[41px] cursor-ew-resize z-[1001]"
         style={{ left: '260px' }}
       >
         <div className="absolute left-5 top-0 bottom-0 w-px bg-gray-600 transition-colors duration-200 ease-in-out" />

@@ -1,72 +1,20 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { cn } from '@/Utils/cn';
 import { RightClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
 import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
-import Nesto from '@/Components/Navigator/Tools/Right_Click';
-import Shelf from '@/Components/Navigator/Tools/SideTool/Shelf';
+import ContextMenu from '@/Components/Navigator/Tools/Right_Click';
+import useResizable from './tools/Resize-Bar';
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
-  const startXRef = useRef(0);
-  const startWidthRef = useRef(0);
-  const isResizing = useRef(false);
-  const navbarRef = useRef(null);
-  const sidebarRef = useRef(null);
+  const { sidebarRef, contentRef, resizerRef, handleMouseDown } =
+    useResizable();
   const { setContextMenuVisible } = RightClick();
-
   const { checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh } =
     useToken();
-
-  const rightClick = () => {
-    if (setContextMenuVisible) {
-      setContextMenuVisible(false);
-    }
-  };
-  const mousePress = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    document.body.style.cursor = 'ew-resize';
-    startXRef.current = e.clientX;
-    if (sidebarRef.current) {
-      startWidthRef.current = sidebarRef.current.offsetWidth;
-    }
-
-    isResizing.current = true;
-    handleMouseMove(e);
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', mouseRelease);
-  };
-
-  const mouseRelease = () => {
-    document.body.style.cursor = 'default';
-    isResizing.current = false;
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', mouseRelease);
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isResizing.current) return;
-
-    requestAnimationFrame(() => {
-      const diff = e.clientX - startXRef.current;
-      let newWidth = startWidthRef.current + diff;
-
-      if (newWidth < 240) newWidth = 240;
-      if (newWidth > 700) newWidth = 700;
-
-      if (sidebarRef.current) {
-        sidebarRef.current.style.width = `${newWidth}px`;
-      }
-
-      if (navbarRef.current) {
-        navbarRef.current.style.width = `calc(100% - ${newWidth}px)`;
-        navbarRef.current.style.left = `${newWidth}px`;
-      }
-    });
-  };
 
   useEffect(() => {
     let cleanup;
@@ -102,24 +50,34 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex overflow-hidden" onClick={rightClick}>
+    <div
+      className="relative flex h-screen overflow-hidden"
+      onClick={() => setContextMenuVisible(false)}
+    >
       <aside
         ref={sidebarRef}
         className={cn(
-          'group/sidebar bg-gray-800  h-screen flex relative overflow-y-auto z-[99999]  w-70'
+          ' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
         )}
+        style={{ width: '280px' }}
       >
-        {' '}
-        {/* <Shelf /> */}
         <Sidebar />
-        <Nesto />
-        <div
-          onMouseDown={mousePress}
-          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-gray-300 right-0 top-0"
-        />
+        <ContextMenu />
       </aside>
 
-      <div ref={navbarRef}>
+      <div
+        ref={resizerRef}
+        onMouseDown={handleMouseDown}
+        className="absolute top-0 bottom-0 w-[41px] cursor-ew-resize z-[1001]"
+        style={{ left: '260px' }}
+      >
+        <div className="absolute left-5 top-0 bottom-0 w-px bg-gray-600 transition-colors duration-200 ease-in-out" />
+      </div>
+
+      <div
+        ref={contentRef}
+        style={{ left: '280px', width: 'calc(100% - 280px)' }}
+      >
         <File />
       </div>
     </div>
