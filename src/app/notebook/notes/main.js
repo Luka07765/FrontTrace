@@ -7,43 +7,34 @@ import File from '@/Components/Work_Space/WorkPage';
 import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
 import Nesto from '@/Components/Navigator/Tools/Right_Click';
-// import Shelf from '@/Components/Navigator/Tools/SideTool/Shelf';
-
+import Shelf from '@/Components/Navigator/Tools/SideTool/Shelf';
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const startXRef = useRef(0);
   const startWidthRef = useRef(0);
   const isResizing = useRef(false);
-  const sidebarRef = useRef(null);
   const navbarRef = useRef(null);
-  const resizerRef = useRef(null);
+  const sidebarRef = useRef(null);
   const { setContextMenuVisible } = RightClick();
 
   const { checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh } =
     useToken();
-
-  // Define hit area margin (in pixels)
-  const hitAreaMargin = 20; // This will be applied on both sides of the 1px line
 
   const rightClick = () => {
     if (setContextMenuVisible) {
       setContextMenuVisible(false);
     }
   };
-
   const mousePress = (e) => {
     e.preventDefault();
     e.stopPropagation();
     document.body.style.cursor = 'ew-resize';
-
-    // Record starting mouse X and current sidebar width
     startXRef.current = e.clientX;
     if (sidebarRef.current) {
       startWidthRef.current = sidebarRef.current.offsetWidth;
     }
 
     isResizing.current = true;
-    // Fire the movement immediately to reduce lag
     handleMouseMove(e);
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', mouseRelease);
@@ -58,6 +49,7 @@ export default function Dashboard() {
 
   const handleMouseMove = (e) => {
     if (!isResizing.current) return;
+
     requestAnimationFrame(() => {
       const diff = e.clientX - startXRef.current;
       let newWidth = startWidthRef.current + diff;
@@ -72,11 +64,6 @@ export default function Dashboard() {
       if (navbarRef.current) {
         navbarRef.current.style.width = `calc(100% - ${newWidth}px)`;
         navbarRef.current.style.left = `${newWidth}px`;
-      }
-
-      // Update the resizer's left position so its center is at the sidebar's edge
-      if (resizerRef.current) {
-        resizerRef.current.style.left = `${newWidth - hitAreaMargin}px`;
       }
     });
   };
@@ -104,61 +91,33 @@ export default function Dashboard() {
 
     return () => {
       isMounted = false;
-      if (cleanup) cleanup();
+      if (cleanup) {
+        cleanup();
+      }
       cancelTokenRefresh();
     };
   }, [checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh]);
-
   if (loading) {
     return <p>Loading...</p>;
   }
 
   return (
-    // Make the container relative so the resizer handle can be absolutely positioned over both sidebar and content
-    <div className="flex overflow-hidden relative" onClick={rightClick}>
+    <div className="flex overflow-hidden" onClick={rightClick}>
       <aside
         ref={sidebarRef}
         className={cn(
-          'group/sidebar bg-gray-800 h-screen flex relative overflow-y-auto z-[99999]'
+          'group/sidebar bg-gray-800  h-screen flex relative overflow-y-auto z-[99999]  w-70'
         )}
-        // Set an initial width (this can be adjusted as needed)
-        style={{ width: '280px' }}
       >
+        {' '}
+        {/* <Shelf /> */}
         <Sidebar />
         <Nesto />
-        {/* <Shelf /> */}
-      </aside>
-
-      {/* Resizer handle placed absolutely on top of both sidebar and File */}
-      <div
-        ref={resizerRef}
-        onMouseDown={mousePress}
-        style={{
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          // Total clickable width is 1px (the visible line) plus hit area on both sides
-          width: `${1 + hitAreaMargin * 2}px`,
-          // Initially position at sidebar's right edge (adjusted later in handleMouseMove)
-          left: sidebarRef.current
-            ? `${sidebarRef.current.offsetWidth - hitAreaMargin}px`
-            : 0,
-          cursor: 'ew-resize',
-          zIndex: 100000, // Ensure it overlays other content
-        }}
-      >
-        {/* The visible 1px line, centered in the hit area */}
         <div
-          style={{
-            position: 'absolute',
-            left: `${hitAreaMargin}px`,
-            top: 0,
-            bottom: 0,
-            width: '1px',
-            backgroundColor: 'gray',
-          }}
+          onMouseDown={mousePress}
+          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-gray-300 right-0 top-0"
         />
-      </div>
+      </aside>
 
       <div ref={navbarRef}>
         <File />
