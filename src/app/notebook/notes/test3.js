@@ -132,30 +132,18 @@ export default function Dashboard() {
       <div
         ref={resizerRef}
         onMouseDown={mousePress}
+        className="absolute top-0 bottom-0 cursor-ew-resize z-[100000] group"
         style={{
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          // Total clickable width is 1px (the visible line) plus hit area on both sides
           width: `${1 + hitAreaMargin * 2}px`,
-          // Initially position at sidebar's right edge (adjusted later in handleMouseMove)
           left: sidebarRef.current
             ? `${sidebarRef.current.offsetWidth - hitAreaMargin}px`
             : 0,
-          cursor: 'ew-resize',
-          zIndex: 100000, // Ensure it overlays other content
         }}
       >
         {/* The visible 1px line, centered in the hit area */}
         <div
-          style={{
-            position: 'absolute',
-            left: `${hitAreaMargin}px`,
-            top: 0,
-            bottom: 0,
-            width: '1px',
-            backgroundColor: 'gray',
-          }}
+          className="absolute top-0 bottom-0 w-[1px] bg-gray-500  group-hover:bg-gray-100"
+          style={{ left: `${hitAreaMargin}px` }}
         />
       </div>
 
