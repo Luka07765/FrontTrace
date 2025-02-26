@@ -8,7 +8,7 @@ import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/Right_Click';
 import useResizable from './tools/Resize-Bar';
-import Primer from '@/Components/Navigator/Tools/SideTool/Shelf';
+
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const { sidebarRef, contentRef, resizerRef, handleMouseDown } =
@@ -64,7 +64,7 @@ export default function Dashboard() {
       >
         <Sidebar />
         <ContextMenu />
-        <Primer />
+        {/* <Primer /> */}
       </aside>
 
       <div
@@ -73,7 +73,7 @@ export default function Dashboard() {
         className="absolute top-0 bottom-0 w-[41px] cursor-ew-resize z-[1001] group"
         style={{ left: '260px' }}
       >
-        <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 wpx bg-gray-600 transition-color duration-200 ease-in-out group-hover:w-0.5 group-hover:bg-gray-100" />
+        <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0  bg-gray-600 transition-color duration-200 ease-in-out group-hover:w-1 group-hover:bg-gray-100" />
       </div>
 
       <div
