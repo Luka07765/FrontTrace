@@ -16,6 +16,7 @@ export default function Dashboard() {
   const { setContextMenuVisible } = RightClick();
   const { checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh } =
     useToken();
+  const hitAreaMargin = 20;
 
   useEffect(() => {
     let cleanup;
@@ -64,14 +65,18 @@ export default function Dashboard() {
       >
         <Sidebar />
         <ContextMenu />
-        {/* <Primer /> */}
       </aside>
 
       <div
         ref={resizerRef}
         onMouseDown={handleMouseDown}
-        className="absolute top-0 bottom-0 w-[41px] cursor-ew-resize z-[1001] group"
-        style={{ left: '260px' }}
+        className="absolute top-0 bottom-0  cursor-ew-resize z-[1001] group"
+        style={{
+          width: `${1 + hitAreaMargin * 2}px`,
+          left: sidebarRef.current
+            ? `${sidebarRef.current.offsetWidth - hitAreaMargin}px`
+            : 260,
+        }}
       >
         <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0  bg-gray-600 transition-color duration-200 ease-in-out group-hover:w-1 group-hover:bg-gray-100" />
       </div>

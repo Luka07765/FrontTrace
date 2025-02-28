@@ -9,6 +9,7 @@ const useResizable = (initialWidth = 280, min = 240, max = 700) => {
     startX: 0,
     startWidth: initialWidth,
   });
+  const hitAreaMargin = 20;
 
   const updateLayout = (width) => {
     if (sidebarRef.current) sidebarRef.current.style.width = `${width}px`;
