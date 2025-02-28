@@ -11,12 +11,11 @@ import useResizable from './tools/Resize-Bar';
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
-  const { sidebarRef, contentRef, resizerRef, handleMouseDown } =
+  const { sidebarRef, contentRef, resizerRef, handleMouseDown, hitAreaMargin } =
     useResizable();
   const { setContextMenuVisible } = RightClick();
   const { checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh } =
     useToken();
-  const hitAreaMargin = 20;
 
   useEffect(() => {
     let cleanup;
@@ -78,7 +77,10 @@ export default function Dashboard() {
             : 260,
         }}
       >
-        <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0  bg-gray-600 transition-color duration-200 ease-in-out group-hover:w-1 group-hover:bg-gray-100" />
+        <div
+          className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0  bg-gray-600 transition-color duration-200 ease-in-out group-hover:w-1 group-hover:bg-gray-100"
+          style={{ left: `${hitAreaMargin}px` }}
+        />
       </div>
 
       <div

@@ -44,7 +44,7 @@ const useResizable = (initialWidth = 280, min = 240, max = 700) => {
       updateLayout(newWidth);
 
       if (resizerRef.current) {
-        resizerRef.current.style.left = `${newWidth - 20}px`;
+        resizerRef.current.style.left = `${newWidth - hitAreaMargin}px`;
       }
     });
   };
@@ -58,7 +58,7 @@ const useResizable = (initialWidth = 280, min = 240, max = 700) => {
 
   useEffect(() => updateLayout(initialWidth), [initialWidth]);
 
-  return { sidebarRef, contentRef, resizerRef, handleMouseDown };
+  return { sidebarRef, contentRef, resizerRef, handleMouseDown, hitAreaMargin };
 };
 
 export default useResizable;
