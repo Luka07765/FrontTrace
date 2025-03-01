@@ -4,6 +4,7 @@ const useResizable = (initialWidth = 280, min = 240, max = 700) => {
   const sidebarRef = useRef(null);
   const contentRef = useRef(null);
   const resizerRef = useRef(null);
+  const resizerInnerRef = useRef(null);
   const state = useRef({
     isResizing: false,
     startX: 0,
@@ -27,6 +28,9 @@ const useResizable = (initialWidth = 280, min = 240, max = 700) => {
       startX: e.clientX,
       startWidth: sidebarRef.current?.offsetWidth || initialWidth,
     };
+    if (resizerInnerRef.current) {
+      resizerInnerRef.current.classList.add('w-1', 'bg-white');
+    }
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
@@ -54,11 +58,21 @@ const useResizable = (initialWidth = 280, min = 240, max = 700) => {
     state.current.isResizing = false;
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
+    if (resizerInnerRef.current) {
+      resizerInnerRef.current.classList.remove('w-1', 'bg-white');
+    }
   };
 
   useEffect(() => updateLayout(initialWidth), [initialWidth]);
 
-  return { sidebarRef, contentRef, resizerRef, handleMouseDown, hitAreaMargin };
+  return {
+    sidebarRef,
+    contentRef,
+    resizerRef,
+    handleMouseDown,
+    hitAreaMargin,
+    resizerInnerRef,
+  };
 };
 
 export default useResizable;
