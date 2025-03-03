@@ -1,6 +1,6 @@
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
@@ -15,11 +15,17 @@ export default function FileList() {
     undo,
     redo,
   } = useFileStore();
-
   const saveTimeout = useRef(null);
+
+  const hasTypedRef = useRef(false);
 
   const handleDebouncedChange = (e, setter) => {
     setter(e.target.value);
+
+    if (!hasTypedRef.current) {
+      hasTypedRef.current = true;
+      console.log('User started typing... Triggering action ONCE.');
+    }
 
     if (saveTimeout.current) {
       clearTimeout(saveTimeout.current);
@@ -27,8 +33,36 @@ export default function FileList() {
     saveTimeout.current = setTimeout(() => {
       snapshot();
       handleSubmitUpdate(handleUpdateFile);
+      hasTypedRef.current = false;
     }, 2000);
   };
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (hasTypedRef.current === true) {
+        handleSubmitUpdate(handleUpdateFile);
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [handleSubmitUpdate, handleUpdateFile]);
+
+  useEffect(() => {
+    if (!hasTypedRef.current) return;
+
+    const interval = setInterval(() => {
+      if (hasTypedRef.current) {
+        handleSubmitUpdate(handleUpdateFile);
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [hasTypedRef.current]);
 
   return (
     <div className="max-w-3xl mx-auto p-6">
