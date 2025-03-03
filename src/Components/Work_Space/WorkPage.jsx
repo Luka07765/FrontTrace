@@ -18,19 +18,16 @@ export default function FileList() {
 
   const saveTimeout = useRef(null);
 
-  const handleDebouncedChange = (e, setter, immediate = false) => {
+  const handleDebouncedChange = (e, setter) => {
     setter(e.target.value);
 
     if (saveTimeout.current) {
       clearTimeout(saveTimeout.current);
     }
-    saveTimeout.current = setTimeout(
-      () => {
-        snapshot();
-        handleSubmitUpdate(handleUpdateFile);
-      },
-      immediate ? 0 : 2000
-    );
+    saveTimeout.current = setTimeout(() => {
+      snapshot();
+      handleSubmitUpdate(handleUpdateFile);
+    }, 2000);
   };
 
   return (
@@ -44,9 +41,18 @@ export default function FileList() {
                 type="text"
                 placeholder="File Title"
                 value={editFileName}
-                onChange={(e) =>
-                  handleDebouncedChange(e, setEditFileName, true)
-                }
+                onChange={(e) => setEditFileName(e.target.value)}
+                onBlur={() => {
+                  snapshot();
+                  handleSubmitUpdate(handleUpdateFile);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    snapshot();
+                    handleSubmitUpdate(handleUpdateFile);
+                  }
+                }}
               />
             </div>{' '}
             <textarea

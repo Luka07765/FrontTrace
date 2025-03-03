@@ -5,7 +5,7 @@ import { TabSystem } from './tools/Tab/Tab_System';
 import { motion, Reorder, AnimatePresence } from 'framer-motion';
 import { AddIcon } from '@/Components/Work_Space/tools/Tab/Icons/AddIcon';
 import { removeItem } from '@/Utils/Tab_Logic';
-import { Main } from './Tab/Main';
+import { Main } from './TabToFixAndWork/Main';
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
   const {
