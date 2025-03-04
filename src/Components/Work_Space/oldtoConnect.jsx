@@ -1,11 +1,7 @@
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
-import { useRef, useState } from 'react';
-import { TabSystem } from './tools/Tab/Tab_System';
-import { motion, Reorder, AnimatePresence } from 'framer-motion';
-import { AddIcon } from '@/Components/Work_Space/tools/Tab/Icons/AddIcon';
-import { removeItem } from '@/Utils/Tab_Logic';
-import { Main } from './TabToFixAndWork/Main';
+import { useRef, useEffect } from 'react';
+
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
   const {
@@ -18,94 +14,87 @@ export default function FileList() {
     snapshot,
     undo,
     redo,
-    tabs,
-    setEditFileId,
-    setTabs,
   } = useFileStore();
-  const [selectedTab, setSelectedTab] = useState(tabs);
-  const remove = (item) => {
-    setTabs(removeItem(tabs, item));
-  };
   const saveTimeout = useRef(null);
 
-  const handleDebouncedChange = (e, setter, immediate = false) => {
+  const hasTypedRef = useRef(false);
+
+  const handleDebouncedChange = (e, setter) => {
     setter(e.target.value);
+
+    if (!hasTypedRef.current) {
+      hasTypedRef.current = true;
+      console.log('User started typing... Triggering action ONCE.');
+    }
 
     if (saveTimeout.current) {
       clearTimeout(saveTimeout.current);
     }
-    saveTimeout.current = setTimeout(
-      () => {
-        snapshot();
-        handleSubmitUpdate(handleUpdateFile);
-      },
-      immediate ? 0 : 2000
-    );
+    saveTimeout.current = setTimeout(() => {
+      snapshot();
+      handleSubmitUpdate(handleUpdateFile);
+      hasTypedRef.current = false;
+    }, 2000);
   };
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (hasTypedRef.current === true) {
+        handleSubmitUpdate(handleUpdateFile);
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [handleSubmitUpdate, handleUpdateFile]);
+
+  useEffect(() => {
+    if (!hasTypedRef.current) return;
+
+    const interval = setInterval(() => {
+      if (hasTypedRef.current) {
+        handleSubmitUpdate(handleUpdateFile);
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [hasTypedRef.current]);
 
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="space-y-4">
         {editFileId && (
           <>
-            <nav className="p-1 pt-0 border-b border-gray-200 h-11 grid grid-cols-[1fr_35px]">
-              <Reorder.Group
-                as="ul"
-                axis="x"
-                onReorder={setTabs}
-                className="flex  justify-start items-end flex-nowrap pr-2 space-x-2 w-full"
-                values={tabs}
-              >
-                <AnimatePresence initial={false}>
-                  {tabs.map((tab) => (
-                    <TabSystem
-                      key={tab.fileId}
-                      item={tab}
-                      isSelected={selectedTab === tab}
-                      onClick={() => {
-                        setSelectedTab(tab);
-                        setEditFileId(tab.fileId);
-                      }}
-                      onRemove={() => remove(tab)}
-                    />
-                  ))}
-                </AnimatePresence>
-              </Reorder.Group>
-
-              <motion.button
-                className="w-8 h-8 bg-gray-200 rounded-full disabled:opacity-40 disabled:cursor-default flex items-center justify-center"
-                whileTap={{ scale: 0.9 }}
-              >
-                <AddIcon />
-              </motion.button>
-            </nav>
             <div>
               <input
                 className="w-full px-4 py-2 text-white text-lg font-bold bg-[#12131c] focus:outline-none focus:border-transparent"
                 type="text"
                 placeholder="File Title"
                 value={editFileName}
-                onChange={(e) =>
-                  handleDebouncedChange(e, setEditFileName, true)
-                }
+                onChange={(e) => setEditFileName(e.target.value)}
+                onBlur={() => {
+                  snapshot();
+                  handleSubmitUpdate(handleUpdateFile);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    snapshot();
+                    handleSubmitUpdate(handleUpdateFile);
+                  }
+                }}
               />
             </div>{' '}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key="textarea-wrapper"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.15 }}
-              >
-                <textarea
-                  placeholder="File Content"
-                  value={editFileContent}
-                  onChange={(e) => handleDebouncedChange(e, setEditFileContent)} // Debounced save snapshot + update
-                  className="w-full h-screen text-white bg-[#12131c] px-4 py-2 border-b border-gray-500 focus:outline-none focus:border-transparent"
-                />
-              </motion.div>
-            </AnimatePresence>
+            <textarea
+              placeholder="File Content"
+              value={editFileContent}
+              onChange={(e) => handleDebouncedChange(e, setEditFileContent)}
+              className="w-full h-screen text-white bg-[#12131c] px-4 py-2 border-b border-gray-500 focus:outline-none focus:border-transparent"
+            />
             <div className="flex space-x-2">
               <button onClick={undo} className="px-4 py-2 border rounded">
                 Undo
