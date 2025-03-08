@@ -11,14 +11,11 @@ export default function FileList() {
     setEditFileContent,
     handleSubmitUpdate,
     snapshot,
-    undo,
-    redo,
   } = useFileStore();
 
   const saveTimeout = useRef(null);
   const contentEditableRef = useRef(null);
 
-  // Debounce funkcija za ažuriranje sadržaja nakon kucanja
   const handleDebouncedChange = (value) => {
     if (saveTimeout.current) clearTimeout(saveTimeout.current);
     saveTimeout.current = setTimeout(() => {
@@ -55,7 +52,6 @@ export default function FileList() {
               />
             </div>
 
-            {/* contentEditable za sadržaj fajla */}
             <div
               ref={contentEditableRef}
               contentEditable={true}
@@ -69,16 +65,6 @@ export default function FileList() {
                 handleSubmitUpdate(handleUpdateFile);
               }}
             />
-
-            {/* Undo / Redo dugmići */}
-            <div className="flex space-x-2">
-              <button onClick={undo} className="px-4 py-2 border rounded">
-                Undo
-              </button>
-              <button onClick={redo} className="px-4 py-2 border rounded">
-                Redo
-              </button>
-            </div>
           </>
         )}
       </div>
