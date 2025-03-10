@@ -11,7 +11,7 @@ export default function FolderList() {
   const { contextMenuVisible, setContextMenuVisible, setContextMenuPosition } =
     RightClick();
   const { setSelectedFolderId } = Select();
-  const { handleLogout } = useLogout();
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -58,12 +58,6 @@ export default function FolderList() {
         </div>
       )}
       {contextMenuVisible && <ContextMenu />}{' '}
-      <button
-        onClick={handleLogout}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Logout
-      </button>
     </div>
   );
 }

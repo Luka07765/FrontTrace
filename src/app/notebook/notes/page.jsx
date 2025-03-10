@@ -8,7 +8,7 @@ import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/Right_Click';
 import useResizable from './tools/Resize-Bar';
-
+import Shelf from '@/app/notebook/notes/tools/SideTool/Shelf';
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const {
@@ -68,7 +68,7 @@ export default function Dashboard() {
         )}
         style={{ width: '280px' }}
       >
-        <Sidebar />
+        <Shelf />
         <ContextMenu />
       </aside>
 

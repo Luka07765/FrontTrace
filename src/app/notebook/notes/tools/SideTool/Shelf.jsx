@@ -47,11 +47,11 @@ const Navigation = () => {
       containerControls.start('close');
       svgControls.start('close');
     }
-  }, [isOpen]);
+  }, [isOpen, containerControls, svgControls]);
 
   const handleOpenClose = () => {
     setIsOpen(!isOpen);
-    setSelectedProject(null);
+    setSelectedProject(null); // Resetuj izbor kada se menja stanje menija
   };
 
   return (
@@ -62,13 +62,12 @@ const Navigation = () => {
         initial="close"
         className="bg-neutral-900 flex flex-col z-10 gap-20 p-5 absolute top-0 left-0 h-full shadow shadow-neutral-600"
       >
-        {' '}
         <input
           placeholder="Search"
           type="text"
           className="px-3 py-2 tracking-wide rounded-lg bg-neutral-600/40 text-neutral-100"
         />
-        <div className="flex flex-row w-full justify-between place-items-center">
+        <div className="flex flex-row w-full justify-between items-center">
           <div className="w-10 h-10 bg-gradient-to-br" />
 
           <button
@@ -89,35 +88,21 @@ const Navigation = () => {
                 variants={svgVariants}
                 animate={svgControls}
                 d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                transition={{
-                  duration: 0.5,
-                  ease: 'easeInOut',
-                }}
+                transition={{ duration: 0.5, ease: 'easeInOut' }}
               />
             </svg>
           </button>
         </div>
         <div className="flex flex-col gap-3">
-          <ProjectLink
-            name="Virtual Reality"
-            setSelectedProject={setSelectedProject}
-          >
+          {/* Klikom na ProjectLink postavljamo odgovarajući selectedProject */}
+          <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
             <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
           </ProjectLink>
-          <ProjectLink
-            name="Apple Vision Pro"
-            setSelectedProject={setSelectedProject}
-          >
+          <ProjectLink name="Settings" setSelectedProject={setSelectedProject}>
             <div className="min-w-4 mx-2 border-indigo-600 border rounded-full aspect-square bg-indigo-700" />
           </ProjectLink>
-          <ProjectLink name="Porsche" setSelectedProject={setSelectedProject}>
+          <ProjectLink name="Profile" setSelectedProject={setSelectedProject}>
             <div className="min-w-4 mx-2 border-cyan-600 border rounded-full aspect-square bg-cyan-700" />
-          </ProjectLink>
-          <ProjectLink
-            name="Secret Project"
-            setSelectedProject={setSelectedProject}
-          >
-            <div className="min-w-4 mx-2 border-yellow-600 border rounded-full aspect-square bg-yellow-700" />
           </ProjectLink>
         </div>
       </motion.nav>
