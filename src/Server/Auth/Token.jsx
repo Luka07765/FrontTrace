@@ -34,7 +34,7 @@ export function useToken() {
       localStorage.removeItem('accessToken');
 
       // Redirect to login page
-      router.push('/login');
+      router.push('/home/auth/login');
 
       throw error; // Ensure the caller is aware of the failure
     }
@@ -46,7 +46,7 @@ export function useToken() {
     if (!token) {
       console.warn('No access token found. Redirecting to login...');
       // Redirect to login
-      router.push('/login');
+      router.push('/home/auth/login');
       throw new Error('No access token found'); // Stop further execution
     }
 
@@ -64,7 +64,7 @@ export function useToken() {
       } catch (refreshError) {
         console.error('Failed to refresh token. Redirecting to login...');
         // Redirect to login
-        router.push('/login');
+        router.push('/home/auth/login');
         throw refreshError; // Stop further execution
       }
     }
@@ -72,7 +72,7 @@ export function useToken() {
 
   // Function to schedule token refresh
   const scheduleTokenRefresh = useCallback(() => {
-    const refreshIntervalDuration = 50000; // 14 minutes in milliseconds
+    const refreshIntervalDuration = 5000000;
 
     refreshIntervalRef.current = setInterval(() => {
       refreshToken();
