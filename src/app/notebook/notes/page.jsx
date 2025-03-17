@@ -68,7 +68,8 @@ export default function Dashboard() {
         )}
         style={{ width: '280px' }}
       >
-        <Shelf />
+        {/* <Shelf /> */}
+        <Sidebar />
         <ContextMenu />
       </aside>
 
