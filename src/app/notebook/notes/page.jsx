@@ -8,6 +8,7 @@ import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/Right_Click';
 import useResizable from './tools/Resize-Bar';
+import { useLogout } from '@/Server/Auth/Logout';
 import Shelf from '@/app/notebook/notes/tools/SideTool/Shelf';
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -22,6 +23,7 @@ export default function Dashboard() {
   const { setContextMenuVisible } = RightClick();
   const { checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh } =
     useToken();
+  const { handleLogout } = useLogout();
 
   useEffect(() => {
     let cleanup;
@@ -97,6 +99,12 @@ export default function Dashboard() {
       >
         <File />
       </div>
+      <button
+        onClick={handleLogout}
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Logout
+      </button>
     </div>
   );
 }
