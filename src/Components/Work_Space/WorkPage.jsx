@@ -31,14 +31,14 @@ export default function FileList() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <UndoRedoButtons undo={undo} redo={redo} />
-      <div className="space-y-4">
+    <div className="max-w-5xl mx-auto p-6">
+      {/* <UndoRedoButtons undo={undo} redo={redo} /> */}
+      <div className="space-y-10 ">
         {editFileId && (
           <>
             <div>
               <input
-                className="w-full px-4 py-2 text-white text-lg font-bold bg-[#12131c] focus:outline-none focus:border-transparent"
+                className="w-full pb-[10px] px-4 py-2 text-white text-[35px] font-bold bg-[#12131c] border-b-[1px] border-white text-center focus:outline-none focus:border-white"
                 type="text"
                 placeholder="File Title"
                 value={editFileName}
@@ -60,7 +60,7 @@ export default function FileList() {
               placeholder="File Content"
               value={editFileContent}
               onChange={(e) => handleDebouncedChange(e, setEditFileContent)}
-              className="w-full h-screen text-white bg-[#12131c] px-4 py-2 border-b border-gray-500 focus:outline-none focus:border-transparent"
+              className="items-left justify-left text-left w-full h-[600px] text-white bg-[#12131c] px-4 py-2 text-[23px] border-b border-gray-500 focus:outline-none focus:border-transparent"
             />
           </>
         )}

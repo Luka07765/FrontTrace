@@ -101,7 +101,10 @@ export default function Dashboard() {
 
       <div
         ref={contentRef}
-        style={{ left: '260px', width: 'calc(100% - 280px)' }}
+        style={{
+          left: '260px',
+          width: 'calc(100% - 280px)',
+        }}
       >
         <File />
       </div>
