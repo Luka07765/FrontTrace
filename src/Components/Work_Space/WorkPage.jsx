@@ -63,6 +63,33 @@ export default function FileList() {
         {editFileId && (
           <>
             <div>
+              {' '}
+              <div className="space-x-4 mt-4">
+                <button
+                  onClick={handleBlur}
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                  Blur Title and Content
+                </button>
+                <button
+                  onClick={handleShuffleText}
+                  className="bg-yellow-500 text-white px-4 py-2 rounded"
+                >
+                  Shuffle Text
+                </button>
+                <button
+                  onClick={handleTranslateToChinese}
+                  className="bg-green-500 text-white px-4 py-2 rounded"
+                >
+                  Translate to Chinese
+                </button>
+                <button
+                  onClick={handleReset}
+                  className="bg-red-500 text-white px-4 py-2 rounded"
+                >
+                  Reset Everything
+                </button>
+              </div>
               <input
                 className="w-full pb-[10px] px-4 py-2 text-white text-[35px] font-bold bg-[#12131c] border-b-[1px] border-white text-center focus:outline-none focus:border-white"
                 type="text"
@@ -94,32 +121,6 @@ export default function FileList() {
         )}
 
         {/* Action buttons */}
-        <div className="space-x-4 mt-4">
-          <button
-            onClick={handleBlur}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Blur Title and Content
-          </button>
-          <button
-            onClick={handleShuffleText}
-            className="bg-yellow-500 text-white px-4 py-2 rounded"
-          >
-            Shuffle Text
-          </button>
-          <button
-            onClick={handleTranslateToChinese}
-            className="bg-green-500 text-white px-4 py-2 rounded"
-          >
-            Translate to Chinese
-          </button>
-          <button
-            onClick={handleReset}
-            className="bg-red-500 text-white px-4 py-2 rounded"
-          >
-            Reset Everything
-          </button>
-        </div>
       </div>
     </div>
   );
