@@ -7,8 +7,6 @@ export const useFileStore = create((set, get) => ({
   folderId: '',
   editFileName: '',
   editFileContent: '',
-  undoStack: [],
-  redoStack: [],
 
   setTabs: (updatedTabs) => set({ tabs: updatedTabs }),
   setEditFileId: (id) => set({ editFileId: id }),
@@ -28,39 +26,6 @@ export const useFileStore = create((set, get) => ({
       editFileContent: content,
       redoStack: [],
     });
-  },
-
-  snapshot: () => {
-    const { editFileName, editFileContent, undoStack } = get();
-    set({
-      undoStack: [...undoStack, { editFileName, editFileContent }],
-    });
-  },
-
-  undo: () => {
-    const { undoStack, redoStack, editFileName, editFileContent } = get();
-    if (undoStack.length > 0) {
-      const previousState = undoStack[undoStack.length - 1];
-      set({
-        undoStack: undoStack.slice(0, -1),
-        redoStack: [...redoStack, { editFileName, editFileContent }],
-        editFileName: previousState.editFileName,
-        editFileContent: previousState.editFileContent,
-      });
-    }
-  },
-
-  redo: () => {
-    const { undoStack, redoStack, editFileName, editFileContent } = get();
-    if (redoStack.length > 0) {
-      const nextState = redoStack[redoStack.length - 1];
-      set({
-        undoStack: [...undoStack, { editFileName, editFileContent }],
-        redoStack: redoStack.slice(0, -1),
-        editFileName: nextState.editFileName,
-        editFileContent: nextState.editFileContent,
-      });
-    }
   },
 
   handleSubmitUpdate: (handleUpdateFile) => {
