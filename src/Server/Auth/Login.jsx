@@ -32,7 +32,7 @@ export function useLoginLogic(email, password, setError, setIsLoading) {
       // Store access token (consider storing it in memory or a state management library)
       localStorage.setItem('accessToken', accessToken);
 
-      console.log('Login successful. Access token stored.');
+      console.log('Login successful. Access token stored', { accessToken });
 
       // Redirect to the notes page
       router.push('/notebook/notes');

@@ -83,48 +83,6 @@ export default function FileList() {
         >
           {styles.blur ? 'Unblur' : 'Blurify'}
         </button>
-
-        <button
-          onClick={() => toggleStyle('smallText')}
-          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-        >
-          {styles.smallText ? 'Normal Size' : 'Shrink Text'}
-        </button>
-
-        <button
-          onClick={() => toggleStyle('contrastInvert')}
-          className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
-        >
-          {styles.contrastInvert ? 'Normal Colors' : 'Contrast Madness'}
-        </button>
-
-        <button
-          onClick={() => toggleStyle('glitch')}
-          className="px-4 py-2 bg-pink-500 text-white rounded hover:bg-pink-600"
-        >
-          {styles.glitch ? 'Stop Glitch' : 'Activate Glitch'}
-        </button>
-
-        <button
-          onClick={() => toggleStyle('rainbow')}
-          className="px-4 py-2 bg-yellow-500 text-black rounded hover:bg-yellow-600"
-        >
-          {styles.rainbow ? 'Normal Colors' : 'Rainbow Chaos'}
-        </button>
-
-        <button
-          onClick={() => toggleStyle('chaos')}
-          className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
-        >
-          {styles.chaos ? 'Stop Chaos' : 'Activate Chaos'}
-        </button>
-
-        <button
-          onClick={handleReset}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-        >
-          Reset All
-        </button>
       </div>
 
       <div className="space-y-10">

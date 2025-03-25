@@ -11,5 +11,4 @@ const api = axios.create({
   },
 });
 
-// Optionally, set up interceptors for handling access token refresh
 export default api;
