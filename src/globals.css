@@ -12,7 +12,33 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
-/* Custom scrollbar */
+
+.text-rainbow {
+  background: linear-gradient(
+    to right,
+    #ff0000,
+    /* Red */ #ff8c00,
+    /* Dark Orange */ #ff0,
+    /* Yellow */ #0f0,
+    /* Green */ #00f,
+    /* Blue */ #800080 /* Purple */
+  );
+  -webkit-background-clip: text !important; /* Safari/Chrome */
+  background-clip: text !important;
+  color: transparent !important;
+  font-weight: bold;
+  display: inline;
+}
+
+/* Neon Text Effect */
+.text-neon {
+  color: #fff !important;
+  text-shadow: 0 0 5px #0ff, /* Cyan */ 0 0 10px #0ff, 0 0 20px #0ff,
+    0 0 40px #0ff;
+  font-weight: bold;
+  display: inline;
+}
+
 ::-webkit-scrollbar {
   width: 12px; /* Scrollbar width */
 }

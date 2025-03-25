@@ -1,11 +1,76 @@
 import { useEditor, EditorContent } from '@tiptap/react';
+import { Mark } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import TextStyle from '@tiptap/extension-text-style';
-import Color from '@tiptap/extension-color';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
-import { useEffect, useRef } from 'react';
-import './test.css';
+import { useRef, useEffect } from 'react';
+
+// RainbowText Extension (unchanged)
+const RainbowText = Mark.create({
+  name: 'rainbowText',
+  addAttributes() {
+    return {
+      class: {
+        default: 'text-rainbow',
+      },
+    };
+  },
+  parseHTML() {
+    return [
+      {
+        tag: 'span',
+        getAttrs: (node) => node.classList.contains('text-rainbow'),
+      },
+    ];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ['span', HTMLAttributes, 0];
+  },
+  addCommands() {
+    return {
+      toggleRainbow:
+        () =>
+        ({ commands }) => {
+          return commands.toggleMark(this.name);
+        },
+    };
+  },
+});
+
+// Corrected NeonText Extension
+const NeonText = Mark.create({
+  name: 'neonText',
+  addAttributes() {
+    return {
+      class: {
+        default: 'text-neon',
+      },
+    };
+  },
+  parseHTML() {
+    return [
+      {
+        tag: 'span',
+        getAttrs: (node) => node.classList.contains('text-neon'),
+      },
+    ];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ['span', HTMLAttributes, 0];
+  },
+  addCommands() {
+    return {
+      toggleNeon:
+        () =>
+        ({ commands }) => {
+          // Changed from toggleRainbow to toggleNeon
+          return commands.toggleMark(this.name);
+        },
+    };
+  },
+});
+
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
   const {
@@ -18,104 +83,73 @@ export default function FileList() {
   } = useFileStore();
   const saveTimeout = useRef(null);
 
-  // Initialize Tiptap editor
   const editor = useEditor({
-    extensions: [StarterKit, TextStyle, Color],
-    content: editFileContent,
+    extensions: [StarterKit, TextStyle, RainbowText, NeonText],
+    content: editFileContent || '<p>Start writing...</p>',
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       setEditFileContent(html);
 
-      // Debounced auto-save
-      if (saveTimeout.current) {
-        clearTimeout(saveTimeout.current);
-      }
+      if (saveTimeout.current) clearTimeout(saveTimeout.current);
       saveTimeout.current = setTimeout(() => {
         handleSubmitUpdate(handleUpdateFile);
       }, 2000);
     },
   });
 
-  // Sync editor content when editFileContent changes externally
   useEffect(() => {
-    if (editor && !editor.isDestroyed && editFileContent !== editor.getHTML()) {
-      editor.commands.setContent(editFileContent);
+    if (editor && editFileContent !== editor.getHTML()) {
+      editor.commands.setContent(editFileContent || '');
     }
   }, [editFileContent, editor]);
 
-  // ... (keep your existing imports and setup)
+  const toggleRainbow = () => {
+    editor?.chain().focus().toggleRainbow().run();
+  };
+
+  const toggleNeon = () => {
+    editor?.chain().focus().toggleNeon().run(); // Now matches the command name in the extension
+  };
 
   return (
     <div className="max-w-5xl mx-auto p-6">
       <div className="space-y-10">
         {editFileId && (
           <>
-            {/* Title input remains the same */}
-            <div>
-              <input
-                className="w-full pb-[10px] px-4 py-2 text-white text-[35px] font-bold bg-[#12131c] border-b-[1px] border-white text-center focus:outline-none focus:border-white"
-                type="text"
-                placeholder="File Title"
-                value={editFileName}
-                onChange={(e) => setEditFileName(e.target.value)}
-                onBlur={() => handleSubmitUpdate(handleUpdateFile)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleSubmitUpdate(handleUpdateFile);
-                  }
-                }}
-              />
-            </div>
+            <input
+              className="w-full pb-[10px] px-4 py-2 text-white text-[35px] font-bold bg-[#12131c] border-b-[1px] border-white text-center focus:outline-none focus:border-white"
+              type="text"
+              placeholder="File Title"
+              value={editFileName}
+              onChange={(e) => setEditFileName(e.target.value)}
+              onBlur={() => handleSubmitUpdate(handleUpdateFile)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleSubmitUpdate(handleUpdateFile);
+                }
+              }}
+            />
 
-            {/* Enhanced Tiptap Editor with Creative CSS */}
-            <div className="creative-editor">
-              <div className="toolbar">
+            <div className="editor-container">
+              <div className="flex gap-2 mb-2">
                 <button
-                  onClick={() => editor.chain().focus().toggleBold().run()}
-                  className={editor?.isActive('bold') ? 'active' : ''}
+                  onClick={toggleRainbow}
+                  className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600"
                 >
-                  <span className="icon">𝐁</span>
+                  🌈 Toggle Rainbow
                 </button>
                 <button
-                  onClick={() => editor.chain().focus().toggleItalic().run()}
-                  className={editor?.isActive('italic') ? 'active' : ''}
+                  onClick={toggleNeon}
+                  className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600"
                 >
-                  <span className="icon">𝐼</span>
-                </button>
-                <button
-                  onClick={() =>
-                    editor.chain().focus().toggleHeading({ level: 1 }).run()
-                  }
-                  className={
-                    editor?.isActive('heading', { level: 1 }) ? 'active' : ''
-                  }
-                >
-                  <span className="icon">H1</span>
-                </button>
-                <button
-                  onClick={() =>
-                    editor.chain().focus().setColor('#ff5e5e').run()
-                  }
-                >
-                  <span className="icon" style={{ color: '#ff5e5e' }}>
-                    A
-                  </span>
-                </button>
-                <button
-                  onClick={() =>
-                    editor
-                      .chain()
-                      .focus()
-                      .setHighlight({ color: '#fff176' })
-                      .run()
-                  }
-                >
-                  <span className="icon">🖍️</span>
+                  ✨ Toggle Neon
                 </button>
               </div>
-
-              <EditorContent editor={editor} className="editor-content" />
+              <EditorContent
+                editor={editor}
+                className="items-left justify-left text-left w-full h-[630px] text-white bg-[#12131c] px-4 py-2 text-[23px] border-b border-gray-500 focus:outline-none focus:border-transparent"
+              />
             </div>
           </>
         )}
