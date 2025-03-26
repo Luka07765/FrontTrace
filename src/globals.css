@@ -32,11 +32,9 @@ body {
 
 /* Neon Text Effect */
 .text-neon {
-  color: #fff !important;
-  text-shadow: 0 0 5px #0ff, /* Cyan */ 0 0 10px #0ff, 0 0 20px #0ff,
-    0 0 40px #0ff;
   font-weight: bold;
   display: inline;
+  font-size: 90px;
 }
 
 ::-webkit-scrollbar {

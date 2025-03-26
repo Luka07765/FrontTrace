@@ -1,16 +1,10 @@
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import { useFileStore } from '@/Zustand/File_Store';
-import { useRef, useEffect } from 'react';
-
 const MenuBar = ({ editor }) => {
   if (!editor) {
     return null;
   }
 
   return (
-    <div className="flex flex-wrap gap-1 mb-2 bg-[#12131c] p-2 rounded-t-lg border-b border-gray-700">
+    <div className="flex flex-wrap gap-1 mb-2 bg-white p-2 rounded-t-lg border-b border-gray-700">
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -107,86 +101,4 @@ const MenuBar = ({ editor }) => {
   );
 };
 
-export default function FileList() {
-  const { handleUpdateFile } = useFileListLogic();
-  const {
-    editFileId,
-    editFileName,
-    setEditFileName,
-    editFileContent,
-    setEditFileContent,
-    handleSubmitUpdate,
-  } = useFileStore();
-  const saveTimeout = useRef(null);
-
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: editFileContent,
-    onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
-      setEditFileContent(html);
-
-      if (saveTimeout.current) {
-        clearTimeout(saveTimeout.current);
-      }
-      saveTimeout.current = setTimeout(() => {
-        handleSubmitUpdate(handleUpdateFile);
-      }, 2000);
-    },
-  });
-
-  // Update editor content when editFileContent changes externally
-  useEffect(() => {
-    if (editor && editor.getHTML() !== editFileContent) {
-      editor.commands.setContent(editFileContent);
-    }
-  }, [editFileContent, editor]);
-
-  const handleDebouncedChange = (e, setter) => {
-    setter(e.target.value);
-
-    if (saveTimeout.current) {
-      clearTimeout(saveTimeout.current);
-    }
-    saveTimeout.current = setTimeout(() => {
-      handleSubmitUpdate(handleUpdateFile);
-    }, 2000);
-  };
-
-  return (
-    <div className="max-w-5xl mx-auto p-6">
-      <div className="space-y-10">
-        {editFileId && (
-          <>
-            <div>
-              <input
-                className="w-full pb-[10px] px-4 py-2 text-white text-[35px] font-bold bg-[#12131c] border-b-[1px] border-white text-center focus:outline-none focus:border-white"
-                type="text"
-                placeholder="File Title"
-                value={editFileName}
-                onChange={(e) => setEditFileName(e.target.value)}
-                onBlur={() => {
-                  handleSubmitUpdate(handleUpdateFile);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleSubmitUpdate(handleUpdateFile);
-                  }
-                }}
-              />
-            </div>
-
-            <div className="bg-[#12131c] rounded-lg border border-gray-700">
-              <MenuBar editor={editor} />
-              <EditorContent
-                editor={editor}
-                className="min-h-[630px] text-white px-4 py-2 text-[23px] focus:outline-none"
-              />
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
+export default MenuBar;

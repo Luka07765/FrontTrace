@@ -104,6 +104,7 @@ export default function Dashboard() {
         style={{
           left: '260px',
           width: 'calc(100% - 280px)',
+          overflow: 'auto',
         }}
       >
         <File />
