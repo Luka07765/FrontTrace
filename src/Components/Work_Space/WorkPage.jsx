@@ -30,7 +30,6 @@ const NeonText = Mark.create({
       toggleNeon:
         () =>
         ({ commands }) => {
-          // Changed from toggleRainbow to toggleNeon
           return commands.toggleMark(this.name);
         },
     };
@@ -69,11 +68,18 @@ export default function FileList() {
   };
 
   useEffect(() => {
-    if (editor && editFileId) {
-      editor.commands.setContent(editFileContent);
+    if (editor && editFileId && editor.isEmpty) {
+      editor.commands.setContent(editFileContent || '');
     }
-    console.log('render');
   }, [editFileId]);
+
+  useEffect(() => {
+    return () => {
+      if (saveTimeout.current) {
+        clearTimeout(saveTimeout.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="max-w-5xl mx-auto p-6">
