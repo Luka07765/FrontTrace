@@ -1,10 +1,41 @@
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useRef, useEffect } from 'react';
+import { Mark } from '@tiptap/core';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import MenuBar from '@/Components/Work_Space/tools/Tool-Bar/Editor';
-
+const NeonText = Mark.create({
+  name: 'neonText',
+  addAttributes() {
+    return {
+      class: {
+        default: 'text-neon',
+      },
+    };
+  },
+  parseHTML() {
+    return [
+      {
+        tag: 'span',
+        getAttrs: (node) => node.classList.contains('text-neon'),
+      },
+    ];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ['span', HTMLAttributes, 0];
+  },
+  addCommands() {
+    return {
+      toggleNeon:
+        () =>
+        ({ commands }) => {
+          // Changed from toggleRainbow to toggleNeon
+          return commands.toggleMark(this.name);
+        },
+    };
+  },
+});
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
   const {
@@ -18,7 +49,7 @@ export default function FileList() {
   const saveTimeout = useRef(null);
 
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, NeonText],
     content: editFileContent,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
@@ -32,38 +63,20 @@ export default function FileList() {
       }, 2000);
     },
   });
-  const editorContentRef = useRef(null);
 
-  useEffect(() => {
-    if (editorContentRef.current) {
-      editorContentRef.current.style.fontSize = '23px'; // Example styling
-      editorContentRef.current.style.color = 'white';
-    }
-  }, []);
-  const changeFontSize = (size) => {
-    if (editorContentRef.current) {
-      editorContentRef.current.style.fontSize = `${size}px`;
-    }
+  const toggleNeon = () => {
+    editor?.chain().focus().toggleNeon().run(); // Now matches the command name in the extension
   };
 
-  // Function to change text color
-  const changeTextColor = (color) => {
-    if (editorContentRef.current) {
-      editorContentRef.current.style.color = color;
-    }
-  };
-
-  // Update editor content when editFileContent changes externally
   useEffect(() => {
-    if (editor && editor.getHTML() !== editFileContent) {
+    if (editor && editFileId) {
       editor.commands.setContent(editFileContent);
     }
     console.log('render');
-  }, [editFileContent, editor]);
+  }, [editFileId]);
 
   return (
     <div className="max-w-5xl mx-auto p-6">
-      {/* <UndoRedoButtons undo={undo} redo={redo} /> */}
       <div className="space-y-10 ">
         {editFileId && (
           <>
@@ -87,22 +100,15 @@ export default function FileList() {
               />
             </div>{' '}
             <button
-              onClick={() => changeFontSize(16)}
-              className="p-2 bg-gray-800 text-white rounded"
+              onClick={toggleNeon}
+              className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600"
             >
-              Small
-            </button>
-            <button
-              onClick={() => changeFontSize(20)}
-              className="p-2 bg-gray-800 text-white rounded"
-            >
-              Medium
+              ✨ Toggle Neon
             </button>
             <div className="bg-[#12131c] rounded-lg border border-gray-700">
               <MenuBar editor={editor} />
               <EditorContent
                 editor={editor}
-                ref={editorContentRef}
                 className="min-h-[630px] text-white px-4 py-2 text-[23px] focus:outline-none"
               />
             </div>
