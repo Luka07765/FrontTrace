@@ -68,7 +68,7 @@ export default function FileList() {
   };
 
   useEffect(() => {
-    if (editor && editFileId && editor.isEmpty) {
+    if (editor && editFileId) {
       editor.commands.setContent(editFileContent || '');
     }
   }, [editFileId]);
