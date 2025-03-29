@@ -59,7 +59,7 @@ export default function FileList() {
       }
       saveTimeout.current = setTimeout(() => {
         handleSubmitUpdate(handleUpdateFile);
-      }, 2000);
+      }, 500);
     },
   });
 
@@ -68,7 +68,7 @@ export default function FileList() {
   };
 
   useEffect(() => {
-    if (editor && editFileId) {
+    if (editFileId) {
       editor.commands.setContent(editFileContent || '');
     }
   }, [editFileId]);
@@ -112,10 +112,11 @@ export default function FileList() {
               ✨ Toggle Neon
             </button>
             <div className="bg-[#12131c] rounded-lg border border-gray-700">
-              <MenuBar editor={editor} />
+              <MenuBar editor={editor} className="border-none" />
+
               <EditorContent
                 editor={editor}
-                className="min-h-[630px] text-white px-4 py-2 text-[23px] focus:outline-none"
+                className="text-white min-h-[600px] px-4 py-2 pb-[200px] text-[25px] focus:outline-none"
               />
             </div>
           </>
