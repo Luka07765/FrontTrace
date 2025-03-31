@@ -80,6 +80,6 @@ const ProgrammaticZoom = () => {
       ></svg>
     </div>
   );
-};
+}; 
 
 export default ProgrammaticZoom;
