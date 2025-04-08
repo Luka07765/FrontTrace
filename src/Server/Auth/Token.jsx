@@ -39,14 +39,14 @@ export function useToken() {
     }
   }, [router]);
 
-  // Function to check authentication
+
   const checkAuthentication = useCallback(async () => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
       console.warn('No access token found. Redirecting to login...');
-      // Redirect to login
+
       router.push('/home/auth/login');
-      throw new Error('No access token found'); // Stop further execution
+      throw new Error('No access token found!!!'); 
     }
 
     try {
@@ -71,7 +71,7 @@ export function useToken() {
 
   // Function to schedule token refresh
   const scheduleTokenRefresh = useCallback(() => {
-    const refreshIntervalDuration = 7000;
+    const refreshIntervalDuration = 700000;
 
     refreshIntervalRef.current = setInterval(() => {
       refreshToken();
