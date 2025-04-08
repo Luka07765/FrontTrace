@@ -1,14 +1,14 @@
 'use client';
 import { useRouter } from 'next/navigation';
-// Updated import
-import axios from './Api'; // Use the configured Axios instance
+
+import axios from './Api'; 
 import { useRef, useCallback } from 'react';
 
 export function useToken() {
   const router = useRouter();
   const refreshIntervalRef = useRef(null);
 
-  // Function to refresh the token
+
   const refreshToken = useCallback(async () => {
     try {
       const response = await axios.post('/Auth/RefreshToken');
@@ -19,11 +19,10 @@ export function useToken() {
         throw new Error('Invalid access token received from server.');
       }
 
-      // Store the new access token
       localStorage.setItem('accessToken', accessToken);
 
       console.log('Access token refreshed successfully.');
-      return accessToken; // Return the new access token
+      return accessToken; 
     } catch (error) {
       console.error(
         'Failed to refresh token:',
@@ -72,7 +71,7 @@ export function useToken() {
 
   // Function to schedule token refresh
   const scheduleTokenRefresh = useCallback(() => {
-    const refreshIntervalDuration = 5000000;
+    const refreshIntervalDuration = 7000;
 
     refreshIntervalRef.current = setInterval(() => {
       refreshToken();

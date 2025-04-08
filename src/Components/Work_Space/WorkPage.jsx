@@ -5,7 +5,7 @@ import { Mark } from '@tiptap/core';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import MenuBar from '@/Components/Work_Space/tools/Tool-Bar/Editor';
-import { motion, AnimatePresence } from 'framer-motion';
+
 const NeonText = Mark.create({
   name: 'neonText',
   addAttributes() {
@@ -142,25 +142,13 @@ export default function FileList() {
               </button>
             </div>
             <div className="bg-[#12131c] rounded-lg border border-gray-700">
-              <MenuBar editor={editor} className="border-none" />
-
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key="textarea-wrapper"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  {' '}
-                  <EditorContent
-                    editor={editor}
-                    className={`text-white min-h-[600px] px-4 py-2 pb-[200px] text-[25px] focus:outline-none    ${
-                      styles.blur && !isTyping ? 'blur-sm' : ''
-                    }`}
-                  />
-                </motion.div>
-              </AnimatePresence>
+              <MenuBar editor={editor} className="border-none" />{' '}
+              <EditorContent
+                editor={editor}
+                className={`text-white min-h-[600px] px-4 py-2 pb-[200px] text-[25px] focus:outline-none    ${
+                  styles.blur && !isTyping ? 'blur-sm' : ''
+                }`}
+              />
             </div>
           </>
         )}
