@@ -19,6 +19,7 @@
     "framer-motion": "^11.15.0",
     "graphql": "^16.9.0",
     "lodash.isequal": "^4.5.0",
+    "mindtrack_next": ".",
     "next": "15.0.3",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-beautiful-dnd": "^13.1.1",

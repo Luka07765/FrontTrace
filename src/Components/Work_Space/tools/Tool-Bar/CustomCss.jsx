@@ -1,5 +1,5 @@
-// hooks/useEditorSetup.js
-import { useRef, useEffect } from 'react';
+
+
 import { Mark } from '@tiptap/core';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -45,13 +45,19 @@ export const useEditorSetup = (initialContent, onContentUpdate) => {
 
   const toggleNeon = () => {
     editor?.chain().focus().toggleNeon().run();
-  };
+  }; 
+  const toggleBold = () => {
+    editor?.chain().focus().toggleBold().run();
+  }
 
-  useEffect(() => {
-    if (editor && initialContent !== undefined) {
-      editor.commands.setContent(initialContent || '');
+
+
+  return { 
+    editor, 
+    commands: {
+      toggleNeon,
+      toggleBold
+ 
     }
-  }, [initialContent, editor]);
-
-  return { editor, toggleNeon };
+  };
 };

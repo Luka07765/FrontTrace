@@ -28,6 +28,7 @@ function FileRender({ file }) {
           setEditFileId(file.id);
           setEditFileName(file.title);
           setEditFileContent(file.content);
+          
         }}
         className={`bg-grey-800 shadow-md rounded-lg p-2 flex items-center justify-between cursor-pointer ${
           editFileId === file.id ? 'ring-2 ring-indigo-500' : ''
