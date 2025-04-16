@@ -19,7 +19,10 @@ const MenuBar = ({ editor, commands }) => {
         }`}
       >
         🌟 Neon
-      </button>
+      </button>     
+      <button onClick={commands.toggleProgram } className={editor.isActive('codeBlock') ? 'is-active' : ''}>
+          Toggle code block
+        </button>
     </div>
   );
 };

@@ -9,7 +9,7 @@ import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/Right_Click';
 import useResizable from './tools/Resize-Bar';
 import { useLogout } from '@/Server/Auth/Logout';
-import Shelf from '@/app/notebook/notes/tools/SideTool/Shelf';
+import MainSideBar from "@/Components/Navigator/MainSideBar"
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const {
@@ -70,8 +70,9 @@ export default function Dashboard() {
         )}
         style={{ width: '280px' }}
       >
-        {/* <Shelf /> */}
-        <Sidebar />
+       
+        {/* <Sidebar /> */}
+        <MainSideBar />
         <ContextMenu />
         <button
           onClick={handleLogout}

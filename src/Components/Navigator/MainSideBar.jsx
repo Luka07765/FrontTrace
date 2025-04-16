@@ -1,8 +1,8 @@
 import { motion, useAnimationControls, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
-import ProjectLink from './System/Projects';
-import ProjectNavigation from './System/ProjectNav';
+import ProjectLink from './Tools/Sectors/Projects';
+import ProjectNavigation from './Tools/Sectors/ProjectNav';
 
 const containerVariants = {
   close: {

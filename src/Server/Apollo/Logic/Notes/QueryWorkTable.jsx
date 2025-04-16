@@ -12,7 +12,7 @@ export function useFileListLogic() {
   const [updateFile] = useUpdateFile();
 
   const handleCreateFile = async (fileData) => {
-    const { title, content, folderId } = fileData;
+    const { title, content, folderId,colors } = fileData;
 
     if (!folderId || !title) {
       alert('Folder ID and File Name are required.');
@@ -22,7 +22,7 @@ export function useFileListLogic() {
     try {
       await createFile({
         variables: {
-          input: { title, content, folderId },
+          input: { title, content, folderId ,colors},
         },
       });
       refetch();

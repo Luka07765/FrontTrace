@@ -89,7 +89,14 @@ export const ContextMenu = () => {
           </li>
           <li
             className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-            onClick={() => handleDelete(handleDeleteFolder, selectedFolderId)}
+            onClick={() => {
+              const confirmDelete = window.confirm('Are you sure you want to delete this folder?');
+              if (confirmDelete) {
+                handleDelete(handleDeleteFolder, selectedFolderId);
+              }
+            }}
+            
+            
           >
             Delete Folder
           </li>
@@ -106,7 +113,13 @@ export const ContextMenu = () => {
 
       <li
         className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-        onClick={() => handleDeleteFile(editFileId)}
+        onClick={() => {
+          const confirmDelete = window.confirm('Are you sure you want to delete this file?');
+          if (confirmDelete) {
+            handleDeleteFile(editFileId);
+          }
+        }}
+        
       >
         Delete File
       </li>

@@ -60,6 +60,7 @@ export const CREATE_FILE = gql`
       title
       content
       folderId
+      colors
     }
   }
 `;
@@ -77,6 +78,7 @@ export const UPDATE_FILE = gql`
       title
       content
       folderId
+      colors
     }
   }
 `;
