@@ -13,6 +13,7 @@ export function useFileListLogic() {
 
   const handleCreateFile = async (fileData) => {
     const { title, content, folderId,colors } = fileData;
+    
 
     if (!folderId || !title) {
       alert('Folder ID and File Name are required.');

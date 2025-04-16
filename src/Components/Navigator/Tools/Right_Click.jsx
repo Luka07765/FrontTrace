@@ -27,6 +27,7 @@ export const ContextMenu = () => {
         title: fileName,
         content: 'New File Content',
         folderId,
+        colors: "Green"
       });
     }
   };

@@ -49,6 +49,7 @@ export const GET_FILES = gql`
       title
       content
       folderId
+      colors
     }
   }
 `;
