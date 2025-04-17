@@ -44,7 +44,7 @@ export function useFileListLogic() {
   };
 
   const handleUpdateFile = async (fileData) => {
-    const { id, title, content, folderId } = fileData;
+    const { id, title, content, folderId,colors } = fileData;
 
     if (!id) {
       alert('File ID is required.');
@@ -56,6 +56,7 @@ export function useFileListLogic() {
     if (title !== undefined) input.title = title;
     if (content !== undefined) input.content = content;
     if (folderId !== undefined) input.folderId = folderId;
+    if (colors  !== undefined) input.colors   = colors;
 
     try {
       await updateFile({

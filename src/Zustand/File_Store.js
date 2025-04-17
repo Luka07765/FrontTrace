@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 
 export const useFileStore = create((set, get) => ({
-  tabs: [],
+
   fileName: '',
   fileContent: '',
   folderId: '',
   editFileName: '',
   editFileContent: '',
 
-  setTabs: (updatedTabs) => set({ tabs: updatedTabs }),
+
   setEditFileId: (id) => set({ editFileId: id }),
   setFileName: (name) => set({ fileName: name }),
   setFileContent: (content) => set({ fileContent: content }),

@@ -25,9 +25,9 @@ export const ContextMenu = () => {
     if (fileName) {
       handleCreateFile({
         title: fileName,
-        content: 'New File Content',
+        content: '',
         folderId,
-        colors: "Green"
+        colors: ""
       });
     }
   };
