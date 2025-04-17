@@ -9,7 +9,7 @@ import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/Right_Click';
 import useResizable from './tools/Resize-Bar';
 import { useLogout } from '@/Server/Auth/Logout';
-import MainSideBar from "@/Components/Navigator/MainSideBar"
+
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const {
@@ -71,8 +71,8 @@ export default function Dashboard() {
         style={{ width: '280px' }}
       >
        
-        {/* <Sidebar /> */}
-        <MainSideBar />
+        <Sidebar />
+      
         <ContextMenu />
         <button
           onClick={handleLogout}

@@ -7,16 +7,11 @@ function FileRender({ file }) {
     editFileId,
     setEditFileId,
     setEditFileName,
-    tabs,
-    setTabs,
+ 
     setEditFileContent,
   } = useFileStore();
 
-  const addFileTab = (newFile) => {
-    if (!tabs.some((tab) => tab.fileId === newFile.fileId)) {
-      setTabs([...tabs, newFile]);
-    }
-  };
+
 
   return (
     <div>
