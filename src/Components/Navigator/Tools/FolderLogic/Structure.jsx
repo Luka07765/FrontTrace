@@ -41,9 +41,10 @@ function Structure({ folder }) {
   );
 
   // 3) Brojanje po bojama
-  const redCount    = filesInTree.filter(f => f.colors === 'Red').length;
-  const greenCount  = filesInTree.filter(f => f.colors === 'green').length;
-  const yellowCount = filesInTree.filter(f => f.colors === 'yellow').length;
+  const redCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'red' || '').length;
+  const greenCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'green' || '').length;
+  const yellowCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'yellow' || '').length;
+  
   return (
     <div
       className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
