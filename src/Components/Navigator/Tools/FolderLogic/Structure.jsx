@@ -23,6 +23,27 @@ function Structure({ folder }) {
   const { files = [] } = useFileListLogic();
   const folderFiles = (folderId) =>
     files.filter((file) => file.folderId === folderId);
+
+  const getAllDescendantIds = (f) => {
+    let ids = [f.id];
+    if (f.children) {
+      f.children.forEach(child => {
+        ids = ids.concat(getAllDescendantIds(child));
+      });
+    }
+    return ids;
+  };
+  const allFolderIds = getAllDescendantIds(folder);
+
+  // 2) Filtriraj sve fajlove koji spadaju u tu hijerarhiju
+  const filesInTree = files.filter(file =>
+    allFolderIds.includes(file.folderId)
+  );
+
+  // 3) Brojanje po bojama
+  const redCount    = filesInTree.filter(f => f.colors === 'Red').length;
+  const greenCount  = filesInTree.filter(f => f.colors === 'green').length;
+  const yellowCount = filesInTree.filter(f => f.colors === 'yellow').length;
   return (
     <div
       className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
@@ -72,6 +93,12 @@ function Structure({ folder }) {
                 className="filter invert"
               />
               <strong className="text-left">{folder.title}</strong>
+              <div className="flex space-x-4 text-sm ml-6 mt-1">
+          <span>🔴 {redCount}</span>
+          <span>🟢 {greenCount}</span>
+          <span>🟡 {yellowCount}</span>
+          </div>
+
             </div>
           </>
         )}
