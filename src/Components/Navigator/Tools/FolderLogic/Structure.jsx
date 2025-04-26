@@ -7,6 +7,9 @@ import { RightClick } from '@/Zustand/Context_Store';
 import RenameFolder from '@/Components/Navigator/Tools/FolderLogic/Rename_Folder';
 import { Select } from '@/Zustand/Select_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
+import Bad from "@/assets/FolderFile_Icons/unlike.png"
+import checked from "@/assets/FolderFile_Icons/checked.png";
+import Warning from "@/assets/FolderFile_Icons/warning.png"
 function Structure({ folder }) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
   const { selectedFolderId, setSelectedFolderId } = Select();
@@ -93,11 +96,46 @@ function Structure({ folder }) {
                 height={20}
                 className="filter invert"
               />
+          {(redCount === 0 && yellowCount === 0) && (
+    <Image
+      src={checked}
+      alt="Checked Icon"
+      width={13}
+      height={13}
+      className="absolute  translate-x-1/2 -translate-y-1/2"
+    />
+  )}
+
+            {redCount > 0 && (
+   <div className="absolute top-3 flex items-center space-x-1 text-xs text-red-500">
+   <Image
+     src={Bad}
+     alt="Red Icon"
+     width={13}
+     height={13}
+   />
+   <span>{redCount}</span>
+ </div>
+)}
+
+              {yellowCount > 0 && (
+   <div className="absolute top-1 flex items-center space-x-1 text-xs text-yellow-500">
+   <Image
+     src={Warning}
+     alt="Red Icon"
+     width={13}
+     height={13}
+   />
+   <span > {yellowCount}</span>
+ </div>
+)}
+
               <strong className="text-left">{folder.title}</strong>
               <div className="flex space-x-4 text-sm ml-6 mt-1">
-          <span>🔴 {redCount}</span>
-          <span>🟢 {greenCount}</span>
-          <span>🟡 {yellowCount}</span>
+                
+ 
+  
+          
           </div>
 
             </div>
