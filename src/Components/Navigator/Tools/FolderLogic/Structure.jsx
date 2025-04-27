@@ -9,7 +9,7 @@ import { Select } from '@/Zustand/Select_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import Bad from "@/assets/FolderFile_Icons/unlike.png"
 import checked from "@/assets/FolderFile_Icons/checked.png";
-import Warning from "@/assets/FolderFile_Icons/warning.png"
+import Warning from "@/assets/FolderFile_Icons/warning-sign.png"
 function Structure({ folder }) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
   const { selectedFolderId, setSelectedFolderId } = Select();
@@ -45,7 +45,7 @@ function Structure({ folder }) {
 
   // 3) Brojanje po bojama
   const redCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'red' || '').length;
-  const greenCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'green' || '').length;
+ 
   const yellowCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'yellow' || '').length;
   
   return (
@@ -88,7 +88,7 @@ function Structure({ folder }) {
           <RenameFolder folder={folder} />
         ) : (
           <>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <Image
                 src={isExpanded ? folderOpenIcon : folderClosedIcon} // Dynamic folder image
                 alt={isExpanded ? 'Folder Open' : 'Folder Closed'}
@@ -100,45 +100,46 @@ function Structure({ folder }) {
     <Image
       src={checked}
       alt="Checked Icon"
-      width={13}
-      height={13}
+      width={11}
+      height={11}
       className="absolute  translate-x-1/2 -translate-y-1/2"
     />
   )}
 
             {redCount > 0 && (
-   <div className="absolute top-3 flex items-center space-x-1 text-xs text-red-500">
-   <Image
-     src={Bad}
-     alt="Red Icon"
-     width={13}
-     height={13}
-   />
-   <span>{redCount}</span>
- </div>
+
+
+<div className="absolute  translate-x-1/2 -translate-y-1/"> {/* Container must be relative */}
+<Image
+  src={Bad}
+  alt="Red Icon"
+  width={11}
+  height={11}
+ className="translate-x -translate-y-1.5"
+/>
+<span className="text-red-300 text-[11px] absolute left-0 top-0 translate-x-2 -translate-y-3.5">
+  {redCount}
+</span>
+</div>
+
 )}
 
               {yellowCount > 0 && (
-   <div className="absolute top-1 flex items-center space-x-1 text-xs text-yellow-500">
+                
+   <div className="absolute  translate-x-1/2 translate-y-1.5">
    <Image
      src={Warning}
      alt="Red Icon"
-     width={13}
-     height={13}
+     width={11}
+     height={11}
    />
-   <span > {yellowCount}</span>
+   <span className='text-yellow-300 text-[11px] absolute left-0 top-0 translate-x-2 -translate-y-2' > {yellowCount}</span>
  </div>
 )}
 
-              <strong className="text-left">{folder.title}</strong>
-              <div className="flex space-x-4 text-sm ml-6 mt-1">
-                
- 
-  
-          
+              <strong className="text-left">{folder.title}</strong>          
           </div>
 
-            </div>
           </>
         )}
       </div>

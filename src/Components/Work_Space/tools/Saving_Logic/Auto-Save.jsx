@@ -1,7 +1,7 @@
 // hooks/useAutoSave.js
 import { useRef, useEffect } from 'react';
 
-export const useAutoSave = (saveAction, typingDelay = 3000) => {
+export const useAutoSave = (saveAction, typingDelay = 500) => {
   const saveTimeout = useRef(null);
   const hasTypedRef = useRef(false);
 

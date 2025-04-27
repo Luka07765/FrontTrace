@@ -1,11 +1,11 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import { useState } from 'react';
+
 function FolderInput({ parentId }) {
   const { setCreatingFolderParentId, folderName, setFolderName } =
     useFolderStore();
   const { handleCreateFolder } = useFolderListLogic();
-  const [isExiting, setIsExiting] = useState(false);
+
 
   const handleCreate = (parentFolderId) => {
     if (folderName.trim() !== '') {
