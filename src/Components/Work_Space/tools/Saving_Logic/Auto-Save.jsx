@@ -31,7 +31,7 @@ export const useAutoSave = (saveAction, typingDelay = 500) => {
       if (hasTypedRef.current) {
         saveAction();
       }
-    }, 5000);
+    }, 500);
 
     return () => clearInterval(interval);
   }, [hasTypedRef.current]);
