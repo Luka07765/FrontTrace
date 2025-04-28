@@ -5,7 +5,7 @@ import {  useEffect, useState } from 'react';
 import {  EditorContent } from '@tiptap/react';
 
 import MenuBar from '@/Components/Work_Space/tools/Tool-Bar/Editor';
-import { useEditorSetup } from './tools/Tool-Bar/CustomCss';
+import { useEditorSetup } from './tools/Tool-Bar/Editor';
 import { useAutoSave } from './tools/Saving_Logic/Auto-Save';
 
 export default function FileList() {
