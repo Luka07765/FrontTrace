@@ -35,9 +35,10 @@ export default function FileList() {
 
 
   useEffect(() => {
-    if (editFileId ) {
+    if (editFileId && editor ) {
       editor.commands.setContent(editFileContent || '');
     }
+    console.log("render")
   }, [editFileId]);
 
 
