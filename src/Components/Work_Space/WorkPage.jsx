@@ -38,7 +38,7 @@ export default function FileList() {
     if (editFileId && editor ) {
       editor.commands.setContent(editFileContent || '');
     }
-    console.log("render")
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editFileId]);
 
 

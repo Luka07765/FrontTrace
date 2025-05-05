@@ -1,46 +1,52 @@
 // hooks/useAutoSave.js
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect } from "react";
+import { getHasTyped, setHasTyped } from "@/Utils/type";
 
-export const useAutoSave = (saveAction, typingDelay = 500) => {
-  const saveTimeout = useRef(null);
-  const hasTypedRef = useRef(false);
+export const useAutoSave = (saveAction, inactiveDelay = 2000, activeInterval = 5000) => {
+  const intervalRef = useRef(null);   
+  const timeoutRef = useRef(null);    
 
-  const triggerSave = (immediate = false) => {
-
-    if (!hasTypedRef.current) {
-      hasTypedRef.current = true;
-    
-    }
-    
-    if (saveTimeout.current) {
-      clearTimeout(saveTimeout.current);
-    }
-
-    if (immediate) {
+  const saveNow = () => {
+    if (getHasTyped()) {
       saveAction();
-    } else {
-      saveTimeout.current = setTimeout(() => {
-        saveAction();
-      }, typingDelay);
+      setHasTyped(false);
+ 
     }
-  }; 
-   useEffect(() => {
-    if (!hasTypedRef.current) return;
+  };
 
-    const interval = setInterval(() => {
-      if (hasTypedRef.current) {
-        saveAction();
-      }
-    }, 500);
+  const triggerSave = () => {
 
-    return () => clearInterval(interval);
-  }, [hasTypedRef.current]);
+    if (!getHasTyped()) setHasTyped(true);
+   
+
+ 
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+   
+      saveNow();
+      stopActiveSave(); 
+    }, inactiveDelay);
+
+    if (!intervalRef.current) {
+      intervalRef.current = setInterval(() => {
+   
+        saveNow();
+      }, activeInterval);
+    }
+  };
+
+  const stopActiveSave = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
 
   useEffect(() => {
+    
     return () => {
-      if (saveTimeout.current) {
-        clearTimeout(saveTimeout.current);
-      }
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
 
