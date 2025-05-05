@@ -23,7 +23,6 @@ export default function FileList() {
   
   const handleContentUpdate = (html) => {
     setEditFileContent(html);
-
     triggerSave();
   };
 
@@ -37,6 +36,7 @@ export default function FileList() {
   useEffect(() => {
     if (editFileId && editor ) {
       editor.commands.setContent(editFileContent || '');
+      
     }
       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editFileId]);
@@ -49,6 +49,11 @@ export default function FileList() {
         {editFileId && (
           <>
             <div>
+              <div>
+              <MenuBar editor={editor} commands={commands} />{' '}
+
+              </div>
+
               <input
                 className={`w-full pb-[10px] px-4 py-2 text-white text-[35px] font-bold bg-[#12131c] border-b-[1px] border-white text-center focus:outline-none focus:border-white`}
                 type="text"
@@ -70,10 +75,11 @@ export default function FileList() {
        
    
             <div className="bg-[#12131c] rounded-lg border border-gray-700">
-              <MenuBar editor={editor} commands={commands} className="border-none" />{' '}
+
               <EditorContent
                 editor={editor}
-                className={`text-white min-h-[600px] px-4 py-2 pb-[200px] text-[25px] focus:outline-none `}
+                
+                className={`text-white min-h-[600px] px-4 py-2 pb-[200px] text-[25px] `}
               />
             </div>
           </>

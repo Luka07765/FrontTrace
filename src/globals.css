@@ -84,6 +84,12 @@
   margin: 1.5rem 0;
   padding: 0.75rem 1rem;
 }
+/* Remove border when ProseMirror is focused */
+.ProseMirror:focus {
+  border: none !important;
+  outline: none !important; /* Optional, if there's any outline */
+}
+
 
 .tiptap pre code {
   background: none; /* Ensuring code inside pre does not have background */

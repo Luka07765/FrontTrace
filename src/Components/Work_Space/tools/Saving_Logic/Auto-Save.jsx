@@ -2,7 +2,7 @@
 import { useRef, useEffect } from "react";
 import { getHasTyped, setHasTyped } from "@/Utils/type";
 
-export const useAutoSave = (saveAction, inactiveDelay = 2000, activeInterval = 5000) => {
+export const useAutoSave = (saveAction, inactiveDelay = 500, activeInterval = 5000) => {
   const intervalRef = useRef(null);   
   const timeoutRef = useRef(null);    
 
@@ -13,11 +13,17 @@ export const useAutoSave = (saveAction, inactiveDelay = 2000, activeInterval = 5
  
     }
   };
+  const stopActiveSave = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
 
   const triggerSave = () => {
 
     if (!getHasTyped()) setHasTyped(true);
-   
+    
 
  
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -35,12 +41,7 @@ export const useAutoSave = (saveAction, inactiveDelay = 2000, activeInterval = 5
     }
   };
 
-  const stopActiveSave = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  };
+
 
   useEffect(() => {
     
