@@ -27,6 +27,7 @@ export default function FolderList() {
       </div>
     );
   }
+  console.log(folders)
 
   const handleParentClick = () => {
     setSelectedFolderId(null);

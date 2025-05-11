@@ -38,12 +38,12 @@ function Structure({ folder }) {
   };
   const allFolderIds = getAllDescendantIds(folder);
 
-  // 2) Filtriraj sve fajlove koji spadaju u tu hijerarhiju
+
   const filesInTree = files.filter(file =>
     allFolderIds.includes(file.folderId)
   );
 
-  // 3) Brojanje po bojama
+
   const redCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'red' || '').length;
  
   const yellowCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'yellow' || '').length;
@@ -124,18 +124,31 @@ function Structure({ folder }) {
 
 )}
 
-              {yellowCount > 0 && (
+              {yellowCount > 0 && redCount === 0 && (
                 
-   <div className="absolute  translate-x-1/2 translate-y-1.5">
+   <div className="absolute  translate-x-1/2 -translate-y-1/">
    <Image
      src={Warning}
      alt="Red Icon"
      width={11}
      height={11}
+      className="translate-x -translate-y-1.5"
    />
-   <span className='text-yellow-300 text-[11px] absolute left-0 top-0 translate-x-2 -translate-y-2' > {yellowCount}</span>
+   <span className='text-yellow-300 text-[11px] absolute left-0 top-0 translate-x-2 -translate-y-3.5' > {yellowCount}</span>
  </div>
 )}
+              {yellowCount > 0 && redCount > 0 &&  (
+                
+                <div className="absolute  translate-x-1/2 translate-y-1.5">
+                <Image
+                  src={Warning}
+                  alt="Red Icon"
+                  width={11}
+                  height={11}
+                />
+                <span className='text-yellow-300 text-[11px] absolute left-0 top-0 translate-x-2 -translate-y-2' > {yellowCount}</span>
+              </div>
+             )}
 
               <strong className="text-left">{folder.title}</strong>          
           </div>
