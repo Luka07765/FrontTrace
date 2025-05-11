@@ -71,7 +71,7 @@ export function useToken() {
 
   // Function to schedule token refresh
   const scheduleTokenRefresh = useCallback(() => {
-    const refreshIntervalDuration = 700000;
+    const refreshIntervalDuration = 5000;
 
     refreshIntervalRef.current = setInterval(() => {
       refreshToken();
