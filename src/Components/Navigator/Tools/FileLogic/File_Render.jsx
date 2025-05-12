@@ -64,6 +64,7 @@ function FileRender({ file }) {
             className="filter invert"
           />
           <span className="text-left">{file.title}</span>
+          {/* <span>{file.folderId}</span> */}
         </div>
       </li>
     </div>

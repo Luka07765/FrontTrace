@@ -16,7 +16,7 @@ export const ContextMenu = () => {
   const { contextMenuVisible, contextMenuPosition, setContextMenuVisible } =
     RightClick();
   const { selectedFolderId } = Select();
-  const { handleCreateFile } = useFileListLogic();
+  const { handleCreateFile,handleUpdateFile } = useFileListLogic();
   const { editFileId } = useFileStore();
   const { handleDeleteFile } = useFileListLogic();
 
@@ -32,6 +32,30 @@ export const ContextMenu = () => {
     }
   };
 
+ const handleMoveFile = async () => {
+    if (!editFileId) {
+      alert('No file selected to move');
+      return;
+    }
+
+    // Show list of available folders to move to
+
+    const newFolderId = prompt();
+    
+    if (newFolderId && newFolderId.trim() !== '') {
+      try {
+        await handleUpdateFile({
+          id: editFileId,
+          folderId: newFolderId.trim()
+        });
+  
+
+      } catch (err) {
+        console.error('Error moving file:', err);
+        alert('Failed to move file');
+      }
+    }
+  };
   //Optimizacija sranje veliko neka ga...
   if (!contextMenuVisible) return null;
 
@@ -123,6 +147,11 @@ export const ContextMenu = () => {
         
       >
         Delete File
+      </li>      <li
+        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+        onClick={handleMoveFile}
+      >
+        Move File
       </li>
     </ul>
   );

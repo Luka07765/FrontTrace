@@ -27,7 +27,7 @@ export default function FolderList() {
       </div>
     );
   }
-  console.log(folders)
+
 
   const handleParentClick = () => {
     setSelectedFolderId(null);
@@ -37,6 +37,8 @@ export default function FolderList() {
     Array.isArray(folders) && folders.length > 0
       ? buildNestedStructure(folders)
       : null;
+
+        console.log(nestedFolders)
 
   return (
     <div

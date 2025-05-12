@@ -62,7 +62,7 @@ export function useFileListLogic() {
       await updateFile({
         variables: {
           id: fileId.toString(),
-          input, // Send only the fields that are present
+          input, 
         },
       });
       refetch();

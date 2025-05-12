@@ -21,7 +21,7 @@ function Page() {
   }
   const nestedFolders = buildNestedStructure(folders);
 
-  console.log(JSON.stringify(nestedFolders, null, 2));
+
 
   return (
     <div>

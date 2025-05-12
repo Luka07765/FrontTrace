@@ -150,7 +150,8 @@ function Structure({ folder }) {
               </div>
              )}
 
-              <strong className="text-left">{folder.title}</strong>          
+              <strong className="text-left">{folder.title}</strong>
+              {/* <strong>{folder.id}</strong>           */}
           </div>
 
           </>

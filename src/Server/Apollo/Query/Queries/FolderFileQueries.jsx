@@ -17,6 +17,25 @@ export const GET_FOLDERS = gql`
   }
 `;
 
+export const GET_FOLDERS_Structure = gql`
+  query GetFolders {
+    getFolders {
+      id
+      title
+      parentFolderId
+      
+      files {
+        id
+        title
+        content
+        folderId
+      }
+    }
+  }
+`;
+
+
+
 export const CREATE_FOLDER = gql`
   mutation CreateFolder($input: FolderInput!) {
     createFolder(input: $input) {
