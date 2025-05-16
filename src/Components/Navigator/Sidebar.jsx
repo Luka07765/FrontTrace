@@ -1,6 +1,6 @@
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
-import { ContextMenu } from './Tools/Right_Click';
+import { ContextMenu } from './Tools/ContextMenu/Context_Ui';
 import { Basic } from './Tools/Basic_Render';
 import { RightClick } from '@/Zustand/Context_Store';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
@@ -37,8 +37,6 @@ export default function FolderList() {
     Array.isArray(folders) && folders.length > 0
       ? buildNestedStructure(folders)
       : null;
-
-        console.log(nestedFolders)
 
   return (
     <div

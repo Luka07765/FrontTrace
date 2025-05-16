@@ -6,7 +6,7 @@ import { RightClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
 import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
-import ContextMenu from '@/Components/Navigator/Tools/Right_Click';
+import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import useResizable from './tools/Resize-Bar';
 import { useLogout } from '@/Server/Auth/Logout';
 
