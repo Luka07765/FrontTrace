@@ -46,7 +46,7 @@ export default function FolderList() {
         e.preventDefault();
 
         setContextMenuVisible(true);
-        setContextMenuPosition({ x: e.pageX, y: e.pageY });
+        setContextMenuPosition({ x: e.pageX, y: e.pageY - 100 });
       }}
     >
       {nestedFolders ? (

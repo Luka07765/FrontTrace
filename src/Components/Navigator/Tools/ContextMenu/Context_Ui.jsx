@@ -23,11 +23,16 @@ export const ContextMenu = () => {
   let x = contextMenuPosition.x;
   let y = contextMenuPosition.y;
 
-  if (x + MENU_WIDTH > window.innerWidth) {
-    x = window.innerWidth - MENU_WIDTH - 10;
+    if (x + MENU_WIDTH > window.innerWidth) {
+    x = window.innerWidth - MENU_WIDTH - 10; 
+  } else if (x < 0) {
+    x = 10;
   }
+
   if (y + MENU_HEIGHT > window.innerHeight) {
-    y = window.innerHeight - MENU_HEIGHT - 10;
+    y = window.innerHeight - MENU_HEIGHT - 10; 
+  } else if (y < 0) {
+    y = 10; 
   }
 
   return (
@@ -47,32 +52,34 @@ export const ContextMenu = () => {
           onClick={() => setContextMenuVisible(false)}
           
         >
-          <li
+
+          {selectedFolderId && (
+            <>              <li
             onClick={createFolder}
             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
           >
-            Create Folder
+            📁Create Folder
           </li>
 
-          {selectedFolderId && (
-            <>
               <li
                 onClick={renameFolder}
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >
-                Rename Folder
+               ✏️ Rename Folder
               </li>
               <li
                 onClick={deleteFolder}
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >
-                Delete Folder
+               🗑️ Delete Folder
               </li>
+              
+            <hr className="p-1 border-t border-gray-200" /> {/* Separator line */}
               <li
                 onClick={() => createFileForFolder(selectedFolderId)}
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >
-                Create File
+              📄 Create File
               </li>
             </>
           )}
@@ -81,14 +88,18 @@ export const ContextMenu = () => {
             onClick={deleteFile}
             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
           >
-            Delete File
+           ❌ Delete File
           </li>
+
+          
           <li
             onClick={moveFile}
             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
           >
-            Move File
+            ➡️Move File
           </li>
+
+
         </motion.ul>
       )}
     </AnimatePresence>
