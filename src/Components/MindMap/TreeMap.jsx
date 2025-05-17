@@ -4,12 +4,12 @@ import * as d3 from 'd3';
 
 const ForceDirectedTree = ({ structure }) => {
   const chartRef = useRef();
+  const zoomRef = useRef();
+  const containerRef = useRef();
 
   useEffect(() => {
-    // Clear any previous chart
     d3.select(chartRef.current).selectAll('*').remove();
 
-    // Transform function that adapts folder data to the required hierarchical format
     const transformStructure = (folder) => ({
       name: folder.title || folder.name,
       filesCount: folder.files?.length || 0,
@@ -27,27 +27,15 @@ const ForceDirectedTree = ({ structure }) => {
 
     if (!structure || structure.length === 0) return;
 
-    // If structure is already an array of multiple roots, use all of them
-    // Otherwise, if it's a single root, wrap it in an array
     const rootFolders = Array.isArray(structure) ? structure : [structure];
-
-    // Transform each root folder into hierarchical data
     const transformedData = rootFolders.map((root) => transformStructure(root));
-
-    console.log('Transformed data:', JSON.stringify(transformedData, null, 2));
-
-    // Create a separate d3 hierarchy for each root
     const hierarchies = transformedData.map((d) => d3.hierarchy(d));
-
-    // Collect all links and nodes from all hierarchies
     const links = hierarchies.flatMap((h) => h.links());
     const nodes = hierarchies.flatMap((h) => h.descendants());
 
-    // Dimensions
     const width = 928;
     const height = 600;
 
-    // Initialize simulation
     const simulation = d3
       .forceSimulation(nodes)
       .force(
@@ -69,8 +57,10 @@ const ForceDirectedTree = ({ structure }) => {
       .attr('height', height)
       .attr('style', 'max-width: 100%; height: auto;');
 
-    // Links
-    const link = svg
+    const container = svg.append('g');
+    containerRef.current = container;
+
+    const link = container
       .append('g')
       .attr('stroke', '#999')
       .attr('stroke-opacity', 0.6)
@@ -78,8 +68,7 @@ const ForceDirectedTree = ({ structure }) => {
       .data(links)
       .join('line');
 
-    // Nodes
-    const node = svg
+    const node = container
       .append('g')
       .attr('fill', '#fff')
       .attr('stroke', '#000')
@@ -105,6 +94,16 @@ const ForceDirectedTree = ({ structure }) => {
 
       node.attr('cx', (d) => d.x).attr('cy', (d) => d.y);
     });
+
+    const zoom = d3
+      .zoom()
+      .scaleExtent([0.1, 4])
+      .on('zoom', (event) => {
+        container.attr('transform', event.transform);
+      });
+
+    zoomRef.current = zoom;
+    svg.call(zoom);
 
     function drag(simulation) {
       function dragstarted(event, d) {
@@ -134,6 +133,17 @@ const ForceDirectedTree = ({ structure }) => {
 
   return (
     <div>
+      <div style={{ marginBottom: '10px' }}>
+        <button onClick={() => {
+          d3.select(chartRef.current).transition().call(zoomRef.current.scaleBy, 1.5);
+        }}>Zoom In</button>
+        <button onClick={() => {
+          d3.select(chartRef.current).transition().call(zoomRef.current.scaleBy, 1 / 1.5);
+        }}>Zoom Out</button>
+        <button onClick={() => {
+          d3.select(chartRef.current).transition().call(zoomRef.current.transform, d3.zoomIdentity);
+        }}>Reset Zoom</button>
+      </div>
       <svg ref={chartRef}></svg>
     </div>
   );

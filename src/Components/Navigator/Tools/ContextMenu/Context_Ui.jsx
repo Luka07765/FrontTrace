@@ -24,13 +24,13 @@ export const ContextMenu = () => {
   let y = contextMenuPosition.y;
 
     if (x + MENU_WIDTH > window.innerWidth) {
-    x = window.innerWidth - MENU_WIDTH - 10; 
+    x = window.innerWidth - MENU_WIDTH - 20; 
   } else if (x < 0) {
     x = 10;
   }
 
   if (y + MENU_HEIGHT > window.innerHeight) {
-    y = window.innerHeight - MENU_HEIGHT - 10; 
+    y = window.innerHeight - MENU_HEIGHT - 20; 
   } else if (y < 0) {
     y = 10; 
   }
