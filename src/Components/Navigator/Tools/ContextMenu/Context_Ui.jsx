@@ -17,17 +17,35 @@ export const ContextMenu = () => {
 
   if (!contextMenuVisible) return null;
 
+  const MENU_WIDTH = 200;   
+  const MENU_HEIGHT = selectedFolderId ? 240 : 120; 
+
+  let x = contextMenuPosition.x;
+  let y = contextMenuPosition.y;
+
+  if (x + MENU_WIDTH > window.innerWidth) {
+    x = window.innerWidth - MENU_WIDTH - 10;
+  }
+  if (y + MENU_HEIGHT > window.innerHeight) {
+    y = window.innerHeight - MENU_HEIGHT - 10;
+  }
+
   return (
     <AnimatePresence>
       {contextMenuVisible && (
         <motion.ul
+        
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.15 }}
-          style={{ top: contextMenuPosition.y, left: contextMenuPosition.x, position: 'fixed', zIndex: 9999 }}
+          style={{        top: y,
+        left: x,
+        position: 'fixed',
+        width: MENU_WIDTH, zIndex: 9999 }}
           className="bg-white shadow-lg rounded-xl border border-gray-200 w-48 text-gray-700 select-none"
           onClick={() => setContextMenuVisible(false)}
+          
         >
           <li
             onClick={createFolder}
