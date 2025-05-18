@@ -39,7 +39,8 @@ export const Basic = ({ folders }) => {
     {folder.files.map((file, index) => (
       <FileRender key={file.id} file={file} index={index} />
     ))}
-  </ul> */}
+      </ul>)} */}
+
             {isExpanded && folderFiles(folder.id).length > 0 && (
               <ul className="ml-8">
                 {folderFiles(folder.id).map((file,index) => (

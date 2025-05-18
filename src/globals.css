@@ -113,8 +113,8 @@ body {
 .text-neon {
   font-weight: bold;
   display: inline;
-  font-size: 20px;
-  background-color: aqua;
+  font-size: 40px;
+  background-color: red;
 }
 
 ::-webkit-scrollbar {
