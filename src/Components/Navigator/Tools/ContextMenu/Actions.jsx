@@ -26,6 +26,7 @@ export const useContextMenuActions = () => {
         content: '',
         folderId,
         colors: '',
+        filePosition: 0,
       });
     }
   };

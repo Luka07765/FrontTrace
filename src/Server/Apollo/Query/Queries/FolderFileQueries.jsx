@@ -12,27 +12,12 @@ export const GET_FOLDERS = gql`
         title
         content
         folderId
+        filePosition 
       }
     }
   }
 `;
 
-export const GET_FOLDERS_Structure = gql`
-  query GetFolders {
-    getFolders {
-      id
-      title
-      parentFolderId
-      
-      files {
-        id
-        title
-        content
-        folderId
-      }
-    }
-  }
-`;
 
 
 
@@ -70,6 +55,7 @@ export const GET_FILES = gql`
       content
       folderId
       colors
+      filePosition
     }
   }
 `;
@@ -82,6 +68,7 @@ export const CREATE_FILE = gql`
       content
       folderId
       colors
+      filePosition 
     }
   }
 `;
@@ -100,6 +87,7 @@ export const UPDATE_FILE = gql`
       content
       folderId
       colors
+      filePosition
     }
   }
 `;

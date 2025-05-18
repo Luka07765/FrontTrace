@@ -33,10 +33,17 @@ export const Basic = ({ folders }) => {
           >
             <Structure folder={folder} />
             {/* FILES */}
+
+                   {/* {isExpanded && folder.files.length > 0 && (
+  <ul className="ml-8">
+    {folder.files.map((file, index) => (
+      <FileRender key={file.id} file={file} index={index} />
+    ))}
+  </ul> */}
             {isExpanded && folderFiles(folder.id).length > 0 && (
               <ul className="ml-8">
-                {folderFiles(folder.id).map((file) => (
-                  <FileRender key={file.id} file={file} />
+                {folderFiles(folder.id).map((file,index) => (
+                  <FileRender key={file.id} file={file}  index={index} />
                 ))}
               </ul>
             )}

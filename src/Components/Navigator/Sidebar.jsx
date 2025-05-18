@@ -37,7 +37,7 @@ export default function FolderList() {
     Array.isArray(folders) && folders.length > 0
       ? buildNestedStructure(folders)
       : null;
-
+  console.log(nestedFolders)
   return (
     <div
       className=" p-4 text-white "

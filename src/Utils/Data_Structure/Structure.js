@@ -2,10 +2,14 @@ export function buildNestedStructure(folders) {
   const folderMap = {};
 
   folders.forEach((folder) => {
+    const sortedFiles = folder.files
+      ? [...folder.files].sort((a, b) => (a.filePosition ?? 0) - (b.filePosition ?? 0))
+      : [];
+
     folderMap[folder.id] = {
       ...folder,
       children: [],
-      files: folder.files ? [...folder.files] : [],
+      files: sortedFiles,
     };
   });
 

@@ -12,7 +12,7 @@ export function useFileListLogic() {
   const [updateFile] = useUpdateFile();
 
   const handleCreateFile = async (fileData) => {
-    const { title, content, folderId,colors } = fileData;
+    const { title, content, folderId,colors, filePosition  } = fileData;
     
 
     if (!folderId || !title) {
@@ -23,7 +23,7 @@ export function useFileListLogic() {
     try {
       await createFile({
         variables: {
-          input: { title, content, folderId ,colors},
+          input: { title, content, folderId ,colors,filePosition },
         },
       });
       refetch();
@@ -44,7 +44,7 @@ export function useFileListLogic() {
   };
 
   const handleUpdateFile = async (fileData) => {
-    const { id, title, content, folderId,colors } = fileData;
+    const { id, title, content, folderId,colors,filePosition  } = fileData;
 
     if (!id) {
       alert('File ID is required.');
@@ -57,6 +57,7 @@ export function useFileListLogic() {
     if (content !== undefined) input.content = content;
     if (folderId !== undefined) input.folderId = folderId;
     if (colors  !== undefined) input.colors   = colors;
+    if (filePosition !== undefined) input.filePosition = filePosition; 
 
     try {
       await updateFile({
