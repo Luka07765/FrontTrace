@@ -1,4 +1,5 @@
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
+import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 
 import { ContextMenu } from './Tools/ContextMenu/Context_Ui';
 import { Basic } from './Tools/Basic_Render';
@@ -11,6 +12,7 @@ export default function FolderList() {
   const { contextMenuVisible, setContextMenuVisible, setContextMenuPosition } =
     RightClick();
   const { setSelectedFolderId } = Select();
+  const { files } = useFileListLogic();
 
   if (loading) {
     return (
@@ -33,10 +35,11 @@ export default function FolderList() {
     setSelectedFolderId(null);
   };
 
-  const nestedFolders =
-    Array.isArray(folders) && folders.length > 0
-      ? buildNestedStructure(folders)
-      : null;
+const nestedFolders =
+  Array.isArray(folders) && folders.length > 0
+    ? buildNestedStructure(folders, files)
+    : null;
+
   console.log(nestedFolders)
   return (
     <div
