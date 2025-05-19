@@ -47,8 +47,23 @@ export function useFileListLogic() {
 
   const handleDeleteFile = async (id) => {
     try {
-      await deleteFile({ variables: { id } });
-      refetch();
+      await deleteFile({
+  variables: { id },
+  update: (cache) => {
+    const existingData = cache.readQuery({ query: GET_FILES });
+
+   if (existingData?.getFiles) {
+  cache.writeQuery({
+    query: GET_FILES,
+    data: {
+      getFiles: existingData.getFiles.filter((file) => file.id !== id),
+    },
+  });
+}
+
+  },
+});
+
     } catch (err) {
       console.error('Error deleting file:', err);
       alert('Failed to delete file. Please try again.');
@@ -56,34 +71,47 @@ export function useFileListLogic() {
   };
 
   const handleUpdateFile = async (fileData) => {
-    const { id, title, content, folderId,colors,filePosition  } = fileData;
+  const { id, title, content, folderId, colors, filePosition } = fileData;
 
-    if (!id) {
-      alert('File ID is required.');
-      return;
-    }
+  if (!id) {
+    alert('File ID is required.');
+    return;
+  }
 
-    const fileId = id;
-    const input = {};
-    if (title !== undefined) input.title = title;
-    if (content !== undefined) input.content = content;
-    if (folderId !== undefined) input.folderId = folderId;
-    if (colors  !== undefined) input.colors   = colors;
-    if (filePosition !== undefined) input.filePosition = filePosition; 
+  const input = {};
+  if (title !== undefined) input.title = title;
+  if (content !== undefined) input.content = content;
+  if (folderId !== undefined) input.folderId = folderId;
+  if (colors !== undefined) input.colors = colors;
+  if (filePosition !== undefined) input.filePosition = filePosition;
 
-    try {
-      await updateFile({
-        variables: {
-          id: fileId.toString(),
-          input, 
-        },
-      });
-      refetch();
-    } catch (err) {
-      console.error('Error updating file:', err.message);
-      alert(fileId);
-    }
-  };
+  try {
+    await updateFile({
+      variables: {
+        id: id.toString(),
+        input,
+      },
+      update: (cache, { data: { updateFile } }) => {
+        const existingData = cache.readQuery({ query: GET_FILES });
+
+        if (existingData?.getFiles) {
+          cache.writeQuery({
+            query: GET_FILES,
+            data: {
+              getFiles: existingData.getFiles.map((file) =>
+                file.id === id ? updateFile : file
+              ),
+            },
+          });
+        }
+      },
+    });
+  } catch (err) {
+    console.error('Error updating file:', err.message);
+    alert('Failed to update file.');
+  }
+};
+
 
   return {
     files,

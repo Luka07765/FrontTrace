@@ -12,6 +12,7 @@ export const GET_FOLDERS = gql`
         title
         content
         folderId
+        colors
         filePosition 
       }
     }
