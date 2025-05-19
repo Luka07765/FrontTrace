@@ -9,11 +9,6 @@ import Structure from './FolderLogic/Structure';
 export const Basic = ({ folders }) => {
   const { expandedFolders, creatingFolderParentId } = useFolderStore();
 
-  const { files = [] } = useFileListLogic();
-
-  const folderFiles = (folderId) =>
-    files.filter((file) => file.folderId === folderId);
-
   return (
     <ul>
       {folders.map((folder) => {
@@ -34,20 +29,14 @@ export const Basic = ({ folders }) => {
             <Structure folder={folder} />
             {/* FILES */}
 
-                   {/* {isExpanded && folder.files.length > 0 && (
+                   {isExpanded && folder.files.length > 0 && (
   <ul className="ml-8">
     {folder.files.map((file, index) => (
       <FileRender key={file.id} file={file} index={index} />
     ))}
-      </ul>)} */}
+      </ul>)}
 
-            {isExpanded && folderFiles(folder.id).length > 0 && (
-              <ul className="ml-8">
-                {folderFiles(folder.id).map((file,index) => (
-                  <FileRender key={file.id} file={file}  index={index} />
-                ))}
-              </ul>
-            )}
+
             {hasChildren && isExpanded && (
               <div className="ml-4">
                 <Basic folders={folder.children} />
