@@ -1,14 +1,33 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-
+import {useState} from "react"
 import FileRender from '@/Components/Navigator/Tools/FileLogic/File_Render';
-
+import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import CreateFolder from './FolderLogic/Create_Folder';
 import Structure from './FolderLogic/Structure';
 
 export const Basic = ({ folders }) => {
   const { expandedFolders, creatingFolderParentId } = useFolderStore();
+   const [draggingIndex, setDraggingIndex] = useState(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
+    const { handleUpdateFile } = useFileListLogic();
+    const handleDrop = async (files, folderId) => {
+    if (draggingIndex === null || dragOverIndex === null) return;
 
+    const reordered = [...files].sort((a, b) => a.filePosition - b.filePosition);
+    const [movedFile] = reordered.splice(draggingIndex, 1);
+    reordered.splice(dragOverIndex, 0, movedFile);
+
+    setDraggingIndex(null);
+    setDragOverIndex(null);
+
+    // Assign new positions based on the new order
+    for (let i = 0; i < reordered.length; i++) {
+      const updatedPos = i + 1;
+      if (reordered[i].filePosition !== updatedPos) {
+        await handleUpdateFile({ id: reordered[i].id, filePosition: updatedPos });
+      }
+    }
+  };
   return (
     <ul>
       {folders.map((folder) => {
@@ -31,8 +50,19 @@ export const Basic = ({ folders }) => {
 
                    {isExpanded && folder.files.length > 0 && (
   <ul className="ml-8">
-    {folder.files.map((file, index) => (
-      <FileRender key={file.id} file={file} index={index} />
+    {folder.files
+      .slice() // avoid mutating original
+      .sort((a, b) => a.filePosition - b.filePosition)
+      .map((file, index) => (
+        <FileRender
+          key={file.id}
+          file={file}
+          index={index}
+          onDragStart={(i) => setDraggingIndex(i)}
+          onDragEnter={(i) => setDragOverIndex(i)}
+          onDragEnd={() => handleDrop(folder.files, folder.id)}
+        />
+
     ))}
       </ul>)}
 

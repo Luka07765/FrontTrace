@@ -5,7 +5,7 @@ import Image from 'next/image';
 import fileIcon from '@/assets/FolderFile_Icons/file.png';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-function FileRender({ file,index }) {
+function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd }) {
   const {
     editFileId,
     setEditFileId,
@@ -53,6 +53,10 @@ function FileRender({ file,index }) {
     <div>
       <li
         key={file.id}
+            draggable
+      onDragStart={() => onDragStart(index)}
+      onDragEnter={() => onDragEnter(index)}
+      onDragEnd={onDragEnd}
         onClick={(e) => {
           e.stopPropagation();
  
