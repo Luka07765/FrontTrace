@@ -4,6 +4,7 @@ import {
   useDeleteFile,
   useUpdateFile,
 } from '@/Server/Apollo/Query/FetchQuery/FetchFolderFile';
+import { GET_FILES } from '@/Server/Apollo/Query/Queries/FolderFileQueries';
 
 export function useFileListLogic() {
   const { files, loading, error, refetch } = useFetchFiles();
@@ -12,26 +13,37 @@ export function useFileListLogic() {
   const [updateFile] = useUpdateFile();
 
   const handleCreateFile = async (fileData) => {
-    const { title, content, folderId,colors, filePosition  } = fileData;
-    
+  const { title, content, folderId, colors, filePosition } = fileData;
 
-    if (!folderId || !title) {
-      alert('Folder ID and File Name are required.');
-      return;
-    }
+  if (!folderId || !title) {
+    alert('Folder ID and File Name are required.');
+    return;
+  }
 
-    try {
-      await createFile({
-        variables: {
-          input: { title, content, folderId ,colors,filePosition },
-        },
-      });
-      refetch();
-    } catch (err) {
-      console.error('Error creating file:', err);
-      alert('Failed to create file. Please try again.');
-    }
-  };
+  try {
+    await createFile({
+      variables: {
+        input: { title, content, folderId, colors, filePosition },
+      },
+      update: (cache, { data: { createFile } }) => {
+        const existingData = cache.readQuery({ query: GET_FILES });
+
+        if (existingData?.getFiles) {
+          cache.writeQuery({
+            query: GET_FILES,
+            data: {
+              getFiles: [...existingData.getFiles, createFile],
+            },
+          });
+        }
+      },
+    });
+  } catch (err) {
+    console.error('Error creating file:', err);
+    alert('Failed to create file. Please try again.');
+  }
+};
+
 
   const handleDeleteFile = async (id) => {
     try {
