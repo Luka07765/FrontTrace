@@ -4,7 +4,7 @@ import FileRender from '@/Components/Navigator/Tools/FileLogic/File_Render';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import CreateFolder from './FolderLogic/Create_Folder';
 import Structure from './FolderLogic/Structure';
-
+import { motion, AnimatePresence } from 'framer-motion';
 export const Basic = ({ folders }) => {
   const { expandedFolders, creatingFolderParentId } = useFolderStore();
    const [draggingIndex, setDraggingIndex] = useState(null);
@@ -46,37 +46,50 @@ export const Basic = ({ folders }) => {
             }`}
           >
             <Structure folder={folder} />
-            {/* FILES */}
 
-                   {isExpanded && folder.files.length > 0 && (
-  <ul className="ml-8">
-    {folder.files
-      .slice() // avoid mutating original
-      .sort((a, b) => a.filePosition - b.filePosition)
-      .map((file, index) => (
-        <FileRender
-          key={file.id}
-          file={file}
-          index={index}
-          onDragStart={(i) => setDraggingIndex(i)}
-          onDragEnter={(i) => setDragOverIndex(i)}
-          onDragEnd={() => handleDrop(folder.files, folder.id)}
-        />
+        <AnimatePresence initial={false}>
+             {isExpanded && (
+                       <motion.div
+                         initial={{ opacity: 0, height: 0 }}
+                         animate={{ opacity: 1, height: 'auto' }}
+                         exit={{ opacity: 0, height: 0 }}
+                         transition={{ duration: 0.25, ease: 'easeInOut' }}
+                       >
+                         {folder.files.length > 0 && (
+                           <ul className="ml-8">
+                             {folder.files
+                               .slice()
+                               .sort((a, b) => a.filePosition - b.filePosition)
+                               .map((file, index) => (
+                                 <FileRender
+                                   key={file.id}
+                                   file={file}
+                                   index={index}
+                                   onDragStart={(i) => setDraggingIndex(i)}
+                                   onDragEnter={(i) => setDragOverIndex(i)}
+                                   onDragEnd={() => handleDrop(folder.files, folder.id)}
+                                 />
+                               ))}
+                           </ul>
+                         )}
+       
+                         {hasChildren && (
+                           <div className="ml-4">
+                             <Basic folders={folder.children} />
+                           </div>
+                         )}
+       
+                         {isCreatingChild && (
+                           <div className="ml-10">
+                             <CreateFolder parentId={folder?.id} />
+                           </div>
+                         )}
+                       </motion.div>
+                     )}                 
+           </AnimatePresence>
 
-    ))}
-      </ul>)}
 
 
-            {hasChildren && isExpanded && (
-              <div className="ml-4">
-                <Basic folders={folder.children} />
-              </div>
-            )}
-            {isCreatingChild && (
-              <div className="ml-10">
-                <CreateFolder parentId={folder?.id} />
-              </div>
-            )}
           </li>
         );
       })}

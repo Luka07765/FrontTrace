@@ -6,4 +6,7 @@ export const RightClick = create((set) => ({
 
   contextMenuPosition: { x: 0, y: 0 },
   setContextMenuPosition: (position) => set({ contextMenuPosition: position }),
+
+  contextMenuTarget: { type: null, id: null }, // type can be 'folder' | 'file' | 'empty' | null
+  setContextMenuTarget: (target) => set({ contextMenuTarget: target }),
 }));
