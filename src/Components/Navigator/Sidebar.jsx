@@ -40,7 +40,6 @@ const nestedFolders =
     ? buildNestedStructure(folders, files)
     : null;
 
-  console.log(nestedFolders)
   return (
     <div
       className=" p-4 text-white "

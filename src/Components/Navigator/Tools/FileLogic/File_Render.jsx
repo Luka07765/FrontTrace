@@ -10,7 +10,7 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd }) {
     editFileId,
     setEditFileId,
     setEditFileName,
- 
+    updateFileColor,
     setEditFileContent,
   } = useFileStore();
     const { handleUpdateFile } = useFileListLogic();
@@ -22,15 +22,18 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd }) {
   };
   
   const onColorClick = async (e) => {
-    e.stopPropagation();
-    const newColor = cycleColor(file.colors);
-    try {
-      await handleUpdateFile({ id: file.id, colors: newColor });
+  e.stopPropagation();
+  const newColor = cycleColor(file.colors);
 
-    } catch (err) {
-      console.error('Failed to update color', err);
-    }
-  };
+
+  updateFileColor(file.id, newColor);
+
+  try {
+    await handleUpdateFile({ id: file.id, colors: newColor });
+  } catch (err) {
+    console.error('Failed to update color', err);
+  }
+};
   
   const dotClass = {
     Red:    'bg-red-500',
@@ -68,10 +71,15 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd }) {
         className={`bg-grey-800 shadow-md rounded-lg p-2 flex items-center justify-between cursor-pointer ${
           editFileId === file.id ? 'ring-2 ring-indigo-500' : ''
         }`}
-      >     <span
-      onClick={onColorClick}
-      className={`w-[5px] h-[5px]  rounded-full cursor-pointer ${dotClass} absolute -translate-x-3 -translate-y-4`}
-    />
+      >     <div
+  onClick={onColorClick}
+  className="w-6 h-6 flex items-center justify-center absolute -translate-x-3 -translate-y-3 cursor-pointer"
+>
+  <span
+    className={`w-[6px] h-[6px] rounded-full ${dotClass}`}
+  />
+</div>
+
         <div className="flex items-center space-x-2">
           <Image
             src={fileIcon}
