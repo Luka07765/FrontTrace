@@ -54,6 +54,7 @@ export const Basic = ({ folders }) => {
                          animate={{ opacity: 1, height: 'auto' }}
                          exit={{ opacity: 0, height: 0 }}
                          transition={{ duration: 0.25, ease: 'easeInOut' }}
+                         
                        >
                          {folder.files.length > 0 && (
                            <ul className="ml-8">
