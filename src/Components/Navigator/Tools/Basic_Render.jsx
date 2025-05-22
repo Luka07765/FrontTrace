@@ -9,6 +9,7 @@ export const Basic = ({ folders }) => {
   const { expandedFolders, creatingFolderParentId } = useFolderStore();
    const [draggingIndex, setDraggingIndex] = useState(null);
   const [dragOverIndex, setDragOverIndex] = useState(null);
+  const [draggingFileId, setDraggingFileId] = useState(null);
     const { handleUpdateFile } = useFileListLogic();
     const handleDrop = async (files, folderId) => {
     if (draggingIndex === null || dragOverIndex === null) return;
@@ -28,6 +29,16 @@ export const Basic = ({ folders }) => {
       }
     }
   };
+
+const handleMoveFileToFolder = async (fileId, newFolderId) => {
+  try {
+    await handleUpdateFile({ id: fileId, folderId: newFolderId });
+    setDraggingFileId(null);
+  } catch (err) {
+    console.error('Move error:', err);
+  }
+};
+
   return (
     <ul>
       {folders.map((folder) => {
@@ -45,7 +56,8 @@ export const Basic = ({ folders }) => {
                 : ''
             }`}
           >
-            <Structure folder={folder} />
+            <Structure folder={folder}   draggingFileId={draggingFileId}
+  onDropFile={handleMoveFileToFolder}  />
 
         <AnimatePresence initial={false}>
              {isExpanded && (
@@ -66,9 +78,14 @@ export const Basic = ({ folders }) => {
                                    key={file.id}
                                    file={file}
                                    index={index}
-                                   onDragStart={(i) => setDraggingIndex(i)}
+                                     onDragStart={(i) => {
+    setDraggingIndex(i);
+    setDraggingFileId(file.id);
+  }}
+
                                    onDragEnter={(i) => setDragOverIndex(i)}
                                    onDragEnd={() => handleDrop(folder.files, folder.id)}
+                                    setDraggingFileId={setDraggingFileId} 
                                  />
                                ))}
                            </ul>

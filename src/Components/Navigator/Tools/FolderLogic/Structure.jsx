@@ -10,7 +10,7 @@ import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import Bad from "@/assets/FolderFile_Icons/unlike.png"
 import checked from "@/assets/FolderFile_Icons/checked.png";
 import Warning from "@/assets/FolderFile_Icons/warning-sign.png"
-function Structure({ folder }) {
+function Structure({ folder, onDropFile, draggingFileId }) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
   const { selectedFolderId, setSelectedFolderId } = Select();
   const {
@@ -22,7 +22,7 @@ function Structure({ folder }) {
   const isExpanded = expandedFolders[folder.id];
   const hasChildren = folder.children && folder.children.length > 0;
   const isEditing = editingFolderId === folder.id;
-
+ 
   const { files = [] } = useFileListLogic();
   const folderFiles = (folderId) =>
     files.filter((file) => file.folderId === folderId);
@@ -61,6 +61,13 @@ function Structure({ folder }) {
         setContextMenuVisible(true);
         setContextMenuPosition({ x: e.pageX, y: e.pageY });
       }}
+
+        onDragOver={(e) => e.preventDefault()}
+  onDrop={() => {
+    if (draggingFileId) {
+      onDropFile(draggingFileId, folder.id);
+    }
+  }}
     >
       {hasChildren || folderFiles(folder.id).length > 0 ? (
         <span onClick={() => setExpandedFolders(folder.id)} className="mr-1">

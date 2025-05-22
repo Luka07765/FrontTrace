@@ -5,7 +5,7 @@ import Image from 'next/image';
 import fileIcon from '@/assets/FolderFile_Icons/file.png';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd }) {
+function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd,setDraggingFileId }) {
   const {
     editFileId,
     setEditFileId,
@@ -57,7 +57,10 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd }) {
       <li
         key={file.id}
             draggable
-      onDragStart={() => onDragStart(index)}
+      onDragStart={() => {
+  onDragStart(index);
+  setDraggingFileId(file.id);
+}}
       onDragEnter={() => onDragEnter(index)}
       onDragEnd={onDragEnd}
         onClick={(e) => {
@@ -68,6 +71,7 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd }) {
           setEditFileContent(file.content);
           
         }}
+
         className={`bg-grey-800 shadow-md rounded-lg p-2 flex items-center justify-between cursor-pointer ${
           editFileId === file.id ? 'ring-2 ring-indigo-500' : ''
         }`}
