@@ -10,7 +10,13 @@ import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import Bad from "@/assets/FolderFile_Icons/unlike.png"
 import checked from "@/assets/FolderFile_Icons/checked.png";
 import Warning from "@/assets/FolderFile_Icons/warning-sign.png"
-function Structure({ folder, onDropFile, draggingFileId }) {
+function Structure({   folder,
+  onDragStart,
+  onDragEnter,
+  onDragEnd,
+  draggingFileId,
+  draggingIndex,
+  dragOverIndex}) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
   const { selectedFolderId, setSelectedFolderId } = Select();
   const {
@@ -70,7 +76,7 @@ function Structure({ folder, onDropFile, draggingFileId }) {
   }}
     >
       {hasChildren || folderFiles(folder.id).length > 0 ? (
-        <span onClick={() => setExpandedFolders(folder.id)} className="mr-1">
+         <span onClick={() => setExpandedFolders(folder.id)} className="mr-1">
           {' '}
           {isExpanded ? (
             <FaChevronDown className="inline" />
@@ -82,15 +88,17 @@ function Structure({ folder, onDropFile, draggingFileId }) {
         <span className="mr-4" />
       )}
 
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-          setSelectedFolderId(
-            selectedFolderId === folder.id ? null : folder.id
-          );
-        }}
-        className="flex-grow"
-      >
+  <div
+  onClick={(e) => {
+    e.stopPropagation();
+    setSelectedFolderId(
+      selectedFolderId === folder.id ? null : folder.id
+    );
+    setExpandedFolders(folder.id); 
+  }}
+  className="flex-grow"
+>
+
         {isEditing ? (
           <RenameFolder folder={folder} />
         ) : (
