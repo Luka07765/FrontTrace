@@ -59,9 +59,7 @@ function Structure({   folder,
       }`}
       onContextMenu={(e) => {
         e.preventDefault();
-
         setSelectedFolderId(folder.id);
-
         setContextMenuVisible(true);
         setContextMenuPosition({ x: e.pageX, y: e.pageY });
       }}
