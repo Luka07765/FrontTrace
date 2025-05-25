@@ -5,7 +5,7 @@ import Image from 'next/image';
 import fileIcon from '@/assets/FolderFile_Icons/file.png';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd,setDraggingFileId }) {
+function FileRender({ file,index,folderTitle, onDragStart, onDragEnter, onDragEnd,setDraggingFileId }) {
   const {
     editFileId,
     setEditFileId,
@@ -61,8 +61,18 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd,setDraggin
   onDragStart(index);
   setDraggingFileId(file.id);
 }}
-      onDragEnter={() => onDragEnter(index)}
+          onDragEnter={() => {
+          onDragEnter(index);
+          console.log('Dragging over file:', {
+            fileId: file.id,
+              folderTitle,  
+            parentFolderId: file.parentFolderId ,
+            title: file.title,
+            position: file.filePosition,
+          });
+        }}
       onDragEnd={onDragEnd}
+  
         onClick={(e) => {
           e.stopPropagation();
  

@@ -57,7 +57,13 @@ const handleMoveFileToFolder = async (fileId, newFolderId) => {
             }`}
           >
             <Structure folder={folder}   draggingFileId={draggingFileId}
-  onDropFile={handleMoveFileToFolder}  />
+  onDropFile={handleMoveFileToFolder}     onDragEnterFolder={() => {
+      console.log('Dragging over folder:', folder.title);
+      // You can also set some state to highlight folder here
+    }}
+    onDragLeaveFolder={() => {
+     console.log("left")
+    }} />
 
         <AnimatePresence initial={false}>
              {isExpanded && (
@@ -77,6 +83,7 @@ const handleMoveFileToFolder = async (fileId, newFolderId) => {
                                  <FileRender
                                    key={file.id}
                                    file={file}
+                                      folderTitle={folder.title}
                                    index={index}
                                      onDragStart={(i) => {
     setDraggingIndex(i);

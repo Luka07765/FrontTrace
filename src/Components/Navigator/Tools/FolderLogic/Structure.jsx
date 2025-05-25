@@ -11,12 +11,10 @@ import Bad from "@/assets/FolderFile_Icons/unlike.png"
 import checked from "@/assets/FolderFile_Icons/checked.png";
 import Warning from "@/assets/FolderFile_Icons/warning-sign.png"
 function Structure({   folder,
-  onDragStart,
-  onDragEnter,
-  onDragEnd,
-  draggingFileId,
-  draggingIndex,
-  dragOverIndex}) {
+  onDragEnterFolder,
+  draggingFileId,onDragLeaveFolder,
+  
+  }) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
   const { selectedFolderId, setSelectedFolderId } = Select();
   const {
@@ -165,7 +163,20 @@ function Structure({   folder,
               </div>
              )}
 
-              <strong className="text-left">{folder.title}</strong>
+                 <div
+      onDragEnter={(e) => {
+        e.preventDefault();
+        if (onDragEnterFolder) onDragEnterFolder();
+      }}
+      onDragOver={(e) => e.preventDefault()} // needed to allow drop
+      onDragLeave={(e) => {
+        if (onDragLeaveFolder) onDragLeaveFolder();
+      }}
+      // other props and rendering
+    >
+      {/* render folder name, icon, etc */}
+      {folder.title}
+    </div>
               {/* <strong>{folder.id}</strong>           */}
           </div>
 
