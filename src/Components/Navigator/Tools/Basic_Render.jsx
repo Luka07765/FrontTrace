@@ -77,6 +77,14 @@ export const Basic = ({ folders }) => {
                       .sort((a, b) => a.filePosition - b.filePosition)
                       .map((file, index) => (
                         <FileRender
+                              draggingFileId={draggingFileId}
+              onDropFile={handleMoveFileToFolder}
+              onDragEnterFolder={() => {
+                console.log('Dragging over folder:', folder.id);
+              }}
+              onDragLeaveFolder={() => {
+                console.log("left");
+              }}
                           key={file.id}
                           file={file}
                           parentFolderId={folder.id}

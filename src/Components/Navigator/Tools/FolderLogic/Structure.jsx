@@ -172,10 +172,10 @@ function Structure({   folder,
       }}
       // other props and rendering
     >
-      {/* render folder name, icon, etc */}
+
       {folder.title}
     </div>
-              {/* <strong>{folder.id}</strong>           */}
+    
           </div>
 
           </>

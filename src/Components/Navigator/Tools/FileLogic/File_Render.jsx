@@ -5,7 +5,9 @@ import Image from 'next/image';
 import fileIcon from '@/assets/FolderFile_Icons/file.png';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd,setDraggingFileId }) {
+function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd,setDraggingFileId,folder,
+  onDragEnterFolder,
+  draggingFileId,onDragLeaveFolder, }) {
   const {
     editFileId,
     setEditFileId,
