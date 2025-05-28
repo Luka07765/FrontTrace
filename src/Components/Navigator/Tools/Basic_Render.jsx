@@ -36,6 +36,14 @@ export const Basic = ({ folders }) => {
     }
 
   };
+const moveToFolder = async (fileId, targetFolderId) => {
+  await handleUpdateFile({
+    id: fileId,
+    folderId: targetFolderId,
+
+  });
+};
+
 
   
 
@@ -80,6 +88,7 @@ export const Basic = ({ folders }) => {
                           }}
                           onDragEnter={(i) => setDragOverIndex(i)}
                           onDragEnd={() => handleDrop(folder.files)}
+                          onDragEXample={() => moveToFolder(file.id,moveFolder)}
                  
                         />
                       ))}

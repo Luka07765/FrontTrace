@@ -10,6 +10,7 @@ import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import Bad from "@/assets/FolderFile_Icons/unlike.png"
 import checked from "@/assets/FolderFile_Icons/checked.png";
 import Warning from "@/assets/FolderFile_Icons/warning-sign.png"
+import React, { useRef } from 'react';
 function Structure({   folder
   }) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
@@ -23,7 +24,10 @@ function Structure({   folder
   const isExpanded = expandedFolders[folder.id];
   const hasChildren = folder.children && folder.children.length > 0;
   const isEditing = editingFolderId === folder.id;
- 
+   const debounceTimer = useRef(null);
+
+
+   
   const { files = [] } = useFileListLogic();
   const folderFiles = (folderId) =>
     files.filter((file) => file.folderId === folderId);
@@ -48,7 +52,19 @@ function Structure({   folder
   const redCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'red' || '').length;
  
   const yellowCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'yellow' || '').length;
-  
+
+
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+
+    if (debounceTimer.current) return; 
+
+    setExpandedFolders(folder.id);
+
+    debounceTimer.current = setTimeout(() => {
+      debounceTimer.current = null;
+    }, 3000);
+  };
   return (
     <div
       className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
@@ -65,12 +81,7 @@ function Structure({   folder
  
     >
       {hasChildren || folderFiles(folder.id).length > 0 ? (
-         <span     onDragEnter={(e) => {
-        e.preventDefault();
-
-
-           setExpandedFolders(folder.id); 
-      }} onClick={() => setExpandedFolders(folder.id)} className="mr-1">
+         <span    onDragEnter={handleDragEnter} onClick={() => setExpandedFolders(folder.id)} className="mr-1">
           {' '}
           {isExpanded ? (
             <FaChevronDown className="inline" />
