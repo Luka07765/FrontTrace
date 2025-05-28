@@ -31,11 +31,13 @@ export const Basic = ({ folders }) => {
     for (let i = 0; i < reordered.length; i++) {
       const updatedPos = i + 1;
       if (reordered[i].filePosition !== updatedPos) {
-        await handleUpdateFile({ id: reordered[i].id, filePosition: updatedPos, folderId: moveFolder  });
+        await handleUpdateFile({ id: reordered[i].id, filePosition: updatedPos,  });
       }
     }
-    setMoveFolder(null)
+
   };
+
+  
 
 
 

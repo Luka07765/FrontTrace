@@ -10,10 +10,7 @@ import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import Bad from "@/assets/FolderFile_Icons/unlike.png"
 import checked from "@/assets/FolderFile_Icons/checked.png";
 import Warning from "@/assets/FolderFile_Icons/warning-sign.png"
-function Structure({   folder,
-  onDragEnterFolder,
-  onDragLeaveFolder
-  
+function Structure({   folder
   }) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
   const { selectedFolderId, setSelectedFolderId } = Select();
@@ -68,7 +65,12 @@ function Structure({   folder,
  
     >
       {hasChildren || folderFiles(folder.id).length > 0 ? (
-         <span onClick={() => setExpandedFolders(folder.id)} className="mr-1">
+         <span     onDragEnter={(e) => {
+        e.preventDefault();
+
+
+           setExpandedFolders(folder.id); 
+      }} onClick={() => setExpandedFolders(folder.id)} className="mr-1">
           {' '}
           {isExpanded ? (
             <FaChevronDown className="inline" />
@@ -160,14 +162,13 @@ function Structure({   folder,
                  <div
       onDragEnter={(e) => {
         e.preventDefault();
-        if (onDragEnterFolder) onDragEnterFolder();
+
          setMoveFolder(folder.id);
+      
       }}
-      onDragOver={(e) => e.preventDefault()} // needed to allow drop
-      onDragLeave={(e) => {
-        if (onDragLeaveFolder) onDragLeaveFolder();
-      }}
-      // other props and rendering
+      onDragOver={(e) => e.preventDefault()} 
+    
+
     >
 
       {folder.title}
