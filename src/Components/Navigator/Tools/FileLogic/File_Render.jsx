@@ -5,9 +5,7 @@ import Image from 'next/image';
 import fileIcon from '@/assets/FolderFile_Icons/file.png';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd,setDraggingFileId,folder,
-  onDragEnterFolder,
-  draggingFileId,onDragLeaveFolder, }) {
+function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd,setDraggingFileId }) {
   const {
     editFileId,
     setEditFileId,
@@ -44,14 +42,6 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd,setDraggin
   }[file.colors] || 'bg-gray-400';
 
   
-    const handlePositionUpdate = async (e) => {
-    e.stopPropagation();
-    try {
-      await handleUpdateFile({ id: file.id, filePosition: parseInt(positionInput) });
-    } catch (err) {
-      console.error('Failed to update position', err);
-    }
-  };
 
 
   return (
@@ -61,9 +51,10 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd,setDraggin
             draggable
       onDragStart={() => {
   onDragStart(index);
-  setDraggingFileId(file.id);
+
 }}
-          onDragEnter={() => {
+  onDragEnter={() => {
+           
           onDragEnter(index);
        
         }}
@@ -99,7 +90,7 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd,setDraggin
             className="filter invert"
           />
           <span className="text-left"> {file.title}           {file.filePosition}</span>
-          {/* <span>{file.folderId}</span> */}
+     
 
                   <div className="flex items-center gap-2">
           <input
@@ -109,13 +100,7 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd,setDraggin
             onClick={(e) => e.stopPropagation()}
             onChange={(e) => setPositionInput(e.target.value)}
           />
-          <button
-            onClick={handlePositionUpdate}
-            className="px-2 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Update Pos
-  
-          </button>
+    
         </div>
         </div>
       </li>

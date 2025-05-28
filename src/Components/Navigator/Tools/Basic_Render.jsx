@@ -4,41 +4,40 @@ import FileRender from '@/Components/Navigator/Tools/FileLogic/File_Render';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import CreateFolder from './FolderLogic/Create_Folder';
 import Structure from './FolderLogic/Structure';
+import { useFileStore } from '@/Zustand/File_Store';
 // 🚫 Removed: import { motion, AnimatePresence } from 'framer-motion';
 
 export const Basic = ({ folders }) => {
-  const { expandedFolders, creatingFolderParentId } = useFolderStore();
-  const [draggingIndex, setDraggingIndex] = useState(null);
-  const [dragOverIndex, setDragOverIndex] = useState(null);
-  const [draggingFileId, setDraggingFileId] = useState(null);
+  const { expandedFolders, creatingFolderParentId,moveFolder,setMoveFolder } = useFolderStore();
+    const {
+
+      draggingIndex,setDraggingIndex,dragOverIndex,setDragOverIndex
+  } = useFileStore();
+
+
+  
   const { handleUpdateFile } = useFileListLogic();
 
-  const handleDrop = async (files, folderId) => {
+  const handleDrop = async (files) => {
     if (draggingIndex === null || dragOverIndex === null) return;
 
     const reordered = [...files].sort((a, b) => a.filePosition - b.filePosition);
     const [movedFile] = reordered.splice(draggingIndex, 1);
     reordered.splice(dragOverIndex, 0, movedFile);
-
+    
     setDraggingIndex(null);
     setDragOverIndex(null);
 
     for (let i = 0; i < reordered.length; i++) {
       const updatedPos = i + 1;
       if (reordered[i].filePosition !== updatedPos) {
-        await handleUpdateFile({ id: reordered[i].id, filePosition: updatedPos });
+        await handleUpdateFile({ id: reordered[i].id, filePosition: updatedPos, folderId: moveFolder  });
       }
     }
+    setMoveFolder(null)
   };
 
-  const handleMoveFileToFolder = async (fileId, newFolderId) => {
-    try {
-      await handleUpdateFile({ id: fileId, folderId: newFolderId });
-      setDraggingFileId(null);
-    } catch (err) {
-      console.error('Move error:', err);
-    }
-  };
+
 
   return (
     <ul>
@@ -58,14 +57,6 @@ export const Basic = ({ folders }) => {
           >
             <Structure
               folder={folder}
-              draggingFileId={draggingFileId}
-              onDropFile={handleMoveFileToFolder}
-              onDragEnterFolder={() => {
-                console.log('Dragging over folder:', folder.id);
-              }}
-              onDragLeaveFolder={() => {
-                console.log("left");
-              }}
             />
 
             {isExpanded && (
@@ -77,25 +68,17 @@ export const Basic = ({ folders }) => {
                       .sort((a, b) => a.filePosition - b.filePosition)
                       .map((file, index) => (
                         <FileRender
-                              draggingFileId={draggingFileId}
-              onDropFile={handleMoveFileToFolder}
-              onDragEnterFolder={() => {
-                console.log('Dragging over folder:', folder.id);
-              }}
-              onDragLeaveFolder={() => {
-                console.log("left");
-              }}
                           key={file.id}
                           file={file}
-                          parentFolderId={folder.id}
+                       
                           index={index}
                           onDragStart={(i) => {
                             setDraggingIndex(i);
-                            setDraggingFileId(file.id);
+                          
                           }}
                           onDragEnter={(i) => setDragOverIndex(i)}
-                          onDragEnd={() => handleDrop(folder.files, folder.id)}
-                          setDraggingFileId={setDraggingFileId}
+                          onDragEnd={() => handleDrop(folder.files)}
+                 
                         />
                       ))}
                   </ul>

@@ -12,7 +12,7 @@ import checked from "@/assets/FolderFile_Icons/checked.png";
 import Warning from "@/assets/FolderFile_Icons/warning-sign.png"
 function Structure({   folder,
   onDragEnterFolder,
-  draggingFileId,onDragLeaveFolder,
+  onDragLeaveFolder
   
   }) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
@@ -20,7 +20,7 @@ function Structure({   folder,
   const {
     expandedFolders,
     setExpandedFolders,
-
+   setMoveFolder,
     editingFolderId,
   } = useFolderStore();
   const isExpanded = expandedFolders[folder.id];
@@ -65,11 +65,7 @@ function Structure({   folder,
       }}
 
         onDragOver={(e) => e.preventDefault()}
-  onDrop={() => {
-    if (draggingFileId) {
-      onDropFile(draggingFileId, folder.id);
-    }
-  }}
+ 
     >
       {hasChildren || folderFiles(folder.id).length > 0 ? (
          <span onClick={() => setExpandedFolders(folder.id)} className="mr-1">
@@ -165,6 +161,7 @@ function Structure({   folder,
       onDragEnter={(e) => {
         e.preventDefault();
         if (onDragEnterFolder) onDragEnterFolder();
+         setMoveFolder(folder.id);
       }}
       onDragOver={(e) => e.preventDefault()} // needed to allow drop
       onDragLeave={(e) => {

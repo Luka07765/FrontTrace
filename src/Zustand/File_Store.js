@@ -1,31 +1,31 @@
 import { create } from 'zustand';
 
 export const useFileStore = create((set, get) => ({
-  fileList: [],
+  draggingIndex: null,
+  dragOverIndex: null,
   fileName: '',
   fileContent: '',
   folderId: '',
   editFileName: '',
   editFileContent: '',
+  editFileId: '',
+  fileList: [],
 
-
+  setDraggingIndex: (index) => set({ draggingIndex: index }),
+  setDragOverIndex: (index) => set({ dragOverIndex: index }),
   setEditFileId: (id) => set({ editFileId: id }),
   setFileName: (name) => set({ fileName: name }),
   setFileContent: (content) => set({ fileContent: content }),
   setFolderId: (id) => set({ folderId: id }),
-    setFileList: (files) => set({ fileList: files }),
-  setEditFileName: (name) => {
-    set({
-      editFileName: name,
-    });
-  },
+  setEditFileName: (name) => set({ editFileName: name }),
+  setEditFileContent: (content) => set({ editFileContent: content }),
 
-  setEditFileContent: (content) => {
+  resetDragState: () =>
     set({
-      editFileContent: content,
-     
-    });
-  },
+      draggingIndex: null,
+      dragOverIndex: null,
+    }),
+
   updateFileColor: (id, newColor) =>
     set((state) => ({
       fileList: state.fileList.map((file) =>
@@ -33,11 +33,8 @@ export const useFileStore = create((set, get) => ({
       ),
     })),
 
-
-
   handleSubmitUpdate: (handleUpdateFile) => {
-    const { editFileId, editFileName, editFileContent, fileName, fileContent } =
-      get();
+    const { editFileId, editFileName, editFileContent, fileName, fileContent } = get();
     const delta = { id: editFileId };
 
     if (editFileName !== fileName && editFileName.trim() !== '') {

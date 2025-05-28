@@ -4,6 +4,9 @@ export const useFolderStore = create((set) => ({
   editingFolderId: null,
   setEditingFolderId: (id) => set({ editingFolderId: id }),
 
+  moveFolder: null,
+  setMoveFolder: (id) => set({ moveFolder: id }),
+
   creatingFolderParentId: undefined,
   setCreatingFolderParentId: (id) => set({ creatingFolderParentId: id }),
 
