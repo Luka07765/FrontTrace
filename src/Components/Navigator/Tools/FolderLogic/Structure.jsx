@@ -61,7 +61,7 @@ function Structure({   folder
   const safeMoveFolder = async ({
   dragFolder,
   moveFolder,
-  folders,
+ 
 }) => {
   if (!dragFolder || !moveFolder) {
     console.warn('Missing source or target folder ID.');
@@ -73,36 +73,6 @@ function Structure({   folder
     return;
   }
 
-  const source = folders.find(f => f.id === dragFolder);
-  const target = folders.find(f => f.id === moveFolder);
-
-  if (!source) {
-    console.warn('Source folder not found.');
-    return;
-  }
-
-  if (!target) {
-    console.warn('Target folder not found.');
-    return;
-  }
-
-  if (source.parentFolderId === moveFolder) {
-    console.log('Folder already in target — no update needed.');
-    return;
-  }
-
-  // Prevent circular reference: dragFolder shouldn't be moved into its descendant
-  const isDescendant = (targetId, currentId) => {
-    const current = folders.find(f => f.id === currentId);
-    if (!current || !current.parentFolderId) return false;
-    if (current.parentFolderId === targetId) return true;
-    return isDescendant(targetId, current.parentFolderId);
-  };
-
-  if (isDescendant(dragFolder, moveFolder)) {
-    console.warn('Cannot move folder into its own descendant.');
-    return;
-  }
 
   await handleUpdateFolder({
     id: dragFolder,
@@ -278,7 +248,7 @@ function Structure({   folder
   safeMoveFolder({
     dragFolder,
     moveFolder,
-    folders, 
+   
   });
 }}
 
