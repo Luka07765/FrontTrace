@@ -68,13 +68,9 @@ const moveToFolder = async (fileId, targetFolderId) => {
             <Structure
               folder={folder}
             />
-                        <AnimatePresence>
+                
             {isExpanded && (
-              <motion.div          initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.4, ease: 'easeInOut' }}
-                  className="overflow-hidden">
+              <div>
 
                 {folder.files.length > 0 && (
                   <ul className="ml-8">
@@ -111,8 +107,8 @@ const moveToFolder = async (fileId, targetFolderId) => {
                     <CreateFolder parentId={folder?.id} />
                   </div>
                 )}
-              </motion.div>
-            )}</AnimatePresence>
+              </div>
+            )}
           </li>
         );
       })}
