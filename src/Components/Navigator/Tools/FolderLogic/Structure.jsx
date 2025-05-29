@@ -73,6 +73,19 @@ function Structure({   folder
     return;
   }
 
+  if (
+  !moveFolder ||                               // null, undefined, 0, false
+  typeof moveFolder !== 'string' ||            // numbers, objects, arrays, etc.
+  moveFolder.trim() === '' ||                  // empty string or whitespace
+  moveFolder === 'null' ||                     // string literal "null"
+  moveFolder === 'undefined'                   // string literal "undefined"
+) {
+
+  moveFolder = null;
+  return;
+}
+
+
 
   await handleUpdateFolder({
     id: dragFolder,
@@ -237,26 +250,28 @@ function Structure({   folder
               </motion.div>
              )}
 
-                 <div
-                       draggable
+                 <div className="flex items-center space-x-1">
+    <div className="ml-1">
+    {folder.title}
+  </div>
+  <div
+    draggable
+    onDragStart={() => setDragFolder(folder.id)}
+    onDragEnd={() =>
+      safeMoveFolder({
+        dragFolder,
+        moveFolder,
+      })
+    }
+    title="Drag to move folder"
+    className="cursor-grab text-gray-300 hover:text-white"
+  >
+    <span className="text-xl leading-none select-none">⋮</span> 
+  </div>
 
-   onDragStart={() => {
-  setDragFolder(folder.id);
-}}
 
-  onDragEnd={() => {
-  safeMoveFolder({
-    dragFolder,
-    moveFolder,
-   
-  });
-}}
+</div>
 
-      
-    >
-
-      {folder.title}
-    </div>
     
           </div>
 
