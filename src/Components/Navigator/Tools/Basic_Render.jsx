@@ -5,7 +5,7 @@ import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import CreateFolder from './FolderLogic/Create_Folder';
 import Structure from './FolderLogic/Structure';
 import { useFileStore } from '@/Zustand/File_Store';
-// 🚫 Removed: import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const Basic = ({ folders }) => {
   const { expandedFolders, creatingFolderParentId,moveFolder,setMoveFolder } = useFolderStore();
@@ -68,9 +68,14 @@ const moveToFolder = async (fileId, targetFolderId) => {
             <Structure
               folder={folder}
             />
-
+                        <AnimatePresence>
             {isExpanded && (
-              <div>
+              <motion.div          initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: 'easeInOut' }}
+                  className="overflow-hidden">
+
                 {folder.files.length > 0 && (
                   <ul className="ml-8">
                     {folder.files
@@ -106,8 +111,8 @@ const moveToFolder = async (fileId, targetFolderId) => {
                     <CreateFolder parentId={folder?.id} />
                   </div>
                 )}
-              </div>
-            )}
+              </motion.div>
+            )}</AnimatePresence>
           </li>
         );
       })}
