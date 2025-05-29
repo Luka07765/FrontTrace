@@ -5,10 +5,10 @@ import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import CreateFolder from './FolderLogic/Create_Folder';
 import Structure from './FolderLogic/Structure';
 import { useFileStore } from '@/Zustand/File_Store';
-import { motion, AnimatePresence } from 'framer-motion';
+
 
 export const Basic = ({ folders }) => {
-  const { expandedFolders, creatingFolderParentId,moveFolder,setMoveFolder } = useFolderStore();
+  const { expandedFolders, creatingFolderParentId,moveFolder } = useFolderStore();
     const {
 
       draggingIndex,setDraggingIndex,dragOverIndex,setDragOverIndex
@@ -18,30 +18,44 @@ export const Basic = ({ folders }) => {
   
   const { handleUpdateFile } = useFileListLogic();
 
-  const handleDrop = async (files) => {
-    if (draggingIndex === null || dragOverIndex === null) return;
+const handleDrop = async ({ files, fileId = null, targetFolderId = null }) => {
+  if (!fileId || !targetFolderId) return;
 
-    const reordered = [...files].sort((a, b) => a.filePosition - b.filePosition);
-    const [movedFile] = reordered.splice(draggingIndex, 1);
-    reordered.splice(dragOverIndex, 0, movedFile);
-    
+  const draggedFile = files.find(f => f.id === fileId);
+  if (!draggedFile) return;
+
+  const sourceFolderId = draggedFile.folderId;
+
+  // Case 1: Reordering within the same folder
+  if (sourceFolderId === targetFolderId && draggingIndex !== null && dragOverIndex !== null) {
+    const sameFolderFiles = files
+      .filter(f => f.folderId === sourceFolderId)
+      .sort((a, b) => a.filePosition - b.filePosition);
+
+    const [movedFile] = sameFolderFiles.splice(draggingIndex, 1);
+    sameFolderFiles.splice(dragOverIndex, 0, movedFile);
+
     setDraggingIndex(null);
     setDragOverIndex(null);
 
-    for (let i = 0; i < reordered.length; i++) {
+    for (let i = 0; i < sameFolderFiles.length; i++) {
       const updatedPos = i + 1;
-      if (reordered[i].filePosition !== updatedPos) {
-        await handleUpdateFile({ id: reordered[i].id, filePosition: updatedPos,  });
+      if (sameFolderFiles[i].filePosition !== updatedPos) {
+        await handleUpdateFile({ id: sameFolderFiles[i].id, filePosition: updatedPos });
       }
     }
 
-  };
-const moveToFolder = async (fileId, targetFolderId) => {
-  await handleUpdateFile({
-    id: fileId,
-    folderId: targetFolderId,
+  // Case 2: Moving to a different folder
+  } else if (sourceFolderId !== targetFolderId) {
+    await handleUpdateFile({
+      id: fileId,
+      folderId: targetFolderId,
+    });
 
-  });
+    // Optional: reorder the target folder's files if necessary
+  }
+
+  // Additional cases can be handled here if needed
 };
 
 
@@ -88,8 +102,9 @@ const moveToFolder = async (fileId, targetFolderId) => {
                           
                           }}
                           onDragEnter={(i) => setDragOverIndex(i)}
-                          onDragEnd={() => handleDrop(folder.files)}
-                          onDragEXample={() => moveToFolder(file.id,moveFolder)}
+                          onDragEnd={() => handleDrop({ files: folder.files, fileId: file.id, targetFolderId: moveFolder })}
+
+                      
                  
                         />
                       ))}
