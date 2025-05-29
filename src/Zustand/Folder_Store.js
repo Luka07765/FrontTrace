@@ -7,6 +7,10 @@ export const useFolderStore = create((set) => ({
   moveFolder: null,
   setMoveFolder: (id) => set({ moveFolder: id }),
 
+  dragFolder: null,
+  setDragFolder: (id) => set({ dragFolder: id }),
+
+
   creatingFolderParentId: undefined,
   setCreatingFolderParentId: (id) => set({ creatingFolderParentId: id }),
 

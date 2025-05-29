@@ -10,7 +10,10 @@ import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import Bad from "@/assets/FolderFile_Icons/unlike.png"
 import checked from "@/assets/FolderFile_Icons/checked.png";
 import Warning from "@/assets/FolderFile_Icons/warning-sign.png"
-import React, { useRef } from 'react';
+import React, { useRef,useEffect } from 'react';
+import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
+
+
 import { motion, AnimatePresence } from 'framer-motion';
 function Structure({   folder
   }) {
@@ -19,16 +22,16 @@ function Structure({   folder
   const {
     expandedFolders,
     setExpandedFolders,
-   setMoveFolder,
-    editingFolderId,
+   setMoveFolder,moveFolder,
+    editingFolderId,setDragFolder,dragFolder
   } = useFolderStore();
   const isExpanded = expandedFolders[folder.id];
   const hasChildren = folder.children && folder.children.length > 0;
   const isEditing = editingFolderId === folder.id;
    const debounceTimer = useRef(null);
+   const moveFile = useRef(null);
 
 
-   
   const { files = [] } = useFileListLogic();
   const folderFiles = (folderId) =>
     files.filter((file) => file.folderId === folderId);
@@ -49,10 +52,63 @@ function Structure({   folder
     allFolderIds.includes(file.folderId)
   );
 
-
+  const { handleUpdateFolder } = useFolderListLogic();
   const redCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'red' || '').length;
  
   const yellowCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'yellow' || '').length;
+  
+
+  const safeMoveFolder = async ({
+  dragFolder,
+  moveFolder,
+  folders,
+}) => {
+  if (!dragFolder || !moveFolder) {
+    console.warn('Missing source or target folder ID.');
+    return;
+  }
+
+  if (dragFolder === moveFolder) {
+    console.warn('Cannot move a folder into itself.');
+    return;
+  }
+
+  const source = folders.find(f => f.id === dragFolder);
+  const target = folders.find(f => f.id === moveFolder);
+
+  if (!source) {
+    console.warn('Source folder not found.');
+    return;
+  }
+
+  if (!target) {
+    console.warn('Target folder not found.');
+    return;
+  }
+
+  if (source.parentFolderId === moveFolder) {
+    console.log('Folder already in target — no update needed.');
+    return;
+  }
+
+  // Prevent circular reference: dragFolder shouldn't be moved into its descendant
+  const isDescendant = (targetId, currentId) => {
+    const current = folders.find(f => f.id === currentId);
+    if (!current || !current.parentFolderId) return false;
+    if (current.parentFolderId === targetId) return true;
+    return isDescendant(targetId, current.parentFolderId);
+  };
+
+  if (isDescendant(dragFolder, moveFolder)) {
+    console.warn('Cannot move folder into its own descendant.');
+    return;
+  }
+
+  await handleUpdateFolder({
+    id: dragFolder,
+    parentFolderId: moveFolder,
+  });
+};
 
 
   const handleDragEnter = (e) => {
@@ -67,10 +123,17 @@ function Structure({   folder
     }, 3000);
   };
 
-    const chevronVariants = {
-    expanded: { rotate: 90 },
-    collapsed: { rotate: 0 }
+    const moveFileToFolder = (e) => {
+    e.preventDefault();
+
+    if (moveFile.current) return; 
+
+      setMoveFolder(folder.id);
+    moveFile.current = setTimeout(() => {
+      moveFile.current = null;
+    }, 500);
   };
+
 
   const folderIconVariants = {
     expanded: { scale: 1.1, rotate: 5 },
@@ -124,7 +187,8 @@ function Structure({   folder
           <RenameFolder folder={folder} />
         ) : (
           <>
-            <div className="flex items-center space-x-3">
+            <div  onDragEnter={moveFileToFolder}
+         className="flex items-center space-x-3">
                  <motion.div
                 variants={folderIconVariants}
                 animate={isExpanded ? "expanded" : "collapsed"}
@@ -204,15 +268,21 @@ function Structure({   folder
              )}
 
                  <div
-      onDragEnter={(e) => {
-        e.preventDefault();
+                       draggable
 
-         setMoveFolder(folder.id);
+   onDragStart={() => {
+  setDragFolder(folder.id);
+}}
+
+  onDragEnd={() => {
+  safeMoveFolder({
+    dragFolder,
+    moveFolder,
+    folders, 
+  });
+}}
+
       
-      }}
-      onDragOver={(e) => e.preventDefault()} 
-    
-
     >
 
       {folder.title}

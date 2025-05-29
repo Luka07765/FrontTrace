@@ -85,19 +85,22 @@ update: (cache, { data: { createFolder } }) => {
   const handleUpdateFolder = async (folderData) => {
     const { id, title, parentFolderId } = folderData;
 
-    if (!id || !title) {
-      alert('Folder ID and Folder Name are required.');
-      return;
-    }
+      if (!id) {
+    alert('Folder ID is required.');
+    return;
+  }
+
+  const input = {};
+  if (title !== undefined) input.title = title;
+  if (parentFolderId !== undefined) input.parentFolderId = parentFolderId !== '' ? parentFolderId : null;
+
+
 
     try {
     await updateFolder({
   variables: {
     id: id.toString(),
-    input: {
-      title,
-      parentFolderId: parentFolderId !== '' ? parentFolderId : null,
-    },
+    input,
   },
   update: (cache, { data: { updateFolder } }) => {
     const existingData = cache.readQuery({ query: GET_FOLDERS });

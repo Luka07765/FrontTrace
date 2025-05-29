@@ -1,10 +1,11 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useState } from "react";
+
 import FileRender from '@/Components/Navigator/Tools/FileLogic/File_Render';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import CreateFolder from './FolderLogic/Create_Folder';
 import Structure from './FolderLogic/Structure';
 import { useFileStore } from '@/Zustand/File_Store';
+import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
 
 export const Basic = ({ folders }) => {
@@ -13,10 +14,10 @@ export const Basic = ({ folders }) => {
 
       draggingIndex,setDraggingIndex,dragOverIndex,setDragOverIndex
   } = useFileStore();
-
-
   
   const { handleUpdateFile } = useFileListLogic();
+  const { handleUpdateFolder } = useFolderListLogic();
+
 
 const handleDrop = async ({ files, fileId = null, targetFolderId = null }) => {
   if (!fileId || !targetFolderId) return;
@@ -26,7 +27,7 @@ const handleDrop = async ({ files, fileId = null, targetFolderId = null }) => {
 
   const sourceFolderId = draggedFile.folderId;
 
-  // Case 1: Reordering within the same folder
+  
   if (sourceFolderId === targetFolderId && draggingIndex !== null && dragOverIndex !== null) {
     const sameFolderFiles = files
       .filter(f => f.folderId === sourceFolderId)
@@ -51,15 +52,23 @@ const handleDrop = async ({ files, fileId = null, targetFolderId = null }) => {
       id: fileId,
       folderId: targetFolderId,
     });
-
-    // Optional: reorder the target folder's files if necessary
   }
-
-  // Additional cases can be handled here if needed
 };
 
 
-  
+const folderDrop = async ({ folderId, targetFolderId }) => {
+  if (!folderId || !targetFolderId || folderId === targetFolderId) return;
+
+
+  try {
+    await handleUpdateFolder({
+      id: folderId,
+      parentFolderId: targetFolderId,
+    });
+  } catch (error) {
+    console.error('Error moving folder:', error);
+  }
+};
 
 
 
@@ -80,8 +89,10 @@ const handleDrop = async ({ files, fileId = null, targetFolderId = null }) => {
             }`}
           >
             <Structure
-              folder={folder}
-            />
+  folder={folder}
+
+    folderDrop={folderDrop} />
+
                 
             {isExpanded && (
               <div>
