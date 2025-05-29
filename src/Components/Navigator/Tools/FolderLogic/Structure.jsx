@@ -11,6 +11,7 @@ import Bad from "@/assets/FolderFile_Icons/unlike.png"
 import checked from "@/assets/FolderFile_Icons/checked.png";
 import Warning from "@/assets/FolderFile_Icons/warning-sign.png"
 import React, { useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 function Structure({   folder
   }) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
@@ -65,8 +66,19 @@ function Structure({   folder
       debounceTimer.current = null;
     }, 3000);
   };
+
+    const chevronVariants = {
+    expanded: { rotate: 90 },
+    collapsed: { rotate: 0 }
+  };
+
+  const folderIconVariants = {
+    expanded: { scale: 1.1, rotate: 5 },
+    collapsed: { scale: 1, rotate: 0 }
+  };
+
   return (
-    <div
+    <motion.div
       className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
         selectedFolderId === folder.id ? 'border-2 border-blue-500' : ''
       }`}
@@ -78,11 +90,15 @@ function Structure({   folder
       }}
 
         onDragOver={(e) => e.preventDefault()}
+
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4 }}
  
     >
       {hasChildren || folderFiles(folder.id).length > 0 ? (
          <span    onDragEnter={handleDragEnter} onClick={() => setExpandedFolders(folder.id)} className="mr-1">
-          {' '}
+      
           {isExpanded ? (
             <FaChevronDown className="inline" />
           ) : (
@@ -109,6 +125,11 @@ function Structure({   folder
         ) : (
           <>
             <div className="flex items-center space-x-3">
+                 <motion.div
+                variants={folderIconVariants}
+                animate={isExpanded ? "expanded" : "collapsed"}
+                transition={{ duration: 0.4 }}
+              >
               <Image
                 src={isExpanded ? folderOpenIcon : folderClosedIcon} // Dynamic folder image
                 alt={isExpanded ? 'Folder Open' : 'Folder Closed'}
@@ -116,6 +137,7 @@ function Structure({   folder
                 height={20}
                 className="filter invert"
               />
+              </motion.div>
           {(redCount === 0 && yellowCount === 0) && (
     <Image
       src={checked}
@@ -129,7 +151,10 @@ function Structure({   folder
             {redCount > 0 && (
 
 
-<div className="absolute  translate-x-1/2 -translate-y-1/"> {/* Container must be relative */}
+<motion.div                 initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200 }} className="absolute  translate-x-1/2 -translate-y-1/"> 
+
 <Image
   src={Bad}
   alt="Red Icon"
@@ -140,13 +165,15 @@ function Structure({   folder
 <span className="text-red-300 text-[11px] absolute left-0 top-0 translate-x-2 -translate-y-3.5">
   {redCount}
 </span>
-</div>
+</motion.div>
 
 )}
 
               {yellowCount > 0 && redCount === 0 && (
                 
-   <div className="absolute  translate-x-1/2 -translate-y-1/">
+   <motion.div      initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200 }} className="absolute  translate-x-1/2 -translate-y-1/">
    <Image
      src={Warning}
      alt="Red Icon"
@@ -155,11 +182,17 @@ function Structure({   folder
       className="translate-x -translate-y-1.5"
    />
    <span className='text-yellow-300 text-[11px] absolute left-0 top-0 translate-x-2 -translate-y-3.5' > {yellowCount}</span>
- </div>
+ </motion.div>
 )}
               {yellowCount > 0 && redCount > 0 &&  (
                 
-                <div className="absolute  translate-x-1/2 translate-y-1.5">
+                                <motion.div 
+                  className="absolute translate-x-1/2 -translate-y-1/"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                >
+
                 <Image
                   src={Warning}
                   alt="Red Icon"
@@ -167,7 +200,7 @@ function Structure({   folder
                   height={11}
                 />
                 <span className='text-yellow-300 text-[11px] absolute left-0 top-0 translate-x-2 -translate-y-2' > {yellowCount}</span>
-              </div>
+              </motion.div>
              )}
 
                  <div
@@ -190,7 +223,7 @@ function Structure({   folder
           </>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
