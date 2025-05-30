@@ -14,7 +14,7 @@ import React, { useRef,useEffect } from 'react';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 function Structure({   folder
   }) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
@@ -91,6 +91,7 @@ function Structure({   folder
     id: dragFolder,
     parentFolderId: moveFolder,
   });
+ 
 };
 
 
@@ -257,11 +258,16 @@ function Structure({   folder
   <div
     draggable
     onDragStart={() => setDragFolder(folder.id)}
-    onDragEnd={() =>
-      safeMoveFolder({
+    onDragEnd={() =>{
+           safeMoveFolder({
         dragFolder,
         moveFolder,
       })
+      setMoveFolder(null)
+      
+
+    }
+ 
     }
     title="Drag to move folder"
     className="cursor-grab text-gray-300 hover:text-white"
@@ -270,11 +276,8 @@ function Structure({   folder
   </div>
 
 
-</div>
-
-    
+</div>    
           </div>
-
           </>
         )}
       </div>

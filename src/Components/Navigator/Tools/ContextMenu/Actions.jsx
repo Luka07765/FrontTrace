@@ -31,21 +31,6 @@ export const useContextMenuActions = () => {
     }
   };
 
-  const moveFile = async () => {
-    if (!editFileId) {
-      alert('No file selected to move');
-      return;
-    }
-    const newFolderId = prompt('Enter new folder ID:');
-    if (newFolderId && newFolderId.trim() !== '') {
-      try {
-        await handleUpdateFile({ id: editFileId, folderId: newFolderId.trim() });
-      } catch (err) {
-        console.error('Move file error:', err);
-        alert('Failed to move file');
-      }
-    }
-  };
 
   const renameFolder = () => {
     const folderToEdit = folders.find((f) => f.id === selectedFolderId);
@@ -80,6 +65,6 @@ export const useContextMenuActions = () => {
     deleteFolder,
     createFileForFolder,
     deleteFile,
-    moveFile,
+
   };
 };

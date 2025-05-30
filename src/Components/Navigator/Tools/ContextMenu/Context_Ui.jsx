@@ -12,7 +12,7 @@ export const ContextMenu = () => {
     deleteFolder,
     createFileForFolder,
     deleteFile,
-    moveFile,
+
   } = useContextMenuActions();
 
   if (!contextMenuVisible) return null;
@@ -92,11 +92,13 @@ export const ContextMenu = () => {
           </li>
 
           
-          <li
-            onClick={moveFile}
+
+
+            <li
+            onClick={createFolder}
             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
           >
-            ➡️Move File
+            📁Create Folder
           </li>
 
 
