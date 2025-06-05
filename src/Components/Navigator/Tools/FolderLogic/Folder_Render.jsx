@@ -15,7 +15,7 @@ import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
 
 import { motion } from 'framer-motion';
-function Structure({   folder
+function Folder_Render({   folder
   }) {
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
   const { selectedFolderId, setSelectedFolderId } = Select();
@@ -285,4 +285,4 @@ function Structure({   folder
   );
 }
 
-export default Structure;
+export default Folder_Render;

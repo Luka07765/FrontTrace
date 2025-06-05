@@ -1,17 +1,21 @@
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-
-
 import { Basic } from './Tools/Basic_Render';
-
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 import { Select } from '@/Zustand/Select_Store';
+import {useMemo} from "react";
 import CreateFolder from '@/Components/Navigator/Tools/FolderLogic/Create_Folder';
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
 
   const { setSelectedFolderId } = Select();
   const { files } = useFileListLogic();
+
+   const nestedFolders = useMemo(() => {
+    return Array.isArray(folders) && folders.length > 0
+      ? buildNestedStructure(folders, files)
+      : null;
+  }, [folders, files]);
 
   if (loading) {
     return (
@@ -34,10 +38,7 @@ export default function FolderList() {
     setSelectedFolderId(null);
   };
 
-const nestedFolders =
-  Array.isArray(folders) && folders.length > 0
-    ? buildNestedStructure(folders, files)
-    : null;
+
 
   return (
     <div
