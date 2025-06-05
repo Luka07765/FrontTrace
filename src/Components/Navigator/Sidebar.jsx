@@ -1,16 +1,15 @@
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 
-import { ContextMenu } from './Tools/ContextMenu/Context_Ui';
+
 import { Basic } from './Tools/Basic_Render';
-import { RightClick } from '@/Zustand/Context_Store';
+
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 import { Select } from '@/Zustand/Select_Store';
 import CreateFolder from '@/Components/Navigator/Tools/FolderLogic/Create_Folder';
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
-  const { contextMenuVisible, setContextMenuVisible, setContextMenuPosition } =
-    RightClick();
+
   const { setSelectedFolderId } = Select();
   const { files } = useFileListLogic();
 
@@ -44,7 +43,6 @@ const nestedFolders =
     <div
       className=" p-4 text-white "
       onClick={handleParentClick}
-
     >
       {nestedFolders ? (
         <Basic folders={nestedFolders} />
@@ -55,7 +53,7 @@ const nestedFolders =
           <CreateFolder parentId={null} />
         </div>
       )}
-      {contextMenuVisible && <ContextMenu />}{' '}
+   
     </div>
   );
 }
