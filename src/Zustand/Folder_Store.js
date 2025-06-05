@@ -2,22 +2,19 @@ import { create } from 'zustand';
 
 export const useFolderStore = create((set) => ({
   editingFolderId: null,
-  setEditingFolderId: (id) => set({ editingFolderId: id }),
-
-  moveFolder: null,
-  setMoveFolder: (id) => set({ moveFolder: id }),
-
   dragFolder: null,
-  setDragFolder: (id) => set({ dragFolder: id }),
-
-
+  moveFolder: null,
   creatingFolderParentId: undefined,
-  setCreatingFolderParentId: (id) => set({ creatingFolderParentId: id }),
-
   folderName: '',
-  setFolderName: (name) => set({ folderName: name }),
-
   expandedFolders: {},
+
+
+ setEditingFolderId: (id) => set({ editingFolderId: id }),
+  setMoveFolder: (id) => set({ moveFolder: id }),
+  setDragFolder: (id) => set({ dragFolder: id }),
+  setCreatingFolderParentId: (id) => set({ creatingFolderParentId: id }),
+  setFolderName: (name) => set({ folderName: name }),
+  
   setExpandedFolders: (folderId) =>
     set((state) => ({
       expandedFolders: {
