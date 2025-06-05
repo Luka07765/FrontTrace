@@ -133,7 +133,7 @@ function Structure({   folder
         e.preventDefault();
         setSelectedFolderId(folder.id);
         setContextMenuVisible(true);
-        setContextMenuPosition({ x: e.pageX, y: e.pageY });
+        setContextMenuPosition({ x: e.pageX, y: e.pageY -100 });
       }}
 
         onDragOver={(e) => e.preventDefault()}

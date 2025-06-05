@@ -44,12 +44,7 @@ const nestedFolders =
     <div
       className=" p-4 text-white "
       onClick={handleParentClick}
-      onContextMenu={(e) => {
-        e.preventDefault();
 
-        setContextMenuVisible(true);
-        setContextMenuPosition({ x: e.pageX, y: e.pageY - 100 });
-      }}
     >
       {nestedFolders ? (
         <Basic folders={nestedFolders} />
