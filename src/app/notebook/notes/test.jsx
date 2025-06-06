@@ -1,9 +1,8 @@
-"use client"
 import { motion, useAnimationControls, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
-import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
-import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
+import ProjectLink from './Tools/Sectors/Projects';
+import ProjectNavigation from './Tools/Sectors/ProjectNav';
 
 const containerVariants = {
   close: {
