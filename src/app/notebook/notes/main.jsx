@@ -9,9 +9,9 @@ import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import useResizable from './tools/Resize-Bar';
 import { useLogout } from '@/Server/Auth/Logout';
-
+import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
 export default function Dashboard() {
-  const [loadingAuth, setLoadingAuth] = useState(true);
+ 
   const {
     sidebarRef,
     contentRef,
@@ -21,43 +21,13 @@ export default function Dashboard() {
     hitAreaMargin,
   } = useResizable();
   const { setContextMenuVisible } = RightClick();
-  const { checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh } =
+  const { cancelTokenRefresh } =
     useToken();
   const { handleLogout } = useLogout();
 
-  useEffect(() => {
-    let cleanup;
-    let isMounted = true;
+const loadingAuth = useAuthCheck(cancelTokenRefresh);
 
-    const authenticate = async () => {
-      try {
-        await checkAuthentication();
-        if (isMounted) {
-          setLoadingAuth(false);
-          cleanup = scheduleTokenRefresh();
-        }
-      } catch (error) {
-        console.error('Authentication failed:', error);
-        if (isMounted) {
-          setLoadingAuth(false);
-        }
-      }
-    };
-
-    authenticate();
-
-    return () => {
-      isMounted = false;
-      if (cleanup) {
-        cleanup();
-      }
-      cancelTokenRefresh();
-    };
-  }, [checkAuthentication, scheduleTokenRefresh, cancelTokenRefresh]);
-  if (loadingAuth) {
-    return <p>Loading...</p>;
-  }
-
+ if (loadingAuth) return <p>Loading...</p>;
   return (
     <div
       className="relative flex h-screen overflow-hidden"
