@@ -2,8 +2,8 @@ import { useFolderStore } from '@/Zustand/Folder_Store';
 
 import FileRender from '@/Components/Navigator/Tools/FileLogic/File_Render';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import CreateFolder from './FolderLogic/Create_Folder';
-import Folder_Render from './FolderLogic/Folder_Render';
+import CreateFolder from '@/Components/Navigator/Tools/FolderLogic/Create_Folder';
+import Folder_Render from '@/Components/Navigator/Tools/FolderLogic/Folder_Render';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
