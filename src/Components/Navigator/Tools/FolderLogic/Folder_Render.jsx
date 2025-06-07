@@ -10,7 +10,7 @@ import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import Bad from "@/assets/FolderFile_Icons/unlike.png"
 import checked from "@/assets/FolderFile_Icons/checked.png";
 import Warning from "@/assets/FolderFile_Icons/warning-sign.png"
-import React, { useRef,useEffect } from 'react';
+import React, { useRef,useState } from 'react';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
 
@@ -30,6 +30,7 @@ function Folder_Render({   folder
   const isEditing = editingFolderId === folder.id;
    const debounceTimer = useRef(null);
    const moveFile = useRef(null);
+const [rootPopupVisible, setRootPopupVisible] = useState(false);
 
 
   const { files = [] } = useFileListLogic();
@@ -124,6 +125,13 @@ function Folder_Render({   folder
     collapsed: { scale: 1, rotate: 0 }
   };
 
+  const isRootFolder = folder.id === null;
+  const openRootPopup = () => {
+
+  setRootPopupVisible(true); 
+};
+
+
   return (
     <motion.div
       className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
@@ -162,8 +170,17 @@ function Folder_Render({   folder
     setSelectedFolderId(
       selectedFolderId === folder.id ? null : folder.id
     );
-    setExpandedFolders(folder.id); 
+    setExpandedFolders(folder.id);
+    
+  if (isRootFolder) {
+   
+    openRootPopup(); 
+  } else {
+    setExpandedFolders(folder.id);
+  } 
+  console.log(folder.id)
   }}
+
   className="flex-grow"
 >
 
@@ -215,7 +232,25 @@ function Folder_Render({   folder
 </span>
 </motion.div>
 
+)}{rootPopupVisible && (
+  <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded shadow-lg w-2/3 max-h-[80vh] overflow-auto">
+      <h2 className="text-lg font-bold mb-4">Sadržaj Root Foldera</h2>
+      <div className="space-y-2">
+        {folder.files.map(file => (
+          <div key={file.id} className="p-2 border rounded">{file.title}</div>
+        ))}
+        {folder.children.map(child => (
+          <div key={child.id} className="p-2 border rounded">{child.title}</div>
+        ))}
+      </div>
+      <button onClick={() => setRootPopupVisible(false)} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+        Zatvori
+      </button>
+    </div>
+  </div>
 )}
+
 
               {yellowCount > 0 && redCount === 0 && (
                 
