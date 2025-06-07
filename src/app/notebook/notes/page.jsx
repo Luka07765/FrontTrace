@@ -1,19 +1,15 @@
 'use client';
 
-import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
+import { useEffect, useState } from 'react';
 import { cn } from '@/Utils/cn';
 import { RightClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
-import { Basic } from '@/Components/Navigator/Basic_Render';
-import CreateFolder from '@/Components/Navigator/Tools/FolderLogic/Create_Folder';
+import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import useResizable from './tools/Resize-Bar';
 import { useLogout } from '@/Server/Auth/Logout';
 import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
-import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
-import {useMemo} from "react";
 export default function Dashboard() {
  
   const {
@@ -24,41 +20,14 @@ export default function Dashboard() {
     handleMouseDown,
     hitAreaMargin,
   } = useResizable();
-  const { files } = useFileListLogic();
-  const { folders, loading, error } = useFolderListLogic();
   const { setContextMenuVisible } = RightClick();
-  const { cancelTokenRefresh } = useToken();
+  const { cancelTokenRefresh } =
+    useToken();
   const { handleLogout } = useLogout();
-
 
 const loadingAuth = useAuthCheck(cancelTokenRefresh);
 
-
-const nestedFolders = useMemo(() => {
-    return Array.isArray(folders) && folders.length > 0
-      ? buildNestedStructure(folders, files)
-      : null;
-  }, [folders, files]);
-
  if (loadingAuth) return <p>Loading...</p>;
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-500">Loading folders...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-red-500">Error loading folders: {error.message}</p>
-      </div>
-    );
-  }
-
-
   return (
     <div
       className="relative flex h-screen overflow-hidden"
@@ -67,20 +36,12 @@ const nestedFolders = useMemo(() => {
       <aside
         ref={sidebarRef}
         className={cn(
-          ' bg-gray-800  p-4 text-white h-screen relative overflow-y-auto z-[1000]'
+          ' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
         )}
         style={{ width: '280px' }}
       >
        
-              {nestedFolders ? (
-        <Basic folders={nestedFolders} />
-      ) : (
-        <div>
-          {' '}
-          <p className="text-gray-500">Create New Folder.</p>
-          <CreateFolder parentId={null} />
-        </div>
-      )}
+        <Sidebar />
       
         <ContextMenu />
         <button
