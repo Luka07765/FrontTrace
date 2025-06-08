@@ -17,6 +17,7 @@ import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { motion } from 'framer-motion';
 function Folder_Render({   folder
   }) {
+      const [showMainFolderPopup, setShowMainFolderPopup]  = useState(false);
   const { setContextMenuPosition, setContextMenuVisible } = RightClick();
   const { selectedFolderId, setSelectedFolderId } = Select();
   const {
@@ -30,8 +31,6 @@ function Folder_Render({   folder
   const isEditing = editingFolderId === folder.id;
    const debounceTimer = useRef(null);
    const moveFile = useRef(null);
-const [rootPopupVisible, setRootPopupVisible] = useState(false);
-
 
   const { files = [] } = useFileListLogic();
   const folderFiles = (folderId) =>
@@ -125,11 +124,7 @@ const [rootPopupVisible, setRootPopupVisible] = useState(false);
     collapsed: { scale: 1, rotate: 0 }
   };
 
-  const isRootFolder = folder.id === null;
-  const openRootPopup = () => {
 
-  setRootPopupVisible(true); 
-};
 
 
   return (
@@ -151,6 +146,18 @@ const [rootPopupVisible, setRootPopupVisible] = useState(false);
       transition={{ duration: 0.4 }}
  
     >
+      {showMainFolderPopup && (
+  <div className="fixed top-1/4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white p-4 rounded shadow-lg z-50">
+    <p className="text-sm">Kliknuli ste na glavni folder.</p>
+    <button
+      onClick={() => setShowMainFolderPopup(false)}
+      className="mt-2 px-3 py-1 bg-blue-500 rounded hover:bg-blue-600"
+    >
+      U redu
+    </button>
+  </div>
+)}
+
       {hasChildren || folderFiles(folder.id).length > 0 ? (
          <span    onDragEnter={handleDragEnter} onClick={() => setExpandedFolders(folder.id)} className="mr-1">
       
@@ -167,18 +174,14 @@ const [rootPopupVisible, setRootPopupVisible] = useState(false);
   <div
   onClick={(e) => {
     e.stopPropagation();
+      if (folder.parentFolderId === null || folder.parentFolderId === 'None') {
+    setShowMainFolderPopup(true);
+  }
     setSelectedFolderId(
       selectedFolderId === folder.id ? null : folder.id
     );
     setExpandedFolders(folder.id);
-    
-  if (isRootFolder) {
-   
-    openRootPopup(); 
-  } else {
-    setExpandedFolders(folder.id);
-  } 
-  console.log(folder.id)
+  
   }}
 
   className="flex-grow"
@@ -232,24 +235,8 @@ const [rootPopupVisible, setRootPopupVisible] = useState(false);
 </span>
 </motion.div>
 
-)}{rootPopupVisible && (
-  <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center z-50">
-    <div className="bg-white p-6 rounded shadow-lg w-2/3 max-h-[80vh] overflow-auto">
-      <h2 className="text-lg font-bold mb-4">Sadržaj Root Foldera</h2>
-      <div className="space-y-2">
-        {folder.files.map(file => (
-          <div key={file.id} className="p-2 border rounded">{file.title}</div>
-        ))}
-        {folder.children.map(child => (
-          <div key={child.id} className="p-2 border rounded">{child.title}</div>
-        ))}
-      </div>
-      <button onClick={() => setRootPopupVisible(false)} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
-        Zatvori
-      </button>
-    </div>
-  </div>
 )}
+
 
 
               {yellowCount > 0 && redCount === 0 && (
