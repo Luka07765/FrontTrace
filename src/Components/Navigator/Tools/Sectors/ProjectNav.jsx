@@ -13,11 +13,12 @@ const projectComponents = {
 const ProjectNavigation = ({ selectedProject, setSelectedProject }) => {
   return (
     <motion.div
+    //on exit
       key="project-nav"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
+      transition={{ duration: 0 }}
       className="flex flex-col gap-8"
     >
       <div className="flex flex-row w-full justify-between items-center">

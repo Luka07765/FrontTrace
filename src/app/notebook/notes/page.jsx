@@ -60,10 +60,7 @@ useEffect(() => {
        
         {!selectedProject && (
   <motion.div
-    className="flex flex-col gap-3"
-    initial={{ opacity: 1 }}
-    animate={{ opacity: selectedProject ? 0 : 1 }}
-    transition={{ duration: 0.3 }}
+
   >
     <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
       <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
@@ -82,8 +79,8 @@ useEffect(() => {
       key="project-nav"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 10 }}
-      transition={{ duration: 0.3 }}
+      exit={{ opacity: 0, y: 0 }}
+      transition={{ duration: 2 }}
       className="flex flex-col mt-5"
     >
       <ProjectNavigation
