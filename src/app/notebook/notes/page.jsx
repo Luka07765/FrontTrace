@@ -1,5 +1,5 @@
 'use client';
-
+import { motion, useAnimationControls, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { cn } from '@/Utils/cn';
 import { RightClick } from '@/Zustand/Context_Store';
@@ -10,8 +10,10 @@ import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import useResizable from './tools/Resize-Bar';
 import { useLogout } from '@/Server/Auth/Logout';
 import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
+import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
+import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
+
 export default function Dashboard() {
- 
   const {
     sidebarRef,
     contentRef,
@@ -20,12 +22,27 @@ export default function Dashboard() {
     handleMouseDown,
     hitAreaMargin,
   } = useResizable();
+  const [selectedProject, setSelectedProject] = useState(null);
+const [isOpen, setIsOpen] = useState(false);
+  const containerControls = useAnimationControls();
+  const svgControls = useAnimationControls();
+
   const { setContextMenuVisible } = RightClick();
   const { cancelTokenRefresh } =
     useToken();
   const { handleLogout } = useLogout();
 
 const loadingAuth = useAuthCheck(cancelTokenRefresh);
+useEffect(() => {
+  if (isOpen) {
+    containerControls.start('open');
+    svgControls.start('open');
+  } else {
+    containerControls.start('close');
+    svgControls.start('close');
+  }
+}, [isOpen, containerControls, svgControls]);
+
 
  if (loadingAuth) return <p>Loading...</p>;
   return (
@@ -41,15 +58,46 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
         style={{ width: '280px' }}
       >
        
-        <Sidebar />
+        {!selectedProject && (
+  <motion.div
+    className="flex flex-col gap-3"
+    initial={{ opacity: 1 }}
+    animate={{ opacity: selectedProject ? 0 : 1 }}
+    transition={{ duration: 0.3 }}
+  >
+    <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
+      <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
+    </ProjectLink>
+    <ProjectLink name="Settings" setSelectedProject={setSelectedProject}>
+      <div className="min-w-4 mx-2 border-indigo-600 border rounded-full aspect-square bg-indigo-700" />
+    </ProjectLink>
+    <ProjectLink name="Profile" setSelectedProject={setSelectedProject}>
+      <div className="min-w-4 mx-2 border-cyan-600 border rounded-full aspect-square bg-cyan-700" />
+    </ProjectLink>
+  </motion.div>
+)}
+<AnimatePresence>
+  {selectedProject && (
+    <motion.div
+      key="project-nav"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col mt-5"
+    >
+      <ProjectNavigation
+        selectedProject={selectedProject}
+        setSelectedProject={setSelectedProject}
+        isOpen={isOpen}
+      />
+    </motion.div>
+  )}
+</AnimatePresence>
+
       
         <ContextMenu />
-        <button
-          onClick={handleLogout}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Logout
-        </button>
+
       </aside>
 
       <div
