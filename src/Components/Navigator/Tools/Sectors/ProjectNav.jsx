@@ -30,14 +30,10 @@ const ProjectNavigation = ({ selectedProject, setSelectedProject }) => {
         </button>
       </div>
 
-      <input
-        placeholder="Search"
-        type="text"
-        className="px-3 py-2 tracking-wide rounded-lg bg-neutral-600/40 text-neutral-100"
-      />
+
 
       <div className="flex flex-col gap-3">
-        {projectComponents[selectedProject] || <Sidebar />}
+        {projectComponents[selectedProject] }
       </div>
     </motion.div>
   );
