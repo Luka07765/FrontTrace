@@ -6,11 +6,11 @@ export const RenameFolder = ({ folder }) => {
   const { setEditingFolderId, folderName, setFolderName } = useFolderStore();
   const { handleUpdateFolder } = useFolderListLogic();
 
-  const [isExiting, setIsExiting] = useState(false); // Track transition state
+  const [isExiting, setIsExiting] = useState(false); 
 
   const handleRename = (folderId) => {
     if (folderName.trim() !== '') {
-      handleUpdateFolder({ id: folderId, title: folderName.trim() }); // Update the server immediately
+      handleUpdateFolder({ id: folderId, title: folderName.trim() });
     }
 
     setIsExiting(true);
