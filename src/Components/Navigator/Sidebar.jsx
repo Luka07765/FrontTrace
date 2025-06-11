@@ -4,10 +4,13 @@ import { Basic } from './Tools/Basic_Render';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 import { Select } from '@/Zustand/Select_Store';
 import {useMemo} from "react";
+import { useContextMenuActions } from './Tools/ContextMenu/Actions';
 import CreateFolder from '@/Components/Navigator/Tools/FolderLogic/Create_Folder';
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
-
+  const {
+    createFolder,
+  } = useContextMenuActions();
   const { setSelectedFolderId } = Select();
   const { files } = useFileListLogic();
 
@@ -34,17 +37,22 @@ export default function FolderList() {
   }
 
 
-  const handleParentClick = () => {
-    setSelectedFolderId(null);
-  };
-
-
 
   return (
     <div
       className=" p-4 text-white "
-      onClick={handleParentClick}
+
     >
+            <button
+          onClick={(e) => {
+    e.stopPropagation(); 
+    setSelectedFolderId(null); 
+    createFolder(); 
+  }}
+        className="bg-gradient-to-r from-blue-700 to-blue-900 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-2 px-5 rounded-xl shadow-md transition duration-200 ease-in-out mb-4"
+      >
+        + New Root Folder
+      </button>
       {nestedFolders ? (
         <Basic folders={nestedFolders} />
       ) : (

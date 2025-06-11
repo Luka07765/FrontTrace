@@ -46,11 +46,16 @@ export const useContextMenuActions = () => {
     setContextMenuVisible(false);
   };
 
-  const deleteFolder = () => {
-    if (window.confirm('Delete this folder?')) {
-      handleDelete(handleDeleteFolder, selectedFolderId);
-    }
-  };
+const deleteFolder = () => {
+  const folderToDelete = folders.find((f) => f.id === selectedFolderId);
+
+  if (!folderToDelete) return;
+
+  if (window.confirm(`Delete folder "${folderToDelete.title}"?`)) {
+    handleDelete(handleDeleteFolder, selectedFolderId);
+  }
+};
+
 
   const deleteFile = () => {
     if (window.confirm('Delete this file?')) {
