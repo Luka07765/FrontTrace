@@ -7,12 +7,11 @@ import { RightClick } from '@/Zustand/Context_Store';
 import RenameFolder from '@/Components/Navigator/Tools/FolderLogic/Rename_Folder';
 import { Select } from '@/Zustand/Select_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import Bad from "@/assets/FolderFile_Icons/unlike.png"
-import checked from "@/assets/FolderFile_Icons/checked.png";
-import Warning from "@/assets/FolderFile_Icons/warning-sign.png"
-import React, { useRef,useState } from 'react';
-import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
+import React, { useRef } from 'react';
+import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
+import { useFolderColors } from './Colors/ColorLogic';
+import UiColors from './Colors/UiColors';
 
 import { motion } from 'framer-motion';
 function Folder_Render({   folder
@@ -36,27 +35,13 @@ function Folder_Render({   folder
   const folderFiles = (folderId) =>
     files.filter((file) => file.folderId === folderId);
 
-  const getAllDescendantIds = (f) => {
-    let ids = [f.id];
-    if (f.children) {
-      f.children.forEach(child => {
-        ids = ids.concat(getAllDescendantIds(child));
-      });
-    }
-    return ids;
-  };
-  const allFolderIds = getAllDescendantIds(folder);
+const { redCount, yellowCount } = useFolderColors(folder);
 
 
-  const filesInTree = files.filter(file =>
-    allFolderIds.includes(file.folderId)
-  );
+
+
 
   const { handleUpdateFolder } = useFolderListLogic();
-  const redCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'red' || '').length;
- 
-  const yellowCount = filesInTree.filter(f => f.colors?.toLowerCase() === 'yellow' || '').length;
-  
 
   const safeMoveFolder = async ({
   dragFolder,
@@ -206,72 +191,10 @@ function Folder_Render({   folder
                 className="filter invert"
               />
               </motion.div>
-          {(redCount === 0 && yellowCount === 0) && (
-    <Image
-      src={checked}
-      alt="Checked Icon"
-      width={11}
-      height={11}
-      className="absolute  translate-x-1/2 -translate-y-1/2"
-    />
-  )}
 
-            {redCount > 0 && (
+<UiColors redCount={redCount} yellowCount={yellowCount} />
 
 
-<motion.div                 initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 200 }} className="absolute  translate-x-1/2 -translate-y-1/"> 
-
-<Image
-  src={Bad}
-  alt="Red Icon"
-  width={11}
-  height={11}
- className="translate-x -translate-y-1.5"
-/>
-<span className="text-red-300 text-[11px] absolute left-0 top-0 translate-x-2 -translate-y-3.5">
-  {redCount}
-</span>
-</motion.div>
-
-)}
-
-
-
-              {yellowCount > 0 && redCount === 0 && (
-                
-   <motion.div      initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 200 }} className="absolute  translate-x-1/2 -translate-y-1/">
-   <Image
-     src={Warning}
-     alt="Red Icon"
-     width={11}
-     height={11}
-      className="translate-x -translate-y-1.5"
-   />
-   <span className='text-yellow-300 text-[11px] absolute left-0 top-0 translate-x-2 -translate-y-3.5' > {yellowCount}</span>
- </motion.div>
-)}
-              {yellowCount > 0 && redCount > 0 &&  (
-                
-                                <motion.div 
-                  className="absolute translate-x-1/2 -translate-y-1/"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 200 }}
-                >
-
-                <Image
-                  src={Warning}
-                  alt="Red Icon"
-                  width={11}
-                  height={11}
-                />
-                <span className='text-yellow-300 text-[11px] absolute left-0 top-0 translate-x-2 -translate-y-2' > {yellowCount}</span>
-              </motion.div>
-             )}
 
                  <div className="flex items-center space-x-1">
     <div className="ml-1">
