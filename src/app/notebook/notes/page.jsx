@@ -2,7 +2,7 @@
 import { motion, useAnimationControls, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { cn } from '@/Utils/cn';
-import { RightClick } from '@/Zustand/Context_Store';
+import { ContextClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
 import Sidebar from '@/Components/Navigator/Sidebar';
 import { useToken } from '@/Server/Auth/Token';
@@ -27,7 +27,7 @@ const [isOpen, setIsOpen] = useState(false);
   const containerControls = useAnimationControls();
   const svgControls = useAnimationControls();
 
-  const { setContextMenuVisible } = RightClick();
+  const { setContextMenuVisible } = ContextClick();
   const { cancelTokenRefresh } =
     useToken();
   const { handleLogout } = useLogout();

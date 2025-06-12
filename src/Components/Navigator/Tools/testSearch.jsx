@@ -3,7 +3,7 @@ import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useLogout } from '@/Server/Auth/Logout';
 import { ContextMenu } from './Tools/Right_Click';
 import { Basic } from './Tools/Basic_Render';
-import { RightClick } from '@/Zustand/Context_Store';
+import { ContextClick } from '@/Zustand/Context_Store';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 import { Select } from '@/Zustand/Select_Store';
 import CreateFolder from '@/Components/Navigator/Tools/FolderLogic/Create_Folder';
@@ -11,7 +11,7 @@ import CreateFolder from '@/Components/Navigator/Tools/FolderLogic/Create_Folder
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
   const { contextMenuVisible, setContextMenuVisible, setContextMenuPosition } =
-    RightClick();
+    ContextClick();
   const { setSelectedFolderId } = Select();
   const { handleLogout } = useLogout();
   const [searchTerm, setSearchTerm] = useState('');

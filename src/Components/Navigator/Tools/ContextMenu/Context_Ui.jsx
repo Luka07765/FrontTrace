@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RightClick } from '@/Zustand/Context_Store';
+import { ContextClick } from '@/Zustand/Context_Store';
 import { useContextMenuActions } from './Actions';
 
 export const ContextMenu = () => {
-  const { contextMenuVisible, contextMenuPosition, setContextMenuVisible } = RightClick();
+  const { contextMenuVisible, contextMenuPosition, setContextMenuVisible,contextMenuTarget } = ContextClick();
   const {
     selectedFolderId,
     renameFolder,
@@ -18,7 +18,8 @@ export const ContextMenu = () => {
   if (!contextMenuVisible) return null;
 
   const MENU_WIDTH = 200;   
-  const MENU_HEIGHT = selectedFolderId ? 240 : 120; 
+  const MENU_HEIGHT = contextMenuTarget?.type === 'folder'? 240 : 120;
+
 
   let x = contextMenuPosition.x;
   let y = contextMenuPosition.y;
@@ -33,7 +34,8 @@ export const ContextMenu = () => {
     y = window.innerHeight - MENU_HEIGHT - 20; 
   } else if (y < 0) {
     y = 10; 
-  }
+  }const isFolder = contextMenuTarget?.type === 'folder';
+const isFile = contextMenuTarget?.type === 'file';
 
   return (
     <AnimatePresence>
@@ -53,7 +55,7 @@ export const ContextMenu = () => {
           
         >
 
-          {selectedFolderId && (
+          {isFolder && (
             <>              <li
             onClick={createFolder}
             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -84,22 +86,22 @@ export const ContextMenu = () => {
             </>
           )}
 
-          <li
+          {isFile && (
+               <li
             onClick={deleteFile}
             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
           >
            ❌ Delete File
           </li>
+ 
+)}
+
+       
 
           
 
 
-            <li
-            onClick={createFolder}
-            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-          >
-            📁Create Folder
-          </li>
+       
 
 
         </motion.ul>

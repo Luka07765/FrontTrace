@@ -1,5 +1,5 @@
 "use client"
-
+import { ContextClick } from '@/Zustand/Context_Store';
 import {useState} from "react"
 import Image from 'next/image';
 import fileIcon from '@/assets/FolderFile_Icons/file.png';
@@ -13,6 +13,7 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd}) {
     updateFileColor,
     setEditFileContent,
   } = useFileStore();
+    const { setContextMenuPosition, setContextMenuVisible ,setContextMenuTarget} = ContextClick();
     const { handleUpdateFile } = useFileListLogic();
      const [positionInput, setPositionInput] = useState(file.filePosition ?? 0);
   const cycleColor = (c) => {
@@ -72,6 +73,13 @@ function FileRender({ file,index, onDragStart, onDragEnter, onDragEnd}) {
           setEditFileContent(file.content);
           
         }}
+        onContextMenu={(e) => {
+  e.preventDefault();
+  setContextMenuTarget({ type: 'file'});
+  setContextMenuVisible(true);
+  setContextMenuPosition({ x: e.pageX, y: e.pageY });
+}}
+
 
         className={`bg-grey-800 shadow-md rounded-lg p-2 flex items-center justify-between cursor-pointer ${
           editFileId === file.id ? 'ring-2 ring-indigo-500' : ''

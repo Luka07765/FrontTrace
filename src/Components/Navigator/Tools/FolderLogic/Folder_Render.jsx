@@ -3,7 +3,7 @@ import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
 import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
-import { RightClick } from '@/Zustand/Context_Store';
+import { ContextClick } from '@/Zustand/Context_Store';
 import RenameFolder from '@/Components/Navigator/Tools/FolderLogic/Rename_Folder';
 import { Select } from '@/Zustand/Select_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
@@ -17,7 +17,7 @@ import { motion } from 'framer-motion';
 function Folder_Render({   folder
   }) {
       // const [showMainFolderPopup, setShowMainFolderPopup]  = useState(false);
-  const { setContextMenuPosition, setContextMenuVisible } = RightClick();
+  const { setContextMenuPosition, setContextMenuVisible ,setContextMenuTarget} = ContextClick();
   const { selectedFolderId, setSelectedFolderId } = Select();
   const {
     expandedFolders,
@@ -121,6 +121,7 @@ const { redCount, yellowCount } = useFolderColors(folder);
         e.preventDefault();
         setSelectedFolderId(folder.id);
         setContextMenuVisible(true);
+        setContextMenuTarget({ type: 'folder'});
         setContextMenuPosition({ x: e.pageX, y: e.pageY -100 });
       }}
 

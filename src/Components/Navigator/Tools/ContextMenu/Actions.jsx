@@ -3,7 +3,7 @@ import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { Select } from '@/Zustand/Select_Store';
 import { useFileStore } from '@/Zustand/File_Store';
-import { RightClick } from '@/Zustand/Context_Store';
+import { ContextClick } from '@/Zustand/Context_Store';
 
 export const useContextMenuActions = () => {
   const { handleDeleteFolder, folders } = useFolderListLogic();
@@ -16,7 +16,7 @@ export const useContextMenuActions = () => {
   const { selectedFolderId } = Select();
   const { handleCreateFile, handleUpdateFile, handleDeleteFile } = useFileListLogic();
   const { editFileId } = useFileStore();
-  const { setContextMenuVisible } = RightClick();
+  const { setContextMenuVisible } = ContextClick();
 
   const createFileForFolder = (folderId) => {
     const fileName = prompt('Enter file name:');
