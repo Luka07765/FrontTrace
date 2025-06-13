@@ -1,6 +1,6 @@
 'use client';
-import { motion, useAnimationControls, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { motion,  AnimatePresence } from 'framer-motion';
+import {  useState } from 'react';
 import { cn } from '@/Utils/cn';
 import { ContextClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
