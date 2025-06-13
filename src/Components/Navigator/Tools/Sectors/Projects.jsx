@@ -3,9 +3,10 @@ import { ChevronRightIcon } from '@heroicons/react/24/outline';
 const ProjectLink = ({ children, name, setSelectedProject }) => {
   const handleClick = () => {
     setSelectedProject(null);
-    setTimeout(() => {
-      setSelectedProject(name);
-    }, 250);
+     setSelectedProject(name)
+    // setTimeout(() => {
+    //   setSelectedProject(name);
+    // }, 250);
   };
 
   return (
