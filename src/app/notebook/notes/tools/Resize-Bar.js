@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 
-const useResizable = (initialWidth = 280, min = 240, max = 700) => {
+const useResizable = (initialWidth = 280, min = 40, max = 400) => {
   const sidebarRef = useRef(null);
   const contentRef = useRef(null);
   const resizerRef = useRef(null);
