@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/Utils/cn';
 import { ContextClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
-import Sidebar from '@/Components/Navigator/Sidebar';
+
 import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import useResizable from './tools/Resize-Bar';
-import { useLogout } from '@/Server/Auth/Logout';
+
 import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
 import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
 import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
@@ -23,25 +23,12 @@ export default function Dashboard() {
     hitAreaMargin,
   } = useResizable();
   const [selectedProject, setSelectedProject] = useState(null);
-const [isOpen, setIsOpen] = useState(false);
-  const containerControls = useAnimationControls();
-  const svgControls = useAnimationControls();
-
   const { setContextMenuVisible } = ContextClick();
   const { cancelTokenRefresh } =
     useToken();
-  const { handleLogout } = useLogout();
+
 
 const loadingAuth = useAuthCheck(cancelTokenRefresh);
-useEffect(() => {
-  if (isOpen) {
-    containerControls.start('open');
-    svgControls.start('open');
-  } else {
-    containerControls.start('close');
-    svgControls.start('close');
-  }
-}, [isOpen, containerControls, svgControls]);
 
 
  if (loadingAuth) return <p>Loading...</p>;
@@ -86,7 +73,7 @@ useEffect(() => {
       <ProjectNavigation
         selectedProject={selectedProject}
         setSelectedProject={setSelectedProject}
-        isOpen={isOpen}
+
       />
     </motion.div>
   )}
