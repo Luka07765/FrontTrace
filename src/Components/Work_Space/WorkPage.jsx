@@ -5,7 +5,7 @@ import {  useEffect, useState } from 'react';
 import {  EditorContent } from '@tiptap/react';
 
 import MenuBar from '@/Components/Work_Space/tools/Tool-Bar/ToolBar';
-import { useEditorSetup } from './tools/Tool-Bar/Editor';
+import { useEditorSetup } from './tools/Tool-Bar/Logic/Editor';
 import { useAutoSave } from './tools/Saving_Logic/Auto-Save';
 
 export default function FileList() {
@@ -34,10 +34,11 @@ export default function FileList() {
 
 
   useEffect(() => {
-    if (editFileId && editor ) {
+      if (editFileId && editor) {
+       Promise.resolve().then(() => {
       editor.commands.setContent(editFileContent || '');
-      
-    }
+    });
+  }
       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editFileId]);
 
@@ -50,7 +51,7 @@ export default function FileList() {
           <>
             <div>
               <div>
-              <MenuBar editor={editor} commands={commands} />{' '}
+              <MenuBar editor={editor}  />{' '}
 
               </div>
 
