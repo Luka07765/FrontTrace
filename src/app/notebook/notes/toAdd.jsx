@@ -1,10 +1,17 @@
-"use client"
-import { motion, useAnimationControls, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+'use client';
+import { motion, AnimatePresence ,useAnimationControls } from 'framer-motion';
+import { useState,useEffect } from 'react';
 
+import { ContextClick } from '@/Zustand/Context_Store';
+
+import File from '@/Components/Work_Space/WorkPage';
+
+import { useToken } from '@/Server/Auth/Token';
+
+
+import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
 import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
 import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
-
 const containerVariants = {
   close: {
     width: '5rem',
@@ -23,7 +30,6 @@ const containerVariants = {
     },
   },
 };
-
 const svgVariants = {
   close: {
     rotate: 360,
@@ -32,10 +38,12 @@ const svgVariants = {
     rotate: 180,
   },
 };
-
-const Navigation = () => {
+export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const { setContextMenuVisible } = ContextClick();
+  const { cancelTokenRefresh } =
+    useToken();
 
   const containerControls = useAnimationControls();
   const svgControls = useAnimationControls();
@@ -55,69 +63,87 @@ const Navigation = () => {
     setSelectedProject(null); // Resetuj izbor kada se menja stanje menija
   };
 
+const loadingAuth = useAuthCheck(cancelTokenRefresh);
+
+
+ if (loadingAuth) return <p>Loading...</p>;
   return (
-    <>
-      <motion.nav
-        variants={containerVariants}
+    <>   <motion.div   variants={containerVariants}
         animate={containerControls}
         initial="close"
         className="bg-neutral-900 flex flex-col z-10 gap-20 p-5 absolute top-0 left-0 h-full shadow shadow-neutral-600"
-      >
-        <input
-          placeholder="Search"
-          type="text"
-          className="px-3 py-2 tracking-wide rounded-lg bg-neutral-600/40 text-neutral-100"
-        />
-        <div className="flex flex-row w-full justify-between items-center">
-          <div className="w-10 h-10 bg-gradient-to-br" />
+      onClick={() => setContextMenuVisible(false)}
+    >    <div className="flex flex-row w-full justify-between items-center">
+              <div className="w-10 h-10 bg-gradient-to-br" />
+    
+              <button
+                className="p-1 rounded-full flex"
+                onClick={() => handleOpenClose()}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1}
+                  stroke="currentColor"
+                  className="w-8 h-8 stroke-neutral-200"
+                >
+                  <motion.path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    variants={svgVariants}
+                    animate={svgControls}
+                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                    transition={{ duration: 0.5, ease: 'easeInOut' }}
+                  />
+                </svg>
+              </button>
+            </div>
+   
+       
+        {!selectedProject && (
+  <motion.div
 
-          <button
-            className="p-1 rounded-full flex"
-            onClick={() => handleOpenClose()}
+  >
+    <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
+      <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
+    </ProjectLink>
+    <ProjectLink name="Settings" setSelectedProject={setSelectedProject}>
+      <div className="min-w-4 mx-2 border-indigo-600 border rounded-full aspect-square bg-indigo-700" />
+    </ProjectLink>
+    <ProjectLink name="Profile" setSelectedProject={setSelectedProject}>
+      <div className="min-w-4 mx-2 border-cyan-600 border rounded-full aspect-square bg-cyan-700" />
+    </ProjectLink>
+  </motion.div>
+)}
+<AnimatePresence>
+  {selectedProject && (
+    <motion.div
+      key="project-nav"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 0 }}
+      transition={{ duration: 1 }}
+      className="flex flex-col mt-5"
+    >
+      <ProjectNavigation
+        selectedProject={selectedProject}
+        setSelectedProject={setSelectedProject}
+
+      />
+    </motion.div>
+  )}
+</AnimatePresence>
+
+
+
+    </motion.div>
+          <div
+       
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1}
-              stroke="currentColor"
-              className="w-8 h-8 stroke-neutral-200"
-            >
-              <motion.path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                variants={svgVariants}
-                animate={svgControls}
-                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                transition={{ duration: 0.5, ease: 'easeInOut' }}
-              />
-            </svg>
-          </button>
-        </div>
-        <div className="flex flex-col gap-3">
-          {/* Klikom na ProjectLink postavljamo odgovarajući selectedProject */}
-          <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
-            <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
-          </ProjectLink>
-          <ProjectLink name="Settings" setSelectedProject={setSelectedProject}>
-            <div className="min-w-4 mx-2 border-indigo-600 border rounded-full aspect-square bg-indigo-700" />
-          </ProjectLink>
-          <ProjectLink name="Profile" setSelectedProject={setSelectedProject}>
-            <div className="min-w-4 mx-2 border-cyan-600 border rounded-full aspect-square bg-cyan-700" />
-          </ProjectLink>
-        </div>
-      </motion.nav>
-      <AnimatePresence>
-        {selectedProject && (
-          <ProjectNavigation
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
-            isOpen={isOpen}
-          />
-        )}
-      </AnimatePresence>
+            <File />
+          </div>
     </>
+ 
   );
-};
-
-export default Navigation;
+}
