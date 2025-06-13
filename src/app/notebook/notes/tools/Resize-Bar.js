@@ -12,6 +12,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
   });
   const hitAreaMargin = 20;
 
+  
   const updateLayout = (width) => {
     if (sidebarRef.current) sidebarRef.current.style.width = `${width}px`;
     if (contentRef.current) {
@@ -63,6 +64,13 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
     }
   };
 
+  const setWidth = (width) => {
+  updateLayout(Math.min(max, Math.max(min, width)));
+  if (resizerRef.current) {
+    resizerRef.current.style.left = `${width - hitAreaMargin}px`;
+  }
+};
+
   useEffect(() => updateLayout(initialWidth), [initialWidth]);
 
   return {
@@ -71,7 +79,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
     resizerRef,
     handleMouseDown,
     hitAreaMargin,
-    resizerInnerRef,
+    resizerInnerRef,setWidth
   };
 };
 

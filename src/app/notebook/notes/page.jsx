@@ -20,12 +20,24 @@ export default function Dashboard() {
     resizerRef,
     resizerInnerRef,
     handleMouseDown,
-    hitAreaMargin,
+    hitAreaMargin,setWidth
   } = useResizable();
   const [selectedProject, setSelectedProject] = useState(null);
+  
   const { setContextMenuVisible } = ContextClick();
   const { cancelTokenRefresh } =
     useToken();
+const [isCollapsed, setIsCollapsed] = useState(false);
+const collapsedWidth = 60;
+const expandedWidth = 280;
+
+const toggleSidebar = () => {
+  setIsCollapsed((prev) => {
+    const next = !prev;
+    setWidth(next ? collapsedWidth : expandedWidth);
+    return next;
+  });
+};
 
 
 const loadingAuth = useAuthCheck(cancelTokenRefresh);
@@ -59,7 +71,13 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
       <div className="min-w-4 mx-2 border-cyan-600 border rounded-full aspect-square bg-cyan-700" />
     </ProjectLink>
   </motion.div>
-)}
+)}<button
+  onClick={toggleSidebar}
+  className="absolute top-2  left-0 bg-white text-black rounded px-2 py-1 text-xs z-50"
+>
+  {isCollapsed ? '>' : '<'}
+</button>
+
 <AnimatePresence>
   {selectedProject && (
     <motion.div
@@ -83,7 +101,7 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
         <ContextMenu />
 
       </aside>
-
+      
       <div
         ref={resizerRef}
         onMouseDown={handleMouseDown}
