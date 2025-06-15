@@ -8,7 +8,9 @@ export const useFolderStore = create((set) => ({
   folderName: '',
   expandedFolders: {},
     nullExpend: false,
-  setNullExpend: (value) => set({ nullExpend: value }),
+popupFolder: null, // will store the folder object or folder.id
+setNullExpend: (val) => set({ nullExpend: val }),
+setPopupFolder: (folder) => set({ popupFolder: folder }),
 
 
  setEditingFolderId: (id) => set({ editingFolderId: id }),

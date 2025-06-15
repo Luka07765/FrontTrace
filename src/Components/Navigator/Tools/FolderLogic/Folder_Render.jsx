@@ -23,7 +23,7 @@ function Folder_Render({   folder
     expandedFolders,
     setExpandedFolders,
    setMoveFolder,moveFolder,
-    editingFolderId,setDragFolder,dragFolder,setNullExpend
+    editingFolderId,setDragFolder,dragFolder,setNullExpend,    nullExpend, popupFolder,setPopupFolder
   } = useFolderStore();
   const isExpanded = expandedFolders[folder.id];
   const hasChildren = folder.children && folder.children.length > 0;
@@ -150,8 +150,10 @@ const { redCount, yellowCount } = useFolderColors(folder);
   <div
   onClick={(e) => {
     e.stopPropagation();
-      if (folder.parentFolderId === null || folder.parentFolderId === 'None') {
+        if (folder.parentFolderId === null || folder.parentFolderId === 'None') {
     setNullExpend(true);
+    setPopupFolder(folder); 
+    return; 
   }
     setSelectedFolderId(
       selectedFolderId === folder.id ? null : folder.id

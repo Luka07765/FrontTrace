@@ -4,7 +4,7 @@ import {  useState } from 'react';
 import { cn } from '@/Utils/cn';
 import { ContextClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
-
+import { Basic } from '@/Components/Navigator/Tools/Basic_Render';
 import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import useResizable from './tools/Resize-Bar';
@@ -23,7 +23,7 @@ export default function Dashboard() {
     hitAreaMargin,setWidth
   } = useResizable();
     const {
-      nullExpend
+       nullExpend, popupFolder, setNullExpend 
     } = useFolderStore();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -150,7 +150,34 @@ const toggleSidebar = () => {
                 : '280px',
             }}
           >
-            <div className="p-4">Right Sidebar Empty</div>
+            <div className="p-4">
+  <div className="flex justify-between items-center mb-2">
+    <h2 className="text-lg font-bold">{popupFolder?.title || 'Folder'}</h2>
+    <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
+  </div>
+
+  {/* Render folder.children in Basic */}
+  {popupFolder?.children?.length > 0 ? (
+    <Basic folders={popupFolder.children} />
+  ) : (
+    <p>No subfolders</p>
+  )}
+
+  {/* Optionally render files too */}
+  {popupFolder?.files?.length > 0 && (
+    <ul className="mt-4">
+      {popupFolder.files
+        .slice()
+        .sort((a, b) => a.filePosition - b.filePosition)
+        .map((file, index) => (
+          <li key={file.id} className="text-sm pl-2">
+            {file.title}
+          </li>
+        ))}
+    </ul>
+  )}
+</div>
+
           </motion.div>
         )}
       </AnimatePresence>
