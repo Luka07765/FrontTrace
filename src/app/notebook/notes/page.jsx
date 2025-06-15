@@ -48,7 +48,7 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
     <div
       className="relative flex h-screen overflow-hidden"
       onClick={() => setContextMenuVisible(false)}
-    >
+    >   {/* Sidebar */}
       <aside
         ref={sidebarRef}
         className={cn(
@@ -101,7 +101,7 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
         <ContextMenu />
 
       </aside>
-      
+       {/* Resize */}
       <div
         ref={resizerRef}
         onMouseDown={handleMouseDown}
@@ -119,7 +119,7 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
           style={{ left: `${hitAreaMargin}px` }}
         />
       </div>
-
+       {/* Main Content */}
       <div
         ref={contentRef}
         style={{
