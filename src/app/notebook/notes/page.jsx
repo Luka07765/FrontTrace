@@ -135,12 +135,7 @@ const toggleSidebar = () => {
       </div>
 
       {/* Right Sidebar (Overlay from left sidebar) */}
-          <button
-          onClick={() => setIsRightOpen((prev) => !prev)}
-          className="absolute top-10 left-2 bg-white text-black rounded px-2 py-1 text-xs z-[1050]"
-        >
-          {isRightOpen ? '×' : '▶'}
-        </button>
+
       <AnimatePresence>
         {nullExpend && (
           <motion.div

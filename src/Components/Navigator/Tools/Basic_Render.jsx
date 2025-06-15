@@ -76,9 +76,9 @@ const folderDrop = async ({ folderId, targetFolderId }) => {
     <ul>
       {folders.map((folder) => {
         const isExpanded = expandedFolders[folder.id];
-        const hasChildren = folder.children && folder.children.length > 0;
+        const folderExpend = folder.children && folder.children.length > 0;
         const isCreatingChild = creatingFolderParentId === folder.id;
-
+        const filesExpend = folder.files.length > 0;
         return (
           <li
             key={folder.id}
@@ -97,7 +97,7 @@ const folderDrop = async ({ folderId, targetFolderId }) => {
             {isExpanded && (
               <div>
 
-                {folder.files.length > 0 && (
+                {filesExpend && (
                   <ul className="ml-8">
                     {folder.files
                       .slice()
@@ -122,7 +122,7 @@ const folderDrop = async ({ folderId, targetFolderId }) => {
                   </ul>
                 )}
 
-                {hasChildren && (
+                {folderExpend && (
                   <div className="ml-4">
                     <Basic folders={folder.children} />
                   </div>
