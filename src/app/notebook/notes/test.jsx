@@ -8,7 +8,7 @@ import File from '@/Components/Work_Space/WorkPage';
 import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import useResizable from './tools/Resize-Bar';
-import { useFolderStore } from '@/Zustand/Folder_Store';
+
 import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
 import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
 import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
@@ -22,9 +22,6 @@ export default function Dashboard() {
     handleMouseDown,
     hitAreaMargin,setWidth
   } = useResizable();
-    const {
-      nullExpend
-    } = useFolderStore();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isRightOpen, setIsRightOpen] = useState(false);
@@ -142,7 +139,7 @@ const toggleSidebar = () => {
           {isRightOpen ? '×' : '▶'}
         </button>
       <AnimatePresence>
-        {nullExpend && (
+        {isRightOpen && (
           <motion.div
             initial={{ x: -300, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}

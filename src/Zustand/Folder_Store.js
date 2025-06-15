@@ -7,6 +7,8 @@ export const useFolderStore = create((set) => ({
   creatingFolderParentId: undefined,
   folderName: '',
   expandedFolders: {},
+    nullExpend: false,
+  setNullExpend: (value) => set({ nullExpend: value }),
 
 
  setEditingFolderId: (id) => set({ editingFolderId: id }),

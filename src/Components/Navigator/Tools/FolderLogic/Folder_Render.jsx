@@ -23,7 +23,7 @@ function Folder_Render({   folder
     expandedFolders,
     setExpandedFolders,
    setMoveFolder,moveFolder,
-    editingFolderId,setDragFolder,dragFolder
+    editingFolderId,setDragFolder,dragFolder,setNullExpend
   } = useFolderStore();
   const isExpanded = expandedFolders[folder.id];
   const hasChildren = folder.children && folder.children.length > 0;
@@ -132,17 +132,7 @@ const { redCount, yellowCount } = useFolderColors(folder);
       transition={{ duration: 0.4 }}
  
     >
-      {/* {showMainFolderPopup && (
-  <div className="fixed top-1/4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white p-4 rounded shadow-lg z-50">
-    <p className="text-sm">Kliknuli ste na glavni folder.</p>
-    <button
-      onClick={() => setShowMainFolderPopup(false)}
-      className="mt-2 px-3 py-1 bg-blue-500 rounded hover:bg-blue-600"
-    >
-      U redu
-    </button>
-  </div>
-)} */}
+
 
       {hasChildren || folderFiles(folder.id).length > 0 ? (
          <span    onDragEnter={handleDragEnter} onClick={() => setExpandedFolders(folder.id)} className="mr-1">
@@ -160,9 +150,9 @@ const { redCount, yellowCount } = useFolderColors(folder);
   <div
   onClick={(e) => {
     e.stopPropagation();
-  //     if (folder.parentFolderId === null || folder.parentFolderId === 'None') {
-  //   setShowMainFolderPopup(true);
-  // }
+      if (folder.parentFolderId === null || folder.parentFolderId === 'None') {
+    setNullExpend(true);
+  }
     setSelectedFolderId(
       selectedFolderId === folder.id ? null : folder.id
     );
