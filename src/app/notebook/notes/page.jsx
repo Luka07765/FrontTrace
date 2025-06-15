@@ -23,24 +23,24 @@ export default function Dashboard() {
     hitAreaMargin,setWidth
   } = useResizable();
   const [selectedProject, setSelectedProject] = useState(null);
-  
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isRightOpen, setIsRightOpen] = useState(false);
   const { setContextMenuVisible } = ContextClick();
   const { cancelTokenRefresh } =
     useToken();
-const [isCollapsed, setIsCollapsed] = useState(false);
-const collapsedWidth = 60;
-const expandedWidth = 280;
 
+
+const loadingAuth = useAuthCheck(cancelTokenRefresh);
 const toggleSidebar = () => {
   setIsCollapsed((prev) => {
     const next = !prev;
-    setWidth(next ? collapsedWidth : expandedWidth);
+    setWidth(next ? 60 : 280);
     return next;
   });
 };
 
 
-const loadingAuth = useAuthCheck(cancelTokenRefresh);
+
 
 
  if (loadingAuth) return <p>Loading...</p>;
@@ -130,6 +130,32 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
       >
         <File />
       </div>
+
+      {/* Right Sidebar (Overlay from left sidebar) */}
+          <button
+          onClick={() => setIsRightOpen((prev) => !prev)}
+          className="absolute top-10 left-2 bg-white text-black rounded px-2 py-1 text-xs z-[1050]"
+        >
+          {isRightOpen ? '×' : '▶'}
+        </button>
+      <AnimatePresence>
+        {isRightOpen && (
+          <motion.div
+            initial={{ x: -300, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 300, opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="absolute top-0 h-full w-72 bg-gray-900 text-white z-[1050]"
+            style={{
+              left: sidebarRef.current
+                ? `${sidebarRef.current.offsetWidth}px`
+                : '280px',
+            }}
+          >
+            <div className="p-4">Right Sidebar Empty</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
