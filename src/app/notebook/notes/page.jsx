@@ -136,7 +136,7 @@ const toggleSidebar = () => {
 
       {/* Right Sidebar (Overlay from left sidebar) */}
 
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {nullExpend && (
           <motion.div
             initial={{ x: -300, opacity: 0 }}
@@ -156,14 +156,13 @@ const toggleSidebar = () => {
     <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
   </div>
 
-  {/* Render folder.children in Basic */}
+
   {popupFolder?.children?.length > 0 ? (
     <Basic folders={popupFolder.children} />
   ) : (
     <p>No subfolders</p>
   )}
 
-  {/* Optionally render files too */}
   {popupFolder?.files?.length > 0 && (
     <ul className="mt-4">
       {popupFolder.files
@@ -180,7 +179,7 @@ const toggleSidebar = () => {
 
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </div>
   );
 }

@@ -150,11 +150,11 @@ const { redCount, yellowCount } = useFolderColors(folder);
   <div
   onClick={(e) => {
     e.stopPropagation();
-        if (folder.parentFolderId === null || folder.parentFolderId === 'None') {
-    setNullExpend(true);
-    setPopupFolder(folder); 
-    return; 
-  }
+  //       if (folder.parentFolderId === null || folder.parentFolderId === 'None') {
+  //   setNullExpend(true);
+  //   setPopupFolder(folder); 
+  //   return; 
+  // }
     setSelectedFolderId(
       selectedFolderId === folder.id ? null : folder.id
     );
