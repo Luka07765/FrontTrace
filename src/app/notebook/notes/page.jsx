@@ -12,22 +12,18 @@ import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
 import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
 import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
-
+import NullFolder from "@/Components/Navigator/Tools/nullSideBar/parantBar"
 export default function Dashboard() {
   const {
     sidebarRef,
-    contentRef,
-    resizerRef,
-    resizerInnerRef,
-    handleMouseDown,
-    hitAreaMargin,setWidth
+setWidth
   } = useResizable();
     const {
-       nullExpend, popupFolder, setNullExpend 
+       nullExpend, 
     } = useFolderStore();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isRightOpen, setIsRightOpen] = useState(false);
+
   const { setContextMenuVisible } = ContextClick();
   const { cancelTokenRefresh } =
     useToken();
@@ -43,9 +39,6 @@ const toggleSidebar = () => {
 };
 
 
-
-
-
  if (loadingAuth) return <p>Loading...</p>;
   return (
     <div
@@ -54,10 +47,7 @@ const toggleSidebar = () => {
     >   {/* Sidebar */}
       <aside
         ref={sidebarRef}
-        className={cn(
-          ' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
-        )}
-        style={{ width: '280px' }}
+        className=' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
       >
        
         {!selectedProject && (
@@ -101,85 +91,30 @@ const toggleSidebar = () => {
 </AnimatePresence>
 
       
-        <ContextMenu />
+
 
       </aside>
-       {/* Resize */}
-      <div
-        ref={resizerRef}
-        onMouseDown={handleMouseDown}
-        className="absolute top-0 bottom-0  cursor-ew-resize z-[1001] group"
-        style={{
-          width: `${1 + hitAreaMargin * 2}px`,
-          left: sidebarRef.current
-            ? `${sidebarRef.current.offsetWidth - hitAreaMargin}px`
-            : 260,
-        }}
-      >
-        <div
-          ref={resizerInnerRef}
-          className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0  bg-gray-600 transition-color duration-300 ease-in-out group-hover:w-1 group-hover:bg-white"
-          style={{ left: `${hitAreaMargin}px` }}
-        />
-      </div>
-       {/* Main Content */}
-      <div
-        ref={contentRef}
-        style={{
-          left: '260px',
-          width: 'calc(100% - 280px)',
-          overflow: 'auto',
-        }}
-      >
-        <File />
-      </div>
-
-      {/* Right Sidebar (Overlay from left sidebar) */}
-
-      {/* <AnimatePresence>
+      <AnimatePresence>
         {nullExpend && (
           <motion.div
             initial={{ x: -300, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 300, opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="absolute top-0 h-full w-72 bg-gray-900 text-white z-[1050]"
+            className="absolute top-0 h-full  bg-gray-900 text-white z-[1050]"
             style={{
               left: sidebarRef.current
                 ? `${sidebarRef.current.offsetWidth}px`
                 : '280px',
+     
             }}
           >
-            <div className="p-4">
-  <div className="flex justify-between items-center mb-2">
-    <h2 className="text-lg font-bold">{popupFolder?.title || 'Folder'}</h2>
-    <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
-  </div>
+            <NullFolder />
 
-
-  {popupFolder?.children?.length > 0 ? (
-    <Basic folders={popupFolder.children} />
-  ) : (
-    <p>No subfolders</p>
-  )}
-
-  {popupFolder?.files?.length > 0 && (
-    <ul className="mt-4">
-      {popupFolder.files
-        .slice()
-        .sort((a, b) => a.filePosition - b.filePosition)
-        .map((file, index) => (
-          <li key={file.id} className="text-sm pl-2">
-            {file.title}
-          </li>
-        ))}
-    </ul>
-  )}
-</div>
 
           </motion.div>
         )}
-      </AnimatePresence> */}
+      </AnimatePresence>
     </div>
   );
 }
