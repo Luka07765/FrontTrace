@@ -4,27 +4,26 @@ import {  useState } from 'react';
 import { cn } from '@/Utils/cn';
 import { ContextClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
-
+import { Basic } from '@/Components/Navigator/Tools/Basic_Render';
 import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import useResizable from './tools/Resize-Bar';
-
+import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
 import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
 import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
-
+import NullFolder from "@/Components/Navigator/Tools/nullSideBar/parantBar"
 export default function Dashboard() {
   const {
     sidebarRef,
-    contentRef,
-    resizerRef,
-    resizerInnerRef,
-    handleMouseDown,
-    hitAreaMargin,setWidth
+setWidth
   } = useResizable();
+    const {
+       nullExpend, 
+    } = useFolderStore();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isRightOpen, setIsRightOpen] = useState(false);
+
   const { setContextMenuVisible } = ContextClick();
   const { cancelTokenRefresh } =
     useToken();
@@ -40,9 +39,6 @@ const toggleSidebar = () => {
 };
 
 
-
-
-
  if (loadingAuth) return <p>Loading...</p>;
   return (
     <div
@@ -51,10 +47,7 @@ const toggleSidebar = () => {
     >   {/* Sidebar */}
       <aside
         ref={sidebarRef}
-        className={cn(
-          ' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
-        )}
-        style={{ width: '280px' }}
+        className=' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
       >
        
         {!selectedProject && (
@@ -98,61 +91,27 @@ const toggleSidebar = () => {
 </AnimatePresence>
 
       
-        <ContextMenu />
+
 
       </aside>
-       {/* Resize */}
-      <div
-        ref={resizerRef}
-        onMouseDown={handleMouseDown}
-        className="absolute top-0 bottom-0  cursor-ew-resize z-[1001] group"
-        style={{
-          width: `${1 + hitAreaMargin * 2}px`,
-          left: sidebarRef.current
-            ? `${sidebarRef.current.offsetWidth - hitAreaMargin}px`
-            : 260,
-        }}
-      >
-        <div
-          ref={resizerInnerRef}
-          className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0  bg-gray-600 transition-color duration-300 ease-in-out group-hover:w-1 group-hover:bg-white"
-          style={{ left: `${hitAreaMargin}px` }}
-        />
-      </div>
-       {/* Main Content */}
-      <div
-        ref={contentRef}
-        style={{
-          left: '260px',
-          width: 'calc(100% - 280px)',
-          overflow: 'auto',
-        }}
-      >
-        <File />
-      </div>
-
-      {/* Right Sidebar (Overlay from left sidebar) */}
-          <button
-          onClick={() => setIsRightOpen((prev) => !prev)}
-          className="absolute top-10 left-2 bg-white text-black rounded px-2 py-1 text-xs z-[1050]"
-        >
-          {isRightOpen ? '×' : '▶'}
-        </button>
       <AnimatePresence>
-        {isRightOpen && (
+        {nullExpend && (
           <motion.div
             initial={{ x: -300, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 300, opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="absolute top-0 h-full w-72 bg-gray-900 text-white z-[1050]"
+            className="absolute top-0 h-full  bg-gray-900 text-white z-[1050]"
             style={{
               left: sidebarRef.current
                 ? `${sidebarRef.current.offsetWidth}px`
                 : '280px',
+     
             }}
           >
-            <div className="p-4">Right Sidebar Empty</div>
+            <NullFolder />
+
+
           </motion.div>
         )}
       </AnimatePresence>
