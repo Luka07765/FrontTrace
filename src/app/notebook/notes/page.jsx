@@ -26,7 +26,7 @@ export default function Dashboard() {
     >
       {/* Sidebar */}
       <motion.div
-        animate={{ width: collapsed ? '5rem' : '16rem' }}
+        animate={{ width: collapsed ? '5rem' : '32rem' }}
         transition={{ type: 'spring', damping: 15 }}
         className="h-full bg-gray-900 text-white flex flex-col items-center py-4"
       >
@@ -72,8 +72,7 @@ export default function Dashboard() {
       </motion.div>
 
       {/* Main Content */}
-
-         {nullExpend && (
+                 <AnimatePresence>    {nullExpend && (
                      <motion.div
               key="project-nav"
               initial={{ opacity: 0, y: 10 }}
@@ -86,7 +85,8 @@ export default function Dashboard() {
       
       
                 </motion.div>
-              )}
+              )}</AnimatePresence>
+     
   
     </div>
   );
