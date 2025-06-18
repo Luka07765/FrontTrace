@@ -64,12 +64,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
     }
   };
 
-  const setWidth = (width) => {
-  updateLayout(Math.min(max, Math.max(min, width)));
-  if (resizerRef.current) {
-    resizerRef.current.style.left = `${width - hitAreaMargin}px`;
-  }
-};
+
 
   useEffect(() => updateLayout(initialWidth), [initialWidth]);
 
@@ -79,7 +74,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
     resizerRef,
     handleMouseDown,
     hitAreaMargin,
-    resizerInnerRef,setWidth
+    resizerInnerRef
   };
 };
 
