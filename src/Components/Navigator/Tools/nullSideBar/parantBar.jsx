@@ -1,6 +1,5 @@
 'use client';
-import { motion,  AnimatePresence } from 'framer-motion';
-import {  useState } from 'react';
+
 import { cn } from '@/Utils/cn';
 import { ContextClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
@@ -10,8 +9,6 @@ import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import useResizable from '@/app/notebook/notes/tools/Resize-Bar';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
-import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
-import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
 
 export default function Dashboard() {
   const {

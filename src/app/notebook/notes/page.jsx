@@ -70,11 +70,7 @@ export default function Dashboard() {
           )}
         </AnimatePresence>
       </div>
-      </motion.div>
-
-
-                 
-                 
+      </motion.div>        
                  <AnimatePresence> 
                      {nullExpend && (
                      <motion.div
