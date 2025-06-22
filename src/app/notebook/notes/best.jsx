@@ -134,7 +134,6 @@ const toggleSidebar = () => {
         <File />
       </div>
 
-
     </div>
   );
 }
