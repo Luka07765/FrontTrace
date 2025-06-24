@@ -5,15 +5,17 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
   const contentRef = useRef(null);
   const resizerRef = useRef(null);
   const resizerInnerRef = useRef(null);
+  const hitAreaMargin = 20;
+  
   const state = useRef({
     isResizing: false,
     startX: 0,
     startWidth: initialWidth,
   });
-  const hitAreaMargin = 20;
+
 
   
-  const updateLayout = (width) => {
+  const moveContent = (width) => {
     if (sidebarRef.current) sidebarRef.current.style.width = `${width}px`;
     if (contentRef.current) {
       contentRef.current.style.width = `calc(100% - ${width}px)`;
@@ -46,7 +48,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
         max,
         Math.max(min, state.current.startWidth + diff)
       );
-      updateLayout(newWidth);
+      moveContent(newWidth);
 
       if (resizerRef.current) {
         resizerRef.current.style.left = `${newWidth - hitAreaMargin}px`;
@@ -66,7 +68,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
 
 
 
-  useEffect(() => updateLayout(initialWidth), [initialWidth]);
+  useEffect(() => moveContent(initialWidth), [initialWidth]);
 
   return {
     sidebarRef,
