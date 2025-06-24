@@ -23,6 +23,17 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
     }
   };
 
+    const handleMouseUp = () => {
+    document.body.style.cursor = 'default';
+    state.current.isResizing = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+    if (resizerInnerRef.current) {
+      resizerInnerRef.current.classList.remove('w-1', 'bg-white');
+    }
+  };
+  
+
 
 
   const handleMouseMove = (e) => {
@@ -42,16 +53,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
     });
   };
 
-  const handleMouseUp = () => {
-    document.body.style.cursor = 'default';
-    state.current.isResizing = false;
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
-    if (resizerInnerRef.current) {
-      resizerInnerRef.current.classList.remove('w-1', 'bg-white');
-    }
-  };
-  
+
 
     const mouseHold = (e) => {
     e.preventDefault();
