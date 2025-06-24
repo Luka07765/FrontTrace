@@ -19,7 +19,7 @@ export default function Dashboard() {
     contentRef,
     resizerRef,
     resizerInnerRef,
-    handleMouseDown,
+    mouseHold,
     hitAreaMargin,
   } = useResizable();
 
@@ -93,7 +93,7 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
 
       <div
         ref={resizerRef}
-        onMouseDown={handleMouseDown}
+        onMouseDown={mouseHold}
         className="absolute top-0 bottom-0  cursor-ew-resize z-[1001] group"
         style={{
           width: `${1 + hitAreaMargin * 2}px`,

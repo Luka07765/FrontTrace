@@ -23,21 +23,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
     }
   };
 
-  const handleMouseDown = (e) => {
-    e.preventDefault();
-    document.body.style.cursor = 'ew-resize';
-    state.current = {
-      isResizing: true,
-      startX: e.clientX,
-      startWidth: sidebarRef.current?.offsetWidth || initialWidth,
-    };
-    if (resizerInnerRef.current) {
-      resizerInnerRef.current.classList.add('w-1', 'bg-white');
-    }
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  };
 
   const handleMouseMove = (e) => {
     if (!state.current.isResizing) return;
@@ -65,6 +51,23 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
       resizerInnerRef.current.classList.remove('w-1', 'bg-white');
     }
   };
+  
+
+    const mouseHold = (e) => {
+    e.preventDefault();
+    document.body.style.cursor = 'ew-resize';
+    state.current = {
+      isResizing: true,
+      startX: e.clientX,
+      startWidth: sidebarRef.current?.offsetWidth || initialWidth,
+    };
+    if (resizerInnerRef.current) {
+      resizerInnerRef.current.classList.add('w-1', 'bg-white');
+    }
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
 
 
 
@@ -74,7 +77,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
     sidebarRef,
     contentRef,
     resizerRef,
-    handleMouseDown,
+    mouseHold,
     hitAreaMargin,
     resizerInnerRef
   };
