@@ -137,9 +137,7 @@ export default function Dashboard() {
         className="absolute top-0 bottom-0  cursor-ew-resize z-[1001] group"
         style={{
           width: `${1 + hitAreaMargin * 2}px`,
-          left: sidebarRef.current
-            ? `${sidebarRef.current.offsetWidth - hitAreaMargin}px`
-            : 260,
+          left: 410,
         }}
       >
         <div
@@ -156,11 +154,7 @@ export default function Dashboard() {
      
           <div
             ref={contentRef}
-            style={{
-              left: '260px',
-              width: 'calc(100% - 280px)',
-              overflow: 'auto',
-            }}
+
           >
             <File />
           </div>
