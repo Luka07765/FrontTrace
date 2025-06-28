@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 const useResizable = (initialWidth = 280, min = 40, max = 400) => {
   const sidebarRef = useRef(null);
   const contentRef = useRef(null);
-  const resizerRef = useRef(null);
+  const uiFollow = useRef(null);
   const uiResize = useRef(null);
   const hitAreaMargin = 20;
   
@@ -43,8 +43,8 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
       );
       moveContent(newWidth);
 
-      if (resizerRef.current) {
-        resizerRef.current.style.left = `${newWidth - hitAreaMargin}px`;
+      if (uiFollow.current) {
+        uiFollow.current.style.left = `${newWidth - hitAreaMargin}px`;
       }
     });
   };
@@ -77,7 +77,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
   return {
     sidebarRef,
     contentRef,
-    resizerRef,
+    resizerRef: uiFollow,
     mouseHold,
     hitAreaMargin,
     resizerInnerRef: uiResize

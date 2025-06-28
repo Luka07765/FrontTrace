@@ -17,7 +17,7 @@ export default function Dashboard() {
   const {
     sidebarRef,
     contentRef,
-    resizerRef,
+    resizerRef: uiFollow,
     resizerInnerRef: uiResize,
     mouseHold,
     hitAreaMargin,
@@ -92,7 +92,7 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
       </aside>
 
       <div
-        ref={resizerRef}
+        ref={uiFollow}
         onMouseDown={mouseHold}
         className="absolute top-0 bottom-0  cursor-ew-resize z-[1001] group"
         style={{
