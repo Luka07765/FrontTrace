@@ -4,7 +4,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
   const sidebarRef = useRef(null);
   const contentRef = useRef(null);
   const resizerRef = useRef(null);
-  const resizerInnerRef = useRef(null);
+  const uiResize = useRef(null);
   const hitAreaMargin = 20;
   
   const state = useRef({
@@ -27,8 +27,8 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
     state.current.isResizing = false;
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
-    if (resizerInnerRef.current) {
-      resizerInnerRef.current.classList.remove('w-1', 'bg-white');
+    if (uiResize.current) {
+      uiResize.current.classList.remove('w-1', 'bg-white');
     }
   };
 
@@ -59,8 +59,8 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
       startX: e.clientX,
       startWidth: sidebarRef.current?.offsetWidth || initialWidth,
     };
-    if (resizerInnerRef.current) {
-      resizerInnerRef.current.classList.add('w-1', 'bg-white');
+    if (uiResize.current) {
+      uiResize.current.classList.add('w-1', 'bg-white');
     }
 
 
@@ -80,7 +80,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
     resizerRef,
     mouseHold,
     hitAreaMargin,
-    resizerInnerRef
+    resizerInnerRef: uiResize
   };
 };
 export default useResizable;

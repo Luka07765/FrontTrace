@@ -18,7 +18,7 @@ export default function Dashboard() {
     sidebarRef,
     contentRef,
     resizerRef,
-    resizerInnerRef,
+    resizerInnerRef: uiResize,
     mouseHold,
     hitAreaMargin,
   } = useResizable();
@@ -101,7 +101,7 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
         }}
       >
         <div
-          ref={resizerInnerRef}
+          ref={uiResize}
           className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0  bg-gray-600 transition-color duration-300 ease-in-out group-hover:w-1 group-hover:bg-white"
 
         />
