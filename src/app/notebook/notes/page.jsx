@@ -157,7 +157,7 @@ export default function Dashboard() {
      
           <div
             ref={contentRef}
-
+className="overflow-auto"
           >
             <File />
           </div>

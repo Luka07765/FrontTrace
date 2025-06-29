@@ -39,14 +39,10 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
  if (loadingAuth) return <p>Loading...</p>;
   return (
     <div
-      className="relative flex h-screen overflow-hidden"
-      onClick={() => setContextMenuVisible(false)}
-    >   {/* Sidebar */}
+ 
+    >   
       <aside
-        ref={sidebarRef}
-        className={cn(
-          ' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
-        )}
+
        
       >                  <div className="p-4">
   <div className="flex justify-between items-center mb-2">
@@ -79,39 +75,6 @@ const loadingAuth = useAuthCheck(cancelTokenRefresh);
         <ContextMenu />
 
       </aside>
-       {/* Resize */}
-      <div
-        ref={resizerRef}
-        onMouseDown={handleMouseDown}
-        className="absolute top-0 bottom-0  cursor-ew-resize z-[1001] group"
-        style={{
-          width: `${1 + hitAreaMargin * 2}px`,
-          left: sidebarRef.current
-            ? `${sidebarRef.current.offsetWidth - hitAreaMargin}px`
-            : 260,
-        }}
-      >
-        <div
-          ref={resizerInnerRef}
-          className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0  bg-gray-600 transition-color duration-300 ease-in-out group-hover:w-1 group-hover:bg-white"
-          style={{ left: `${hitAreaMargin}px` }}
-        />
-      </div>
-       {/* Main Content */}
-      <div
-        ref={contentRef}
-        style={{
-          left: '260px',
-          width: 'calc(100% - 280px)',
-          overflow: 'auto',
-        }}
-      >
-        <File />
-      </div>
-
- 
-
-
     </div>
   );
 }
