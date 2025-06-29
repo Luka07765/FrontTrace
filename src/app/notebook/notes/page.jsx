@@ -136,6 +136,7 @@ export default function Dashboard() {
         className="absolute top-0 bottom-0   cursor-ew-resize z-[1001] group"
         style={{
           width: `${1 + hitAreaMargin * 2}px`,
+          left:150
      
        
         }}
