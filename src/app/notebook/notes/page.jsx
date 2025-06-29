@@ -93,8 +93,7 @@ export default function Dashboard() {
               exit={{ opacity: 0, y: 0 }}
               transition={{ duration: 1 }}
               className="flex flex-col mt-5"
-            >
-                       <aside
+            ><div className="relative z-[1000]">                     <aside
                           ref={sidebarRef}
                           className={cn(
                             ' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
@@ -134,18 +133,21 @@ export default function Dashboard() {
                               <div
         ref={resizerRef}
         onMouseDown={handleMouseDown}
-        className="absolute top-0 bottom-0  cursor-ew-resize z-[1001] group"
+        className="absolute top-0 bottom-0   cursor-ew-resize z-[1001] group"
         style={{
           width: `${1 + hitAreaMargin * 2}px`,
-          left: 410,
+     
+       
         }}
       >
         <div
           ref={resizerInnerRef}
           className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0  bg-gray-600 transition-color duration-300 ease-in-out group-hover:w-1 group-hover:bg-white"
-          style={{ left: `${hitAreaMargin}px` }}
+
         />
       </div>
+      </div>
+  
       
       
                 </motion.div>

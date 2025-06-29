@@ -49,7 +49,7 @@ const useResizable = (initialWidth = 280, min = 40, max = 400) => {
       updateLayout(newWidth);
 
       if (resizerRef.current) {
-        resizerRef.current.style.left = `${newWidth - (hitAreaMargin -220)}px`;
+        resizerRef.current.style.left = `${newWidth - hitAreaMargin}px`;
       }
     });
   };
