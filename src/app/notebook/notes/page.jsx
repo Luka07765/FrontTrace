@@ -100,11 +100,13 @@ export default function Dashboard() {
                           )}
                          
                         >                  <div className="p-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <h2 className="text-lg font-bold">{popupFolder?.title || 'Folder'}</h2>
+                      <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
+                    </div>
                   
-                    <NullFolder />
                   
-                  
-               
+              <NullFolder />
                   </div>
                   
                         
@@ -138,7 +140,8 @@ export default function Dashboard() {
      
           <div
             ref={contentRef}
-className="overflow-auto"
+className="overflow-auto flex-1 "
+
           >
             <File />
           </div>
