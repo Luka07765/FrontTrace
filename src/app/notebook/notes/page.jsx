@@ -106,7 +106,24 @@ export default function Dashboard() {
                     </div>
                   
                   
-              <NullFolder />
+                    {popupFolder?.children?.length > 0 ? (
+                      <Basic folders={popupFolder.children} />
+                    ) : (
+                      <p>No subfolders</p>
+                    )}
+                  
+                    {popupFolder?.files?.length > 0 && (
+                      <ul className="mt-4">
+                        {popupFolder.files
+                          .slice()
+                          .sort((a, b) => a.filePosition - b.filePosition)
+                          .map((file, index) => (
+                            <li key={file.id} className="text-sm pl-2">
+                              {file.title}
+                            </li>
+                          ))}
+                      </ul>
+                    )}
                   </div>
                   
                         
@@ -140,8 +157,7 @@ export default function Dashboard() {
      
           <div
             ref={contentRef}
-className="overflow-auto flex-1 "
-
+className="flex 1 overflow-auto"
           >
             <File />
           </div>
