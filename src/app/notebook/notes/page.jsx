@@ -68,12 +68,11 @@ export default function Dashboard() {
         <AnimatePresence>
           {selectedProject && (
             <motion.div
-              key="project-nav"
-      initial={{ opacity: 0, width: 0, y: 20 }}
-      animate={{ opacity: 1, width: 150, y: 0 }}
-      exit={{ opacity: 0, width: 0, y: 20 }}
-      transition={{ type: 'spring', damping: 15}}
-      style={{ overflow: 'hidden' }}
+                  key="project-nav"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 0 }}
+      transition={{ duration: 1 }}
       className="flex flex-col mt-5"
             >
               <ProjectNavigation
