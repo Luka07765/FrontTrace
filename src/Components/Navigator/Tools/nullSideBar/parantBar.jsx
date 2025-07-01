@@ -14,13 +14,6 @@ export default function Dashboard() {
 
   return (
     <div>  
-                
-  <div >
-    <h2 className="text-lg text-white font-bold">{popupFolder?.title}</h2>
-    <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
-  </div>
-
-
   {popupFolder?.children?.length > 0 ? (
     <Basic folders={popupFolder.children} />
   ) : (
@@ -39,9 +32,6 @@ export default function Dashboard() {
         ))}
     </ul>
   )}
-
-
-      
         <ContextMenu />
 
     </div>

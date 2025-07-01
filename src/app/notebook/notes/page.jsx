@@ -69,11 +69,12 @@ export default function Dashboard() {
           {selectedProject && (
             <motion.div
               key="project-nav"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 0 }}
-              transition={{ duration: 1 }}
-              className="flex flex-col mt-5"
+      initial={{ opacity: 0, width: 0, y: 20 }}
+      animate={{ opacity: 1, width: 150, y: 0 }}
+      exit={{ opacity: 0, width: 0, y: 20 }}
+      transition={{ type: 'spring', damping: 15}}
+      style={{ overflow: 'hidden' }}
+      className="flex flex-col mt-5"
             >
               <ProjectNavigation
                 selectedProject={selectedProject}
@@ -83,47 +84,29 @@ export default function Dashboard() {
           )}
         </AnimatePresence>
       </div>
-      </motion.div>        
+      </motion.div>  
+            
                  <AnimatePresence> 
                      {nullExpend && (
-                     <motion.div
-              key="project-nav"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 0 }}
-              transition={{ duration: 1 }}
-              className="flex flex-col mt-5"
-            ><div className="relative z-[1000]">                     <aside
+                 
+                      
+                      <div className="relative z-[1000]">
+                           <aside
                           ref={sidebarRef}
                           className={cn(
                             ' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
                           )}
+                           style={{ width: 170 }}
                          
-                        >                  <div className="p-4">
+                        >
+                          <div className="p-4">
                     <div className="flex justify-between items-center mb-2">
                       <h2 className="text-lg font-bold">{popupFolder?.title || 'Folder'}</h2>
                       <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
                     </div>
                   
                   
-                    {popupFolder?.children?.length > 0 ? (
-                      <Basic folders={popupFolder.children} />
-                    ) : (
-                      <p>No subfolders</p>
-                    )}
-                  
-                    {popupFolder?.files?.length > 0 && (
-                      <ul className="mt-4">
-                        {popupFolder.files
-                          .slice()
-                          .sort((a, b) => a.filePosition - b.filePosition)
-                          .map((file, index) => (
-                            <li key={file.id} className="text-sm pl-2">
-                              {file.title}
-                            </li>
-                          ))}
-                      </ul>
-                    )}
+              <NullFolder />
                   </div>
                   
                         
@@ -148,16 +131,15 @@ export default function Dashboard() {
         />
       </div>
       </div>
-  
       
-      
-                </motion.div>
+       
               )}
               </AnimatePresence>
      
           <div
             ref={contentRef}
-className="flex 1 overflow-auto"
+className="overflow-auto flex-1"
+
           >
             <File />
           </div>
