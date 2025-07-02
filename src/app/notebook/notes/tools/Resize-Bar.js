@@ -67,6 +67,8 @@ const useResizable = (initialWidth = 170, min = 40, max = 400) => {
 
 
   useEffect(() => updateLayout(initialWidth), [initialWidth]);
+
+  //i ovo da sae izbrise 
 useEffect(() => {
   updateLayout(initialWidth);
 
@@ -74,6 +76,13 @@ useEffect(() => {
     resizerRef.current.style.left = `${initialWidth - hitAreaMargin}px`;
   }
 }, [initialWidth]);
+// treba da se brise
+  const setWidth = (width) => {
+  updateLayout(Math.min(max, Math.max(min, width)));
+  if (resizerRef.current) {
+    resizerRef.current.style.left = `${width - hitAreaMargin}px`;
+  }
+};
 
   return {
     sidebarRef,
@@ -81,7 +90,7 @@ useEffect(() => {
     resizerRef,
     handleMouseDown,
     hitAreaMargin,
-    resizerInnerRef
+    resizerInnerRef,setWidth
   };
 };
 

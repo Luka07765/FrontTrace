@@ -62,7 +62,6 @@ const toggleSidebar = () => {
        
         {!selectedProject && (
   <motion.div
-
   >
     <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
       <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
