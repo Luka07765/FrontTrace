@@ -4,9 +4,9 @@ const ProjectLink = ({ children, name, setSelectedProject }) => {
   const handleClick = () => {
     setSelectedProject(null);
      setSelectedProject(name)
-    // setTimeout(() => {
-    //   setSelectedProject(name);
-    // }, 250);
+    setTimeout(() => {
+      setSelectedProject(name);
+    }, 250);
   };
 
   return (

@@ -54,13 +54,13 @@ export default function Dashboard() {
         {!selectedProject && (
           <div className="flex flex-col items-center gap-4">
             <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
-              <div className="w-6 h-6 border-pink-600 border rounded-full bg-pink-700" />
+            <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
             </ProjectLink>
             <ProjectLink name="Settings" setSelectedProject={setSelectedProject}>
-              <div className="w-6 h-6 border-indigo-600 border rounded-full bg-indigo-700" />
+            <div className="min-w-4 mx-2 border-indigo-600 border rounded-full aspect-square bg-indigo-700" />
             </ProjectLink>
             <ProjectLink name="Profile" setSelectedProject={setSelectedProject}>
-              <div className="w-6 h-6 border-cyan-600 border rounded-full bg-cyan-700" />
+            <div className="min-w-4 mx-2 border-cyan-600 border rounded-full aspect-square bg-cyan-700" />
             </ProjectLink>
           </div>
         )}
@@ -68,12 +68,12 @@ export default function Dashboard() {
         <AnimatePresence>
           {selectedProject && (
             <motion.div
-              key="project-nav"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 0 }}
-              transition={{ duration: 1 }}
-              className="flex flex-col mt-5"
+                  key="project-nav"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 0 }}
+      transition={{ duration: 1 }}
+      className="flex flex-col mt-5"
             >
               <ProjectNavigation
                 selectedProject={selectedProject}
@@ -87,20 +87,15 @@ export default function Dashboard() {
             
                  <AnimatePresence> 
                      {nullExpend && (
-                     <motion.div
-         key="project-nav"
-      initial={{ opacity: 0, width: 0, y: 20 }}
-      animate={{ opacity: 1, width: 150, y: 0 }}
-      exit={{ opacity: 0, width: 0, y: 20 }}
-      transition={{ type: 'spring', damping: 15, stiffness: 150 }}
-
-      className="flex flex-col mt-5"
-            ><div className="relative z-[1000]">
+                 
+                      
+                      <div className="relative z-[1000]">
                            <aside
                           ref={sidebarRef}
                           className={cn(
                             ' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
                           )}
+                           style={{ width: 170 }} //fix this and work on it because u are lazu!
                          
                         >
                           <div className="p-4">
@@ -135,8 +130,6 @@ export default function Dashboard() {
         />
       </div>
       </div>
-      
-                </motion.div>
               )}
               </AnimatePresence>
      

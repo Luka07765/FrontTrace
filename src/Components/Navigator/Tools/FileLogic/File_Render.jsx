@@ -83,7 +83,9 @@ function FileRender({ file, index, onDragStart, onDragEnter, onDragEnd }) {
 
       <div className="flex items-center space-x-2">
         <Image src={fileIcon} alt="File Icon" width={20} height={20} className="filter invert" />
-        <span className="text-left">{file.title} {file.filePosition}</span>
+        <span className="text-left">{file.title}
+           {/* {file.filePosition} for the fix to the folder  */}
+           </span>
 
     
       </div>
