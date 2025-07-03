@@ -45,7 +45,7 @@ export const Basic = ({ folders }) => {
               <div>
 
                 {filesExpend && (
-                  <ul className="ml-8">
+                  <ul className="ml-12">
                     {folder.files
                       .slice()
                       .sort((a, b) => a.filePosition - b.filePosition)
@@ -68,7 +68,7 @@ export const Basic = ({ folders }) => {
                 )}
 
                 {folderExpend && (
-                  <div className="ml-4">
+                  <div className="ml-9">
                     <Basic folders={folder.children} />
                   </div>
                 )}
