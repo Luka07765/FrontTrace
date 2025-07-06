@@ -34,9 +34,10 @@ export default function Dashboard() {
 
 
   return (
-    <div
+    <motion.div
       className="relative flex h-screen overflow-hidden"
       onClick={() => setContextMenuVisible(false)}
+      
     >
 
       <motion.div
@@ -96,7 +97,8 @@ export default function Dashboard() {
       initial="close"
       animate="open"
       exit="close"
-      transition={{ duration: 0.5, ease: 'easeInOut' }} className={`relative z-[1000]  `}>
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
+       className="relative z-[1000]">
                            <aside
                           ref={sidebarRef}
                           className={cn(
@@ -147,6 +149,6 @@ className="overflow-auto flex-1"
           >
             <File />
           </div>
-    </div>
+    </motion.div>
   );
 }
