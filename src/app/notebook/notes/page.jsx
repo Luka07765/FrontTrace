@@ -42,7 +42,7 @@ export default function Dashboard() {
       <motion.div
         animate={{ width: collapsed ? '5rem' : '16rem' }}
         transition={{ type: 'spring', damping: 15 }}
-        className="h-full bg-gray-900 text-white flex flex-col items-center py-4"
+        className="h-full bg-gray-900 text-white flex flex-col  items-center py-4"
       >
         <button
           onClick={() => setCollapsed(!collapsed)}
@@ -52,7 +52,7 @@ export default function Dashboard() {
         </button>
 
         {!selectedProject && (
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col gap-5 w-full px-4">
             <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
             <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
             </ProjectLink>

@@ -52,7 +52,7 @@ export default function Dashboard() {
         </button>
 
         {!selectedProject && (
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col gap-4 w-full px-2">
             <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
             <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
             </ProjectLink>
