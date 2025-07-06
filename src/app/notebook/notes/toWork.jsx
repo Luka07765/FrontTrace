@@ -95,7 +95,7 @@ export default function Dashboard() {
                           className={cn(
                             ' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
                           )}
-                           style={{ width: 170 }} //fix this and work on it because u are lazu!
+                           style={{ width: 170 }} 
                          
                         >
                           <div className="p-4">
