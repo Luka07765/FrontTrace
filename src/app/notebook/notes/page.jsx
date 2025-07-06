@@ -89,7 +89,14 @@ export default function Dashboard() {
                      {nullExpend && (
                  
                       
-                      <div className="relative z-[1000]">
+                      <motion.nav       variants={{
+        close: { x: -300, opacity: 0 },
+        open: { x: 0, opacity: 100 },
+      }}
+      initial="close"
+      animate="open"
+      exit="close"
+      transition={{ duration: 0.5, ease: 'easeInOut' }} className={`relative z-[1000]  `}>
                            <aside
                           ref={sidebarRef}
                           className={cn(
@@ -104,7 +111,7 @@ export default function Dashboard() {
                       <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
                     </div>
                   
-                  
+        
               <NullFolder />
                   </div>
                   
@@ -129,7 +136,7 @@ export default function Dashboard() {
 
         />
       </div>
-      </div>
+      </motion.nav>
               )}
               </AnimatePresence>
      
