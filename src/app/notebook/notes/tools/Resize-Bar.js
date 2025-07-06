@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 
-const useResizable = (initialWidth = 170, min = 40, max = 400) => {
+const useResizable = ( min = 40, max = 400) => {
   const sidebarRef = useRef(null);
   const contentRef = useRef(null);
   const resizerRef = useRef(null);
@@ -8,7 +8,7 @@ const useResizable = (initialWidth = 170, min = 40, max = 400) => {
   const state = useRef({
     isResizing: false,
     startX: 0,
-    startWidth: initialWidth,
+
   });
   const hitAreaMargin = 20;
 
@@ -27,7 +27,7 @@ const useResizable = (initialWidth = 170, min = 40, max = 400) => {
     state.current = {
       isResizing: true,
       startX: e.clientX,
-      startWidth: sidebarRef.current?.offsetWidth || initialWidth,
+      startWidth: sidebarRef.current?.offsetWidth
     };
     if (resizerInnerRef.current) {
       resizerInnerRef.current.classList.add('w-1', 'bg-white');
@@ -66,23 +66,7 @@ const useResizable = (initialWidth = 170, min = 40, max = 400) => {
 
 
 
-  useEffect(() => updateLayout(initialWidth), [initialWidth]);
 
-  //i ovo da sae izbrise 
-useEffect(() => {
-  updateLayout(initialWidth);
-
-  if (resizerRef.current) {
-    resizerRef.current.style.left = `${initialWidth - hitAreaMargin}px`;
-  }
-}, [initialWidth]);
-// treba da se brise
-  const setWidth = (width) => {
-  updateLayout(Math.min(max, Math.max(min, width)));
-  if (resizerRef.current) {
-    resizerRef.current.style.left = `${width - hitAreaMargin}px`;
-  }
-};
 
   return {
     sidebarRef,
@@ -90,7 +74,7 @@ useEffect(() => {
     resizerRef,
     handleMouseDown,
     hitAreaMargin,
-    resizerInnerRef,setWidth
+    resizerInnerRef
   };
 };
 
