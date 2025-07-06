@@ -11,7 +11,7 @@ import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
 import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import File from '@/Components/Work_Space/WorkPage';
-import { Basic } from '@/Components/Navigator/Tools/Basic_Render';
+
 import useResizable from './tools/Resize-Bar';
 export default function Dashboard() {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -34,15 +34,16 @@ export default function Dashboard() {
 
 
   return (
-    <div
+    <motion.div
       className="relative flex h-screen overflow-hidden"
       onClick={() => setContextMenuVisible(false)}
+      
     >
 
       <motion.div
         animate={{ width: collapsed ? '5rem' : '16rem' }}
         transition={{ type: 'spring', damping: 15 }}
-        className="h-full bg-gray-900 text-white flex flex-col items-center py-4"
+        className="h-full bg-gray-900 text-white flex flex-col  items-center py-4"
       >
         <button
           onClick={() => setCollapsed(!collapsed)}
@@ -52,7 +53,7 @@ export default function Dashboard() {
         </button>
 
         {!selectedProject && (
-          <div className="flex flex-col gap-4 w-full px-2">
+          <div className="flex flex-col gap-5 w-full px-4">
             <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
             <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
             </ProjectLink>
@@ -89,7 +90,15 @@ export default function Dashboard() {
                      {nullExpend && (
                  
                       
-                      <div className="relative z-[1000]">
+                      <motion.nav       variants={{
+        close: { x: -300, opacity: 0 },
+        open: { x: 0, opacity: 100 },
+      }}
+      initial="close"
+      animate="open"
+      exit="close"
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
+       className="relative z-[1000]">
                            <aside
                           ref={sidebarRef}
                           className={cn(
@@ -104,7 +113,7 @@ export default function Dashboard() {
                       <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
                     </div>
                   
-                  
+        
               <NullFolder />
                   </div>
                   
@@ -129,7 +138,7 @@ export default function Dashboard() {
 
         />
       </div>
-      </div>
+      </motion.nav>
               )}
               </AnimatePresence>
      
@@ -140,6 +149,6 @@ className="overflow-auto flex-1"
           >
             <File />
           </div>
-    </div>
+    </motion.div>
   );
 }
