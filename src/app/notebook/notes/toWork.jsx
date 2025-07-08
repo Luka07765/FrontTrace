@@ -90,13 +90,10 @@ export default function Dashboard() {
                      {nullExpend && (
                  
                       
-                      <motion.nav       variants={{
-        close: { x: -300, opacity: 0 },
-        open: { x: 0, opacity: 100 },
-      }}
-      initial="close"
-      animate="open"
-      exit="close"
+                      <motion.nav       
+    
+      exit={{ width: 0,x: -300, opacity: 0 }}
+
       transition={{ duration: 0.5, ease: 'easeInOut' }}
        className="relative z-[1000]">
                            <aside

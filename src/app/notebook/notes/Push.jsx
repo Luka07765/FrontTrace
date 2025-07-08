@@ -8,7 +8,7 @@ import File from '@/Components/Work_Space/WorkPage';
 import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import useResizable from './tools/Resize-Bar';
-import { useFolderStore } from '@/Zustand/Folder_Store';
+
 import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
 import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
 import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
@@ -20,27 +20,18 @@ export default function Dashboard() {
     resizerRef,
     resizerInnerRef,
     handleMouseDown,
-    hitAreaMargin,setWidth
+    hitAreaMargin
   } = useResizable();
-    const {
-       nullExpend, popupFolder, setNullExpend 
-    } = useFolderStore();
+
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isRightOpen, setIsRightOpen] = useState(false);
+
+
   const { setContextMenuVisible } = ContextClick();
   const { cancelTokenRefresh } =
     useToken();
 
 
 const loadingAuth = useAuthCheck(cancelTokenRefresh);
-const toggleSidebar = () => {
-  setIsCollapsed((prev) => {
-    const next = !prev;
-    setWidth(next ? 60 : 280);
-    return next;
-  });
-};
 
 
 
@@ -74,12 +65,7 @@ const toggleSidebar = () => {
       <div className="min-w-4 mx-2 border-cyan-600 border rounded-full aspect-square bg-cyan-700" />
     </ProjectLink>
   </motion.div>
-)}<button
-  onClick={toggleSidebar}
-  className="absolute top-2  left-0 bg-white text-black rounded px-2 py-1 text-xs z-50"
->
-  {isCollapsed ? '>' : '<'}
-</button>
+)}
 
 <AnimatePresence>
   {selectedProject && (
