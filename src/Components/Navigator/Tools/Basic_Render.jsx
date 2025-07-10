@@ -53,13 +53,7 @@ export const Basic = ({ folders }) => {
                         <FileRender
                           key={file.id}
                           file={file}
-                       
                           index={index}
-                          onDragStart={(i) => {
-                            setDraggingIndex(i);
-                          
-                          }}
-                          onDragEnter={(i) => setDragOverIndex(i)}
                           onDragEnd={() => handleDrop({ files: folder.files, fileId: file.id, targetFolderId: moveFolder })}
  
                         />

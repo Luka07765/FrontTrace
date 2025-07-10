@@ -65,8 +65,8 @@ function FileRender({ file, index, onDragStart, onDragEnter, onDragEnd }) {
     <li
       key={file.id}
       draggable
-      onDragStart={() => onDragStart(index)}
-      onDragEnter={() => onDragEnter(index)}
+      onDragStart={(index) => setDraggingIndex(index)}
+      onDragEnter={(index) => setDragOverIndex(index)}
       onDragEnd={onDragEnd}
       onClick={handleClick}
       onContextMenu={handleContextMenu}
