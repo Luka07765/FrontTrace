@@ -7,7 +7,7 @@ import fileIcon from '@/assets/FolderFile_Icons/file.png';
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-
+import { useMoveLogic } from '@/Components/Navigator/Tools/MoveLogic/Move';
 function FileRender({ file, index, onDragStart, onDragEnter, onDragEnd }) {
   const {
     editFileId,
@@ -16,7 +16,13 @@ function FileRender({ file, index, onDragStart, onDragEnter, onDragEnd }) {
     updateFileColor,
     setEditFileContent,
   } = useFileStore();
-
+      const {
+    handleDrop,
+    folderDrop,
+    setDraggingIndex,
+    setDragOverIndex,
+    moveFolder,
+  } = useMoveLogic();
   const { setContextMenuPosition, setContextMenuVisible, setContextMenuTarget } = ContextClick();
   const { handleUpdateFile } = useFileListLogic();
 
@@ -65,8 +71,8 @@ function FileRender({ file, index, onDragStart, onDragEnter, onDragEnd }) {
     <li
       key={file.id}
       draggable
-      onDragStart={(index) => setDraggingIndex(index)}
-      onDragEnter={(index) => setDragOverIndex(index)}
+      onDragStart={() => setDraggingIndex(index)}
+     onDragEnter={() => setDragOverIndex(index)}
       onDragEnd={onDragEnd}
       onClick={handleClick}
       onContextMenu={handleContextMenu}
