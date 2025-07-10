@@ -20,7 +20,7 @@ export default function FileList() {
   } = useFileStore();
 
   const { triggerSave } = useAutoSave(() => handleSubmitUpdate(handleUpdateFile));
- console.log(editFileId)
+
   const handleContentUpdate = (html) => {
     setEditFileContent(html);
     triggerSave();
