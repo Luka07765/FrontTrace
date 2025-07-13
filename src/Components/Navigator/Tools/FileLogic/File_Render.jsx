@@ -8,7 +8,7 @@ import { ContextClick } from '@/Zustand/Context_Store';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useMoveLogic } from '@/Components/Navigator/Tools/MoveLogic/Move';
-function FileRender({ file, index, onDragStart, onDragEnter, onDragEnd }) {
+function FileRender({ file, index, folder }) {
   const {
     editFileId,
     setEditFileId,
@@ -18,7 +18,7 @@ function FileRender({ file, index, onDragStart, onDragEnter, onDragEnd }) {
   } = useFileStore();
       const {
     handleDrop,
-    folderDrop,
+
     setDraggingIndex,
     setDragOverIndex,
     moveFolder,
@@ -72,8 +72,9 @@ function FileRender({ file, index, onDragStart, onDragEnter, onDragEnd }) {
       key={file.id}
       draggable
       onDragStart={() => setDraggingIndex(index)}
-     onDragEnter={() => setDragOverIndex(index)}
-      onDragEnd={onDragEnd}
+      onDragEnter={() => setDragOverIndex(index)}
+      onDragEnd={() => handleDrop({ files: folder.files, fileId: file.id, targetFolderId: moveFolder })}
+
       onClick={handleClick}
       onContextMenu={handleContextMenu}
       className={`bg-grey-800 shadow-md rounded-lg p-2 flex items-center justify-between cursor-pointer ${
@@ -90,7 +91,7 @@ function FileRender({ file, index, onDragStart, onDragEnter, onDragEnd }) {
       <div className="flex items-center space-x-2">
         <Image src={fileIcon} alt="File Icon" width={20} height={20} className="filter invert" />
         <span className="text-left">{file.title}
-           {/* {file.filePosition} for the fix to the folder  */}
+           {" " +file.filePosition} 
            </span>
 
     

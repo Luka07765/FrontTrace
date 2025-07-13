@@ -54,7 +54,8 @@ export const Basic = ({ folders }) => {
                           key={file.id}
                           file={file}
                           index={index}
-                          onDragEnd={() => handleDrop({ files: folder.files, fileId: file.id, targetFolderId: moveFolder })}
+                          folder={folder}
+              
  
                         />
                       ))}

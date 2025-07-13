@@ -17,9 +17,9 @@ export const useMoveLogic = () => {
     const draggedFile = files.find(f => f.id === fileId);
     if (!draggedFile) return;
 
-    const sourceFolderId = draggedFile.folderId;
+    const sourceFolderId = targetFolderId;
 
-    if (sourceFolderId === targetFolderId && draggingIndex !== null && dragOverIndex !== null) {
+
       const sameFolderFiles = files
         .filter(f => f.folderId === sourceFolderId)
         .sort((a, b) => a.filePosition - b.filePosition);
@@ -36,15 +36,13 @@ export const useMoveLogic = () => {
           await handleUpdateFile({ id: sameFolderFiles[i].id, filePosition: updatedPos });
         }
       }
-    } else if (sourceFolderId !== targetFolderId) {
-      await handleUpdateFile({
-        id: fileId,
-        folderId: targetFolderId,
-        
-      });
-    }
-  };
 
+
+  };
+ 
+      // await handleUpdateFile({
+      //   id: fileId,
+      //   folderId: targetFolderId,
   const folderDrop = async ({ folderId, targetFolderId }) => {
     if (!folderId || !targetFolderId || folderId === targetFolderId) return;
 
