@@ -17,11 +17,9 @@ export const useMoveLogic = () => {
     const draggedFile = files.find(f => f.id === fileId);
     if (!draggedFile) return;
 
-    const sourceFolderId = targetFolderId;
-
 
       const sameFolderFiles = files
-        .filter(f => f.folderId === sourceFolderId)
+        .filter(f => f.folderId === targetFolderId)
         .sort((a, b) => a.filePosition - b.filePosition);
 
       const [movedFile] = sameFolderFiles.splice(draggingIndex, 1);
