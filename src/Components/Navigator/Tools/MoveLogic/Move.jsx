@@ -14,6 +14,10 @@ export const useMoveLogic = () => {
   const handleDrop = async ({ files, fileId = null, targetFolderId = null }) => {
     if (!fileId || !targetFolderId) return;
 
+
+        //   await handleUpdateFile({
+        // id: fileId,
+        // folderId: targetFolderId,});
    
       const sameFolderFiles = files
         .filter(f => f.folderId === targetFolderId);
@@ -34,9 +38,7 @@ export const useMoveLogic = () => {
 
   };
  
-      // await handleUpdateFile({
-      //   id: fileId,
-      //   folderId: targetFolderId,
+
   const folderDrop = async ({ folderId, targetFolderId }) => {
     if (!folderId || !targetFolderId || folderId === targetFolderId) return;
 
