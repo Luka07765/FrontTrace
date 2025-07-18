@@ -14,10 +14,7 @@ export const useMoveLogic = () => {
   const handleDrop = async ({ files, fileId = null, targetFolderId = null }) => {
     if (!fileId || !targetFolderId) return;
 
-    const draggedFile = files.find(f => f.id === fileId);
-    if (!draggedFile) return;
-
-
+   
       const sameFolderFiles = files
         .filter(f => f.folderId === targetFolderId)
         .sort((a, b) => a.filePosition - b.filePosition);
