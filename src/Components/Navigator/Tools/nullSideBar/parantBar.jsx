@@ -1,6 +1,6 @@
 'use client';
 
-
+import FileRender from '@/Components/Navigator/Tools/FileLogic/File_Render';
 import { Basic } from '@/Components/Navigator/Tools/Basic_Render';
 import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import { useFolderStore } from '@/Zustand/Folder_Store';
@@ -26,9 +26,14 @@ export default function Dashboard() {
         .slice()
         .sort((a, b) => a.filePosition - b.filePosition)
         .map((file, index) => (
-          <li key={file.id} className="text-sm pl-2">
-            {file.title}
-          </li>
+                  <FileRender
+                          key={file.id}
+                          file={file}
+                          index={index}
+                          folder={popupFolder}
+              
+ 
+                        />
         ))}
     </ul>
   )}
