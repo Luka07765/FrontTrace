@@ -15,25 +15,25 @@ export const useMoveLogic = () => {
     if (!fileId || !targetFolderId) return;
 
 
-        //   await handleUpdateFile({
-        // id: fileId,
-        // folderId: targetFolderId,});
+          await handleUpdateFile({
+        id: fileId,
+        folderId: targetFolderId,});
    
-      const sameFolderFiles = files
-        .filter(f => f.folderId === targetFolderId);
+      // const sameFolderFiles = files
+      //   .filter(f => f.folderId === targetFolderId);
 
-      const [movedFile] = sameFolderFiles.splice(draggingIndex, 1);
-      sameFolderFiles.splice(dragOverIndex, 0, movedFile);
+      // const [movedFile] = sameFolderFiles.splice(draggingIndex, 1);
+      // sameFolderFiles.splice(dragOverIndex, 0, movedFile);
 
-      setDraggingIndex(null);
-      setDragOverIndex(null);
+      // setDraggingIndex(null);
+      // setDragOverIndex(null);
 
-      for (let i = 0; i < sameFolderFiles.length; i++) {
-        const updatedPos = i + 1;
-        if (sameFolderFiles[i].filePosition !== updatedPos) {
-          await handleUpdateFile({ id: sameFolderFiles[i].id, filePosition: updatedPos });
-        }
-      }
+      // for (let i = 0; i < sameFolderFiles.length; i++) {
+      //   const updatedPos = i + 1;
+      //   if (sameFolderFiles[i].filePosition !== updatedPos) {
+      //     await handleUpdateFile({ id: sameFolderFiles[i].id, filePosition: updatedPos });
+      //   }
+      // }
 
 
   };
