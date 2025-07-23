@@ -5,7 +5,7 @@ const MenuBar = ({ editor }) => {
   const toggleNeon = () => editor.chain().focus().toggleMark('neonText').run();
   const toggleHighlight = () => editor.chain().focus().toggleMark('highlightText').run();
   const toggleProgram = () => editor.chain().focus().toggleCodeBlock().run();
-
+  const toggleH1 = () => editor.chain().focus().toggleMark("h1").run();
   return (
     <div className="flex flex-wrap gap-1 mb-2 bg-white p-2 rounded-t-lg border-b border-gray-700">
       <button
@@ -34,6 +34,14 @@ const MenuBar = ({ editor }) => {
         }`}
       >
         Toggle Code Block
+      </button>
+      <button
+        onClick={toggleH1}
+        className={`p-2 rounded ${
+          editor.isActive('h1') ? 'bg-gray-700' : 'hover:bg-gray-800'
+        }`}
+      >
+        H1
       </button>
 
       <button

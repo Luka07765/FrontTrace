@@ -116,6 +116,9 @@ body {
   font-size: 40px;
   background-color: red;
 }
+.h1 {
+  background-color: green;
+}
 
 ::-webkit-scrollbar {
   width: 12px; /* Scrollbar width */

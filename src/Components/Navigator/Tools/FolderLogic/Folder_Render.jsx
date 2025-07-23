@@ -23,7 +23,7 @@ function Folder_Render({   folder
     expandedFolders,
     setExpandedFolders,
    setMoveFolder,moveFolder,
-    editingFolderId,setDragFolder,dragFolder,setNullExpend,    nullExpend, popupFolder,setPopupFolder
+    editingFolderId,setDragFolder,dragFolder,setNullExpend,setPopupFolder
   } = useFolderStore();
   const isExpanded = expandedFolders[folder.id];
   const hasChildren = folder.children && folder.children.length > 0;
@@ -153,6 +153,7 @@ const { redCount, yellowCount } = useFolderColors(folder);
         if (folder.parentFolderId === null || folder.parentFolderId === 'None') {
     setNullExpend(true);
     setPopupFolder(folder); 
+    console.log(folder.files)
     return; 
   }
     setSelectedFolderId(

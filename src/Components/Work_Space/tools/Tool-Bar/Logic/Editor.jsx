@@ -12,7 +12,7 @@ import CodeBlockComponent from './codeBlock';
 
 export const NeonText = createTextCss('neonText', 'text-neon');
 export const HighlightText = createTextCss('highlightText', 'bg-yellow-300');
-
+export const H1 = createTextCss( 'h1', "text-[50px]");
 export const useEditorSetup = (initialContent, onContentUpdate) => {
   const lowlight = createConfiguredLowlight(); 
 
@@ -21,7 +21,7 @@ export const useEditorSetup = (initialContent, onContentUpdate) => {
       StarterKit,
       NeonText,
       HighlightText,
-      Document,
+      Document,H1,
       Paragraph,
       Text,
       CodeBlockLowlight.extend({
