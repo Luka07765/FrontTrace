@@ -5,12 +5,9 @@ import { Basic } from '@/Components/Navigator/Tools/Basic_Render';
 import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 export default function Dashboard() {
-
     const {
-        popupFolder, setNullExpend 
+        popupFolder,
     } = useFolderStore();
-
-
 
   return (
     <div>  
@@ -19,7 +16,6 @@ export default function Dashboard() {
   ) : (
     <p>No subfolders</p>
   )}
-
   {popupFolder?.files?.length > 0 && (
     <ul className="mt-4">
       {popupFolder.files
