@@ -88,13 +88,7 @@ export default function Dashboard() {
             
                  <AnimatePresence> 
                      {nullExpend && (
-                 
-                      
-                      <motion.nav       
-    
-      exit={{ width: 0,x: -300, opacity: 0 }}
-
-      transition={{ duration: 0.5, ease: 'easeInOut' }}
+                      <div   
        className="relative z-[1000]">
                            <aside
                           ref={sidebarRef}
@@ -112,10 +106,8 @@ export default function Dashboard() {
                   
         
               <NullFolder />
-                  </div>
-                  
-                        
-                          <ContextMenu />
+                  </div>       
+              <ContextMenu />
                   
                         </aside>
                               <div
@@ -134,8 +126,8 @@ export default function Dashboard() {
           className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0  bg-gray-600 transition-color duration-300 ease-in-out group-hover:w-1 group-hover:bg-white"
 
         />
+           </div>
       </div>
-      </motion.nav>
               )}
               </AnimatePresence>
      
