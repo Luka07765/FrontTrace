@@ -1,38 +1,141 @@
-"use client"
-import { useState } from "react";
+'use client';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { cn } from '@/Utils/cn';
+import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
+import NullFolder from "@/Components/Navigator/Tools/nullSideBar/parantBar";
+import { ContextClick } from '@/Zustand/Context_Store';
+import { useToken } from '@/Server/Auth/Token';
+import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
+import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
+import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
+import { useFolderStore } from '@/Zustand/Folder_Store';
+import File from '@/Components/Work_Space/WorkPage';
 
-export default function App() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Dashboard() {
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [collapsed, setCollapsed] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(0);
+  const { setContextMenuVisible } = ContextClick();
+  const { cancelTokenRefresh } = useToken();
+  const { nullExpend, popupFolder, setNullExpend } = useFolderStore();
+  const loadingAuth = useAuthCheck(cancelTokenRefresh);
+
+  const sidebarRef = useRef(null);
+  const contentRef = useRef(null);
+  const resizerRef = useRef(null);
+
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = sidebarWidth;
+
+    const onMouseMove = (e) => {
+      const newWidth = Math.max(100, startWidth + e.clientX - startX);
+      setSidebarWidth(newWidth);
+    };
+
+    const onMouseUp = () => {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
+
+  if (loadingAuth) return <p>Loading...</p>;
+
+  const targetWidth = nullExpend ? 170 : 0;
 
   return (
-    <div className="relative h-screen overflow-hidden">
-      {/* Toggle Button */}
-      <button
-        className="fixed top-5 left-5 z-50 px-4 py-2 bg-blue-600 text-white rounded"
-        onClick={() => setIsOpen(!isOpen)}
+    <motion.div className="relative flex h-screen overflow-hidden" onClick={() => setContextMenuVisible(false)}>
+      {/* Main Left Sidebar */}
+      <motion.div
+        animate={{ width: collapsed ? '5rem' : '16rem' }}
+        transition={{ type: 'spring', damping: 15 }}
+        className="h-full bg-gray-900 text-white flex flex-col items-center py-4"
       >
-        {isOpen ? "Close Sidebar" : "Open Sidebar"}
-      </button>
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="mb-4 p-2 bg-gray-700 rounded hover:bg-gray-600"
+        >
+          {collapsed ? '▶' : '◀'}
+        </button>
 
-      {/* Sidebar */}
-      <div
-        className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white p-6 transform transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <h2 className="text-xl font-bold mb-4">Sidebar</h2>
-        <p>Sliding in and out smoothly with Tailwind!</p>
-      </div>
+        {!selectedProject && (
+          <div className="flex flex-col gap-5 w-full px-4">
+            <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
+              <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
+            </ProjectLink>
+            <ProjectLink name="Settings" setSelectedProject={setSelectedProject}>
+              <div className="min-w-4 mx-2 border-indigo-600 border rounded-full aspect-square bg-indigo-700" />
+            </ProjectLink>
+            <ProjectLink name="Profile" setSelectedProject={setSelectedProject}>
+              <div className="min-w-4 mx-2 border-cyan-600 border rounded-full aspect-square bg-cyan-700" />
+            </ProjectLink>
+          </div>
+        )}
 
-      {/* Main Content */}
-      <div
-        className={`h-full transition-all duration-300 ${
-          isOpen ? "ml-64" : "ml-0"
-        } p-6`}
+        <div className="flex-1 overflow-auto p-4">
+          <AnimatePresence>
+            {selectedProject && (
+              <motion.div
+                key="project-nav"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 0 }}
+                transition={{ duration: 1 }}
+                className="flex flex-col mt-5"
+              >
+                <ProjectNavigation selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+
+      {/* Null Sidebar */}
+      <AnimatePresence>
+        {nullExpend && (
+          <motion.div
+            key="null-sidebar"
+            initial={{ width: 0 }}
+            animate={{ width: targetWidth }}
+            exit={{ width: 0 }}
+            transition={{ type: 'spring', damping: 20 }}
+            className="relative flex-shrink-0 h-screen bg-gray-800"
+          >
+            <aside ref={sidebarRef} className="h-full overflow-y-auto">
+              <div className="p-4">
+                <div className="flex justify-between items-center mb-2">
+                  <h2 className="text-lg font-bold">{popupFolder?.title || 'Folder'}</h2>
+                  <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
+                </div>
+                <NullFolder />
+              </div>
+              <ContextMenu />
+            </aside>
+
+            {/* Resizer */}
+            <div
+              ref={resizerRef}
+              onMouseDown={handleMouseDown}
+              className="w-1 cursor-ew-resize bg-gray-600 hover:bg-white absolute top-0 bottom-0 right-0"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Content */}
+      <motion.div
+        ref={contentRef}
+        className="overflow-auto flex-1"
+        animate={{ marginLeft: sidebarWidth }}
+        transition={{ type: 'spring', damping: 20 }}
       >
-        <h1 className="text-2xl font-bold mb-4">Main Content</h1>
-        <p>Click the button to toggle the sidebar.</p>
-      </div>
-    </div>
+        <File />
+      </motion.div>
+    </motion.div>
   );
 }
