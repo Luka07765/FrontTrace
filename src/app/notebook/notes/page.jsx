@@ -31,9 +31,6 @@ export default function Dashboard() {
   } = useResizable();
   const loadingAuth = useAuthCheck(cancelTokenRefresh);
 
-    const [asideMode, setAsideMode] = useState("relative");
-
-
   if (loadingAuth) return <p>Loading...</p>;
 
 
@@ -56,18 +53,6 @@ export default function Dashboard() {
           {collapsed ? '▶' : '◀'}
         </button>
         <div className="flex gap-2 mb-4">
-          <button
-            onClick={() => setAsideMode('relative')}
-            className="p-2 bg-green-700 rounded hover:bg-green-600"
-          >
-            Relative
-          </button>
-          <button
-            onClick={() => setAsideMode('absolute')}
-            className="p-2 bg-blue-700 rounded hover:bg-blue-600"
-          >
-            Absolute
-          </button>
         </div>
         {!selectedProject && (
           <div className="flex flex-col gap-5 w-full px-4">
@@ -110,13 +95,19 @@ export default function Dashboard() {
                       
                       <motion.nav       
        className="relative z-[1000]">
-                           <aside
-                              ref={sidebarRef}
+                           <motion.div
+                                 ref={sidebarRef}
+                            key="null-sidebar"
+            initial={{ width: 0 }}
+            animate={{ width: nullExpend ? 170 : 0 }}
+            exit={{ width: 0 }}
+            transition={{ type: 'spring', damping: 20 }}
+                        
               className={cn(
-                'bg-gray-800 h-screen overflow-y-auto z-[1000]',
-                asideMode 
+                'bg-gray-800 h-screen overflow-y-auto relative',
+              
               )}
-              style={{ width: 170 }}
+        
                          
                         >
                           <div className="p-4">
@@ -132,7 +123,7 @@ export default function Dashboard() {
                         
                           <ContextMenu />
                   
-                        </aside>
+                        </motion.div>
                               <div
         ref={resizerRef}
         onMouseDown={handleMouseDown}
@@ -157,14 +148,7 @@ export default function Dashboard() {
   <div
   ref={contentRef}
   className="overflow-auto flex-1"
-  style={
-    asideMode === "relative"
-      ? {} 
-      : {
-          marginLeft: nullExpend ? 170 : 0,
-          transition: "margin-left 0.6s ease",
-        }
-  }
+
 >
   <File />
 </div>
