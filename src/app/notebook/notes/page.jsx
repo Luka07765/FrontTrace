@@ -32,6 +32,9 @@ export default function Dashboard() {
   const loadingAuth = useAuthCheck(cancelTokenRefresh);
 
   if (loadingAuth) return <p>Loading...</p>;
+const width = parseInt(sidebarRef.current?.style.width || 0, 10);
+console.log("broj", width);
+
 
 
   return (
@@ -99,16 +102,14 @@ export default function Dashboard() {
                                  ref={sidebarRef}
                             key="null-sidebar"
             initial={{ width: 0 }}
-            animate={{ width: nullExpend ? 170 : 0 }}
+            animate={{ width: nullExpend ? width : 0 }}
             exit={{ width: 0 }}
             transition={{ type: 'spring', damping: 20 }}
                         
               className={cn(
                 'bg-gray-800 h-screen overflow-y-auto relative',
               
-              )}
-        
-                         
+              )}               
                         >
                           <div className="p-4">
                     <div className="flex justify-between items-center mb-2">
