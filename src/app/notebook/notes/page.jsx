@@ -35,18 +35,7 @@ export default function Dashboard() {
 
 
   if (loadingAuth) return <p>Loading...</p>;
-  const targetWidth = nullExpend ? 170 : 0;
-const motionProps = asideMode === "absolute" ? {
-  initial: { width: 0 },
-  animate: { width: targetWidth },
-  exit: { width: 0 },
-  transition: { type: 'spring', damping: 20 },
-} : {
-  initial: {},
-  animate: {},
-  exit: {},
-  transition: { type: 'spring', damping: 20 },
-};
+
 
   return (
     <motion.div
@@ -119,20 +108,16 @@ const motionProps = asideMode === "absolute" ? {
                      {nullExpend && (
                  
                       
-         <motion.nav
-       key={asideMode}
-  className={asideMode === "relative" ? "relative z-[1000]" : "relative flex-shrink-0 h-screen bg-gray-800"}
-  {...motionProps}
-    >
+                      <motion.nav       
+       className="relative z-[1000]">
                            <aside
                               ref={sidebarRef}
-      
-                                     className={cn(
-    asideMode === "relative"
-      ? "bg-gray-800 h-screen overflow-y-auto z-[1000]"
-      : "h-full overflow-y-auto"
-  )}
-  style={asideMode === "relative" ? { width: 170 } : undefined}
+              className={cn(
+                'bg-gray-800 h-screen overflow-y-auto z-[1000]',
+                asideMode 
+              )}
+              style={{ width: 170 }}
+                         
                         >
                           <div className="p-4">
                     <div className="flex justify-between items-center mb-2">
@@ -172,7 +157,14 @@ const motionProps = asideMode === "absolute" ? {
   <div
   ref={contentRef}
   className="overflow-auto flex-1"
-
+  style={
+    asideMode === "relative"
+      ? {} 
+      : {
+          marginLeft: nullExpend ? 170 : 0,
+          transition: "margin-left 0.6s ease",
+        }
+  }
 >
   <File />
 </div>
