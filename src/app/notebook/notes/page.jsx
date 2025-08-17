@@ -112,11 +112,12 @@ export default function Dashboard() {
        className="relative z-[1000]">
                            <aside
                               ref={sidebarRef}
-              className={cn(
-                'bg-gray-800 h-screen overflow-y-auto z-[1000]',
-                asideMode 
-              )}
-              style={{ width: 170 }}
+            className={cn(
+    asideMode === "relative"
+      ? "bg-gray-800 h-screen overflow-y-auto z-[1000]"
+      : "h-full overflow-y-auto"
+  )}
+  style={asideMode === "relative" ? { width: 170 } : undefined}
                          
                         >
                           <div className="p-4">
