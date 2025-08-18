@@ -1,6 +1,6 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { cn } from '@/Utils/cn';
 import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import NullFolder from "@/Components/Navigator/Tools/nullSideBar/parantBar"
@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [collapsed, setCollapsed] = useState(false);
   const { setContextMenuVisible } = ContextClick();
   const { cancelTokenRefresh } = useToken();
+    const [animationDone, setAnimationDone] = useState(false);
     const {
        nullExpend,   popupFolder, setNullExpend 
     } = useFolderStore();
@@ -30,12 +31,19 @@ export default function Dashboard() {
     hitAreaMargin
   } = useResizable();
   const loadingAuth = useAuthCheck(cancelTokenRefresh);
+
+  useEffect(() => {
+    if (!nullExpend) setAnimationDone(false);
+  }, [nullExpend]);
+
   if (loadingAuth) return <p>Loading...</p>;
+
+
 
 
   return (
     <motion.div
-      className="relative flex h-screen overflow-hidden"
+      className="relative flex h-screen overflow-hidden "
       onClick={() => setContextMenuVisible(false)}
       
     >
@@ -51,7 +59,8 @@ export default function Dashboard() {
         >
           {collapsed ? '▶' : '◀'}
         </button>
-
+        <div className="flex gap-2 mb-4">
+        </div>
         {!selectedProject && (
           <div className="flex flex-col gap-5 w-full px-4">
             <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
@@ -65,6 +74,7 @@ export default function Dashboard() {
             </ProjectLink>
           </div>
         )}
+        
             <div className="flex-1 overflow-auto p-4">
         <AnimatePresence>
           {selectedProject && (
@@ -86,66 +96,72 @@ export default function Dashboard() {
       </div>
       </motion.div>  
             
-                 <AnimatePresence> 
-                     {nullExpend && (
-                 
-                      
-                      <motion.nav       
-    
-      exit={{ width: 0,x: -300, opacity: 0 }}
-
-      transition={{ duration: 0.5, ease: 'easeInOut' }}
-       className="relative z-[1000]">
-                           <aside
-                          ref={sidebarRef}
-                          className={cn(
-                            ' bg-gray-800 h-screen relative overflow-y-auto z-[1000]'
-                          )}
-                           style={{ width: 170 }} 
-                         
-                        >
-                          <div className="p-4">
+<AnimatePresence>
+        {nullExpend && (
+          <motion.nav className="relative z-[1000]">
+            {!animationDone ? (
+              <motion.div
+                ref={sidebarRef}
+                key="null-sidebar"
+                initial={{ width: 0 }}
+                animate={{ width: 170 }}
+                exit={{ width: 0 }}
+                transition={{ type: 'spring', damping: 20 }}
+                onAnimationComplete={() => setAnimationDone(true)}
+                className={cn('bg-gray-800 h-screen overflow-y-auto relative')}
+              >
+           
+  
+              </motion.div>
+            ) : (
+            
+              <motion.div
+exit={{ width: 0 }}
+      transition={{ type: 'spring', damping: 20 }}
+        className="relative z-[1000] bg-gray-800 h-screen overflow-y-auto overflow-x-hidden"
+              >
+              <aside                
+               ref={sidebarRef}
+               style={{ width: 170 }}>
+                <div className="p-4">
                     <div className="flex justify-between items-center mb-2">
-                      <h2 className="text-lg font-bold">{popupFolder?.title || 'Folder'}</h2>
-                      <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
-                    </div>
-                  
-        
-              <NullFolder />
-                  </div>
-                  
-                        
-                          <ContextMenu />
-                  
-                        </aside>
-                              <div
-        ref={resizerRef}
-        onMouseDown={handleMouseDown}
-        className="absolute top-0 bottom-0   cursor-ew-resize z-[1001] group"
-        style={{
-          width: `${1 + hitAreaMargin * 2}px`,
-          left:150
-     
-       
-        }}
-      >
-        <div
-          ref={resizerInnerRef}
-          className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0  bg-gray-600 transition-color duration-300 ease-in-out group-hover:w-1 group-hover:bg-white"
+                    <h2 className="text-lg font-bold">{popupFolder?.title || 'Folder'}</h2>
+                    <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
+                </div>
+               <NullFolder />
+              </div>
+              </aside>
+               
+              <ContextMenu />
+              </motion.div>
+            )}
 
-        />
-      </div>
-      </motion.nav>
-              )}
-              </AnimatePresence>
+            <div
+              ref={resizerRef}
+              onMouseDown={handleMouseDown}
+              className="absolute top-0 bottom-0 cursor-ew-resize z-[1001] group"
+              style={{
+                width: `${1 + hitAreaMargin * 2}px`,
+                left: 150
+              }}
+            >
+              <div
+                ref={resizerInnerRef}
+                className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 bg-gray-600 transition-color duration-300 ease-in-out group-hover:w-1 group-hover:bg-white"
+              />
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
      
-          <div
-            ref={contentRef}
-className="overflow-auto flex-1"
+  <div
+  ref={contentRef}
+  className="overflow-auto flex-1"
 
-          >
-            <File />
-          </div>
+>
+  <File />
+</div>
+
     </motion.div>
   );
 }
