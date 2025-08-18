@@ -115,20 +115,25 @@ export default function Dashboard() {
               </motion.div>
             ) : (
             
-              <div
-                ref={sidebarRef}
-                style={{ width: 170 }}
-                className="bg-gray-800 h-screen overflow-y-auto relative"
+              <motion.div
+exit={{ width: 0 }}
+      transition={{ type: 'spring', damping: 20 }}
+        className="relative z-[1000] bg-gray-800 h-screen overflow-y-auto"
               >
+              <aside                
+               ref={sidebarRef}
+               style={{ width: 170 }}>
                 <div className="p-4">
-                  <div className="flex justify-between items-center mb-2">
+                    <div className="flex justify-between items-center mb-2">
                     <h2 className="text-lg font-bold">{popupFolder?.title || 'Folder'}</h2>
                     <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
-                  </div>
-                  <NullFolder />
                 </div>
-                <ContextMenu />
+               <NullFolder />
               </div>
+              </aside>
+               
+              <ContextMenu />
+              </motion.div>
             )}
 
             <div
