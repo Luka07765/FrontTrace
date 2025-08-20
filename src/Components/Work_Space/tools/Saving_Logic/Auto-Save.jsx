@@ -64,7 +64,7 @@ export const useAutoSave = (saveAction, inactiveDelay = 1500, activeInterval = 7
     document.removeEventListener("visibilitychange", handleVisibilityChange);
       if (intervalRef.current) clearInterval(intervalRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
+    };// eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { triggerSave,saveNow };
