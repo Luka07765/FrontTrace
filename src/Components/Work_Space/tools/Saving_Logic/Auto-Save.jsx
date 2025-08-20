@@ -2,7 +2,7 @@
 import { useRef, useEffect } from "react";
 import { getHasTyped, setHasTyped } from "@/Utils/type";
 
-export const useAutoSave = (saveAction, inactiveDelay = 500, activeInterval = 5000) => {
+export const useAutoSave = (saveAction, inactiveDelay = 1000, activeInterval = 7000) => {
   const intervalRef = useRef(null);   
   const timeoutRef = useRef(null);    
 
@@ -44,8 +44,24 @@ export const useAutoSave = (saveAction, inactiveDelay = 500, activeInterval = 50
 
 
   useEffect(() => {
-    
+      const handleBeforeUnload = (e) => {
+    if (getHasTyped()) {
+      e.preventDefault();
+      e.returnValue = ""; 
+    }
+  };
+
+    const handleVisibilityChange = () => {
+    if (document.visibilityState === "hidden" && getHasTyped()) {
+      
+        saveNow();
+    }
+  };  
+  window.addEventListener("beforeunload", handleBeforeUnload);
+  document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => {
+    window.removeEventListener("beforeunload", handleBeforeUnload);
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
       if (intervalRef.current) clearInterval(intervalRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
