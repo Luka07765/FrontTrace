@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import fileIcon from '@/assets/FolderFile_Icons/file.png';
-
+import { useAutoSave } from '@/Components/Work_Space/tools/Saving_Logic/Auto-Save';
+import { getHasTyped } from "@/Utils/type";
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
@@ -14,7 +15,7 @@ function FileRender({ file, index, folder }) {
     setEditFileId,
     setEditFileName,
     updateFileColor,
-    setEditFileContent,
+    setEditFileContent,handleSubmitUpdate
   } = useFileStore();
       const {
     handleDrop,
@@ -26,6 +27,7 @@ function FileRender({ file, index, folder }) {
   const { setContextMenuPosition, setContextMenuVisible, setContextMenuTarget } = ContextClick();
   const { handleUpdateFile } = useFileListLogic();
 
+  const { saveNow } = useAutoSave(() => handleSubmitUpdate(handleUpdateFile));
 
 
   const cycleColor = (color) => {
@@ -55,6 +57,9 @@ function FileRender({ file, index, folder }) {
 
   const handleClick = (e) => {
     e.stopPropagation();
+    if (getHasTyped()) {
+      saveNow(); 
+    }
     setEditFileId(file.id);
     setEditFileName(file.title);
     setEditFileContent(file.content);

@@ -2,7 +2,7 @@
 import { useRef, useEffect } from "react";
 import { getHasTyped, setHasTyped } from "@/Utils/type";
 
-export const useAutoSave = (saveAction, inactiveDelay = 1000, activeInterval = 7000) => {
+export const useAutoSave = (saveAction, inactiveDelay = 1500, activeInterval = 7000) => {
   const intervalRef = useRef(null);   
   const timeoutRef = useRef(null);    
 
@@ -67,5 +67,5 @@ export const useAutoSave = (saveAction, inactiveDelay = 1000, activeInterval = 7
     };
   }, []);
 
-  return { triggerSave };
+  return { triggerSave,saveNow };
 };

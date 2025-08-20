@@ -6,7 +6,7 @@ import {  EditorContent } from '@tiptap/react';
 
 import MenuBar from '@/Components/Work_Space/tools/Tool-Bar/ToolBar';
 import { useEditorSetup } from './tools/Tool-Bar/Logic/Editor';
-import { useAutoSave } from './tools/Saving_Logic/Auto-Save';
+import { useAutoSave } from '@/Components/Work_Space/tools/Saving_Logic/Auto-Save';
 
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
