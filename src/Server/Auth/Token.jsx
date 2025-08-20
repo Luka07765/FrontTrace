@@ -57,19 +57,19 @@ export function useToken() {
     } catch (error) {
       console.error('Token validation failed:', error);
 
-      // Attempt to refresh the token if validation fails
+
       try {
         await refreshToken();
       } catch (refreshError) {
         console.error('Failed to refresh token. Redirecting to login...');
-        // Redirect to login
+
         router.push('/home/auth/login');
-        throw refreshError; // Stop further execution
+        throw refreshError; 
       }
     }
   }, [refreshToken, router]);
 
-  // Function to schedule token refresh
+
   const scheduleTokenRefresh = useCallback(() => {
     const refreshIntervalDuration = 60000;
 

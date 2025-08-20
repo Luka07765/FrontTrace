@@ -45,7 +45,7 @@ export function useLoginLogic(email, password, setError, setIsLoading) {
         setError('Something went wrong. Please try again later.');
       }
     } finally {
-      setIsLoading(false); // Reset loading state
+      setIsLoading(false);
     }
   };
 

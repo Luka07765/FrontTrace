@@ -7,7 +7,7 @@ export function useRegisterLogic(username, email, password, setIsLoading) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Client-side validation
+
     if (!username || !email || !password) {
       alert('All fields are required.');
       return;
