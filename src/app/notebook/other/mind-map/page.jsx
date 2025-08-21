@@ -2,8 +2,11 @@
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import ForceDirectedTree from '@/other/MindMap/TreeMap';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
+import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
+
 function Page() {
   const { folders, error, loading } = useFolderListLogic();
+   const { files } = useFileListLogic();
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -19,7 +22,7 @@ function Page() {
       </div>
     );
   }
-  const nestedFolders = buildNestedStructure(folders);
+  const nestedFolders = buildNestedStructure(folders,files);
 
   return (
     <div>

@@ -79,7 +79,7 @@ export default function FolderList() {
         setSelectedFolderId={setSelectedFolderId}
       />
 
-      {/* Folder Tree */}
+      {/* Folder Tree nemoj da zaboravis ovo je prvi tip strukture koju imas za ui zvani basic i ovde bi trebao strukture da dodas za mind-map i za sidebar tree sto je glana komponenta */}
       {!searchTerm &&
         (nestedFolders ? (
           <Basic folders={nestedFolders} />
