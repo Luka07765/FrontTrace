@@ -59,8 +59,7 @@ export default function Dashboard() {
         >
           {collapsed ? '▶' : '◀'}
         </button>
-        <div className="flex gap-2 mb-4">
-        </div>
+      
         {!selectedProject && (
           <div className="flex flex-col gap-5 w-full px-4">
             <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
@@ -96,8 +95,8 @@ export default function Dashboard() {
       </div>
       </motion.div>  
             
-<AnimatePresence>
-        {nullExpend && (
+      <AnimatePresence>
+            {nullExpend && (
           <motion.nav className="relative z-[1000]">
             {!animationDone ? (
               <motion.div
@@ -151,7 +150,7 @@ exit={{ width: 0 }}
               />
             </div>
           </motion.nav>
-        )}
+                       )}
       </AnimatePresence>
      
   <div
