@@ -2,17 +2,17 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState,useEffect } from 'react';
 import { cn } from '@/Utils/cn';
-import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
-import NullFolder from "@/Components/Navigator/Tools/nullSideBar/parantBar"
+import ContextMenu from '@/app/notebook/main/tools/ContextMenu/Context_Ui';
+import NullFolder from "@/Components/Nav/Tools/nullSideBar/parantBar"
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useToken } from '@/Server/Auth/Token';
-import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
-import ProjectLink from '@/app/notebook/notes/tools/Sectors/Projects';
-import ProjectNavigation from '@/app/notebook/notes/tools/Sectors/ProjectNav';
+import { useAuthCheck } from '@/app/notebook/main/tools/Auth/Auth-Check';
+import ProjectLink from '@/app/notebook/main/tools/Logic/Projects';
+import ProjectNavigation from '@/app/notebook/main/tools/Logic/ProjectNav';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import File from '@/Components/Work_Space/WorkPage';
 
-import useResizable from './tools/Resize-Bar';
+import useResizable from './tools/Logic/Resize-Bar';
 export default function Dashboard() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [collapsed, setCollapsed] = useState(false);

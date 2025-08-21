@@ -6,12 +6,12 @@ import { ContextClick } from '@/Zustand/Context_Store';
 import File from '@/Components/Work_Space/WorkPage';
 
 import { useToken } from '@/Server/Auth/Token';
-import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
-import useResizable from './tools/Resize-Bar';
+import ContextMenu from '@/app/notebook/main/tools/ContextMenu/Context_Ui';
+import useResizable from './tools/Logic/Resize-Bar';
 
-import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
-import ProjectLink from '@/app/notebook/notes/tools/Sectors/Projects';
-import ProjectNavigation from '@/app/notebook/notes/tools/Sectors/ProjectNav';
+import { useAuthCheck } from '@/app/notebook/main/tools/Auth/Auth-Check';
+import ProjectLink from '@/app/notebook/main/tools/Logic/Projects';
+import ProjectNavigation from '@/app/notebook/main/tools/Logic/ProjectNav';
 
 export default function Dashboard() {
   const {

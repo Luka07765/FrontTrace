@@ -1,9 +1,9 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useMoveLogic } from '@/Components/Navigator/Tools/MoveLogic/Move';
-import FileRender from '@/Components/Navigator/Tools/FileLogic/File_Render';
+import { useMoveLogic } from '@/Components/Nav/Tools/MoveLogic/Move';
+import FileRender from '@/Components/Nav/Tools/RenderLogic/File_Render';
 
-import CreateFolder from './FolderLogic/Create_Folder';
-import Folder_Render from './FolderLogic/Folder_Render';
+import CreateFolder from './RenderLogic/Create_Folder';
+import Folder_Render from './RenderLogic/Folder_Render';
 
 
 export const Basic = ({ folders }) => {

@@ -1,8 +1,8 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
-import Profile from '@/Components/Navigator/Other/UserProfile/Profile';
-import Sidebar from '@/Components/Navigator/Sidebar';
-import Settings from '@/Components/Navigator/Other/Settings/Settings';
+import Profile from '@/app/notebook/main/Navigation/UserProfile/Profile';
+import Sidebar from '@/Components/Nav/Sidebar';
+import Settings from '@/app/notebook/main/Navigation/Settings/Settings';
 
 const projectComponents = {
   Trace: <Sidebar />,

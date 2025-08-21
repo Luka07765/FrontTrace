@@ -4,7 +4,7 @@ import { useFolderStore } from '@/Zustand/Folder_Store';
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
 import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
 import { ContextClick } from '@/Zustand/Context_Store';
-import RenameFolder from '@/Components/Navigator/Tools/FolderLogic/Rename_Folder';
+import RenameFolder from '@/Components/Nav/Tools/RenderLogic/Rename_Folder';
 import { Select } from '@/Zustand/Select_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 

@@ -4,8 +4,8 @@ import { Basic } from './Tools/Basic_Render';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 import { Select } from '@/Zustand/Select_Store';
 import {useMemo,useState} from "react";
-import { useContextMenuActions } from './Tools/ContextMenu/Actions';
-import CreateFolder from '@/Components/Navigator/Tools/FolderLogic/Create_Folder';
+import { useContextMenuActions } from '../../app/notebook/main/tools/ContextMenu/Actions';
+import CreateFolder from '@/Components/Nav/Tools/RenderLogic/Create_Folder';
 
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
