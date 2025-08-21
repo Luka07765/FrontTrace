@@ -10,8 +10,8 @@ import ContextMenu from '@/Components/Navigator/Tools/ContextMenu/Context_Ui';
 import useResizable from './tools/Resize-Bar';
 
 import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
-import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
-import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
+import ProjectLink from '@/app/notebook/notes/tools/Sectors/Projects';
+import ProjectNavigation from '@/app/notebook/notes/tools/Sectors/ProjectNav';
 
 export default function Dashboard() {
   const {

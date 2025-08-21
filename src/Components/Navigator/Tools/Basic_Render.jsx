@@ -1,21 +1,15 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useMoveLogic } from '@/Components/Navigator/Tools/MoveLogic/Move';
 import FileRender from '@/Components/Navigator/Tools/FileLogic/File_Render';
-import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
+
 import CreateFolder from './FolderLogic/Create_Folder';
 import Folder_Render from './FolderLogic/Folder_Render';
-import { useFileStore } from '@/Zustand/File_Store';
-import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
 
 export const Basic = ({ folders }) => {
   const { expandedFolders, creatingFolderParentId } = useFolderStore();
       const {
-    handleDrop,
     folderDrop,
-    setDraggingIndex,
-    setDragOverIndex,
-    moveFolder,
   } = useMoveLogic();
   
 

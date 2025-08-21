@@ -7,8 +7,8 @@ import NullFolder from "@/Components/Navigator/Tools/nullSideBar/parantBar"
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useToken } from '@/Server/Auth/Token';
 import { useAuthCheck } from '@/app/notebook/notes/tools/Auth-Check';
-import ProjectLink from '@/Components/Navigator/Tools/Sectors/Projects';
-import ProjectNavigation from '@/Components/Navigator/Tools/Sectors/ProjectNav';
+import ProjectLink from '@/app/notebook/notes/tools/Sectors/Projects';
+import ProjectNavigation from '@/app/notebook/notes/tools/Sectors/ProjectNav';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import File from '@/Components/Work_Space/WorkPage';
 
