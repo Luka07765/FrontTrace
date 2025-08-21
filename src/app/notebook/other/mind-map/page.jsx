@@ -1,6 +1,6 @@
 'use client';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import ForceDirectedTree from '@/Components/MindMap/TreeMap';
+import ForceDirectedTree from '@/other/MindMap/TreeMap';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 function Page() {
   const { folders, error, loading } = useFolderListLogic();
