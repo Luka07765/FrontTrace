@@ -6,6 +6,7 @@ import { Select } from '@/Zustand/Select_Store';
 import {useMemo,useState} from "react";
 import { useContextMenuActions } from '../../app/notebook/main/tools/ContextMenu/Actions';
 import CreateFolder from '@/Components/Nav/Tools/RenderLogic/Create_Folder';
+import { findMatchingItems } from '@/Components/Nav/Tools/SearchLogic/Search';
 
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
@@ -19,50 +20,7 @@ export default function FolderList() {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
-const findMatchingItems = (items, query, breadcrumb = '') => {
-  if (!items || !Array.isArray(items)) return [];
 
-  let matches = [];
-
-  items.forEach((item) => {
-    if (!item) return;
-
-    const currentBreadcrumb = breadcrumb
-      ? `${breadcrumb} / ${item.title || 'Untitled'}`
-      : item.title || 'Untitled';
-
-    // Check folders
-    if (item.title && item.title.toLowerCase().includes(query)) {
-      matches.push({
-        ...item,
-        breadcrumb: currentBreadcrumb,
-        type: 'folder'
-      });
-    }
-
-    // Check files under this folder (if they exist)
-    if (item.files && Array.isArray(item.files)) {
-      item.files.forEach((file) => {
-        if (file.title && file.title.toLowerCase().includes(query)) {
-          matches.push({
-            ...file,
-            breadcrumb: `${currentBreadcrumb} / ${file.title}`,
-            type: 'file'
-          });
-        }
-      });
-    }
-
-    // Recursively search subfolders
-    if (item.children && item.children.length > 0) {
-      matches = matches.concat(
-        findMatchingItems(item.children, query, currentBreadcrumb)
-      );
-    }
-  });
-
-  return matches;
-};
 
 
    const nestedFolders = useMemo(() => {
@@ -70,6 +28,8 @@ const findMatchingItems = (items, query, breadcrumb = '') => {
       ? buildNestedStructure(folders, files)
       : null;
   }, [folders, files]);
+
+  
   const matchingItems = searchTerm
     ? findMatchingItems(nestedFolders || [], searchTerm)
     : [];
@@ -104,9 +64,9 @@ const findMatchingItems = (items, query, breadcrumb = '') => {
       />
             <button
           onClick={(e) => {
-    e.stopPropagation(); 
-    setSelectedFolderId(null); 
-    createFolder(); 
+            e.stopPropagation(); 
+            setSelectedFolderId(null); 
+            createFolder(); 
   }}
         className="bg-gradient-to-r from-blue-700 to-blue-900 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-2 px-5 rounded-xl shadow-md transition duration-200 ease-in-out mb-4"
       >
