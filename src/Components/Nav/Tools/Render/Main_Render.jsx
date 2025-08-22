@@ -1,12 +1,12 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useMoveLogic } from '@/Components/Nav/Tools/MoveLogic/Move';
-import FileRender from '@/Components/Nav/Tools/RenderLogic/File_Render';
+import { useMoveLogic } from '@/Components/Nav/Tools/Logic/MoveLogic/Move';
+import FileRender from '@/Components/Nav/Tools/Render/FileAndFolder/File';
 
-import CreateFolder from './RenderLogic/Create_Folder';
-import Folder_Render from './RenderLogic/Folder_Render';
+import CreateFolder from '../Logic/Actions/Create_Folder';
+import Folder_Render from './FileAndFolder/Folder';
 
 
-export const Basic = ({ folders }) => {
+export const Main_Render = ({ folders }) => {
   const { expandedFolders, creatingFolderParentId } = useFolderStore();
       const {
     folderDrop,
@@ -58,7 +58,7 @@ export const Basic = ({ folders }) => {
 
                 {folderExpend && (
                   <div className="ml-9">
-                    <Basic folders={folder.children} />
+                    <Main_Render folders={folder.children} />
                   </div>
                 )}
 

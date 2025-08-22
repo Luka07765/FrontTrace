@@ -7,11 +7,11 @@ import { Select } from "@/Zustand/Select_Store";
 import { useContextMenuActions } from "@/app/notebook/main/tools/ContextMenu/Actions";
 
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
-import { Basic } from "./Tools/Basic_Render";
-import CreateFolder from "@/Components/Nav/Tools/RenderLogic/Create_Folder";
+import { Main_Render } from "./Tools/Render/Main_Render";
+import CreateFolder from "@/Components/Nav/Tools/Logic/Actions/Create_Folder";
 
-import { findMatchingItems } from "@/Components/Nav/Tools/Search/Logic_Search";
-import SearchResults from "@/Components/Nav/Tools/Search/Ui_Search";
+import { findMatchingItems } from "@/Components/Nav/Tools/Logic/Search/Logic_Search";
+import SearchResults from "@/Components/Nav/Tools/Logic/Search/Ui_Search";
 
 
 export default function FolderList() {
@@ -79,10 +79,10 @@ export default function FolderList() {
         setSelectedFolderId={setSelectedFolderId}
       />
 
-      {/* Folder Tree nemoj da zaboravis ovo je prvi tip strukture koju imas za ui zvani basic i ovde bi trebao strukture da dodas za mind-map i za sidebar tree sto je glana komponenta */}
+
       {!searchTerm &&
         (nestedFolders ? (
-          <Basic folders={nestedFolders} />
+          <Main_Render folders={nestedFolders} />
         ) : (
           <div>
             <p className="text-gray-500">Create New Folder.</p>

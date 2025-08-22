@@ -1,7 +1,7 @@
 'use client';
 
-import FileRender from '@/Components/Nav/Tools/RenderLogic/File_Render';
-import { Basic } from '@/Components/Nav/Tools/Basic_Render';
+import FileRender from '@/Components/Nav/Tools/Render/FileAndFolder/File';
+import { Basic } from '@/Components/Nav/Tools/Render/Main_Render';
 import ContextMenu from '@/app/notebook/main/tools/ContextMenu/Context_Ui';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 export default function Dashboard() {

@@ -4,14 +4,14 @@ import { useFolderStore } from '@/Zustand/Folder_Store';
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
 import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
 import { ContextClick } from '@/Zustand/Context_Store';
-import RenameFolder from '@/Components/Nav/Tools/RenderLogic/Rename_Folder';
+import RenameFolder from '@/Components/Nav/Tools/Logic/Actions/Rename_Folder';
 import { Select } from '@/Zustand/Select_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 
 import React, { useRef } from 'react';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import { useFolderColors } from './Colors/ColorLogic';
-import UiColors from './Colors/UiColors';
+import { useFolderColors } from '../../Ui/Colors/ColorLogic';
+import UiColors from '../../Ui/Colors/UiColors';
 
 import { motion } from 'framer-motion';
 function Folder_Render({   folder
