@@ -1,7 +1,7 @@
 'use client';
 
 import FileRender from '@/Components/Nav/Tools/Render/FileAndFolder/File';
-import { Basic } from '@/Components/Nav/Tools/Render/Main_Render';
+import { Main_Render } from '@/Components/Nav/Tools/Render/Main_Render';
 import ContextMenu from '@/app/notebook/main/tools/ContextMenu/Context_Ui';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 export default function Dashboard() {
@@ -12,7 +12,7 @@ export default function Dashboard() {
   return (
     <div>  
   {popupFolder?.children?.length > 0 ? (
-    <Basic folders={popupFolder.children} />
+    <Main_Render folders={popupFolder.children} />
   ) : (
     <p>No subfolders</p>
   )}

@@ -35,7 +35,7 @@ export const Main_Render = ({ folders }) => {
     folderDrop={folderDrop} />
 
                 
-            {isExpanded && (
+            {/* {isExpanded && (
               <div>
 
                 {filesExpend && (
@@ -68,7 +68,7 @@ export const Main_Render = ({ folders }) => {
                   </div>
                 )}
               </div>
-            )}
+            )} */}
           </li>
         );
       })}
