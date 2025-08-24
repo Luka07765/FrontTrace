@@ -4,7 +4,7 @@ import { useFolderListLogic } from "@/Server/Apollo/Logic/SideBar/QuerySideBar";
 import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
 
 import { useSelectStore } from "@/Zustand/Select_Store";
-import { useContextMenuActions } from "@/app/notebook/main/tools/ContextMenu/Actions";
+import { useContextMenuActions } from "@/Components/Nav/Tools/Ui/ContextMenu/Actions";
 
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
 import { Main_Render } from "@/Components/Nav/Render/Main_Render";

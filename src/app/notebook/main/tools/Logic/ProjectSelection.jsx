@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import ProjectLink from '@/app/notebook/main/tools/Logic/Projects';
 import ProjectNavigation from '@/app/notebook/main/tools/Logic/ProjectNav';
 import {useSelectStore} from '@/Zustand/Select_Store'
+
 export default function ProjectSection() {
     const {selectedProject,setSelectedProject} = useSelectStore();
   return (

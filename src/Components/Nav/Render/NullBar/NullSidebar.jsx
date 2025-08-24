@@ -2,7 +2,7 @@
 
 import FileRender from '@/Components/Nav/Render/FileAndFolder/File';
 import { Main_Render } from '@/Components/Nav/Render/Main_Render';
-import ContextMenu from '@/app/notebook/main/tools/ContextMenu/Context_Ui';
+import ContextMenu from '@/Components/Nav/Tools/Ui/ContextMenu/Context_Ui';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 export default function Dashboard() {
     const {

@@ -8,7 +8,7 @@ import { useAuthCheck } from '@/app/notebook/main/tools/Auth/Auth-Check';
 import ProjectSection from './tools/Logic/ProjectSelection';
 import File from '@/Components/Work_Space/WorkPage';
 import NullSidebar from './tools/UI/NullSidebar';
-import useResizable from './tools/Logic/Resize-Bar';
+import useResizable from '../../../Components/Nav/Tools/Logic/Actions/Resize-Bar';
 export default function Dashboard() {
 
   const [collapsed, setCollapsed] = useState(false);
@@ -16,11 +16,8 @@ export default function Dashboard() {
   const { cancelTokenRefresh } = useToken();
   const {
     contentRef,
-  
   } = useResizable();
   const loadingAuth = useAuthCheck(cancelTokenRefresh);
-
-
   if (loadingAuth) return <p>Loading...</p>;
 
   return (
@@ -29,7 +26,6 @@ export default function Dashboard() {
       onClick={() => setContextMenuVisible(false)}
       
     >
-
       <motion.div
         animate={{ width: collapsed ? '5rem' : '16rem' }}
         transition={{ type: 'spring', damping: 15 }}
@@ -41,10 +37,12 @@ export default function Dashboard() {
         >
           {collapsed ? '▶' : '◀'}
         </button>
-  <ProjectSection
+
+        
+        <ProjectSection
   />
       </motion.div>  
- <NullSidebar />
+     <NullSidebar />
      
 <div
   ref={contentRef}
@@ -52,7 +50,6 @@ export default function Dashboard() {
 >
   <File />
 </div>
-
     </motion.div>
   );
 }
