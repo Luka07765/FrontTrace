@@ -14,40 +14,21 @@ import { findMatchingItems } from "@/Components/Nav/Tools/Logic/Search/Logic_Sea
 import SearchResults from "@/Components/Nav/Tools/Logic/Search/Ui_Search";
 
 
-export default function FolderList() {
-  const { folders, loading, error } = useFolderListLogic();
-  const { files } = useFileListLogic();
+export default function FolderList({nestedFolders}) {
+
   const { setSelectedFolderId } = useSelectStore();
   const { createFolder } = useContextMenuActions();
 
   const [searchTerm, setSearchTerm] = useState("");
 
 
-  const nestedFolders = useMemo(() => {
-    return Array.isArray(folders) && folders.length > 0
-      ? buildNestedStructure(folders, files)
-      : null;
-  }, [folders, files]);
+
 
   const matchingItems = searchTerm
     ? findMatchingItems(nestedFolders || [], searchTerm)
     : [];
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-500">Loading folders...</p>
-      </div>
-    );
-  }
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-red-500">Error loading folders: {error.message}</p>
-      </div>
-    );
-  }
 
   return (
     <div className="p-4 text-white overflow-auto">
