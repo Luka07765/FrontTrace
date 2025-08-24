@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { useFolderListLogic } from "@/Server/Apollo/Logic/SideBar/QuerySideBar";
 import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
 
-import { Select } from "@/Zustand/Select_Store";
+import { useSelectStore } from "@/Zustand/Select_Store";
 import { useContextMenuActions } from "@/app/notebook/main/tools/ContextMenu/Actions";
 
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
@@ -17,7 +17,7 @@ import SearchResults from "@/Components/Nav/Tools/Logic/Search/Ui_Search";
 export default function FolderList() {
   const { folders, loading, error } = useFolderListLogic();
   const { files } = useFileListLogic();
-  const { setSelectedFolderId } = Select();
+  const { setSelectedFolderId } = useSelectStore();
   const { createFolder } = useContextMenuActions();
 
   const [searchTerm, setSearchTerm] = useState("");

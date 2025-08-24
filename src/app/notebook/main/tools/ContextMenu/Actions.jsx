@@ -1,7 +1,7 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import { Select } from '@/Zustand/Select_Store';
+import { useSelectStore } from '@/Zustand/Select_Store';
 import { useFileStore } from '@/Zustand/File_Store';
 import { ContextClick } from '@/Zustand/Context_Store';
 
@@ -13,7 +13,7 @@ export const useContextMenuActions = () => {
     setCreatingFolderParentId,
     setFolderName,
   } = useFolderStore();
-  const { selectedFolderId } = Select();
+  const { selectedFolderId } = useSelectStore();
   const { handleCreateFile, handleUpdateFile, handleDeleteFile } = useFileListLogic();
   const { editFileId } = useFileStore();
   const { setContextMenuVisible } = ContextClick();

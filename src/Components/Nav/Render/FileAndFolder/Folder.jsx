@@ -5,7 +5,7 @@ import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
 import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
 import { ContextClick } from '@/Zustand/Context_Store';
 import RenameFolder from '@/Components/Nav/Tools/Logic/Actions/Rename_Folder';
-import { Select } from '@/Zustand/Select_Store';
+import { useSelectStore } from '@/Zustand/Select_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 
 import React, { useRef } from 'react';
@@ -18,7 +18,7 @@ function Folder_Render({   folder
   }) {
       // const [showMainFolderPopup, setShowMainFolderPopup]  = useState(false);
   const { setContextMenuPosition, setContextMenuVisible ,setContextMenuTarget} = ContextClick();
-  const { selectedFolderId, setSelectedFolderId } = Select();
+  const { selectedFolderId, setSelectedFolderId } = useSelectStore();
   const {
     expandedFolders,
     setExpandedFolders,
