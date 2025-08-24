@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { useFolderStore } from "@/Zustand/Folder_Store";
 
 import useResizable from '@/Components/Nav/Tools/Logic/Actions/Resize-Bar';
-export default function NullSidebar() {
+export default function NullSidebar({nestedFolders}) {
   const { nullExpend, popupFolder, setNullExpend } = useFolderStore();
   const [animationDone, setAnimationDone] = useState(false);
       const {
@@ -57,7 +57,7 @@ export default function NullSidebar() {
   Close
 </button>
                   </div>
-                  <NullFolder />
+                  <NullFolder nestedFolders={nestedFolders}/>
                 </div>
               </aside>
               <ContextMenu />

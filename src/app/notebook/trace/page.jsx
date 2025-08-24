@@ -139,7 +139,7 @@ export default function Dashboard() {
       </motion.div>
       
       {/* Main Content Area */}
-      <NullSidebar />
+      <NullSidebar nestedFolders={nestedFolders} />
       <div
         ref={contentRef}
         className="overflow-auto flex-1"
