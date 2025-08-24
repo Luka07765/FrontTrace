@@ -47,9 +47,15 @@ export default function NullSidebar() {
                 <div className="p-4">
                   <div className="flex justify-between items-center mb-2">
                     <h2 className="text-lg font-bold">{popupFolder?.title || "Folder"}</h2>
-                    <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">
-                      Close
-                    </button>
+                    <button
+  onClick={() => {
+    if (resizerRef.current) resizerRef.current.style.display = 'none';
+    setNullExpend(false);
+  }}
+  className="text-red-500 text-sm"
+>
+  Close
+</button>
                   </div>
                   <NullFolder />
                 </div>
@@ -59,7 +65,7 @@ export default function NullSidebar() {
           )}
 
        
-          {/* Resize Handle */}
+      
 {animationDone && (
   <div
     ref={resizerRef}

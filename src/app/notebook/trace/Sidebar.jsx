@@ -50,7 +50,7 @@ export default function FolderList() {
   }
 
   return (
-    <div className="p-4 text-white">
+    <div className="p-4 text-white overflow-auto">
       {/* Search Input */}
       <input
         placeholder="Search folders and files"
