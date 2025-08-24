@@ -1,40 +1,27 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState,useEffect } from 'react';
-import { cn } from '@/Utils/cn';
-import ContextMenu from '@/app/notebook/main/tools/ContextMenu/Context_Ui';
-import NullFolder from "@/Components/Nav/Render/NullBar/NullSidebar"
+import { useState } from 'react';
+
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useToken } from '@/Server/Auth/Token';
 import { useAuthCheck } from '@/app/notebook/main/tools/Auth/Auth-Check';
 import ProjectLink from '@/app/notebook/main/tools/Logic/Projects';
 import ProjectNavigation from '@/app/notebook/main/tools/Logic/ProjectNav';
-import { useFolderStore } from '@/Zustand/Folder_Store';
-import File from '@/Components/Work_Space/WorkPage';
 
+import File from '@/Components/Work_Space/WorkPage';
+import NullSidebar from './tools/UI/NullSidebar';
 import useResizable from './tools/Logic/Resize-Bar';
 export default function Dashboard() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [collapsed, setCollapsed] = useState(false);
   const { setContextMenuVisible } = ContextClick();
   const { cancelTokenRefresh } = useToken();
-    const [animationDone, setAnimationDone] = useState(false);
-    const {
-       nullExpend,   popupFolder, setNullExpend 
-    } = useFolderStore();
-      const {
-    sidebarRef,
+  const {
     contentRef,
-    resizerRef,
-    resizerInnerRef,
-    handleMouseDown,
-    hitAreaMargin
+  
   } = useResizable();
   const loadingAuth = useAuthCheck(cancelTokenRefresh);
 
-  useEffect(() => {
-    if (!nullExpend) setAnimationDone(false);
-  }, [nullExpend]);
 
   if (loadingAuth) return <p>Loading...</p>;
 
@@ -96,63 +83,7 @@ export default function Dashboard() {
       </div>
       </motion.div>  
             
-<AnimatePresence>
-        {nullExpend && (
-          <motion.nav className="relative z-[1000]">
-            {!animationDone ? (
-              <motion.div
-                ref={sidebarRef}
-                key="null-sidebar"
-                initial={{ width: 0 }}
-                animate={{ width: 170 }}
-                exit={{ width: 0 }}
-                transition={{ type: 'spring', damping: 20 }}
-                onAnimationComplete={() => setAnimationDone(true)}
-                className={cn('bg-gray-800 h-screen overflow-y-auto relative')}
-              >
-           
-  
-              </motion.div>
-            ) : (
-            
-              <motion.div
-exit={{ width: 0 }}
-      transition={{ type: 'spring', damping: 20 }}
-        className="relative z-[1000] bg-gray-800 h-screen overflow-y-auto overflow-x-hidden"
-              >
-              <aside                
-               ref={sidebarRef}
-               style={{ width: 170 }}>
-                <div className="p-4">
-                    <div className="flex justify-between items-center mb-2">
-                    <h2 className="text-lg font-bold">{popupFolder?.title || 'Folder'}</h2>
-                    <button onClick={() => setNullExpend(false)} className="text-red-500 text-sm">Close</button>
-                </div>
-               <NullFolder />
-              </div>
-              </aside>
-               
-              <ContextMenu />
-              </motion.div>
-            )}
-
-            <div
-              ref={resizerRef}
-              onMouseDown={handleMouseDown}
-              className="absolute top-0 bottom-0 cursor-ew-resize z-[1001] group"
-              style={{
-                width: `${1 + hitAreaMargin * 2}px`,
-                left: 150
-              }}
-            >
-              <div
-                ref={resizerInnerRef}
-                className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 bg-gray-600 transition-color duration-300 ease-in-out group-hover:w-1 group-hover:bg-white"
-              />
-            </div>
-          </motion.nav>
-        )}
-      </AnimatePresence>
+ <NullSidebar />
      
   <div
   ref={contentRef}
