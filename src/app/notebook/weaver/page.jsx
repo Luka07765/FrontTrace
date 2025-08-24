@@ -1,8 +1,10 @@
 'use client';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import SidebarTree from './Master_Tree';
+import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 function Page() {
+    const { files } = useFileListLogic();
   const { folders, error, loading } = useFolderListLogic();
   if (loading) {
     return (
