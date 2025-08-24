@@ -7,7 +7,7 @@ import { Select } from "@/Zustand/Select_Store";
 import { useContextMenuActions } from "@/app/notebook/main/tools/ContextMenu/Actions";
 
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
-import { Main_Render } from "./Tools/Render/Main_Render";
+import { Main_Render } from "@/Components/Nav/Render/Main_Render";
 import CreateFolder from "@/Components/Nav/Tools/Logic/Actions/Create_Folder";
 
 import { findMatchingItems } from "@/Components/Nav/Tools/Logic/Search/Logic_Search";
