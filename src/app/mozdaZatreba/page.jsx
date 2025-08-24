@@ -9,9 +9,9 @@ import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Nav/Tools/Ui/ContextMenu/Context_Ui';
 import useResizable from './tools/Logic/Resize-Bar';
 
-import { useAuthCheck } from '@/app/notebook/main/tools/Auth/Auth-Check';
-import ProjectLink from '@/app/notebook/main/tools/Logic/Projects';
-import ProjectNavigation from '@/app/notebook/main/tools/Logic/ProjectNav';
+import { useAuthCheck } from '@/app/notebook/main/Auth/Auth-Check';
+import ProjectLink from '@/app/notebook/main/trace/tools/Logic/Projects';
+import ProjectNavigation from '@/app/notebook/main/trace/tools/Logic/ProjectNav';
 
 export default function Dashboard() {
   const {

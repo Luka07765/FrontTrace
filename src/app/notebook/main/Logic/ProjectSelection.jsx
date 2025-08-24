@@ -1,7 +1,7 @@
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
-import ProjectLink from '@/app/notebook/main/tools/Logic/Projects';
-import ProjectNavigation from '@/app/notebook/main/tools/Logic/ProjectNav';
+import ProjectLink from './Projects';
+import ProjectNavigation from './ProjectNav';
 import {useSelectStore} from '@/Zustand/Select_Store'
 
 export default function ProjectSection() {
@@ -10,9 +10,7 @@ export default function ProjectSection() {
     <>
       {!selectedProject && (
         <div className="flex flex-col gap-5 w-full px-4">
-          <ProjectLink name="Trace" setSelectedProject={setSelectedProject}>
-            <div className="min-w-4 mx-2 border-pink-600 border rounded-full aspect-square bg-pink-700" />
-          </ProjectLink>
+       
           <ProjectLink name="Settings" setSelectedProject={setSelectedProject}>
             <div className="min-w-4 mx-2 border-indigo-600 border rounded-full aspect-square bg-indigo-700" />
           </ProjectLink>
