@@ -1,6 +1,4 @@
 'use client';
-
-import { useState } from 'react';
 import Image from 'next/image';
 import fileIcon from '@/assets/FolderFile_Icons/file.png';
 import { useAutoSave } from '@/Components/Work_Space/tools/Saving_Logic/Auto-Save';
@@ -70,14 +68,7 @@ function FileRender({ file, index, folder }) {
     setContextMenuTarget({ type: 'file' });
     setContextMenuVisible(true);
     setContextMenuPosition({ x: e.pageX, y: e.pageY });
-  }; // onDragEnd={async () => {
-//   await moveFileToFolder(file.id, moveFolder); // Step 1: update backend + Zustand
-
-//   const updatedFolderFiles = get().folders.find(f => f.id === moveFolder)?.files || [];
-
-//   await reorderFilesInFolder(updatedFolderFiles, file.id, dropIndex); // Step 2: reorder
-// }}
-
+  };
   return (
     <li
       key={file.id}

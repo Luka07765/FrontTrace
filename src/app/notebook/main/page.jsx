@@ -19,6 +19,10 @@ const router = useRouter();
 
     router.push('/notebook/trace'); 
   };
+    const handleWeaver = () => {
+
+    router.push('/notebook/weaver'); 
+  };
   return (
     <motion.div
       className="relative flex h-screen overflow-hidden "
@@ -35,6 +39,13 @@ const router = useRouter();
         className="px-14 py-7 bg-black text-white rounded-md hover:bg-gray transition duration-200"
       >
         Trace
+      </button>
+
+                <button
+        onClick={handleWeaver}
+        className="px-14 py-7 bg-black text-white rounded-md hover:bg-gray transition duration-200"
+      >
+        Weaver
       </button>
         <button
           onClick={() => setCollapsed(!collapsed)}

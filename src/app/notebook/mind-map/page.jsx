@@ -1,9 +1,12 @@
 'use client';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import SidebarTree from '@/Components/SidebarTree/Master_Tree';
+import ForceDirectedTree from '@/Components/Nav/mindmaplogic/MindMap/TreeMap';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
+import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
+
 function Page() {
   const { folders, error, loading } = useFolderListLogic();
+   const { files } = useFileListLogic();
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -19,14 +22,12 @@ function Page() {
       </div>
     );
   }
-  const nestedFolders = buildNestedStructure(folders);
-
-
+  const nestedFolders = buildNestedStructure(folders,files);
 
   return (
     <div>
       {nestedFolders ? (
-        <SidebarTree structure={nestedFolders} />
+        <ForceDirectedTree structure={nestedFolders} />
       ) : (
         <p className="text-gray-500">No folders to display.</p>
       )}

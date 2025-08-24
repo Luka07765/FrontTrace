@@ -18,7 +18,7 @@ import { findMatchingItems } from "@/Components/Nav/Tools/Logic/Search/Logic_Sea
 
 // UI Components
 import File from '@/Components/Work_Space/WorkPage';
-import NullSidebar from './UI/NullSidebar';
+import NullSidebar from './NullSidebar';
 import SearchResults from "@/Components/Nav/Tools/Logic/Search/Ui_Search";
 import CreateFolder from "@/Components/Nav/Tools/Logic/Actions/Create_Folder";
 import ContextMenu from '@/Components/Nav/Tools/Ui/ContextMenu/Context_Ui';

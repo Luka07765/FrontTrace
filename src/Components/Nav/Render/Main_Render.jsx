@@ -35,7 +35,40 @@ export const Main_Render = ({ folders }) => {
     folderDrop={folderDrop} />
 
                 
-    
+            {isExpanded && (
+              <div>
+
+                {filesExpend && (
+                  <ul className="ml-12">
+                    {folder.files
+                      .slice()
+                      .sort((a, b) => a.filePosition - b.filePosition)
+                      .map((file, index) => (
+                        <FileRender
+                          key={file.id}
+                          file={file}
+                          index={index}
+                          folder={folder}
+              
+ 
+                        />
+                      ))}
+                  </ul>
+                )}
+
+                {folderExpend && (
+                  <div className="ml-9">
+                    <Main_Render folders={folder.children} />
+                  </div>
+                )}
+
+                {isCreatingChild && (
+                  <div className="ml-10">
+                    <CreateFolder parentId={folder?.id} />
+                  </div>
+                )}
+              </div>
+            )}
           </li>
         );
       })}
