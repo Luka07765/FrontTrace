@@ -14,19 +14,19 @@ import { useAuthCheck } from '@/app/notebook/main/Auth/Auth-Check';
 import { useFolderListLogic } from "@/Server/Apollo/Logic/SideBar/QuerySideBar";
 import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
-import { findMatchingItems } from "@/Components/Nav/Tools/Logic/Search/Logic_Search";
+import { findMatchingItems } from "@/Components/Nav/Search/Logic_Search";
 
 // UI Components
 import File from '@/Components/Work_Space/WorkPage';
 import NullSidebar from './NullSidebar';
-import SearchResults from "@/Components/Nav/Tools/Logic/Search/Ui_Search";
-import CreateFolder from "@/Components/Nav/Tools/Logic/Actions/Create_Folder";
-import ContextMenu from '@/Components/Nav/Tools/Ui/ContextMenu/Context_Ui';
+import SearchResults from "@/Components/Nav/Search/Ui_Search";
+import CreateFolder from "@/Components/Nav/Actions/Create_Folder";
+import ContextMenu from '@/Components/Nav/Ui/ContextMenu/Context_Ui';
 import { Main_Render } from "@/Components/Nav/Render/Main_Render";
 
 // Hooks and Utilities
-import useResizable from '../../../Components/Nav/Tools/Logic/Actions/Resize-Bar';
-import { useContextMenuActions } from "@/Components/Nav/Tools/Ui/ContextMenu/Actions";
+import useResizable from '../../../Components/Nav/Actions/Resize-Bar';
+import { useContextMenuActions } from "@/Components/Nav/Ui/Colors/ColorLogic";
 
 export default function Dashboard() {
   // State Management

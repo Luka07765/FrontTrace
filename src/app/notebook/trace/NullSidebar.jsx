@@ -1,11 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/Utils/cn";
-import NullFolder from "@/Components/Nav/Render/NullBar/NullSidebar";
-import ContextMenu from "@/Components/Nav/Tools/Ui/ContextMenu/Context_Ui";
+import NullFolder from "@/app/notebook/trace/NullBar/NullSidebar";
+import ContextMenu from '@/Components/Nav/Ui/ContextMenu/Context_Ui';
 import { useState, useEffect } from "react";
 import { useFolderStore } from "@/Zustand/Folder_Store";
 
-import useResizable from '@/Components/Nav/Tools/Logic/Actions/Resize-Bar';
+import useResizable from '@/Components/Nav/Actions/Resize-Bar';
 export default function NullSidebar({nestedFolders}) {
   const { nullExpend, popupFolder, setNullExpend } = useFolderStore();
   const [animationDone, setAnimationDone] = useState(false);

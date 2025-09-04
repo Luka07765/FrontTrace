@@ -6,7 +6,7 @@ import { getHasTyped } from "@/Utils/type";
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import { useMoveLogic } from '@/Components/Nav/Tools/Logic/MoveLogic/Move';
+import { useMoveLogic } from '@/Components/Nav/Actions/Move';
 function FileRender({ file, index, folder }) {
   const {
     editFileId,

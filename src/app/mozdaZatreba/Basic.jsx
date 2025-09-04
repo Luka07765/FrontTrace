@@ -1,5 +1,5 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useMoveLogic } from '@/Components/Nav/Tools/Logic/MoveLogic/Move';
+import { useMoveLogic } from '@/Components/Nav/Actions/Move';
 import FileRender from '@/Components/Nav/Tools/Render/File';
 
 import CreateFolder from '../Logic/Actions/Create_Folder';

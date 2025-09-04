@@ -1,6 +1,6 @@
 'use client';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import ForceDirectedTree from '@/Components/Nav/mindmaplogic/MindMap/TreeMap';
+import ForceDirectedTree from '@/app/notebook/mind-map/TreeMap';
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
 
