@@ -7,7 +7,7 @@ import File from '@/Components/Work_Space/WorkPage';
 
 import { useToken } from '@/Server/Auth/Token';
 import ContextMenu from '@/Components/Nav/Tools/Ui/ContextMenu/Context_Ui';
-import useResizable from './tools/Logic/Resize-Bar';
+import useResizable from '@/Components/Nav/Tools/Logic/Actions/Resize-Bar';
 
 import { useAuthCheck } from '@/app/notebook/main/Auth/Auth-Check';
 import ProjectLink from '@/app/notebook/main/trace/tools/Logic/Projects';
