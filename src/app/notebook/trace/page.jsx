@@ -22,7 +22,7 @@ import NullSidebar from './NullSidebar';
 import SearchResults from "@/Components/Nav/Search/Ui_Search";
 import CreateFolder from "@/Components/Nav/Actions/Create_Folder";
 import ContextMenu from '@/Components/Nav/Ui/ContextMenu/Context_Ui';
-import { Main_Render } from "@/Components/Nav/Render/Main_Render";
+import { Main_Render } from "@/app/notebook/trace/Main_Render";
 
 // Hooks and Utilities
 import useResizable from '../../../Components/Nav/Actions/Resize-Bar';

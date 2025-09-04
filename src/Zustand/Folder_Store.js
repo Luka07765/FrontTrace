@@ -6,26 +6,20 @@ export const useFolderStore = create((set) => ({
   moveFolder: null,
   creatingFolderParentId: undefined,
   folderName: '',
-  expandedFolders: {},
-    nullExpend: false,
-popupFolder: null, 
-setNullExpend: (val) => set({ nullExpend: val }),
-setPopupFolder: (folder) => set({ popupFolder: folder }),
 
 
- setEditingFolderId: (id) => set({ editingFolderId: id }),
+  nullExpend: false,
+  popupFolder: null, 
+  setNullExpend: (val) => set({ nullExpend: val }),
+  setPopupFolder: (folder) => set({ popupFolder: folder }),
+
+
+  setEditingFolderId: (id) => set({ editingFolderId: id }),
   setMoveFolder: (id) => set({ moveFolder: id }),
   setDragFolder: (id) => set({ dragFolder: id }),
   setCreatingFolderParentId: (id) => set({ creatingFolderParentId: id }),
   setFolderName: (name) => set({ folderName: name }),
   
-  setExpandedFolders: (folderId) =>
-    set((state) => ({
-      expandedFolders: {
-        ...state.expandedFolders,
-        [folderId]: !state.expandedFolders[folderId],
-      },
-    })),
 
   handleDelete: (handleDeleteFolder, selectedFolderId) => {
     if (selectedFolderId) {
@@ -33,4 +27,15 @@ setPopupFolder: (folder) => set({ popupFolder: folder }),
       set({ contextMenuVisible: false, selectedFolderId: null }); // Update state
     }
   },
+
+
+    expandedFolders: {},
+    
+    setExpandedFolders: (folderId) =>
+    set((state) => ({
+      expandedFolders: {
+        ...state.expandedFolders,
+        [folderId]: !state.expandedFolders[folderId],
+      },
+    })),
 }));
