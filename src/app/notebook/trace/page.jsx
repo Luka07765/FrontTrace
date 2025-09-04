@@ -26,7 +26,7 @@ import { Main_Render } from "@/Components/Nav/Render/Main_Render";
 
 // Hooks and Utilities
 import useResizable from '../../../Components/Nav/Actions/Resize-Bar';
-import { useContextMenuActions } from "@/Components/Nav/Ui/Colors/ColorLogic";
+import { useContextMenuActions } from "@/Components/Nav/Ui/ContextMenu/Actions";
 
 export default function Dashboard() {
   // State Management
