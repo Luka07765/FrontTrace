@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/Utils/cn";
-import NullFolder from "@/app/log/main/NullBar/NullSidebar";
+import NullFolder from "@/app/log/main/NullSideBar/LogicNull";
 import ContextMenu from '@/Components/Nav/Ui/ContextMenu/Context_Ui';
 import { useState, useEffect } from "react";
 import { useFolderStore } from "@/Zustand/Folder_Store";
