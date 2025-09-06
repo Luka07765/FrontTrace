@@ -54,16 +54,20 @@ function FolderNode({ folder, expandedFolders, folderDrop, creatingFolderParentI
             </ul>
           )}
 
-          {hasChildren &&
-            folder.children.map(child => (
-              <FolderNode
-                key={child.id}
-                folder={child}
-                expandedFolders={expandedFolders}
-                folderDrop={folderDrop}
-                creatingFolderParentId={creatingFolderParentId}
-              />
-            ))}
+ {hasChildren && (
+  <ul className="ml-4">
+    {folder.children.map(child => (
+      <FolderNode
+        key={child.id}
+        folder={child}
+        expandedFolders={expandedFolders}
+        folderDrop={folderDrop}
+        creatingFolderParentId={creatingFolderParentId}
+      />
+    ))}
+  </ul>
+)}
+
 
           {isCreating && <CreateFolder parentId={folder.id} />}
         </div>
