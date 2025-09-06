@@ -137,11 +137,14 @@ const { redCount, yellowCount } = useFolderColors(folder);
       {hasChildren || folderFiles(folder.id).length > 0 ? (
          <span    onDragEnter={handleDragEnter} onClick={() => setExpandedFolders(folder.id)} className="mr-1">
       
-          {isExpanded ? (
-            <FaChevronDown className="inline" />
-          ) : (
-            <FaChevronRight className="inline" />
-          )}
+     {folder.parentFolderId !== null && folder.parentFolderId !== 'None' && (
+  isExpanded ? (
+    <FaChevronDown className="inline" />
+  ) : (
+    <FaChevronRight className="inline" />
+  )
+)}
+
         </span>
       ) : (
         <span className="mr-4" />
