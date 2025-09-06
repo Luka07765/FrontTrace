@@ -1,8 +1,8 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
-import Profile from '@/app/notebook/main/Navigation/UserProfile/Profile';
+import Profile from '@/app/control/Navigation/UserProfile/Profile';
 
-import Settings from '@/app/notebook/main/Navigation/Settings/Settings';
+import Settings from '@/app/control/Navigation/Settings/Settings';
 
 const projectComponents = {
 

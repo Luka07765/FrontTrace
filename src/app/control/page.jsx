@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useToken } from '@/Server/Auth/Token';
-import { useAuthCheck } from '@/app/notebook/main/Auth/Auth-Check';
+import { useAuthCheck } from '@/app/control/Auth/Auth-Check';
 import ProjectSection from './Logic/ProjectSelection';
 import { useRouter } from 'next/navigation';
 export default function Dashboard() {
@@ -17,11 +17,11 @@ const router = useRouter();
   if (loadingAuth) return <p>Loading...</p>;
   const handleTrace = () => {
 
-    router.push('/notebook/trace'); 
+    router.push('/log/main'); 
   };
     const handleWeaver = () => {
 
-    router.push('/notebook/weaver'); 
+    router.push('/log/weaver'); 
   };
   return (
     <motion.div

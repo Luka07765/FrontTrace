@@ -8,7 +8,7 @@ import { useSelectStore } from "@/Zustand/Select_Store"
 
 // Server and Authentication
 import { useToken } from '@/Server/Auth/Token';
-import { useAuthCheck } from '@/app/notebook/main/Auth/Auth-Check';
+import { useAuthCheck } from '@/app/control/Auth/Auth-Check';
 
 // Data Logic
 import { useFolderListLogic } from "@/Server/Apollo/Logic/SideBar/QuerySideBar";
@@ -22,7 +22,7 @@ import NullSidebar from './NullSidebar';
 import SearchResults from "@/Components/Nav/Search/Ui_Search";
 import CreateFolder from "@/Components/Nav/Actions/Create_Folder";
 import ContextMenu from '@/Components/Nav/Ui/ContextMenu/Context_Ui';
-import { Main_Render } from "@/app/notebook/trace/Main_Render";
+import { Main_Render } from "@/app/log/main/Main_Render";
 
 // Hooks and Utilities
 import useResizable from '../../../Components/Nav/Actions/Resize-Bar';

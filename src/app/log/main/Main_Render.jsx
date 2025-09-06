@@ -1,27 +1,25 @@
-'use client';
-
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useMoveLogic } from '@/Components/Nav/Actions/Move';
-import FileRender from '@/Components/Nav/Render/FileAndFolder/File';
+import FileRender from '@/app/log/main/FileAndFolder/File';
 
 import CreateFolder from '@/Components/Nav/Actions/Create_Folder';
-import Folder_Render from '@/Components/Nav/Render/FileAndFolder/Folder';
+import Folder_Render from '@/app/log/main/FileAndFolder/Folder';
 
 
-import ContextMenu from '@/Components/Nav/Ui/ContextMenu/Context_Ui';
-
-export default function NullSidebar({ nestedFolders }) {
+export const Main_Render = ({ folders }) => {
   const { expandedFolders, creatingFolderParentId } = useFolderStore();
-  const { folderDrop } = useMoveLogic();
+      const {
+    folderDrop,
+  } = useMoveLogic();
+  
 
   return (
     <ul>
-      {nestedFolders.map((folder) => {
+      {folders.map((folder) => {
         const isExpanded = expandedFolders[folder.id];
         const folderExpend = folder.children && folder.children.length > 0;
         const isCreatingChild = creatingFolderParentId === folder.id;
         const filesExpend = folder.files.length > 0;
-
         return (
           <li
             key={folder.id}
@@ -31,10 +29,15 @@ export default function NullSidebar({ nestedFolders }) {
                 : ''
             }`}
           >
-            <Folder_Render folder={folder} folderDrop={folderDrop} />
+            <Folder_Render
+  folder={folder}
 
+    folderDrop={folderDrop} />
+
+                
             {isExpanded && (
               <div>
+
                 {filesExpend && (
                   <ul className="ml-12">
                     {folder.files
@@ -46,6 +49,8 @@ export default function NullSidebar({ nestedFolders }) {
                           file={file}
                           index={index}
                           folder={folder}
+              
+ 
                         />
                       ))}
                   </ul>
@@ -53,7 +58,7 @@ export default function NullSidebar({ nestedFolders }) {
 
                 {folderExpend && (
                   <div className="ml-9">
-                    <NullSidebar nestedFolders={folder.children} />
+                    <Main_Render folders={folder.children} />
                   </div>
                 )}
 
@@ -67,7 +72,12 @@ export default function NullSidebar({ nestedFolders }) {
           </li>
         );
       })}
+
+      {creatingFolderParentId === null && (
+        <li>
+          <CreateFolder parentId={null} />
+        </li>
+      )}
     </ul>
   );
-}
-
+};
