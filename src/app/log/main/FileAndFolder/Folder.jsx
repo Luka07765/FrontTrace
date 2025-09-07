@@ -1,134 +1,116 @@
+import React from 'react';
 import Image from 'next/image';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+
 import { useFolderStore } from '@/Zustand/Folder_Store';
+import { useSelectStore } from '@/Zustand/Select_Store';
+import { ContextClick } from '@/Zustand/Context_Store';
+import { useMoveLogic } from '@/Components/Nav/Actions/Move';
+import { useFolderColors } from '@/Components/Nav/Ui/Colors/ColorLogic';
+import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
+
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
 import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
-import { ContextClick } from '@/Zustand/Context_Store';
 import RenameFolder from '@/Components/Nav/Actions/Rename_Folder';
-import { useSelectStore } from '@/Zustand/Select_Store';
-import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import { useMoveLogic } from '@/Components/Nav/Actions/Move';
-import React, { useRef } from 'react';
-import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import { useFolderColors } from '@/Components/Nav/Ui/Colors/ColorLogic';
 import UiColors from '@/Components/Nav/Ui/Colors/UiColors';
 
-import { motion } from 'framer-motion';
-function Folder_Render({   folder
-  }) {
-  const { setContextMenuPosition, setContextMenuVisible ,setContextMenuTarget} = ContextClick();
+function Folder_Render({ folder }) {
+
+  const { setContextMenuPosition, setContextMenuVisible, setContextMenuTarget } = ContextClick();
   const { selectedFolderId, setSelectedFolderId } = useSelectStore();
-  const {
-    expandedFolders,
-    setExpandedFolders,
-   setMoveFolder,moveFolder,
-    editingFolderId,setDragFolder,dragFolder,setNullExpend,setPopupFolder
+  const { 
+    expandedFolders, setExpandedFolders, 
+    editingFolderId, setDragFolder, dragFolder,
+    setNullExpend, setPopupFolder,
+    setMoveFolder, moveFolder
   } = useFolderStore();
-    const {
-    folderDrop,handleDragEnter,moveFileToFolder
-  } = useMoveLogic(folder.id);
+
+  const { folderDrop, handleDragEnter, moveFileToFolder } = useMoveLogic(folder.id);
+  const { redCount, yellowCount } = useFolderColors(folder);
 
   const isExpanded = expandedFolders[folder.id];
   const isEditing = editingFolderId === folder.id;
-  const { redCount, yellowCount } = useFolderColors(folder);
 
+  // === Handlers ===
+  const handleClickFolder = (e) => {
+    e.stopPropagation();
+
+    if (!folder.parentFolderId || folder.parentFolderId === 'None') {
+      setNullExpend(true);
+      setPopupFolder(folder);
+      return;
+    }
+
+    setSelectedFolderId(selectedFolderId === folder.id ? null : folder.id);
+    setExpandedFolders(folder.id);
+  };
+
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+    setSelectedFolderId(folder.id);
+    setContextMenuVisible(true);
+    setContextMenuTarget({ type: 'folder' });
+    setContextMenuPosition({ x: e.pageX, y: e.pageY - 100 });
+  };
+
+  const handleDragEnd = () => {
+    folderDrop({ sourceFolderId: dragFolder, targetFolderId: moveFolder });
+    setMoveFolder(null);
+  };
+
+  // === Render ===
   return (
     <motion.div
       className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
         selectedFolderId === folder.id ? 'border-2 border-blue-500' : ''
       }`}
-      onContextMenu={(e) => {
-        e.preventDefault();
-        setSelectedFolderId(folder.id);
-        setContextMenuVisible(true);
-        setContextMenuTarget({ type: 'folder'});
-        setContextMenuPosition({ x: e.pageX, y: e.pageY -100 });
-      }}
-        onDragOver={(e) => e.preventDefault()}
+      onContextMenu={handleContextMenu}
+      onDragOver={(e) => e.preventDefault()}
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.4 }}
- 
     >
+      {/* Chevron */}
+      <span onDragEnter={handleDragEnter} onClick={() => setExpandedFolders(folder.id)} className="mr-1">
+        {folder.parentFolderId !== 'None' &&
+          (isExpanded ? <FaChevronDown className="inline" /> : <FaChevronRight className="inline" />)}
+      </span>
 
-  
-    <span
-  onDragEnter={handleDragEnter}
-  onClick={() => setExpandedFolders(folder.id)}
-  className="mr-1"
->
-  {folder.parentFolderId !== 'None' && (
-    isExpanded ? <FaChevronDown className="inline" /> : <FaChevronRight className="inline" />
-  )}
-</span>
-
-  <div
-  onClick={(e) => {
-    e.stopPropagation();
-    if (folder.parentFolderId === null || folder.parentFolderId === 'None') {
-    setNullExpend(true);
-    setPopupFolder(folder); 
-    console.log(folder.files)
-    return; 
-  }
-    setSelectedFolderId(
-      selectedFolderId === folder.id ? null : folder.id
-    );
-    setExpandedFolders(folder.id);
-  
-  }}
-
-  className="flex-grow"
->
-
+      {/* Folder Content */}
+      <div onClick={handleClickFolder} className="flex-grow">
         {isEditing ? (
           <RenameFolder folder={folder} />
         ) : (
-          <>
-            <div  onDragEnter={moveFileToFolder}
-         className="flex items-center space-x-3">
-                 <motion.div
-             
-       
-              >
+          <div onDragEnter={moveFileToFolder} className="flex items-center space-x-3">
+            {/* Folder Icon */}
+            <motion.div>
               <Image
-                src={isExpanded ? folderOpenIcon : folderClosedIcon} // Dynamic folder image
+                src={isExpanded ? folderOpenIcon : folderClosedIcon}
                 alt={isExpanded ? 'Folder Open' : 'Folder Closed'}
                 width={20}
                 height={20}
                 className="filter invert"
               />
-              </motion.div>
+            </motion.div>
 
-<UiColors redCount={redCount} yellowCount={yellowCount} />
+            {/* Colors */}
+            <UiColors redCount={redCount} yellowCount={yellowCount} />
 
-
-
-                 <div className="flex items-center space-x-1">
-    <div className="ml-1">
-    {folder.title}
-  </div>
-  <div
-    draggable
-    onDragStart={() => setDragFolder(folder.id)}
-    onDragEnd={() =>{
-          folderDrop({ sourceFolderId: dragFolder, targetFolderId: moveFolder });
-      setMoveFolder(null)
-      
-
-    }
- 
-    }
-    title="Drag to move folder"
-    className="cursor-grab text-gray-300 hover:text-white"
-  >
-    <span className="text-xl leading-none select-none">⋮</span> 
-  </div>
-
-
-</div>    
+            {/* Title & Drag Menu */}
+            <div className="flex items-center space-x-1">
+              <div className="ml-1">{folder.title}</div>
+              <div
+                draggable
+                onDragStart={() => setDragFolder(folder.id)}
+                onDragEnd={handleDragEnd}
+                title="Drag to move folder"
+                className="cursor-grab text-gray-300 hover:text-white"
+              >
+                <span className="text-xl leading-none select-none">⋮</span>
+              </div>
+            </div>
           </div>
-          </>
         )}
       </div>
     </motion.div>
