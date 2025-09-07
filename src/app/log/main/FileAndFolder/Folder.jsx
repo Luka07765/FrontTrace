@@ -25,49 +25,12 @@ function Folder_Render({   folder
     editingFolderId,setDragFolder,dragFolder,setNullExpend,setPopupFolder
   } = useFolderStore();
     const {
-    folderDrop
-  } = useMoveLogic();
+    folderDrop,handleDragEnter,moveFileToFolder
+  } = useMoveLogic(folder.id);
+
   const isExpanded = expandedFolders[folder.id];
-
   const isEditing = editingFolderId === folder.id;
-   const debounceTimer = useRef(null);
-   const moveFile = useRef(null);
-
-  const { files = [] } = useFileListLogic();
-  const folderFiles = (folderId) =>
-    files.filter((file) => file.folderId === folderId);
-
-const { redCount, yellowCount } = useFolderColors(folder);
-const { handleUpdateFolder } = useFolderListLogic();
-
-
-  const handleDragEnter = (e) => {
-    e.preventDefault();
-
-    if (debounceTimer.current) return; 
-
-    setExpandedFolders(folder.id);
-
-    debounceTimer.current = setTimeout(() => {
-      debounceTimer.current = null;
-    }, 3000);
-  };
-
-    const moveFileToFolder = (e) => {
-    e.preventDefault();
-
-    if (moveFile.current) return; 
-
-      setMoveFolder(folder.id);
-    moveFile.current = setTimeout(() => {
-      moveFile.current = null;
-    }, 500);
-  };
-
-
-
-
-
+  const { redCount, yellowCount } = useFolderColors(folder);
 
   return (
     <motion.div

@@ -4,14 +4,17 @@ import { useFileStore } from '@/Zustand/File_Store';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-
-export const useMoveLogic = () => {
-  const { moveFolder } = useFolderStore();
+import React, { useRef } from 'react';
+export const useMoveLogic = (id) => {
+  const { moveFolder ,setExpandedFolders,setMoveFolder} = useFolderStore();
   const { draggingIndex, setDraggingIndex, dragOverIndex, setDragOverIndex } = useFileStore();
   const { handleUpdateFile } = useFileListLogic();
   const { handleUpdateFolder } = useFolderListLogic();
-
+  const debounceTimer = useRef(null);
+  const moveFile = useRef(null);
   const handleDrop = async ({ files, fileId = null, targetFolderId = null }) => {
+
+
     if (!fileId || !targetFolderId) return;
 
 
@@ -37,44 +40,7 @@ export const useMoveLogic = () => {
 
 
   };
- 
-
-    const safeMoveFolder = async ({
-  dragFolder,
-  moveFolder,
- 
-}) => {
-  if (!dragFolder || !moveFolder) {
-    console.warn('Missing source or target folder ID.');
-    return;
-  }
-
-  if (dragFolder === moveFolder) {
-    console.warn('Cannot move a folder into itself.');
-    return;
-  }
-
-  if (
-  !moveFolder ||                               // null, undefined, 0, false
-  typeof moveFolder !== 'string' ||            // numbers, objects, arrays, etc.
-  moveFolder.trim() === '' ||                  // empty string or whitespace
-  moveFolder === 'null' ||                     // string literal "null"
-  moveFolder === 'undefined'                   // string literal "undefined"
-) {
-
-  moveFolder = null;
-  return;
-}
-
-
-
-  await handleUpdateFolder({
-    id: dragFolder,
-    parentFolderId: moveFolder,
-  });
- 
-};
-
+    
 
   const folderDrop = async ({ sourceFolderId, targetFolderId }) => {
       if (!sourceFolderId || !targetFolderId) {
@@ -109,6 +75,30 @@ export const useMoveLogic = () => {
   }
   };
 
+    const handleDragEnter = (e) => {
+    e.preventDefault();
+
+    if (debounceTimer.current) return; 
+
+    setExpandedFolders(id);
+
+    debounceTimer.current = setTimeout(() => {
+      debounceTimer.current = null;
+    }, 3000);
+  };
+
+    const moveFileToFolder = (e) => {
+    e.preventDefault();
+
+    if (moveFile.current) return; 
+
+      setMoveFolder(id);
+    moveFile.current = setTimeout(() => {
+      moveFile.current = null;
+    }, 500);
+  };
+
+
   return {
     handleDrop,
     folderDrop,
@@ -117,5 +107,7 @@ export const useMoveLogic = () => {
     setDraggingIndex,
     setDragOverIndex,
     moveFolder,
+    handleDragEnter,
+    moveFileToFolder
   };
 };
