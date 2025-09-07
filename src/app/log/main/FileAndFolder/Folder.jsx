@@ -7,7 +7,7 @@ import { ContextClick } from '@/Zustand/Context_Store';
 import RenameFolder from '@/Components/Nav/Actions/Rename_Folder';
 import { useSelectStore } from '@/Zustand/Select_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-
+import { useMoveLogic } from '@/Components/Nav/Actions/Move';
 import React, { useRef } from 'react';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import { useFolderColors } from '@/Components/Nav/Ui/Colors/ColorLogic';
@@ -24,6 +24,9 @@ function Folder_Render({   folder
    setMoveFolder,moveFolder,
     editingFolderId,setDragFolder,dragFolder,setNullExpend,setPopupFolder
   } = useFolderStore();
+    const {
+    folderDrop
+  } = useMoveLogic();
   const isExpanded = expandedFolders[folder.id];
 
   const isEditing = editingFolderId === folder.id;
@@ -36,42 +39,6 @@ function Folder_Render({   folder
 
 const { redCount, yellowCount } = useFolderColors(folder);
 const { handleUpdateFolder } = useFolderListLogic();
-
-  const safeMoveFolder = async ({
-  dragFolder,
-  moveFolder,
- 
-}) => {
-  if (!dragFolder || !moveFolder) {
-    console.warn('Missing source or target folder ID.');
-    return;
-  }
-
-  if (dragFolder === moveFolder) {
-    console.warn('Cannot move a folder into itself.');
-    return;
-  }
-
-  if (
-  !moveFolder ||                               // null, undefined, 0, false
-  typeof moveFolder !== 'string' ||            // numbers, objects, arrays, etc.
-  moveFolder.trim() === '' ||                  // empty string or whitespace
-  moveFolder === 'null' ||                     // string literal "null"
-  moveFolder === 'undefined'                   // string literal "undefined"
-) {
-
-  moveFolder = null;
-  return;
-}
-
-
-
-  await handleUpdateFolder({
-    id: dragFolder,
-    parentFolderId: moveFolder,
-  });
- 
-};
 
 
   const handleDragEnter = (e) => {
@@ -159,8 +126,7 @@ const { handleUpdateFolder } = useFolderListLogic();
          className="flex items-center space-x-3">
                  <motion.div
              
-                animate={isExpanded ? "expanded" : "collapsed"}
-                transition={{ duration: 0.4 }}
+       
               >
               <Image
                 src={isExpanded ? folderOpenIcon : folderClosedIcon} // Dynamic folder image
@@ -183,10 +149,7 @@ const { handleUpdateFolder } = useFolderListLogic();
     draggable
     onDragStart={() => setDragFolder(folder.id)}
     onDragEnd={() =>{
-           safeMoveFolder({
-        dragFolder,
-        moveFolder,
-      })
+          folderDrop({ sourceFolderId: dragFolder, targetFolderId: moveFolder });
       setMoveFolder(null)
       
 

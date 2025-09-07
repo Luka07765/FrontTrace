@@ -39,17 +39,74 @@ export const useMoveLogic = () => {
   };
  
 
-  const folderDrop = async ({ folderId, targetFolderId }) => {
-    if (!folderId || !targetFolderId || folderId === targetFolderId) return;
+    const safeMoveFolder = async ({
+  dragFolder,
+  moveFolder,
+ 
+}) => {
+  if (!dragFolder || !moveFolder) {
+    console.warn('Missing source or target folder ID.');
+    return;
+  }
+
+  if (dragFolder === moveFolder) {
+    console.warn('Cannot move a folder into itself.');
+    return;
+  }
+
+  if (
+  !moveFolder ||                               // null, undefined, 0, false
+  typeof moveFolder !== 'string' ||            // numbers, objects, arrays, etc.
+  moveFolder.trim() === '' ||                  // empty string or whitespace
+  moveFolder === 'null' ||                     // string literal "null"
+  moveFolder === 'undefined'                   // string literal "undefined"
+) {
+
+  moveFolder = null;
+  return;
+}
+
+
+
+  await handleUpdateFolder({
+    id: dragFolder,
+    parentFolderId: moveFolder,
+  });
+ 
+};
+
+
+  const folderDrop = async ({ sourceFolderId, targetFolderId }) => {
+      if (!sourceFolderId || !targetFolderId) {
+    console.warn('Missing source or target folder ID.');
+    return;
+  }
+
+  if (sourceFolderId === targetFolderId) {
+    console.warn('Cannot move a folder into itself.');
+    return;
+  }
+
+    if (
+    !targetFolderId ||
+    typeof targetFolderId !== 'string' ||
+    targetFolderId.trim() === '' ||
+    targetFolderId === 'null' ||
+    targetFolderId === 'undefined'
+  ) {
+    setMoveFolder(null);
+    return;
+  }
+
 
     try {
-      await handleUpdateFolder({
-        id: folderId,
-        parentFolderId: targetFolderId,
-      });
-    } catch (error) {
-      console.error('Error moving folder:', error);
-    }
+    await handleUpdateFolder({
+      id: sourceFolderId,
+      parentFolderId: targetFolderId,
+    });
+  } catch (error) {
+    console.error('Error moving folder:', error);
+  }
   };
 
   return {
