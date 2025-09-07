@@ -16,7 +16,6 @@ import UiColors from '@/Components/Nav/Ui/Colors/UiColors';
 import { motion } from 'framer-motion';
 function Folder_Render({   folder
   }) {
-      // const [showMainFolderPopup, setShowMainFolderPopup]  = useState(false);
   const { setContextMenuPosition, setContextMenuVisible ,setContextMenuTarget} = ContextClick();
   const { selectedFolderId, setSelectedFolderId } = useSelectStore();
   const {
@@ -26,7 +25,7 @@ function Folder_Render({   folder
     editingFolderId,setDragFolder,dragFolder,setNullExpend,setPopupFolder
   } = useFolderStore();
   const isExpanded = expandedFolders[folder.id];
-  const hasChildren = folder.children && folder.children.length > 0;
+
   const isEditing = editingFolderId === folder.id;
    const debounceTimer = useRef(null);
    const moveFile = useRef(null);
@@ -122,27 +121,21 @@ const { handleUpdateFolder } = useFolderListLogic();
  
     >
 
-
-      {hasChildren || folderFiles(folder.id).length > 0 ? (
-         <span    onDragEnter={handleDragEnter} onClick={() => setExpandedFolders(folder.id)} className="mr-1">
-      
-     {folder.parentFolderId !== null && folder.parentFolderId !== 'None' && (
-  isExpanded ? (
-    <FaChevronDown className="inline" />
-  ) : (
-    <FaChevronRight className="inline" />
-  )
-)}
-
-        </span>
-      ) : (
-        <span className="mr-4" />
-      )}
+  
+    <span
+  onDragEnter={handleDragEnter}
+  onClick={() => setExpandedFolders(folder.id)}
+  className="mr-1"
+>
+  {folder.parentFolderId !== 'None' && (
+    isExpanded ? <FaChevronDown className="inline" /> : <FaChevronRight className="inline" />
+  )}
+</span>
 
   <div
   onClick={(e) => {
     e.stopPropagation();
-        if (folder.parentFolderId === null || folder.parentFolderId === 'None') {
+    if (folder.parentFolderId === null || folder.parentFolderId === 'None') {
     setNullExpend(true);
     setPopupFolder(folder); 
     console.log(folder.files)
