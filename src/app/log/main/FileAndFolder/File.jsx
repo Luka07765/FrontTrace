@@ -7,6 +7,7 @@ import { ContextClick } from '@/Zustand/Context_Store';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useMoveLogic } from '@/Components/Nav/Actions/Move';
+import {useFileColor} from "@/Components/Nav/Ui/Colors/FileColor"
 function FileRender({ file, index, folder }) {
   const {
     editFileId,
@@ -26,32 +27,10 @@ function FileRender({ file, index, folder }) {
   const { handleUpdateFile } = useFileListLogic();
 
   const { saveNow } = useAutoSave(() => handleSubmitUpdate(handleUpdateFile));
+  const { onColorClick, dotClass } = useFileColor(file, updateFileColor, handleUpdateFile);
 
 
-  const cycleColor = (color) => {
-    const order = ['Green', 'Yellow', 'Red'];
-    const i = order.indexOf(color);
-    return order[(i + 1) % order.length];
-  };
 
-  const onColorClick = async (e) => {
-    e.stopPropagation();
-    const newColor = cycleColor(file.colors);
-
-    updateFileColor(file.id, newColor);
-
-    try {
-      await handleUpdateFile({ id: file.id, colors: newColor });
-    } catch (err) {
-      console.error('Failed to update color', err);
-    }
-  };
-
-  const dotClass = {
-    Red: 'bg-red-500',
-    Yellow: 'bg-yellow-500',
-    Green: 'bg-green-500',
-  }[file.colors] || 'bg-gray-400';
 
   const handleClick = (e) => {
     e.stopPropagation();
@@ -85,9 +64,9 @@ function FileRender({ file, index, folder }) {
     >
       <div
         onClick={onColorClick}
-        className="w-6 h-6 flex items-center justify-center absolute -translate-x-3 -translate-y-3 cursor-pointer"
+        className="w-6 h-6 flex items-center justify-center absolute -translate-x-3 -translate-y-3 cursor-default"
       >
-        <span className={`w-[6px] h-[6px] rounded-full ${dotClass}`} />
+        <span className={`w-[5px] h-[5px] rounded-full ${dotClass}`} />
       </div>
 
       <div className="flex items-center space-x-2">
