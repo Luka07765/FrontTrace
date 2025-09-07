@@ -36,12 +36,7 @@ function Folder_Render({   folder
     files.filter((file) => file.folderId === folderId);
 
 const { redCount, yellowCount } = useFolderColors(folder);
-
-
-
-
-
-  const { handleUpdateFolder } = useFolderListLogic();
+const { handleUpdateFolder } = useFolderListLogic();
 
   const safeMoveFolder = async ({
   dragFolder,
@@ -104,10 +99,6 @@ const { redCount, yellowCount } = useFolderColors(folder);
   };
 
 
-  const folderIconVariants = {
-    expanded: { scale: 1.1, rotate: 5 },
-    collapsed: { scale: 1, rotate: 0 }
-  };
 
 
 
@@ -124,9 +115,7 @@ const { redCount, yellowCount } = useFolderColors(folder);
         setContextMenuTarget({ type: 'folder'});
         setContextMenuPosition({ x: e.pageX, y: e.pageY -100 });
       }}
-
         onDragOver={(e) => e.preventDefault()}
-
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.4 }}
@@ -176,7 +165,7 @@ const { redCount, yellowCount } = useFolderColors(folder);
             <div  onDragEnter={moveFileToFolder}
          className="flex items-center space-x-3">
                  <motion.div
-                variants={folderIconVariants}
+             
                 animate={isExpanded ? "expanded" : "collapsed"}
                 transition={{ duration: 0.4 }}
               >
