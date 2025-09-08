@@ -6,14 +6,14 @@ import { motion } from 'framer-motion';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useSelectStore } from '@/Zustand/Select_Store';
 import { ContextClick } from '@/Zustand/Context_Store';
-import { useMoveLogic } from '@/Components/Nav/Actions/Move';
-import { useFolderColors } from '@/Components/Nav/Ui/Colors/ColorLogic';
+import { useMoveLogic } from '@/Components/Navigation/Sidebar/Actions/Move';
+import { useFolderColors } from '@/Components/Navigation/Sidebar/Ui/Colors/ColorLogic';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
 import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
-import RenameFolder from '@/Components/Nav/Actions/Rename_Folder';
-import UiColors from '@/Components/Nav/Ui/Colors/UiColors';
+import RenameFolder from '@/Components/Navigation/Sidebar/Actions/Rename_Folder';
+import UiColors from '@/Components/Navigation/Sidebar/Ui/Colors/UiColors';
 
 function Folder_Render({ folder }) {
 

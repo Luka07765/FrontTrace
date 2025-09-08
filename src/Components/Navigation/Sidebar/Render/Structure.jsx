@@ -1,13 +1,13 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useMoveLogic } from '@/Components/Nav/Actions/Move';
-import FileRender from '@/app/log/main/FileAndFolder/File';
+import { useMoveLogic } from '@/Components/Navigation/Sidebar/Actions/Move';
+import FileRender from '@/Components/Navigation/Sidebar/Render/File';
 
-import CreateFolder from '@/Components/Nav/Actions/Create_Folder';
-import Folder_Render from '@/app/log/main/FileAndFolder/Folder';
+import CreateFolder from '@/Components/Navigation/Sidebar/Actions/Create_Folder';
+import Folder_Render from '@/Components/Navigation/Sidebar/Render/Folder';
 
 
 export const Main_Render = ({ folders }) => {
-  const { expandedFolders, creatingFolderParentId } = useFolderStore();
+  const { creatingFolderParentId } = useFolderStore();
       const {
     folderDrop,
   } = useMoveLogic();
@@ -16,7 +16,7 @@ export const Main_Render = ({ folders }) => {
   return (
     <ul>
       {folders.map((folder) => {
-        const isExpanded = expandedFolders[folder.id];
+
 
         return (
           <li

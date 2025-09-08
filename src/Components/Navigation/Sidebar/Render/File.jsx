@@ -6,8 +6,8 @@ import { getHasTyped } from "@/Utils/type";
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import { useMoveLogic } from '@/Components/Nav/Actions/Move';
-import {useFileColor} from "@/Components/Nav/Ui/Colors/FileColor"
+import { useMoveLogic } from '@/Components/Navigation/Sidebar/Actions/Move';
+import {useFileColor} from "@/Components/Navigation/Sidebar/Ui/Colors/FileColor"
 function FileRender({ file, index, folder }) {
   const {
     editFileId,

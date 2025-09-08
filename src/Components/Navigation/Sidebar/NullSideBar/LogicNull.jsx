@@ -1,10 +1,10 @@
 'use client';
 
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useMoveLogic } from '@/Components/Nav/Actions/Move';
-import FileRender from '@/app/log/main/FileAndFolder/File';
-import CreateFolder from '@/Components/Nav/Actions/Create_Folder';
-import Folder_Render from '@/app/log/main/FileAndFolder/Folder';
+import { useMoveLogic } from '@/Components/Navigation/Sidebar/Actions/Move';
+import FileRender from '@/Components/Navigation/Sidebar/Render/File';
+import CreateFolder from '@/Components/Navigation/Sidebar/Actions/Create_Folder';
+import Folder_Render from '@/Components/Navigation/Sidebar/Render/Folder';
 
 export default function NullSidebar({ nestedFolders }) {
   const { expandedFolders, creatingFolderParentId, popupFolder } = useFolderStore();
@@ -67,8 +67,6 @@ function FolderNode({ folder, expandedFolders, folderDrop, creatingFolderParentI
     ))}
   </ul>
 )}
-
-
           {isCreating && <CreateFolder parentId={folder.id} />}
         </div>
       )}
@@ -76,7 +74,7 @@ function FolderNode({ folder, expandedFolders, folderDrop, creatingFolderParentI
   );
 }
 
-// helper to find folder anywhere
+
 function findFolderById(folders, id) {
   if (!id || !folders) return null;
   for (const f of folders) {

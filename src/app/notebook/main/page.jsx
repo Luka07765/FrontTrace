@@ -8,25 +8,25 @@ import { useSelectStore } from "@/Zustand/Select_Store"
 
 // Server and Authentication
 import { useToken } from '@/Server/Auth/Token';
-import { useAuthCheck } from '@/app/control/Auth/Auth-Check';
+import { useAuthCheck } from '@/Components/Navigation/Control/Auth/Auth-Check';
 
 // Data Logic
 import { useFolderListLogic } from "@/Server/Apollo/Logic/SideBar/QuerySideBar";
 import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
-import { findMatchingItems } from "@/Components/Nav/Search/Logic_Search";
+import { findMatchingItems } from "@/Components/Navigation/Sidebar/Search/Logic_Search";
 
 // UI Components
 import File from '@/Components/Work_Space/WorkPage';
-import NullSidebar from '../main/NullSideBar/UiNull';
-import SearchResults from "@/Components/Nav/Search/Ui_Search";
-import CreateFolder from "@/Components/Nav/Actions/Create_Folder";
-import ContextMenu from '@/Components/Nav/Ui/ContextMenu/Context_Ui';
-import { Main_Render } from "@/app/log/main/Main_Render";
+import NullSidebar from '../../../Components/Navigation/Sidebar/NullSideBar/UiNull';
+import SearchResults from "@/Components/Navigation/Sidebar/Search/Ui_Search";
+import CreateFolder from "@/Components/Navigation/Sidebar/Actions/Create_Folder";
+import ContextMenu from '@/Components/Navigation/Sidebar/Ui/ContextMenu/Context_Ui';
+import { Main_Render } from "@/Components/Navigation/Sidebar/Render/Structure";
 
 // Hooks and Utilities
-import useResizable from '../../../Components/Nav/Actions/Resize-Bar';
-import { useContextMenuActions } from "@/Components/Nav/Ui/ContextMenu/Actions";
+import useResizable from '../../../Components/Navigation/Sidebar/Actions/Resize-Bar';
+import { useContextMenuActions } from "@/Components/Navigation/Sidebar/Ui/ContextMenu/Actions";
 
 export default function Dashboard() {
   // State Management
