@@ -9,7 +9,7 @@ function FolderInput({ parentId }) {
 
   const handleCreate = (parentFolderId) => {
     if (folderName.trim() !== '') {
-      handleCreateFolder({ title: folderName.trim(), parentFolderId });
+      handleCreateFolder({ title: folderName.trim(), parentFolderId ,iconId: 1});
     }
     setCreatingFolderParentId(undefined); // Reset to undefined
     setFolderName('');

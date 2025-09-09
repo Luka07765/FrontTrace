@@ -71,7 +71,7 @@ function FileRender({ file, index, folder }) {
 
       <div className="flex items-center space-x-2">
         <Image src={fileIcon} alt="File Icon" width={20} height={20} className="filter invert" />
-        <span className="text-left">{file.title}
+        <span className="text-left">{file.title + file.iconId}
  
            </span>
 

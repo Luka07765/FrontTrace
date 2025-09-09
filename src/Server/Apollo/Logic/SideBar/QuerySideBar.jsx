@@ -13,7 +13,7 @@ export function useFolderListLogic() {
   const [updateFolder] = useUpdateFolder();
 
   const handleCreateFolder = async (folderData) => {
-    const { title, parentFolderId } = folderData;
+    const { title, parentFolderId,iconId } = folderData;
 
     if (!title) {
       alert('Folder Name is required.');
@@ -26,6 +26,7 @@ export function useFolderListLogic() {
     input: {
       title,
       parentFolderId: parentFolderId !== '' ? parentFolderId : null,
+      iconId: iconId,
     },
   },
 update: (cache, { data: { createFolder } }) => {
@@ -84,7 +85,7 @@ update: (cache, { data: { createFolder } }) => {
   };
 
   const handleUpdateFolder = async (folderData) => {
-    const { id, title, parentFolderId } = folderData;
+    const { id, title, parentFolderId,iconId  } = folderData;
 
       if (!id) {
     alert('Folder ID is required.');
@@ -94,7 +95,7 @@ update: (cache, { data: { createFolder } }) => {
   const input = {};
   if (title !== undefined) input.title = title;
   if (parentFolderId !== undefined) input.parentFolderId = parentFolderId !== '' ? parentFolderId : null;
-
+  if (iconId !== undefined) input.iconId = iconId; 
 
 
     try {

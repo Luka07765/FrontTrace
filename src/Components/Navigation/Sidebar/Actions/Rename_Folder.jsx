@@ -10,7 +10,7 @@ export const RenameFolder = ({ folder }) => {
 
   const handleRename = (folderId) => {
     if (folderName.trim() !== '') {
-      handleUpdateFolder({ id: folderId, title: folderName.trim() });
+      handleUpdateFolder({ id: folderId, title: folderName.trim(),iconId: folder.iconId  });
     }
 
     setIsExiting(true);
