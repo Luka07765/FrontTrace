@@ -1,13 +1,10 @@
 'use client';
 import { useState } from "react";
 import { iconsData } from "@/utils/icons/IconData";
-
+import { ContextClick } from '@/Zustand/Context_Store';
 export default function IconPicker() {
-  const [selectedIconId, setSelectedIconId] = useState(null);
+  const { setIconSelected} = ContextClick();
 
-  const handleIconClick = (id) => {
-    setSelectedIconId(id);
-  };
 
   return (
     <div className="p-4">
@@ -16,12 +13,8 @@ export default function IconPicker() {
         {Object.entries(iconsData).map(([id, icon]) => (
           <button
             key={id}
-            onClick={() => handleIconClick(id)}
-            className={`p-2 rounded-xl border-2 transition ${
-              selectedIconId === id
-                ? "border-blue-500 shadow-lg"
-                : "border-transparent hover:border-gray-300"
-            }`}
+            onClick={() => setIconSelected(id)}
+            className="p-2 rounded-xl border-2" 
           >
             <img
               src={icon.src || icon}

@@ -9,4 +9,7 @@ export const ContextClick = create((set) => ({
 
   contextMenuTarget: { type: null}, // type can be 'folder' | 'file' | 'empty' | null
   setContextMenuTarget: (target) => set({ contextMenuTarget: target }),
+
+  iconSelected: null,
+  setIconSelected: (icon) => set({ iconSelected: icon }),
 }));

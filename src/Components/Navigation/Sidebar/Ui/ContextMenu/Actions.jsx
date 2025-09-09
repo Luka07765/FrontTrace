@@ -16,7 +16,7 @@ export const useContextMenuActions = () => {
   const { selectedFolderId } = useSelectStore();
   const { handleCreateFile, handleUpdateFile, handleDeleteFile } = useFileListLogic();
   const { editFileId } = useFileStore();
-  const { setContextMenuVisible } = ContextClick();
+  const { setContextMenuVisible ,iconSelected} = ContextClick();
 
   const createFileForFolder = (folderId) => {
     const fileName = prompt('Enter file name:');
@@ -31,6 +31,15 @@ export const useContextMenuActions = () => {
       });
     }
   };
+
+ const newIcon = async () => {
+    await handleUpdateFile({
+      id: file.id,
+      iconId: iconSelected, 
+    });
+
+  };
+
 
 
   const renameFolder = () => {
@@ -71,6 +80,7 @@ const deleteFolder = () => {
     deleteFolder,
     createFileForFolder,
     deleteFile,
+    newIcon
 
   };
 };
