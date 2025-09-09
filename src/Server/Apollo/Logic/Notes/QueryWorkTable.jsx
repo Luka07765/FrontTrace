@@ -13,7 +13,7 @@ export function useFileListLogic() {
   const [updateFile] = useUpdateFile();
 
   const handleCreateFile = async (fileData) => {
-  const { title, content, folderId, colors, filePosition } = fileData;
+  const { title, content, folderId, colors, filePosition, } = fileData;
 
   if (!folderId || !title) {
     alert('Folder ID and File Name are required.');
@@ -23,7 +23,7 @@ export function useFileListLogic() {
   try {
     await createFile({
       variables: {
-        input: { title, content, folderId, colors, filePosition },
+        input: { title, content, folderId, colors, filePosition,  iconId: 1  },
       },
       update: (cache, { data: { createFile } }) => {
         const existingData = cache.readQuery({ query: GET_FILES });
@@ -71,7 +71,7 @@ export function useFileListLogic() {
   };
 
   const handleUpdateFile = async (fileData) => {
-  const { id, title, content, folderId, colors, filePosition } = fileData;
+  const { id, title, content, folderId, colors, filePosition, iconId } = fileData;
 
   if (!id) {
     alert('File ID is required.');
@@ -84,6 +84,7 @@ export function useFileListLogic() {
   if (folderId !== undefined) input.folderId = folderId;
   if (colors !== undefined) input.colors = colors;
   if (filePosition !== undefined) input.filePosition = filePosition;
+    if (iconId !== undefined) input.iconId = iconId;
 
   try {
     await updateFile({
@@ -99,7 +100,7 @@ export function useFileListLogic() {
             query: GET_FILES,
             data: {
               getFiles: existingData.getFiles.map((file) =>
-                file.id === id ? updateFile : file
+                file.id === id ?  { ...updateFile, iconId: updateFile.iconId ?? file.iconId } : file
               ),
             },
           });

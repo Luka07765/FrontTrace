@@ -6,6 +6,7 @@ export const GET_FOLDERS = gql`
       id
       title
       parentFolderId
+      iconId
       
       files {
         id
@@ -13,7 +14,8 @@ export const GET_FOLDERS = gql`
         content
         folderId
         colors
-        filePosition 
+        filePosition
+        iconId 
       }
     }
   }
@@ -28,6 +30,7 @@ export const CREATE_FOLDER = gql`
       id
       title
       parentFolderId
+      iconId
     }
   }
 `;
@@ -44,6 +47,7 @@ export const UPDATE_FOLDER = gql`
       id
       title
       parentFolderId
+      iconId
     }
   }
 `;
@@ -57,6 +61,7 @@ export const GET_FILES = gql`
       folderId
       colors
       filePosition
+      iconId
     }
   }
 `;
@@ -69,7 +74,8 @@ export const CREATE_FILE = gql`
       content
       folderId
       colors
-      filePosition 
+      filePosition
+      iconId 
     }
   }
 `;
@@ -89,6 +95,7 @@ export const UPDATE_FILE = gql`
       folderId
       colors
       filePosition
+      iconId
     }
   }
 `;

@@ -40,6 +40,7 @@ update: (cache, { data: { createFolder } }) => {
           {
             ...createFolder,
             files: [], 
+             iconId: createFolder.iconId,
             __typename: 'Folder',
           },
         ],
@@ -114,6 +115,7 @@ update: (cache, { data: { createFolder } }) => {
     ? {
         ...updateFolder,
         files: folder.files ?? [],
+        iconId: updateFolder.iconId ?? folder.iconId, 
         __typename: 'Folder',
       }
     : folder

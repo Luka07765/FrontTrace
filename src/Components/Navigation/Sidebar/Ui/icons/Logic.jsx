@@ -11,7 +11,7 @@ import icon3 from "@/assets/test/icon3.png";
 // 🔹 Mock data
 const mockItems = [
   { id: 1, name: "Documents", iconId: 1 },
-  { id: 2, name: "Pictures", iconId: 1 },
+  { id: 2, name: "Pictures", iconId: 2 },
   { id: 3, name: "Christmas Tree", iconId: 3 },
 ];
 
