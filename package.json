@@ -2,12 +2,13 @@
   "name": "mindtrack_next",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev --experimental-https",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
+ "scripts": {
+  "dev": "NODE_OPTIONS='--max-old-space-size=8192' next dev --experimental-https",
+  "build": "NODE_OPTIONS='--max-old-space-size=8192' next build",
+  "start": "NODE_OPTIONS='--max-old-space-size=8192' next start",
+  "lint": "next lint"
+}
+,
   "dependencies": {
     "@apollo/client": "^3.11.10",
     "@heroicons/react": "^2.2.0",

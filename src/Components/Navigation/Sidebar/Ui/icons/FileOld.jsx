@@ -30,7 +30,7 @@ function FileRender({ file, index, folder }) {
   const { onColorClick, dotClass } = useFileColor(file, updateFileColor, handleUpdateFile);
 
 
-
+//Move to zustand
 
   const handleClick = (e) => {
     e.stopPropagation();

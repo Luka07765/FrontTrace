@@ -12,4 +12,6 @@ export const ContextClick = create((set) => ({
 
   iconSelected: null,
   setIconSelected: (icon) => set({ iconSelected: icon }),
+    resetIconSelected: () => set({ iconSelected: null }),
+  
 }));
