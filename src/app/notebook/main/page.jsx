@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 // Context and State Management
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useSelectStore } from "@/Zustand/Select_Store"
-
+import {IconPickerModal} from "@/Components/Navigation/Sidebar/Ui/icons/IconUi"
 // Server and Authentication
 import { useToken } from '@/Server/Auth/Token';
 import { useAuthCheck } from '@/Components/Navigation/Control/Auth/Auth-Check';
@@ -140,6 +140,7 @@ export default function Dashboard() {
       
       {/* Main Content Area */}
       <NullSidebar nestedFolders={nestedFolders} />
+      <IconPickerModal />
       <div
         ref={contentRef}
         className="overflow-auto flex-1"

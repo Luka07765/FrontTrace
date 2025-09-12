@@ -8,7 +8,7 @@ import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useMoveLogic } from '@/Components/Navigation/Sidebar/Actions/Move';
 import { useFileColor } from "@/Components/Navigation/Sidebar/Ui/Colors/FileColor";
-
+import { useIconPickerStore } from "@/Zustand/Icon";
 import { iconsData } from "@/Utils/icons/IconData";
 
 function FileRender({ file, index, folder }) {
@@ -93,49 +93,19 @@ function FileRender({ file, index, folder }) {
         <span className="text-left">{file.title}</span>
       </div>
 
-      {/* Change Icon Button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setIconSelected(file.iconId || 1);
-          setShowPopup(true);
-        }}
-        className="ml-2 px-2 py-1 text-xs bg-indigo-500 text-white rounded hover:bg-indigo-600"
-      >
-        Change Icon
-      </button>
+ <button
+  onClick={(e) => {
+    e.stopPropagation();
+    setIconSelected(file.iconId || 1);
+    useIconPickerStore.getState().setOpen(true, file); // 🔥 just trigger it globally
+  }}
+  className="ml-2 px-2 py-1 text-xs bg-indigo-500 text-white rounded hover:bg-indigo-600"
+>
+  Change Icon
+</button>
 
-      {/* Icon Picker Popup */}
-      {showPopup && (
-        <div className="absolute top-1/2 left-1/2 bg-white p-4 rounded shadow-md z-50 transform -translate-x-1/2 -translate-y-1/2">
-          <h3 className="text-sm mb-2">Select an Icon</h3>
-          <div className="grid grid-cols-3 gap-2">
-            {Object.entries(iconsData).map(([id, icon]) => (
-              <button
-                key={id}
-                onClick={() => setIconSelected(Number(id))}
-                className={`border rounded p-1 ${iconSelected === Number(id) ? 'border-indigo-500' : 'border-gray-300'}`}
-              >
-                <Image src={icon} alt={`Icon ${id}`} width={24} height={24} />
-              </button>
-            ))}
-          </div>
-          <div className="flex space-x-2 mt-2 justify-end">
-            <button
-              onClick={handleSaveIconId}
-              className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
-            >
-              Save
-            </button>
-            <button
-              onClick={() => setShowPopup(false)}
-              className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+
+ 
     </li>
   );
 }
