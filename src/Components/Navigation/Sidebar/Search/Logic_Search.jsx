@@ -1,9 +1,8 @@
-
-
 export function findMatchingItems(items, query, breadcrumb = '') {
   if (!items || !Array.isArray(items)) return [];
 
-  let matches = [];
+  const matches = [];
+  const normalizedQuery = query.toLowerCase();
 
   items.forEach((item) => {
     if (!item) return;
@@ -12,8 +11,8 @@ export function findMatchingItems(items, query, breadcrumb = '') {
       ? `${breadcrumb} / ${item.title || 'Untitled'}`
       : item.title || 'Untitled';
 
-   
-    if (item.title && item.title.toLowerCase().includes(query)) {
+
+    if (item.title && item.title.toLowerCase().includes(normalizedQuery)) {
       matches.push({
         ...item,
         breadcrumb: currentBreadcrumb,
@@ -22,9 +21,9 @@ export function findMatchingItems(items, query, breadcrumb = '') {
     }
 
 
-    if (item.files && Array.isArray(item.files)) {
+    if (Array.isArray(item.files)) {
       item.files.forEach((file) => {
-        if (file.title && file.title.toLowerCase().includes(query)) {
+        if (file.title && file.title.toLowerCase().includes(normalizedQuery)) {
           matches.push({
             ...file,
             breadcrumb: `${currentBreadcrumb} / ${file.title}`,
@@ -34,10 +33,10 @@ export function findMatchingItems(items, query, breadcrumb = '') {
       });
     }
 
-    
-    if (item.children && item.children.length > 0) {
-      matches = matches.concat(
-        findMatchingItems(item.children, query, currentBreadcrumb)
+    // Recurse children
+    if (Array.isArray(item.children) && item.children.length > 0) {
+      matches.push(
+        ...findMatchingItems(item.children, normalizedQuery, currentBreadcrumb)
       );
     }
   });

@@ -71,13 +71,13 @@ function FileRender({ file, index, folder }) {
       </div>
 
       <div className="flex items-center space-x-2">
-        <Image
-          src={iconsData[file.iconId] || iconsData[1]}
-          alt="File Icon"
-          width={20}
-          height={20}
-    
-        />
+<Image
+  src={iconsData[file.iconId]?.image || iconsData[1].image}
+  alt={iconsData[file.iconId]?.name || "File Icon"}
+  width={20}
+  height={20}
+/>
+
         <span className="text-left">{file.title + file.iconId}
  
            </span>
