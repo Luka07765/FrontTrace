@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 export const useFileStore = create((set, get) => ({
   dragIdx: null,
-  dragOverIndex: null,
+  dragOver: null,
   fileName: '',
   fileContent: '',
   folderId: '',
@@ -12,7 +12,7 @@ export const useFileStore = create((set, get) => ({
   fileList: [],
 
   setDragIdx: (index) => set({ dragIdx: index }),
-  setDragOver: (index) => set({ dragOverIndex: index }),
+  setDragOver: (index) => set({ dragOver: index }),
   
   setEditFileId: (id) => set({ editFileId: id }),
   setFileName: (name) => set({ fileName: name }),
@@ -24,7 +24,7 @@ export const useFileStore = create((set, get) => ({
   resetDragState: () =>
     set({
       dragIdx: null,
-      dragOverIndex: null,
+      dragOver: null,
     }),
 
   updateFileColor: (id, newColor) =>
