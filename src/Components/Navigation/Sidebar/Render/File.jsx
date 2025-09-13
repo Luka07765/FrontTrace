@@ -20,7 +20,7 @@ function FileRender({ file, index, folder }) {
       const {
     handleDrop,
 
-    setDraggingIndex,
+    setDragIdx,
     setDragOverIndex,
     moveFolder,
   } = useMoveLogic();
@@ -53,7 +53,7 @@ function FileRender({ file, index, folder }) {
     <li
       key={file.id}
       draggable
-      onDragStart={() => setDraggingIndex(index)}
+      onDragStart={() => setDragIdx(index)}
       onDragEnter={() => setDragOverIndex(index)}
       onDragEnd={() => handleDrop({ files: folder.files, fileId: file.id, targetFolderId: moveFolder })}
 
@@ -87,7 +87,7 @@ function FileRender({ file, index, folder }) {
 />
 </button>
 
-        <span className="text-left text-white">{file.title}
+        <span className="text-left text-white">{file.title}-{file.filePosition}
  
            </span>
 

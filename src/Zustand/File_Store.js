@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 export const useFileStore = create((set, get) => ({
-  draggingIndex: null,
+  dragIdx: null,
   dragOverIndex: null,
   fileName: '',
   fileContent: '',
@@ -11,8 +11,9 @@ export const useFileStore = create((set, get) => ({
   editFileId: '',
   fileList: [],
 
-  setDraggingIndex: (index) => set({ draggingIndex: index }),
+  setDragIdx: (index) => set({ dragIdx: index }),
   setDragOverIndex: (index) => set({ dragOverIndex: index }),
+  
   setEditFileId: (id) => set({ editFileId: id }),
   setFileName: (name) => set({ fileName: name }),
   setFileContent: (content) => set({ fileContent: content }),
@@ -22,7 +23,7 @@ export const useFileStore = create((set, get) => ({
 
   resetDragState: () =>
     set({
-      draggingIndex: null,
+      dragIdx: null,
       dragOverIndex: null,
     }),
 
