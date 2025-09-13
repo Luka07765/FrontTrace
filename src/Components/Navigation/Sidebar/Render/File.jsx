@@ -21,7 +21,7 @@ function FileRender({ file, index, folder }) {
     handleDrop,
 
     setDragIdx,
-    setDragOverIndex,
+    setDragOver,
     moveFolder,
   } = useMoveLogic();
   const { setContextMenuPosition, setContextMenuVisible, setContextMenuTarget,iconSelected, setIconSelected } = ContextClick();
@@ -54,7 +54,7 @@ function FileRender({ file, index, folder }) {
       key={file.id}
       draggable
       onDragStart={() => setDragIdx(index)}
-      onDragEnter={() => setDragOverIndex(index)}
+      onDragEnter={() => setDragOver(index)}
       onDragEnd={() => handleDrop({ files: folder.files, fileId: file.id, targetFolderId: moveFolder })}
 
       onClick={handleClick}
