@@ -24,7 +24,7 @@ function Folder_Render({ folder }) {
     setMoveFolder, moveFolder
   } = useFolderStore();
 
-  const { folderDrop, handleDragEnter, moveFileToFolder } = useMoveLogic(folder.id);
+  const { folderDrop, handleDragEnter, moveFileToFolder } = useMoveLogic(folder);
   const { redCount, yellowCount } = useFolderColors(folder);
 
   const isExpanded = expandedFolders[folder.id];
@@ -107,7 +107,8 @@ console.groupEnd();
               <div className="ml-1">{folder.title}</div>
               <div
                 draggable
-                onDragStart={() => setDragFolder(folder.id)}
+                onDragStart={() => {setDragFolder(folder.id);}}
+                 onDragEnter={() => console.log(folder.title)}
                 onDragEnd={handleDragEnd}
                 title="Drag to move folder"
                 className="cursor-grab text-gray-300 hover:text-white"
