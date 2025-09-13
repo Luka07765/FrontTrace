@@ -23,12 +23,7 @@ export const useMoveLogic = (folder) => {
         folderId: targetFolderId,});
    
 
-  const updatedFolderFiles = files.map(f => {
-    if (f.id === fileId) return { ...f, folderId: targetFolderId };
-    return f;
-  }).filter(f => f.folderId === targetFolderId);
 
-  console.log("Updated folder files:", updatedFolderFiles);
       // const sameFolderFiles = files
       //   .filter(f => f.folderId === targetFolderId);
 
@@ -100,7 +95,7 @@ export const useMoveLogic = (folder) => {
     if (moveFile.current) return; 
 
       setMoveFolder(folder.id);
-
+   
 
     moveFile.current = setTimeout(() => {
       moveFile.current = null;
