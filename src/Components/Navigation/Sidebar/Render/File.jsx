@@ -71,27 +71,27 @@ function FileRender({ file, index, folder }) {
       </div>
 
       <div className="flex items-center space-x-2">
-<Image
-  src={iconsData[file.iconId]?.image || iconsData[1].image}
-  alt={iconsData[file.iconId]?.name || "File Icon"}
-  width={20}
-  height={20}
-/>
-
-        <span className="text-left">{file.title + file.iconId}
- 
-           </span>
-
      <button
   onClick={(e) => {
     e.stopPropagation();
     setIconSelected(file.iconId || 1);
     useIconPickerStore.getState().setOpen(true, file); 
   }}
-  className="ml-2 px-2 py-1 text-xs bg-indigo-500 text-white rounded hover:bg-indigo-600"
+  className="ml-1 px-1 py-1 text-xs  rounded hover:bg-indigo-400"
 >
-  Change Icon
+<Image
+  src={iconsData[file.iconId]?.image || iconsData[1].image}
+  alt={iconsData[file.iconId]?.name || "File Icon"}
+  width={30}
+  height={30}
+/>
 </button>
+
+        <span className="text-left text-white">{file.title}
+ 
+           </span>
+
+
       </div>
     </li>
   );

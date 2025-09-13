@@ -8,8 +8,6 @@ import { useSelectStore } from '@/Zustand/Select_Store';
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useMoveLogic } from '@/Components/Navigation/Sidebar/Actions/Move';
 import { useFolderColors } from '@/Components/Navigation/Sidebar/Ui/Colors/ColorLogic';
-import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
 import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
 import RenameFolder from '@/Components/Navigation/Sidebar/Actions/Rename_Folder';
@@ -84,18 +82,19 @@ function Folder_Render({ folder }) {
         ) : (
           <div onDragEnter={moveFileToFolder} className="flex items-center space-x-3">
             {/* Folder Icon */}
+               <UiColors redCount={redCount} yellowCount={yellowCount} />
             <motion.div>
               <Image
                 src={isExpanded ? folderOpenIcon : folderClosedIcon}
                 alt={isExpanded ? 'Folder Open' : 'Folder Closed'}
-                width={20}
-                height={20}
+                width={35}
+                height={35}
                 className="filter invert"
               />
             </motion.div>
 
             {/* Colors */}
-            <UiColors redCount={redCount} yellowCount={yellowCount} />
+         
 
             {/* Title & Drag Menu */}
             <div className="flex items-center space-x-1">

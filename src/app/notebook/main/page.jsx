@@ -86,7 +86,7 @@ export default function Dashboard() {
       <motion.div
         animate={{ width: collapsed ? '5rem' : '16rem' }}
         transition={{ type: 'spring', damping: 15 }}
-        className="h-full bg-gray-900 text-white flex flex-col  items-center py-4"
+        className="overflow-auto h-full bg-gray-900 text-white flex flex-col  items-center py-4"
       >
         {/* Search Input */}
         <input
