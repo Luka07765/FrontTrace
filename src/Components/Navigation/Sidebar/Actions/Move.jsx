@@ -12,7 +12,7 @@ export const useMoveLogic = (folder) => {
   const { handleUpdateFolder } = useFolderListLogic();
   const debounceTimer = useRef(null);
   const moveFile = useRef(null);
-  const handleDrop = async ({ file,files, fileId = null, targetFolderId = null }) => {
+  const handleDrop = async ({ files, fileId = null, targetFolderId = null }) => {
 
 
     if (!fileId || !targetFolderId) return;
@@ -22,6 +22,13 @@ export const useMoveLogic = (folder) => {
         id: fileId,
         folderId: targetFolderId,});
    
+
+  const updatedFolderFiles = files.map(f => {
+    if (f.id === fileId) return { ...f, folderId: targetFolderId };
+    return f;
+  }).filter(f => f.folderId === targetFolderId);
+
+  console.log("Updated folder files:", updatedFolderFiles);
       // const sameFolderFiles = files
       //   .filter(f => f.folderId === targetFolderId);
 
@@ -94,7 +101,7 @@ export const useMoveLogic = (folder) => {
 
       setMoveFolder(folder.id);
 
-      console.log(folder.files)
+
     moveFile.current = setTimeout(() => {
       moveFile.current = null;
     }, 500);
