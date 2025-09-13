@@ -12,7 +12,7 @@ export const useFileStore = create((set, get) => ({
   fileList: [],
 
   setDragIdx: (index) => set({ dragIdx: index }),
-  setDragOverIndex: (index) => set({ dragOverIndex: index }),
+  setDragOver: (index) => set({ dragOverIndex: index }),
   
   setEditFileId: (id) => set({ editFileId: id }),
   setFileName: (name) => set({ fileName: name }),

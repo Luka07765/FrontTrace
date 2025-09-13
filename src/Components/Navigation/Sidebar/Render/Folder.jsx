@@ -39,6 +39,12 @@ function Folder_Render({ folder }) {
       setPopupFolder(folder);
       return;
     }
+   console.group(
+  `%cFolder: ${folder.title}`,
+  'font-size: 16px; font-weight: bold; color: blue;'
+);
+console.table(folder.files);
+console.groupEnd();
 
     setSelectedFolderId(selectedFolderId === folder.id ? null : folder.id);
     setExpandedFolders(folder.id);
