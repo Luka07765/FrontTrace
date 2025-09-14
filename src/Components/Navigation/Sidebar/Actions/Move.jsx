@@ -12,7 +12,7 @@ export const useMoveLogic = (folder) => {
   const { handleUpdateFolder } = useFolderListLogic();
   const debounceTimer = useRef(null);
   const moveFile = useRef(null);
-  const handleDrop = async ({ files, fileId = null, targetFolderId = null }) => {
+  const handleDrop = async ({ files, fileId = null, targetFolderId = null,fileMain }) => {
 
 
     if (!fileId || !targetFolderId) return;
@@ -24,21 +24,10 @@ export const useMoveLogic = (folder) => {
    
 
       
-      const updatedData = [...moveData];
+const updatedData = [...moveData];
+const fakeFile = fileMain
 
-// Create a fake file object
-const fakeFile = {
-  __typename: "File",
-  id: "32",
-  title: "Spider Man",
-  content: "Just a test file",
-  folderId: "test-folder-id",
-  colors: "Red",
-  filePosition: 999,
-  iconId: "spiderman-icon",
-};
 
-// Insert fake file at dragOver index
 updatedData.splice(dragOver, 0, fakeFile);
 
 // Update the state
@@ -47,8 +36,8 @@ setMoveData(updatedData);
 console.table(updatedData);
 setMoveData([]);
 
-      // setDragIdx(null);
-      // setDragOver(null);
+      setDragIdx(null);
+      setDragOver(null);
 
       // for (let i = 0; i < sameFolderFiles.length; i++) {
       //   const updatedPos = i + 1;

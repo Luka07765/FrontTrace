@@ -55,7 +55,7 @@ function FileRender({ file, index, folder }) {
       draggable
       onDragStart={() => setDragIdx(index)}
       onDragEnter={() => setDragOver(index)}
-      onDragEnd={() => handleDrop({ files: folder.files, fileId: file.id, targetFolderId: moveFolder })}
+      onDragEnd={() => handleDrop({ files: folder.files, fileId: file.id, targetFolderId: moveFolder,fileMain:file })}
 
       onClick={handleClick}
       onContextMenu={handleContextMenu}
