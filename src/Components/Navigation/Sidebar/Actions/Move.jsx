@@ -23,12 +23,29 @@ export const useMoveLogic = (folder) => {
         folderId: targetFolderId,});
    
 
-      console.log(moveData)
-      // const sameFolderFiles = files
-      //   .filter(f => f.folderId === targetFolderId);
+      
+      const updatedData = [...moveData];
 
-      // const [movedFile] = sameFolderFiles.splice(dragIdx, 1);
-      // sameFolderFiles.splice(dragOver, 0, movedFile);
+// Create a fake file object
+const fakeFile = {
+  __typename: "File",
+  id: "32",
+  title: "Spider Man",
+  content: "Just a test file",
+  folderId: "test-folder-id",
+  colors: "Red",
+  filePosition: 999,
+  iconId: "spiderman-icon",
+};
+
+// Insert fake file at dragOver index
+updatedData.splice(dragOver, 0, fakeFile);
+
+// Update the state
+setMoveData(updatedData);
+
+console.table(updatedData);
+setMoveData([]);
 
       // setDragIdx(null);
       // setDragOver(null);
