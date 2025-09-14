@@ -26,10 +26,10 @@ export const useMoveLogic = (folder) => {
       setDragIdx(null);
       setDragOver(null);
 
-      for (let i = 0; i < sameFolderFiles.length; i++) {
+      for (let i = 0; i < updatedData.length; i++) {
         const updatedPos = i + 1;
-        if (sameFolderFiles[i].filePosition !== updatedPos) {
-          await handleUpdateFile({ id: sameFolderFiles[i].id, filePosition: updatedPos });
+        if (updatedData[i].filePosition !== updatedPos) {
+          await handleUpdateFile({ id: updatedData[i].id, filePosition: updatedPos });
         }
       }
 
