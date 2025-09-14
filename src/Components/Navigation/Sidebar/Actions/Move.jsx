@@ -7,7 +7,7 @@ import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
 import React, { useRef } from 'react';
 export const useMoveLogic = (folder) => {
   const { moveFolder ,setExpandedFolders,setMoveFolder} = useFolderStore();
-  const { dragIdx, setDragIdx, dragOver, setDragOver } = useFileStore();
+  const { dragIdx, setDragIdx, dragOver, setDragOver,moveData,setMoveData } = useFileStore();
   const { handleUpdateFile } = useFileListLogic();
   const { handleUpdateFolder } = useFolderListLogic();
   const debounceTimer = useRef(null);
@@ -23,7 +23,7 @@ export const useMoveLogic = (folder) => {
         folderId: targetFolderId,});
    
 
-
+      console.log(moveData)
       // const sameFolderFiles = files
       //   .filter(f => f.folderId === targetFolderId);
 

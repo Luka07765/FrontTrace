@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-
+import { useFileStore } from '@/Zustand/File_Store';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useSelectStore } from '@/Zustand/Select_Store';
 import { ContextClick } from '@/Zustand/Context_Store';
@@ -23,7 +23,7 @@ function Folder_Render({ folder }) {
     setNullExpend, setPopupFolder,
     setMoveFolder, moveFolder
   } = useFolderStore();
-
+ const { setMoveData } = useFileStore();
   const { folderDrop, handleDragEnter, moveFileToFolder } = useMoveLogic(folder);
   const { redCount, yellowCount } = useFolderColors(folder);
 
@@ -108,7 +108,7 @@ console.groupEnd();
               <div
                 draggable
                 onDragStart={() => {setDragFolder(folder.id);}}
-                 onDragEnter={() => console.log(folder.title)}
+                 onDragEnter={() => setMoveData(folder.files)}
                 onDragEnd={handleDragEnd}
                 title="Drag to move folder"
                 className="cursor-grab text-gray-300 hover:text-white"
