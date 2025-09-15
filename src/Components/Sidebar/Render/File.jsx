@@ -5,7 +5,7 @@ import { getHasTyped } from "@/Utils/type";
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import { useMoveLogic } from '@/Components/Sidebar/Actions/Move';
+import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
 import {useFileColor} from "@/Components/Sidebar/Logic/L_Colors/FileColor"
 import { useIconPickerStore } from "@/Zustand/Icon";
 import { iconsData } from "@/Utils/icons/IconData";

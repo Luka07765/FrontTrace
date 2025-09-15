@@ -6,11 +6,11 @@ import { useFileStore } from '@/Zustand/File_Store';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useSelectStore } from '@/Zustand/Select_Store';
 import { ContextClick } from '@/Zustand/Context_Store';
-import { useMoveLogic } from '@/Components/Sidebar/Actions/Move';
+import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
 import { useFolderColors } from '@/Components/Sidebar/Logic/L_Colors/ColorLogic';
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
 import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
-import RenameFolder from '@/Components/Sidebar/Actions/Rename_Folder';
+import RenameFolder from '@/Components/Sidebar/Logic/Actions/Rename_Folder';
 import UiColors from '@/Components/Sidebar/Ui/U_Colors/UiColors';
 
 function Folder_Render({ folder }) {

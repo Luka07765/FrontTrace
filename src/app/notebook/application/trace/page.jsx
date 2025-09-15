@@ -16,7 +16,7 @@ import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
 import { findMatchingItems } from "@/Components/Sidebar/Logic/L_Search/Logic_Search";
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useMoveLogic } from '@/Components/Sidebar/Actions/Move';
+import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
 
 
 
@@ -27,12 +27,11 @@ import Folder_Render from '@/Components/Sidebar/Render/Folder';
 import File from '@/Components/Work_Space/WorkPage';
 import NullSidebar from '@/Components/Sidebar/Ui/U_Null/UiNull';
 import SearchResults from "@/Components/Sidebar/Ui/U_Search/Ui_Search";
-import CreateFolder from "@/Components/Sidebar/Actions/Create_Folder";
+import CreateFolder from "@/Components/Sidebar/Logic/Actions/Create_Folder";
 import ContextMenu from '@/Components/Sidebar/Ui/U_ContextMenu/Context_Ui';
 
-
 // Hooks and Utilities
-import useResizable from '@/Components/Sidebar/Actions/Resize-Bar';
+import useResizable from '@/Components/Sidebar/Logic/Actions/Resize-Bar';
 import { useContextMenuActions } from "@/Components/Sidebar/Logic/L_Context/Actions";
 
 export default function Dashboard() {

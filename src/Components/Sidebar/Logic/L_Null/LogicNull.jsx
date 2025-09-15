@@ -1,9 +1,9 @@
 'use client';
 
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useMoveLogic } from '@/Components/Sidebar/Actions/Move';
+import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
 import FileRender from '@/Components/Sidebar/Render/File';
-import CreateFolder from '@/Components/Sidebar/Actions/Create_Folder';
+import CreateFolder from '@/Components/Sidebar/Logic/Actions/Create_Folder';
 import Folder_Render from '@/Components/Sidebar/Render/Folder';
 
 export default function NullSidebar({ nestedFolders }) {
