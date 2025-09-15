@@ -5,11 +5,11 @@ export const useFileStore = create((set, get) => ({
   dragOver: null,
 
 
-  folderId: '',
+
   editFileName: '',
   editFileContent: '',
   editFileId: '',
-  fileList: [],
+
   moveData: [],       
   setMoveData: (data) => set({ moveData: data }),
   setDragIdx: (index) => set({ dragIdx: index }),
@@ -18,12 +18,11 @@ export const useFileStore = create((set, get) => ({
   setEditFileId: (id) => set({ editFileId: id }),
 
   
-  setFolderId: (id) => set({ folderId: id }),
   setEditFileName: (name) => set({ editFileName: name }),
   setEditFileContent: (content) => set({ editFileContent: content }),
 
  
-
+  fileList: [],
   updateFileColor: (id, newColor) =>
     set((state) => ({
       fileList: state.fileList.map((file) =>
