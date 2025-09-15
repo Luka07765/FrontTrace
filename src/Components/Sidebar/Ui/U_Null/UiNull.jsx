@@ -11,7 +11,7 @@ export default function NullSidebar({nestedFolders}) {
   const [animationDone, setAnimationDone] = useState(false);
       const {
     sidebarRef,
-    contentRef,
+
     resizerRef,
     resizerInnerRef,
     handleMouseDown,
@@ -56,6 +56,7 @@ export default function NullSidebar({nestedFolders}) {
 >
   Close
 </button>
+
                   </div>
                   <NullFolder nestedFolders={nestedFolders}/>
                 </div>

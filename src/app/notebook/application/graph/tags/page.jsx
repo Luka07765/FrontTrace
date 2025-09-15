@@ -1,6 +1,6 @@
 'use client';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import SidebarTree from '../../../../Components/Navigation/Tags/Master_Tree';
+import SidebarTree from '@/Components/Tags/Master_Tree';
 import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 function Page() {
