@@ -15,6 +15,13 @@ import { useFolderListLogic } from "@/Server/Apollo/Logic/SideBar/QuerySideBar";
 import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
 import { findMatchingItems } from "@/Components/Sidebar/Logic/L_Search/Logic_Search";
+import { useFolderStore } from '@/Zustand/Folder_Store';
+import { useMoveLogic } from '@/Components/Sidebar/Actions/Move';
+
+
+
+import Folder_Render from '@/Components/Sidebar/Render/Folder';
+
 
 // UI Components
 import File from '@/Components/Work_Space/WorkPage';
@@ -29,10 +36,10 @@ import useResizable from '@/Components/Sidebar/Actions/Resize-Bar';
 import { useContextMenuActions } from "@/Components/Sidebar/Logic/L_Context/Actions";
 
 export default function Dashboard() {
-  // State Management
+   const { creatingFolderParentId } = useFolderStore();
   const [collapsed, setCollapsed] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   // Context and Store
   const { setContextMenuVisible } = ContextClick();
   const { setSelectedFolderId } = useSelectStore();
@@ -46,7 +53,9 @@ export default function Dashboard() {
   const { cancelTokenRefresh } = useToken();
   const loadingAuth = useAuthCheck(cancelTokenRefresh);
   const { createFolder } = useContextMenuActions();
-  
+        const {
+    folderDrop,
+  } = useMoveLogic();
   // Derived Data
   const nestedFolders = useMemo(() => {
     return Array.isArray(folders) && folders.length > 0
@@ -129,7 +138,20 @@ export default function Dashboard() {
         {/* Folder Structure */}
         {!searchTerm &&
           (nestedFolders ? (
-            <Main_Render folders={nestedFolders} />
+            nestedFolders.map((folder) =>{
+                    return (
+          <li
+            key={folder.id}
+  
+          >
+            <Folder_Render
+  folder={folder}
+
+    folderDrop={folderDrop} />         
+          </li>
+        );
+
+            })
           ) : (
             <div>
               <p className="text-gray-500">Create New Folder.</p>
@@ -147,6 +169,11 @@ export default function Dashboard() {
       >
         <File />
       </div>
+          {creatingFolderParentId === null && (
+        <li>
+          <CreateFolder parentId={null} />
+        </li>
+      )}
     </motion.div>
   );
 }
