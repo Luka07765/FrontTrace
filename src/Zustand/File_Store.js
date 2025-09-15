@@ -3,7 +3,7 @@ import { create } from 'zustand';
 export const useFileStore = create((set, get) => ({
   dragIdx: null,
   dragOver: null,
-  fileName: '',
+
   fileContent: '',
   folderId: '',
   editFileName: '',
@@ -16,7 +16,7 @@ export const useFileStore = create((set, get) => ({
   setDragOver: (index) => set({ dragOver: index }),
   
   setEditFileId: (id) => set({ editFileId: id }),
-  setFileName: (name) => set({ fileName: name }),
+
   setFileContent: (content) => set({ fileContent: content }),
   setFolderId: (id) => set({ folderId: id }),
   setEditFileName: (name) => set({ editFileName: name }),
