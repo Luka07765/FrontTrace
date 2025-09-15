@@ -10,7 +10,7 @@ const IconWithCount = ({ src, alt, count, colorClass, imageClass, spanClass }) =
     initial={{ scale: 0 }}
     animate={{ scale: 1 }}
     transition={{ type: "spring", stiffness: 200 }}
-    className="relative translate-x-1/2 -translate-y-1/2"
+    className="flex-shrink-0"
   >
     <Image src={src} alt={alt} width={11} height={11} className={imageClass} />
     {count > 0 && <span className={`${colorClass} text-[11px] ${spanClass}`}>{count}</span>}

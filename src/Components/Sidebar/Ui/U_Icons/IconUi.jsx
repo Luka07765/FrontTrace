@@ -29,7 +29,7 @@ export const IconPickerModal = () => {
   );
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+    <div className="flex-shrink-0 fixed inset-0 flex items-center justify-center bg-black/40 z-50">
       <div className="bg-white p-4 rounded shadow-md w-80">
         <h3 className="text-sm mb-2">Select an Icon</h3>
 

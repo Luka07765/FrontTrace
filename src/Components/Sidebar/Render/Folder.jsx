@@ -89,7 +89,7 @@ console.groupEnd();
           <div onDragEnter={moveFileToFolder} className="flex items-center space-x-3">
             {/* Folder Icon */}
                <UiColors redCount={redCount} yellowCount={yellowCount} />
-            <motion.div>
+            <div className='flex-shrink-0'>
               <Image
                 src={isExpanded ? folderOpenIcon : folderClosedIcon}
                 alt={isExpanded ? 'Folder Open' : 'Folder Closed'}
@@ -97,7 +97,7 @@ console.groupEnd();
                 height={35}
                 className="filter invert"
               />
-            </motion.div>
+            </div>
 
             {/* Colors */}
          

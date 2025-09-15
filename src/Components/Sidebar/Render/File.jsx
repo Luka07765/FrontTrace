@@ -72,7 +72,7 @@ function FileRender({ file, index, folder }) {
         <span className={`w-[5px] h-[5px] rounded-full ${dotClass}`} />
       </div>
 
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2 flex-shrink-0">
      <button
   onClick={(e) => {
     e.stopPropagation();
@@ -81,6 +81,7 @@ function FileRender({ file, index, folder }) {
   }}
   className="ml-1 px-1 py-1 text-xs  rounded hover:bg-indigo-400"
 >
+  
 <Image
   src={iconsData[file.iconId]?.image || iconsData[1].image}
   alt={iconsData[file.iconId]?.name || "File Icon"}
