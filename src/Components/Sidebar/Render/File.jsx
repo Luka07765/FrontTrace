@@ -9,6 +9,8 @@ import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
 import {useFileColor} from "@/Components/Sidebar/Logic/L_Colors/FileColor"
 import { useIconPickerStore } from "@/Zustand/Icon";
 import { iconsData } from "@/Utils/icons/IconData";
+import React from 'react';
+
 function FileRender({ file, index, folder }) {
   const {
     editFileId,
@@ -97,4 +99,4 @@ function FileRender({ file, index, folder }) {
   );
 }
 
-export default FileRender;
+export default React.memo(FileRender);
