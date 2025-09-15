@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 // Context and State Management
 import { ContextClick } from '@/Zustand/Context_Store';
-import { useSelectStore } from "@/Zustand/Select_Store"
+
 import {IconPickerModal} from "@/Components/Sidebar/Ui/U_Icons/IconUi"
 // Server and Authentication
 import { useToken } from '@/Server/Auth/Token';
@@ -40,8 +40,8 @@ export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Context and Store
-  const { setContextMenuVisible } = ContextClick();
-  const { setSelectedFolderId } = useSelectStore();
+  const { setContextMenuVisible,setSelectedFolderId } = ContextClick();
+
   
   // Data Fetching
   const { folders, loading, error } = useFolderListLogic();

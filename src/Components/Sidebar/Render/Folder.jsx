@@ -4,7 +4,7 @@ import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useSelectStore } from '@/Zustand/Select_Store';
+
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
 import { useFolderColors } from '@/Components/Sidebar/Logic/L_Colors/ColorLogic';
@@ -15,8 +15,8 @@ import UiColors from '@/Components/Sidebar/Ui/U_Colors/UiColors';
 
 function Folder_Render({ folder }) {
 
-  const { setContextMenuPosition, setContextMenuVisible, setContextMenuTarget } = ContextClick();
-  const { selectedFolderId, setSelectedFolderId } = useSelectStore();
+  const { setContextMenuPosition, setContextMenuVisible, setContextMenuTarget,selectedFolderId, setSelectedFolderId  } = ContextClick();
+
   const { 
     expandedFolders, setExpandedFolders, 
     editingFolderId, setDragFolder, dragFolder,

@@ -2,10 +2,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import ProjectLink from './Projects';
 import ProjectNavigation from './ProjectNav';
-import {useSelectStore} from '@/Zustand/Select_Store'
+import { ContextClick } from '@/Zustand/Context_Store';
 
 export default function ProjectSection() {
-    const {selectedProject,setSelectedProject} = useSelectStore();
+    const {selectedProject,setSelectedProject} = ContextClick();
   return (
     <>
       {!selectedProject && (
