@@ -35,7 +35,7 @@ export function useLoginLogic(email, password, setError, setIsLoading) {
       console.log('Login successful. Access token stored', { accessToken });
 
       // Redirect to the notes page
-      router.push('/notebook/control');
+      router.push('/notebook/dashboard');
     } catch (error) {
       // Handle errors
       if (error.response?.status === 401) {

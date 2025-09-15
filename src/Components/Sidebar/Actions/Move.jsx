@@ -4,7 +4,7 @@ import { useFileStore } from '@/Zustand/File_Store';
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
 import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
-import {updateFilePositions} from "./update"
+
 import React, { useRef } from 'react';
 export const useMoveLogic = (folder) => {
   const { moveFolder ,setExpandedFolders,setMoveFolder} = useFolderStore();
@@ -24,7 +24,7 @@ export const useMoveLogic = (folder) => {
         folderId: targetFolderId,});
    
 
-      
+// Drugi Folder
 // const updatedData = [...moveData];
 // const fakeFile = fileMain
 
@@ -53,6 +53,26 @@ export const useMoveLogic = (folder) => {
 //     }
 //   }
 // }
+
+
+     
+      // Isti folder   
+      // const sameFolderFiles = files
+      //   .filter(f => f.folderId === targetFolderId);
+
+      // const [movedFile] = sameFolderFiles.splice(dragIdx, 1);
+      // sameFolderFiles.splice(dragOver, 0, movedFile);
+
+      // setDragIdx(null);
+      // setDragOver(null);
+
+      // for (let i = 0; i < updatedData.length; i++) {
+      //   const updatedPos = i + 1;
+      //   if (updatedData[i].filePosition !== updatedPos) {
+      //     await handleUpdateFile({ id: updatedData[i].id, filePosition: updatedPos });
+      //   }
+      // }
+
   };
     
 

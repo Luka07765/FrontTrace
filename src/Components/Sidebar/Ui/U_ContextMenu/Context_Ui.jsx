@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ContextClick } from '@/Zustand/Context_Store';
-import { useContextMenuActions } from './Actions';
+import { useContextMenuActions } from '../../Logic/L_Context/Actions';
 
 export const ContextMenu = () => {
   const { contextMenuVisible, contextMenuPosition, setContextMenuVisible,contextMenuTarget } = ContextClick();

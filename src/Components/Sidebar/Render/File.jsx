@@ -5,8 +5,8 @@ import { getHasTyped } from "@/Utils/type";
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import { useMoveLogic } from '@/Components/Navigation/Sidebar/Actions/Move';
-import {useFileColor} from "@/Components/Navigation/Sidebar/Ui/Colors/FileColor"
+import { useMoveLogic } from '@/Components/Sidebar/Actions/Move';
+import {useFileColor} from "@/Components/Sidebar/Logic/L_Colors/FileColor"
 import { useIconPickerStore } from "@/Zustand/Icon";
 import { iconsData } from "@/Utils/icons/IconData";
 function FileRender({ file, index, folder }) {

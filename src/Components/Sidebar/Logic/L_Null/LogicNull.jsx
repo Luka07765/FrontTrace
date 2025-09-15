@@ -1,10 +1,10 @@
 'use client';
 
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useMoveLogic } from '@/Components/Navigation/Sidebar/Actions/Move';
-import FileRender from '@/Components/Navigation/Sidebar/Render/File';
-import CreateFolder from '@/Components/Navigation/Sidebar/Actions/Create_Folder';
-import Folder_Render from '@/Components/Navigation/Sidebar/Render/Folder';
+import { useMoveLogic } from '@/Components/Sidebar/Actions/Move';
+import FileRender from '@/Components/Sidebar/Render/File';
+import CreateFolder from '@/Components/Sidebar/Actions/Create_Folder';
+import Folder_Render from '@/Components/Sidebar/Render/Folder';
 
 export default function NullSidebar({ nestedFolders }) {
   const { expandedFolders, creatingFolderParentId, popupFolder } = useFolderStore();
