@@ -25,34 +25,34 @@ export const useMoveLogic = (folder) => {
    
 
       
-const updatedData = [...moveData];
-const fakeFile = fileMain
+// const updatedData = [...moveData];
+// const fakeFile = fileMain
 
 
-updatedData.splice(dragOver, 0, fakeFile);
+// updatedData.splice(dragOver, 0, fakeFile);
 
-// Update the state
-setMoveData(updatedData);
+// // Update the state
+// setMoveData(updatedData);
 
-console.table(updatedData);
-setMoveData([]);
+// console.table(updatedData);
+// setMoveData([]);
 
-      setDragIdx(null);
-      setDragOver(null);
+//       setDragIdx(null);
+//       setDragOver(null);
 
-     for (let i = 0; i < updatedData.length; i++) {
-  const updatedPos = i + 1; // backend expects 1-based indexing
-  const file = updatedData[i];
+//      for (let i = 0; i < updatedData.length; i++) {
+//   const updatedPos = i + 1; // backend expects 1-based indexing
+//   const file = updatedData[i];
 
-  if (file.filePosition !== updatedPos) {
-    try {
-      await handleUpdateFile({ id: file.id, filePosition: updatedPos });
-      file.filePosition = updatedPos; // optional: update local object
-    } catch (err) {
-      console.error(`Error updating file ${file.id}:`, err);
-    }
-  }
-}
+//   if (file.filePosition !== updatedPos) {
+//     try {
+//       await handleUpdateFile({ id: file.id, filePosition: updatedPos });
+//       file.filePosition = updatedPos; // optional: update local object
+//     } catch (err) {
+//       console.error(`Error updating file ${file.id}:`, err);
+//     }
+//   }
+// }
   };
     
 
@@ -83,6 +83,7 @@ setMoveData([]);
     await handleUpdateFolder({
       id: sourceFolderId,
       parentFolderId: targetFolderId,
+      
     });
   } catch (error) {
     console.error('Error moving folder:', error);
