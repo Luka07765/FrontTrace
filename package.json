@@ -2,16 +2,17 @@
   "name": "mindtrack_next",
   "version": "0.1.0",
   "private": true,
- "scripts": {
-  "dev": "NODE_OPTIONS='--max-old-space-size=8192' next dev --experimental-https",
-  "build": "NODE_OPTIONS='--max-old-space-size=8192' next build",
-  "start": "NODE_OPTIONS='--max-old-space-size=8192' next start",
-  "lint": "next lint"
-}
-,
+  "scripts": {
+    "dev": "NODE_OPTIONS='--max-old-space-size=8192' next dev --experimental-https",
+    "build": "NODE_OPTIONS='--max-old-space-size=8192' next build",
+    "start": "NODE_OPTIONS='--max-old-space-size=8192' next start",
+    "lint": "next lint"
+  },
   "dependencies": {
     "@apollo/client": "^3.11.10",
     "@heroicons/react": "^2.2.0",
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.3.0",
     "@tiptap/core": "^2.11.5",
     "@tiptap/extension-code-block-lowlight": "^2.11.7",
     "@tiptap/react": "^2.11.5",
@@ -33,6 +34,7 @@
     "react-quill": "^2.0.0",
     "react-resizable-panels": "^2.1.7",
     "react-toastify": "^10.0.6",
+    "three": "^0.180.0",
     "toast": "^0.5.4",
     "zustand": "^5.0.1"
   },
