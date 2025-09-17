@@ -1,87 +1,139 @@
-import React from "react";
+"use client";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Html } from "@react-three/drei";
+import { OrbitControls, Stars, Text, Line } from "@react-three/drei";
 
-function FolderNode({ node, position = [0, 0, 0], depth = 0 }) {
-  const boxSize = 0.6;
-  const gapX = 3; // horizontal spread
-  const gapY = -3; // vertical spacing between levels
-  const gapZ = 1; // depth spacing for children
-
-  const childrenCount = node.children?.length || 0;
-  const filesCount = node.files?.length || 0;
-
+// ========== MAIN TREE COMPONENT ==========
+export default function Tree3D({ data }) {
   return (
-    <group position={position}>
-      {/* Folder cube */}
-      <mesh>
-        <boxGeometry args={[boxSize, boxSize, boxSize]} />
-        <meshStandardMaterial color={depth === 0 ? "#FF8C00" : "#1E90FF"} />
-      </mesh>
+    <div className="w-screen h-screen">
+      <Canvas camera={{ position: [0, 50, 120], fov: 50 }}>
+        {/* Galaxy Background */}
+        <Stars
+          radius={400}
+          depth={80}
+          count={20000}
+          factor={4}
+          saturation={0}
+          fade
+          speed={0.5}
+        />
 
-      {/* Folder label */}
-      <Html position={[0, 0.5, 0]} center>
-        <div style={{ color: "white", fontSize: "0.8rem", fontWeight: "bold" }}>
-          {node.name}
-        </div>
-      </Html>
+        {/* Lighting */}
+        <ambientLight intensity={0.3} />
+        <pointLight position={[50, 50, 50]} intensity={1.2} />
+        <pointLight position={[-40, -20, -40]} intensity={0.8} />
 
-      {/* Files as spheres */}
-      {node.files?.map((file, i) => (
-        <group
-          key={file.id}
-          position={[
-            (i - (filesCount - 1) / 2) * 1.2,
-            -1.2,
-            0,
-          ]}
-        >
-          <mesh>
-            <sphereGeometry args={[0.3, 16, 16]} />
-            <meshStandardMaterial color="#32CD32" />
-          </mesh>
-          <Html position={[0, 0.4, 0]} center>
-            <div style={{ color: "white", fontSize: "0.6rem" }}>{file.name}</div>
-          </Html>
-        </group>
+        {/* Controls */}
+        <OrbitControls enablePan enableZoom enableRotate />
+
+        {/* Scene */}
+        <Scene data={data} />
+      </Canvas>
+    </div>
+  );
+}
+
+// ========== SCENE ==========
+function Scene({ data }) {
+  return (
+    <group>
+      {data.map((node, i) => (
+        <FolderNode key={node.id} node={node} depth={0} index={i} />
       ))}
-
-      {/* Children folders symmetrically left/right */}
-      {node.children?.map((child, i) => {
-        const offsetX = (i - (childrenCount - 1) / 2) * gapX;
-        const offsetY = gapY;
-        const offsetZ = Math.abs(i - (childrenCount - 1) / 2) * gapZ; // stagger depth
-        return (
-          <FolderNode
-            key={child.id}
-            node={child}
-            position={[offsetX, offsetY, offsetZ]}
-            depth={depth + 1}
-          />
-        );
-      })}
     </group>
   );
 }
 
-export default function Tree3D({ data }) {
+// ========== FOLDER NODE ==========
+function FolderNode({ node, depth, index }) {
+  const x = index * 25 - 15; // spread horizontally
+  const y = -depth * 25; // spread vertically
+  const pos = [x, y, 0];
+
   return (
-    <Canvas
-      camera={{ position: [0, 10, 25], fov: 60 }}
-      style={{ width: "100vw", height: "100vh", background: "#111827" }}
-    >
-      {/* Lights */}
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[20, 20, 20]} intensity={1} />
-      <directionalLight position={[-20, -20, 10]} intensity={0.5} />
+    <group position={pos}>
+      {/* Folder sphere */}
+      <mesh>
+        <sphereGeometry args={[3, 32, 32]} />
+        <meshStandardMaterial
+          emissive="#4338ca"
+          emissiveIntensity={1.8}
+          color="#6366f1"
+        />
+      </mesh>
 
-      {/* Controls */}
-      <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
+      {/* Folder name */}
+      <Text
+        position={[0, 4, 0]}
+        fontSize={2}
+        color="white"
+        anchorX="center"
+        anchorY="middle"
+      >
+        {node.title}
+      </Text>
 
-      {/* Top-level folders */}
-      {data.map((node, i) => (
-        <FolderNode key={node.id} node={node} position={[i * 4, 0, 0]} />
+      {/* Files orbiting */}
+      {node.files?.map((file, i) => (
+        <FileNode key={file.id} file={file} i={i} total={node.files.length} parentPos={pos} />
       ))}
-    </Canvas>
+
+      {/* Children folders */}
+      <group position={[0, -18, 0]}>
+        {node.children?.map((child, childIndex) => (
+          <FolderNode
+            key={child.id}
+            node={child}
+            depth={depth + 1}
+            index={childIndex}
+          />
+        ))}
+      </group>
+    </group>
+  );
+}
+
+// ========== FILE NODE ==========
+function FileNode({ file, i, total, parentPos }) {
+  const angle = (i / total) * Math.PI * 2;
+  const radius = 10;
+  const fx = Math.cos(angle) * radius;
+  const fz = Math.sin(angle) * radius;
+  const filePos = [fx, -4, fz];
+
+  return (
+    <group position={filePos}>
+      {/* File sphere */}
+      <mesh>
+        <sphereGeometry args={[1.5, 32, 32]} />
+        <meshStandardMaterial
+          emissive="#16a34a"
+          emissiveIntensity={1.4}
+          color="#22c55e"
+        />
+      </mesh>
+
+      {/* File name */}
+      <Text
+        position={[0, -2.5, 0]}
+        fontSize={1}
+        color="white"
+        anchorX="center"
+        anchorY="middle"
+      >
+        {file.title}
+      </Text>
+
+      {/* Connection line to parent folder */}
+      <Line
+        points={[
+          [0, 0, 0], // local file pos
+          [-(fx), 4, -(fz)], // approx back toward parent center
+        ]}
+        color="cyan"
+        lineWidth={1.5}
+        dashed={false}
+      />
+    </group>
   );
 }
