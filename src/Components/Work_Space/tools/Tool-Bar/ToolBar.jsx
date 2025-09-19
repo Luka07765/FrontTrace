@@ -1,4 +1,5 @@
-const MenuBar = ({ editor }) => {
+import TagManager from '../../test/UiTag';
+const MenuBar = ({ editor ,fileId}) => {
   if (!editor) return null;
 
   const toggleBold = () => editor.chain().focus().toggleBold().run();
@@ -42,7 +43,12 @@ const MenuBar = ({ editor }) => {
         }`}
       >
         H1
-      </button>
+      </button> 
+        {fileId && (
+        <div className="mt-2">
+          <TagManager fileId={fileId} />
+        </div>
+      )}
 
       <button
         onClick={toggleHighlight}

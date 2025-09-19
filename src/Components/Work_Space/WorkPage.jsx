@@ -51,7 +51,7 @@ export default function FileList() {
           <>
             <div>
               <div>
-              <MenuBar editor={editor}  />{' '}
+              <MenuBar editor={editor} fileId={editFileId} />{' '}
 
               </div>
 
@@ -82,6 +82,7 @@ export default function FileList() {
                 
                 className={`text-white min-h-[600px] px-4 py-2 pb-[200px] text-[25px] `}
               />
+        
             </div>
           </>
         )}
