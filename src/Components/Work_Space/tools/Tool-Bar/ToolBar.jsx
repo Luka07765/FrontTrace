@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import TagManager from '../../test/UiTag';
 const MenuBar = ({ editor ,fileId}) => {
   if (!editor) return null;
@@ -7,6 +8,9 @@ const MenuBar = ({ editor ,fileId}) => {
   const toggleHighlight = () => editor.chain().focus().toggleMark('highlightText').run();
   const toggleProgram = () => editor.chain().focus().toggleCodeBlock().run();
   const toggleH1 = () => editor.chain().focus().toggleMark("h1").run();
+
+    const [showTagManager, setShowTagManager] = useState(false);
+      const togglePopup = () => setShowTagManager(prev => !prev);
   return (
     <div className="flex flex-wrap gap-1 mb-2 bg-white p-2 rounded-t-lg border-b border-gray-700">
       <button
@@ -44,11 +48,12 @@ const MenuBar = ({ editor ,fileId}) => {
       >
         H1
       </button> 
-        {fileId && (
-        <div className="mt-2">
-          <TagManager fileId={fileId} />
-        </div>
-      )}
+      <button
+          onClick={togglePopup}
+          className="p-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+        >
+          Show Tag Manager
+        </button>
 
       <button
         onClick={toggleHighlight}
@@ -60,6 +65,22 @@ const MenuBar = ({ editor ,fileId}) => {
       >
         ✨ Highlight
       </button>
+
+        {showTagManager && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-4 rounded shadow-lg relative">
+            <button
+              onClick={togglePopup}
+              className="absolute top-2 right-2 text-gray-500 hover:text-black"
+            >
+              ✖
+            </button>
+            <div className="mt-2">
+              <TagManager fileId={fileId} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

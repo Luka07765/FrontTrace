@@ -29,7 +29,7 @@ export default function FileList() {
   
 
 
-  const { editor, commands } = useEditorSetup(editFileContent, handleContentUpdate);
+  const { editor } = useEditorSetup(editFileContent, handleContentUpdate);
 
 
 
