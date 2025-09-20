@@ -29,6 +29,23 @@ export const GET_TAG_BY_ID = gql`
   }
 `;
 
+
+
+export const GET_FILES_BY_TAG = gql`
+  query GetFilesByTag($tagId: ID!) {
+    getFilesByTag(tagId: $tagId) {
+      id
+      title
+      content
+      folderId
+      colors
+      filePosition
+      iconId
+    }
+  }
+`;
+
+
 // --------------------- Mutations ---------------------
 export const CREATE_TAG = gql`
   mutation CreateTag($input: CreateTagInput!) {
