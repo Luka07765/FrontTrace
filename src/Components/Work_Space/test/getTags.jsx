@@ -1,3 +1,8 @@
+"use client";
+
+import React from 'react'; // always import React in JSX files
+import { useFetchTags } from '@/Server/Apollo/Query/FetchQuery/FetchTag'; 
+
 const TagList = () => {
   const { tags, loading, error, refetch } = useFetchTags();
 
