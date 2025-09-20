@@ -15,7 +15,7 @@ export const useContextMenuActions = () => {
   } = useFolderStore();
 
   const { handleCreateFile, handleUpdateFile, handleDeleteFile } = useFileListLogic();
-  const { editFileId } = useFileStore();
+  const { fileId } = useFileStore();
   const { setContextMenuVisible ,iconSelected,selectedFolderId} = ContextClick();
 
   const createFileForFolder = (folderId) => {
@@ -69,7 +69,7 @@ const deleteFolder = () => {
 
   const deleteFile = () => {
     if (window.confirm('Delete this file?')) {
-      handleDeleteFile(editFileId);
+      handleDeleteFile(fileId);
     }
   };
 

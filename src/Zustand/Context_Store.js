@@ -16,11 +16,18 @@ export const ContextClick = create((set) => ({
   selectedFolderId: null,
   setSelectedFolderId: (id) => set({ selectedFolderId: id }),
 
-  editFileId: null,
-  setEditFileId: (id) => set({ editFileId: id }),
-
-
   selectedProject: null,
   setSelectedProject: (project) => set({ selectedProject: project }),
   
+
+
+
+    handleContextMenu: (e, targetType) => {
+    e.preventDefault();
+    set({
+      contextMenuTarget: { type: targetType },
+      contextMenuVisible: true,
+      contextMenuPosition: { x: e.pageX, y: e.pageY },
+    });
+  },
 }));

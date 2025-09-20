@@ -13,11 +13,7 @@ import React from 'react';
 
 function FileRender({ file, index, folder }) {
   const {
-    editFileId,
-    setEditFileId,
-    setEditFileName,
-    updateFileColor,
-    setEditFileContent,handleSubmitUpdate
+    fileId,handleSubmitUpdate
   } = useFileStore();
       const {
     handleDrop,
@@ -26,32 +22,12 @@ function FileRender({ file, index, folder }) {
     setDragOver,
     moveFolder,
   } = useMoveLogic();
-  const { setContextMenuPosition, setContextMenuVisible, setContextMenuTarget,iconSelected, setIconSelected } = ContextClick();
+  const { handleContextMenu , setIconSelected } = ContextClick();
   const { handleUpdateFile } = useFileListLogic();
-
   const { saveNow } = useAutoSave(() => handleSubmitUpdate(handleUpdateFile));
-  
   const { onColorClick, dotClass } = useFileColor(file, handleUpdateFile);
+  const fileSelect = useFileStore((state) => state.handleFileClick);
 
-
-//Move to zustand
-
-  const handleClick = (e) => {
-    e.stopPropagation();
-    if (getHasTyped()) {
-      saveNow(); 
-    }
-    setEditFileId(file.id);
-    setEditFileName(file.title);
-    setEditFileContent(file.content);
-  };
-
-  const handleContextMenu = (e) => {
-    e.preventDefault();
-    setContextMenuTarget({ type: 'file' });
-    setContextMenuVisible(true);
-    setContextMenuPosition({ x: e.pageX, y: e.pageY });
-  };
   return (
     <li
       key={file.id}
@@ -60,10 +36,10 @@ function FileRender({ file, index, folder }) {
       onDragEnter={() => setDragOver(index)}
       onDragEnd={() => handleDrop({ files: folder.files, fileId: file.id, targetFolderId: moveFolder,fileMain:file })}
 
-      onClick={handleClick}
-      onContextMenu={handleContextMenu}
+      onClick={() => fileSelect(file, getHasTyped, saveNow)}
+       onContextMenu={(e) => handleContextMenu(e, 'file')}
       className={`bg-grey-800 shadow-md rounded-lg p-2 flex items-center justify-between cursor-pointer ${
-        editFileId === file.id ? 'ring-2 ring-indigo-500' : ''
+        fileId === file.id ? 'ring-2 ring-indigo-500' : ''
       }`}
     >
       <div
@@ -77,7 +53,7 @@ function FileRender({ file, index, folder }) {
      <button
   onClick={(e) => {
     e.stopPropagation();
-    setIconSelected(file.iconId || 1);
+    setIconSelected(file.iconId );
     useIconPickerStore.getState().setOpen(true, file); 
   }}
   className="ml-1 px-1 py-1 text-xs  rounded hover:bg-indigo-400"
@@ -91,9 +67,9 @@ function FileRender({ file, index, folder }) {
 />
 </button>
 
-        <span className="text-left text-white">{file.title}-{file.filePosition}
+<span className="text-left text-white">{file.title}-{file.filePosition}
  
-           </span>
+ </span>
 
 
       </div>

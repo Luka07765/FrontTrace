@@ -16,8 +16,8 @@ export const useFileStore = create((set, get) => ({
 
   //GENERAL FILE
   
-  editFileId: '',
-  setEditFileId: (id) => set({ editFileId: id }),
+  fileId: '',
+  setFileId: (id) => set({ fileId: id }),
 
   editFileName: '',
   editFileContent: '',
@@ -26,9 +26,12 @@ export const useFileStore = create((set, get) => ({
   setEditFileName: (name) => set({ editFileName: name }),
   setEditFileContent: (content) => set({ editFileContent: content }),
 
+
+   //                          FUNCTIONS
+
   handleSubmitUpdate: (handleUpdateFile) => {
-    const { editFileId, editFileName, editFileContent, fileName, fileContent } = get();
-    const delta = { id: editFileId };
+    const { fileId, editFileName, editFileContent, fileName, fileContent } = get();
+    const delta = { id: fileId };
 
     if (editFileName !== fileName && editFileName.trim() !== '') {
       delta.title = editFileName;
@@ -49,5 +52,17 @@ export const useFileStore = create((set, get) => ({
         fileContent: editFileContent,
       });
     }
+  },
+
+    handleFileClick: (file, getHasTyped, saveNow) => {
+    if (getHasTyped()) {
+      saveNow(); 
+    }
+
+    set({
+      fileId: file.id,
+      editFileName: file.title,
+      editFileContent: file.content,
+    });
   },
 }));

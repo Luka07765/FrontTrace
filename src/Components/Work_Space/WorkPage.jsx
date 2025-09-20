@@ -11,7 +11,7 @@ import { useAutoSave } from '@/Components/Work_Space/tools/Saving_Logic/Auto-Sav
 export default function FileList() {
   const { handleUpdateFile } = useFileListLogic();
   const {
-    editFileId,
+    fileId,
     editFileName,
     setEditFileName,
     editFileContent,
@@ -34,24 +34,24 @@ export default function FileList() {
 
 
   useEffect(() => {
-      if (editFileId && editor) {
+      if (fileId && editor) {
        Promise.resolve().then(() => {
       editor.commands.setContent(editFileContent || '');
     });
   }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editFileId]);
+  }, [fileId]);
 
 
 
   return (
     <div className="max-w-5xl mx-auto p-6">
       <div className="space-y-10 ">
-        {editFileId && (
+        {fileId && (
           <>
             <div>
               <div>
-              <MenuBar editor={editor} fileId={editFileId} />{' '}
+              <MenuBar editor={editor} fileId={fileId} />{' '}
 
               </div>
 
