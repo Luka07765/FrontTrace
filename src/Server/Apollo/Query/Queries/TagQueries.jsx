@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 // --------------------- Queries ---------------------
 export const GET_TAGS = gql`
   query GetTags {
-    getAllTags {
+    getTags {
       id
       title
       color
@@ -28,6 +28,7 @@ export const GET_TAG_BY_ID = gql`
     }
   }
 `;
+
 
 
 
