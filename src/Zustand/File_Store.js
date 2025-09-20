@@ -1,34 +1,30 @@
 import { create } from 'zustand';
 
 export const useFileStore = create((set, get) => ({
+
+
+  //MOVE LOGIC
   dragIdx: null,
   dragOver: null,
-
-
-
-  editFileName: '',
-  editFileContent: '',
-  editFileId: '',
-
-  moveData: [],       
+  moveData: [],    
+     
   setMoveData: (data) => set({ moveData: data }),
   setDragIdx: (index) => set({ dragIdx: index }),
   setDragOver: (index) => set({ dragOver: index }),
+
+
+
+  //GENERAL FILE
   
+  editFileId: '',
   setEditFileId: (id) => set({ editFileId: id }),
 
-  
+  editFileName: '',
+  editFileContent: '',
+ 
+
   setEditFileName: (name) => set({ editFileName: name }),
   setEditFileContent: (content) => set({ editFileContent: content }),
-
- 
-  fileList: [],
-  updateFileColor: (id, newColor) =>
-    set((state) => ({
-      fileList: state.fileList.map((file) =>
-        file.id === id ? { ...file, colors: newColor } : file
-      ),
-    })),
 
   handleSubmitUpdate: (handleUpdateFile) => {
     const { editFileId, editFileName, editFileContent, fileName, fileContent } = get();

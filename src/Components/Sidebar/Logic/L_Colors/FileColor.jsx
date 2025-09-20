@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import debounce from 'lodash.debounce';
 
-export const useFileColor = (file, updateFileColor, handleUpdateFile) => {
+export const useFileColor = (file, handleUpdateFile) => {
   const [localColor, setLocalColor] = useState(file.colors);
 
 
@@ -35,7 +35,7 @@ export const useFileColor = (file, updateFileColor, handleUpdateFile) => {
     const prevColor = localColor;
 
     setLocalColor(newColor); 
-    updateFileColor(file.id, newColor); 
+    
 
 
     debouncedUpdate(

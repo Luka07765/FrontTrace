@@ -30,7 +30,8 @@ function FileRender({ file, index, folder }) {
   const { handleUpdateFile } = useFileListLogic();
 
   const { saveNow } = useAutoSave(() => handleSubmitUpdate(handleUpdateFile));
-  const { onColorClick, dotClass } = useFileColor(file, updateFileColor, handleUpdateFile);
+  
+  const { onColorClick, dotClass } = useFileColor(file, handleUpdateFile);
 
 
 //Move to zustand
