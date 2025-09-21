@@ -3,11 +3,13 @@
 import { useState } from "react";
 import TagManager from "./tools/CreateTag";
 import { useFetchTags } from "@/Server/Apollo/Query/FetchQuery/FetchTag";
-
+import {useTagLogic} from "@/Server/Apollo/Logic/Tag/QueryTag"
 export default function Tag() {
+  const { handleDeleteTag } = useTagLogic();
   const [showTagManager, setShowTagManager] = useState(false);
-  const { tags, loading, error, refetch } = useFetchTags();
 
+  const { tags, loading, error, refetch } = useFetchTags();
+   
   const togglePopup = () => setShowTagManager((prev) => !prev);
 
   return (
@@ -40,14 +42,17 @@ export default function Tag() {
             {tags.map((tag) => (
               <li
                 key={tag.id}
+
+
                 className="px-3 py-1 rounded-lg shadow-sm border text-sm flex items-center gap-2 bg-gray-50 hover:bg-gray-100 transition"
-              >
+              ><button onClick={() =>handleDeleteTag(tag.id)}>Delete tag</button>
                 <span
                   className="w-3 h-3 rounded-full"
                   style={{ backgroundColor: tag.color }}
                 ></span>
                 <strong className="text-gray-800">{tag.title}</strong>
                 <span className="text-xs text-gray-500">#{tag.iconId}</span>
+
               </li>
             ))}
           </ul>
