@@ -25,13 +25,26 @@ const SidebarTree = ({ structure }) => {
 
     // Create hierarchy & tree layout
     const root = d3.hierarchy(rootData);
-    const treeLayout = d3.tree().nodeSize([100, 180]);
-    treeLayout(root);
+    const treeLayout = d3.tree()
+  .nodeSize([100, 600])
+  .separation((a, b) => {
+    const aIsFolder = a.children;
+    const bIsFolder = b.children;
+
+    if (aIsFolder && bIsFolder) return 3;         // folder-folder
+    if (aIsFolder || bIsFolder) return 4;       // folder-file
+    return 2;                                     // file-file
+  });
+
+treeLayout(root);
+
 
     // Flip Y for bottom-up
-    root.each((d) => {
-      d.y = height - d.y;
-    });
+root.each((d) => {
+  const jitter = Math.random() * 400 - 100; // ±50px
+  d.y = height - d.y + jitter;
+});
+
 
     // Draw elements
     drawLinks(g, root);

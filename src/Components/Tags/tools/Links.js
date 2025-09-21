@@ -8,6 +8,7 @@ export function drawLinks(g, root) {
     .attr("class", "link")
     .attr("fill", "none")
     .attr("stroke", "#ccc")
+    .attr("stroke-width", 1) 
     .attr(
       "d",
       d3.linkVertical()
