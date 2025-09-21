@@ -1,7 +1,7 @@
 'use client';
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
-
+import { transformStructure } from "@/Utils/Data_Structure/Transform";
 const SidebarTree = ({ structure }) => {
   const svgRef = useRef();
 
@@ -11,20 +11,7 @@ const SidebarTree = ({ structure }) => {
     if (!structure || structure.length === 0) return;
 
     // Transform folder structure into hierarchical data
-    const transformStructure = (folder) => ({
-      name: folder.title || folder.name,
-      filesCount: folder.files?.length || 0,
-      subfoldersCount: folder.children?.length || 0,
-      children: [
-        ...(folder.files || []).map((file) => ({
-          name: file.title,
-          filesCount: 0,
-          subfoldersCount: 0,
-          children: [],
-        })),
-        ...(folder.children || []).map((child) => transformStructure(child)),
-      ],
-    });
+ 
 
     const rootData = {
       name: 'Root',
