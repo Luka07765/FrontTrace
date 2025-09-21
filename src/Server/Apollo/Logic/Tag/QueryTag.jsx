@@ -53,42 +53,42 @@ export function useTagLogic() {
   };
 
   // Update Tag
-  const handleUpdateTag = async (tagData) => {
-    const { id, title, color, iconId } = tagData;
-    if (!id) {
-      alert('Tag ID is required.');
-      return;
-    }
+const handleUpdateTag = async (tagData) => {
+  const { id, title, color, iconId } = tagData;
+  if (!id) {
+    alert("Tag ID is required.");
+    return;
+  }
 
-    const input = {};
-    if (title !== undefined) input.title = title;
-    if (color !== undefined) input.color = color;
-    if (iconId !== undefined) input.iconId = iconId;
-
-    try {
-      await updateTag({
-        variables: { id: id.toString(), input },
-        update: (cache, { data: { updateTag } }) => {
-          const existingData = cache.readQuery({ query: GET_TAGS });
-          if (existingData?.getAllTags) {
-            cache.writeQuery({
-              query: GET_TAGS,
-              data: {
-                getAllTags: existingData.getAllTags.map((tag) =>
-                  tag.id === id
-                    ? { ...updateTag, __typename: 'Tag' }
-                    : tag
-                ),
-              },
-            });
-          }
+  try {
+    await updateTag({
+      variables: {
+        input: {
+          id: id.toString(), // include inside input
+          title,
+          color,
+          iconId,
         },
-      });
-    } catch (err) {
-      console.error('Error updating tag:', err);
-      alert('Failed to update tag. Please try again.');
-    }
-  };
+      },
+      update: (cache, { data: { updateTag } }) => {
+        const existingData = cache.readQuery({ query: GET_TAGS });
+        if (existingData?.getAllTags) {
+          cache.writeQuery({
+            query: GET_TAGS,
+            data: {
+              getAllTags: existingData.getAllTags.map((tag) =>
+                tag.id === id ? { ...updateTag, __typename: "Tag" } : tag
+              ),
+            },
+          });
+        }
+      },
+    });
+  } catch (err) {
+    console.error("Error updating tag:", err);
+    alert("Failed to update tag. Please try again.");
+  }
+};
 
   // Delete Tag
   const handleDeleteTag = async (id) => {
