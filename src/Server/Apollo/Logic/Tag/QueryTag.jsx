@@ -114,24 +114,38 @@ const handleUpdateTag = async (tagData) => {
   };
 
   // Assign tag to file
-  const handleAssignTagToFile = async (fileId, tagId) => {
-    try {
-      await assignTagToFile({ variables: { fileId, tagId } });
-    } catch (err) {
-      console.error('Error assigning tag to file:', err);
-      alert('Failed to assign tag. Please try again.');
-    }
-  };
+const handleAssignTagToFile = async (fileId, tagId) => {
+  try {
+    await assignTagToFile({
+      variables: {
+        input: {
+          fileId,
+          tagId
+        }
+      }
+    });
+  } catch (err) {
+    console.error('Error assigning tag to file:', err);
+    alert('Failed to assign tag. Please try again.');
+  }
+};
 
   // Remove tag from file
-  const handleRemoveTagFromFile = async (fileId, tagId) => {
-    try {
-      await removeTagFromFile({ variables: { fileId, tagId } });
-    } catch (err) {
-      console.error('Error removing tag from file:', err);
-      alert('Failed to remove tag. Please try again.');
-    }
-  };
+const handleRemoveTagFromFile = async (fileId, tagId) => {
+  try {
+    await removeTagFromFile({
+      variables: {
+        input: {
+          fileId,
+          tagId
+        }
+      }
+    });
+  } catch (err) {
+    console.error('Error removing tag from file:', err);
+    alert('Failed to remove tag. Please try again.');
+  }
+};
 
   return {
     tags,

@@ -7,7 +7,6 @@ export const GET_FOLDERS = gql`
       title
       parentFolderId
       iconId
-      
       files {
         id
         title
@@ -15,7 +14,13 @@ export const GET_FOLDERS = gql`
         folderId
         colors
         filePosition
-        iconId 
+        iconId
+        tags {
+          id
+          title
+          color
+          iconId
+        }
       }
     }
   }
@@ -62,6 +67,12 @@ export const GET_FILES = gql`
       colors
       filePosition
       iconId
+          tags {
+      id
+      title
+      color
+      iconId
+    }
     }
   }
 `;
