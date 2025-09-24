@@ -66,3 +66,19 @@ export const useFileStore = create((set, get) => ({
     });
   },
 }));
+// handleFileClick: async (fileId, getHasTyped, saveNow, apolloClient) => {
+//   if (getHasTyped()) {
+//     saveNow();
+//   }
+
+//   const { data } = await apolloClient.query({
+//     query: GET_FILE_BY_ID,
+//     variables: { id: fileId }
+//   });
+
+//   set({
+//     fileId: data.getFileById.id,
+//     editFileName: data.getFileById.title,
+//     editFileContent: data.getFileById.content,
+//   });
+// };
