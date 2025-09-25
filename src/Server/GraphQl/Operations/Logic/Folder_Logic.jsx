@@ -4,7 +4,7 @@ import {
   useDeleteFolder,
   useUpdateFolder,
 } from '@/Server/GraphQl/Query/Mutations/Folder';
-import { GET_FOLDERS } from '@/Server/Apollo/Query/Queries/FolderFileQueries';
+import { GET_FOLDERS } from '@/Server/GraphQl/Query/Queries/Folder';
 
 export function useFolderListLogic() {
 

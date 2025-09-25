@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useFetchFileById } from "@/Server/GraphQl/Operations/FetchFolderFile";
+import { useFetchFileById } from "@/Server/GraphQl/Operations/FetchData/Fetch_File";
 import { useFileStore } from "@/Zustand/File_Store";
 import { useFileListLogic } from '@/Server/GraphQl/Operations/Logic/File_Logic';
 

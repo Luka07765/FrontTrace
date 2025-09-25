@@ -5,10 +5,10 @@ import {
   useDeleteTag,
   useAssignTagToFile,
   useRemoveTagFromFile,
-} from '@/Server/GraphQl/Operations/FetchTag';
+} from '@/Server/GraphQl/Query/Mutations/Tag';
 import {
   GET_TAGS,
-} from '@/Server/GraphQl/Query/Mutations/Tag';
+} from '@/Server/GraphQl/Query/Queries/Tag';
 
 export function useTagLogic() {
 

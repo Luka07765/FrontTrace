@@ -11,8 +11,8 @@ import { useToken } from '@/Server/AUTH/Token';
 import { useAuthCheck } from '@/Server/AUTH/Auth-Check';
 
 // Data Logic
-import { useFolderListLogic } from "@/Server/GraphQl/Operations/Logic/Folder_Logic";
-import { useFileListLogic } from "@/Server/GraphQl/Operations/Logic/File_Logic";
+import { useFetchFolders } from "@/Server/GraphQl/Operations/FetchData/Fetch_Folder";
+import { useFetchFiles } from "@/Server/GraphQl/Operations/FetchData/Fetch_File";
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
 import { findMatchingItems } from "@/Components/Sidebar/Logic/L_Search/Logic_Search";
 import { useFolderStore } from '@/Zustand/Folder_Store';
@@ -44,8 +44,8 @@ export default function Dashboard() {
 
   
   // Data Fetching
-  const { folders, loading, error } = useFolderListLogic();
-  const { files } = useFileListLogic();
+  const { folders, loading, error } = useFetchFolders();
+  const { files } = useFetchFiles();
   
   // Hooks
   const { contentRef } = useResizable();  

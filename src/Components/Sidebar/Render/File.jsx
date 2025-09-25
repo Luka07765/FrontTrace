@@ -9,7 +9,7 @@ import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
 import {useFileColor} from "@/Components/Sidebar/Logic/L_Colors/FileColor"
 import { useIconPickerStore } from "@/Zustand/Icon";
 import { iconsData } from "@/Utils/icons/IconData";
-import { useFetchTags } from "@/Server/GraphQl/Operations/FetchTag";
+import { useFetchTags } from "@/Server/GraphQl/Operations/FetchData/Fetch_Tag";
 import React,{useState} from 'react';
 import { useTagLogic } from "@/Server/GraphQl/Operations/Logic/Tag_Logic";
 import { useRouter } from "next/navigation";
