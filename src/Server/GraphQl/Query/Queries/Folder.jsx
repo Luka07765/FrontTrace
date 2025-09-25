@@ -8,21 +8,6 @@ export const GET_FOLDERS = gql`
       title
       parentFolderId
       iconId
-      files {
-        id
-        title
-        content
-        folderId
-        colors
-        filePosition
-        iconId
-        tags {
-          id
-          title
-          color
-          iconId
-        }
-      }
     }
   }
 `;
