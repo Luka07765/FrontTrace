@@ -1,15 +1,14 @@
+"use client";
+import { useEffect } from "react";
+import { useParams } from "next/navigation";
+import { useFetchFileById } from "@/Server/Apollo/Query/FetchQuery/FetchFolderFile";
+import { useFileStore } from "@/Zustand/File_Store";
 import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import { useFileStore } from '@/Zustand/File_Store';
-import {  useEffect, useState } from 'react';
 
-import {  EditorContent } from '@tiptap/react';
-
-import MenuBar from '@/Components/Work_Space/tools/Tool-Bar/ToolBar';
-import { useEditorSetup } from './tools/Tool-Bar/Logic/Editor';
-import { useAutoSave } from '@/Components/Work_Space/tools/Saving_Logic/Auto-Save';
-
-export default function FileList() {
+export default function FilePage() {
   const { handleUpdateFile } = useFileListLogic();
+  const { id } = useParams();              
+  const setActiveFileId = useFileStore((s) => s.setActiveFileId);
   const {
     fileId,
     editFileName,
@@ -17,76 +16,55 @@ export default function FileList() {
     editFileContent,
     setEditFileContent,
     handleSubmitUpdate,
+    setFileId,
   } = useFileStore();
 
-  const { triggerSave } = useAutoSave(() => handleSubmitUpdate(handleUpdateFile));
+  const { file, loading, error } = useFetchFileById(id);
 
-  const handleContentUpdate = (html) => {
-    setEditFileContent(html);
-    triggerSave();
-  };
-
-  
-
-
-  const { editor } = useEditorSetup(editFileContent, handleContentUpdate);
-
-
-
+  // Set active file and initialize state once the file is loaded
   useEffect(() => {
-      if (fileId && editor) {
-       Promise.resolve().then(() => {
-      editor.commands.setContent(editFileContent || '');
-    });
-  }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileId]);
+    if (file) {
+      setActiveFileId(file.id);
+      setFileId(file.id);              // make sure updates know the file id
+      setEditFileName(file.title);     // initialize the input value
+      setEditFileContent(file.content);
+    }
+  }, [file, setActiveFileId, setFileId, setEditFileName, setEditFileContent]);
 
-
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading file</p>;
+  if (!file) return <p>No file found</p>;
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <div className="space-y-10 ">
-        {fileId && (
-          <>
-            <div>
-              <div>
-              <MenuBar editor={editor} fileId={fileId} />{' '}
-
-              </div>
-
-              <input
-                className={`w-full pb-[10px] px-4 py-2 text-white text-[35px] font-bold bg-[#12131c] border-b-[1px] border-white text-center focus:outline-none focus:border-white`}
-                type="text"
-                placeholder="File Title"
-                value={editFileName}
-                onChange={(e) => setEditFileName(e.target.value)}
-                onBlur={() => {
-                  handleSubmitUpdate(handleUpdateFile);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-
-                    handleSubmitUpdate(handleUpdateFile);
-                  }
-                }}
-              />
-            </div>{' '}
-       
-   
-            <div className="bg-[#12131c] rounded-lg border border-gray-700">
-
-              <EditorContent
-                editor={editor}
-                
-                className={`text-white min-h-[600px] px-4 py-2 pb-[200px] text-[25px] `}
-              />
-        
-            </div>
-          </>
-        )}
-      </div>
+    <div className="p-4 bg-white">
+      <input
+        className="w-full pb-[10px] px-4 py-2 text-white text-[35px] font-bold bg-[#12131c] border-b-[1px] border-white text-center focus:outline-none focus:border-white"
+        type="text"
+        placeholder="File Title"
+        value={editFileName}
+        onChange={(e) => setEditFileName(e.target.value)}
+        onBlur={() => handleSubmitUpdate(handleUpdateFile)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSubmitUpdate(handleUpdateFile);
+          }
+        }}
+      />
+      <div dangerouslySetInnerHTML={{ __html: editFileContent }} />
+      {file.tags && file.tags.length > 0 && (
+        <div className="mt-4 flex gap-2">
+          {file.tags.map(tag => (
+            <span
+              key={tag.id}
+              className="px-2 py-0.5 rounded-full text-xs font-medium"
+              style={{ backgroundColor: tag.color || "#444" }}
+            >
+              {tag.title}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -12,10 +12,12 @@ import { iconsData } from "@/Utils/icons/IconData";
 import { useFetchTags } from "@/Server/Apollo/Query/FetchQuery/FetchTag";
 import React,{useState} from 'react';
 import { useTagLogic } from "@/Server/Apollo/Logic/Tag/QueryTag";
+import { useRouter } from "next/navigation";
 function FileRender({ file, index, folder }) {
   const {
     fileId,handleSubmitUpdate
   } = useFileStore();
+  const setActiveFileId = useFileStore((s) => s.setActiveFileId);
       const {
     handleDrop,
 
@@ -28,6 +30,7 @@ function FileRender({ file, index, folder }) {
   const { handleUpdateFile } = useFileListLogic();
   const { saveNow } = useAutoSave(() => handleSubmitUpdate(handleUpdateFile));
   const { onColorClick, dotClass } = useFileColor(file, handleUpdateFile);
+  const router = useRouter();
   const fileSelect = useFileStore((state) => state.handleFileClick);
   const { handleAssignTagToFile, handleRemoveTagFromFile } = useTagLogic();
   
@@ -44,7 +47,10 @@ function FileRender({ file, index, folder }) {
       onDragStart={() => setDragIdx(index)}
       onDragEnter={() => setDragOver(index)}
       onDragEnd={() => handleDrop({ files: folder.files, fileId: file.id, targetFolderId: moveFolder,fileMain:file })}
-
+//        onClick={() => {
+//   setActiveFileId(file.id);       // send only the file ID to Zustand
+//   router.push(`/notebook/application/files/${file.id}`); // navigate to file page (optional)
+// }}
       onClick={() => fileSelect(file, getHasTyped, saveNow)}
        onContextMenu={(e) => handleContextMenu(e, 'file')}
       className={`bg-grey-800 shadow-md rounded-lg p-2 flex items-center justify-between cursor-pointer ${

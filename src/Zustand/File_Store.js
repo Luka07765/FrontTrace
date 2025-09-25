@@ -12,6 +12,8 @@ export const useFileStore = create((set, get) => ({
   setDragIdx: (index) => set({ dragIdx: index }),
   setDragOver: (index) => set({ dragOver: index }),
 
+  activeFileId: null,
+  setActiveFileId: (id) => set({ activeFileId: id }),
 
 
   //GENERAL FILE

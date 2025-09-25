@@ -7,7 +7,7 @@ import {
   GET_FILES,
   CREATE_FILE,
   DELETE_FILE,
-  UPDATE_FILE,
+  UPDATE_FILE,GET_FILE_BY_ID 
 } from '../Queries/FolderFileQueries';
 
 // Fetch folders
@@ -51,6 +51,21 @@ export const useFetchFiles = () => {
   }));
 
   return { files, loading, error, refetch };
+};
+
+
+export const useFetchFileById = (id) => {
+  const { data, loading, error, refetch } = useQuery(GET_FILE_BY_ID, {
+    variables: { id },
+    skip: !id,
+  });
+
+  return {
+    file: data?.getFileById || null,
+    loading,
+    error,
+    refetch,
+  };
 };
 
 // Create file
