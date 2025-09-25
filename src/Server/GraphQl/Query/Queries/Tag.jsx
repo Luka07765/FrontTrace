@@ -12,9 +12,9 @@ export const GET_TAGS = gql`
   }
 `;
 
-export const GET_TAG_BY_ID = gql`
-  query GetTagById($id: UUID!) {
-    getTagById(id: $id) {
+export const GET_TAG_Files = gql`
+  query GET_TAG_Files($id: UUID!) {
+    getTagFiles(id: $id) {
       id
       title
       color

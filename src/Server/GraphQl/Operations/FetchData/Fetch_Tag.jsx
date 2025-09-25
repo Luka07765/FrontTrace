@@ -1,10 +1,8 @@
 import { useQuery, useMutation } from '@apollo/client';
 
 import {
-
   GET_TAGS,
-  GET_TAG_BY_ID,
-  GET_FILES_BY_TAG
+  GET_TAG_Files,
 } from '../../Query/Queries/Tag';
 
 
@@ -18,21 +16,11 @@ export const useFetchTags = () => {
 
 
 // Fetch a single tag by ID
-export const useFetchTagById = (id) => {
-  const { data, loading, error, refetch } = useQuery(GET_TAG_BY_ID, {
+export const useFetchTagFiles = (id) => {
+  const { data, loading, error, refetch } = useQuery(GET_TAG_Files, {
     variables: { id },
   });
 
   return { tag: data?.getTagById, loading, error, refetch };
 };
 
-export const useFetchFilesByTag = (tagId) => {
-  const { data, loading, error, refetch } = useQuery(GET_FILES_BY_TAG, {
-    variables: { tagId },
-    skip: !tagId,
-  });
-
-  const files = data?.getFilesByTag ?? [];
-
-  return { files, loading, error, refetch };
-};
