@@ -55,7 +55,7 @@ export default function Dashboard() {
         const {
     folderDrop,
   } = useMoveLogic();
-  // Derived Data
+  // Derived Data this is where i start
   const nestedFolders = useMemo(() => {
     return Array.isArray(folders) && folders.length > 0
       ? buildNestedStructure(folders, files)
