@@ -1,7 +1,7 @@
 'use client';
-import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
+import { useFolderListLogic } from '@/Server/GraphQl/Operations/Logic/Folder_Logic';
 import SidebarTree from '@/Components/Tags/Master_Tree';
-import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
+import { useFileListLogic } from "@/Server/GraphQl/Operations/Logic/File_Logic";
 import { buildNestedStructure } from '@/Utils/Data_Structure/Structure';
 function Page() {
     const { files } = useFileListLogic();

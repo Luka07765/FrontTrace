@@ -1,5 +1,5 @@
 // hooks/useFolderColors.js
-import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
+import { useFileListLogic } from '@/Server/GraphQl/Operations/Logic/File_Logic';
 
 export function useFolderColors(folder) {
   const { files = [] } = useFileListLogic();

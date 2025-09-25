@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useLoginLogic } from '@/Server/Auth/Login';
+import { useLoginLogic } from '@/Server/AUTH/Login';
 
 export default function Login() {
   const [email, setEmail] = useState('');

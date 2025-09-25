@@ -1,13 +1,13 @@
 import {
-  useFetchFolders,
+
   useCreateFolder,
   useDeleteFolder,
   useUpdateFolder,
-} from '@/Server/Apollo/Query/FetchQuery/FetchFolderFile';
+} from '@/Server/GraphQl/Query/Mutations/Folder';
 import { GET_FOLDERS } from '@/Server/Apollo/Query/Queries/FolderFileQueries';
 
 export function useFolderListLogic() {
-  const { folders, loading, error, refetch } = useFetchFolders();
+
   const [createFolder] = useCreateFolder();
   const [deleteFolder] = useDeleteFolder();
   const [updateFolder] = useUpdateFolder();
@@ -136,9 +136,6 @@ update: (cache, { data: { createFolder } }) => {
   };
 
   return {
-    folders,
-    loading,
-    error,
     handleCreateFolder,
     handleDeleteFolder,
     handleUpdateFolder,

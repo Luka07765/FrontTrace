@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import TagManager from "./tools/CreateTag";
-import { useFetchTags } from "@/Server/Apollo/Query/FetchQuery/FetchTag";
-import { useTagLogic } from "@/Server/Apollo/Logic/Tag/QueryTag";
+import { useFetchTags } from "@/Server/GraphQl/Operations/FetchTag";
+import { useTagLogic } from "@/Server/GraphQl/Operations/Logic/Tag_Logic";
 
 export default function Tag() {
   const { handleDeleteTag, handleUpdateTag } = useTagLogic();

@@ -1,9 +1,9 @@
 "use client";
 import { useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useFetchFileById } from "@/Server/Apollo/Query/FetchQuery/FetchFolderFile";
+import { useFetchFileById } from "@/Server/GraphQl/Operations/FetchFolderFile";
 import { useFileStore } from "@/Zustand/File_Store";
-import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
+import { useFileListLogic } from '@/Server/GraphQl/Operations/Logic/File_Logic';
 
 export default function FilePage() {
   const { handleUpdateFile } = useFileListLogic();

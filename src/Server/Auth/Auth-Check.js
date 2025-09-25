@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useToken } from '@/Server/Auth/Token';
+import { useToken } from '@/Server/AUTH/Token';
 
 export function useAuthCheck(cancelTokenRefresh) {
   const { checkAuthentication, scheduleTokenRefresh } = useToken();

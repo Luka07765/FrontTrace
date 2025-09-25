@@ -5,13 +5,13 @@ import { useAutoSave } from '@/Components/Work_Space/tools/Saving_Logic/Auto-Sav
 import { getHasTyped } from "@/Utils/type";
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useFileStore } from '@/Zustand/File_Store';
-import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
+import { useFileListLogic } from '@/Server/GraphQl/Operations/Logic/File_Logic';
 import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
 import { useFileColor } from "@/Components/Sidebar/Logic/L_Colors/FileColor";
 import { useIconPickerStore } from "@/Zustand/Icon";
 import { iconsData } from "@/Utils/icons/IconData";
-import { useTagLogic } from "@/Server/Apollo/Logic/Tag/QueryTag";
-import { useFetchTags } from "@/Server/Apollo/Query/FetchQuery/FetchTag";
+import { useTagLogic } from "@/Server/GraphQl/Operations/Logic/Tag_Logic";
+import { useFetchTags } from "@/Server/GraphQl/Operations/FetchTag";
 import { useFetchTagsByFile } from '@/Server/Apollo/Query/FetchQuery/FetchTagsByFile';
 
 function FileRender({ file, index, folder }) {

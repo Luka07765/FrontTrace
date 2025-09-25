@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useFetchFileById } from "@/Server/Apollo/Query/FetchQuery/FetchFolderFile";
+import { useFetchFileById } from "@/Server/GraphQl/Operations/FetchFolderFile";
 import { useFileStore } from "@/Zustand/File_Store";
 
 export default function FilePage() {

@@ -1,5 +1,5 @@
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
+import { useFolderListLogic } from '@/Server/GraphQl/Operations/Logic/Folder_Logic';
 
 function FolderInput({ parentId }) {
   const { setCreatingFolderParentId, folderName, setFolderName } =

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTagLogic } from "@/Server/Apollo/Logic/Tag/QueryTag";
+import { useTagLogic } from "@/Server/GraphQl/Operations/Logic/Tag_Logic";
 
 export default function CreateTagForm() {
   const { handleCreateTag } = useTagLogic();

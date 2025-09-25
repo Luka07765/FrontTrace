@@ -1,8 +1,8 @@
 "use client";
 import Tree3D from "./test";
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure"; // adjust import
-import { useFolderListLogic } from "@/Server/Apollo/Logic/SideBar/QuerySideBar";
-import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
+import { useFolderListLogic } from "@/Server/GraphQl/Operations/Logic/Folder_Logic";
+import { useFileListLogic } from "@/Server/GraphQl/Operations/Logic/File_Logic";
 export default function Page() {
 const { files  } = useFileListLogic();
 const { folders,loading  ,error} = useFolderListLogic();

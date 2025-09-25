@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRegisterLogic } from '@/Server/Auth/Sign_Up';
+import { useRegisterLogic } from '@/Server/AUTH/Sign_Up';
 import { useRouter } from 'next/navigation';
 export default function Register() {
   const [username, setUsername] = useState('');

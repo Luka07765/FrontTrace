@@ -7,12 +7,12 @@ import { ContextClick } from '@/Zustand/Context_Store';
 
 import {IconPickerModal} from "@/Components/Sidebar/Ui/U_Icons/IconUi"
 // Server and Authentication
-import { useToken } from '@/Server/Auth/Token';
-import { useAuthCheck } from '@/Server/Auth/Auth-Check';
+import { useToken } from '@/Server/AUTH/Token';
+import { useAuthCheck } from '@/Server/AUTH/Auth-Check';
 
 // Data Logic
-import { useFolderListLogic } from "@/Server/Apollo/Logic/SideBar/QuerySideBar";
-import { useFileListLogic } from "@/Server/Apollo/Logic/Notes/QueryWorkTable";
+import { useFolderListLogic } from "@/Server/GraphQl/Operations/Logic/Folder_Logic";
+import { useFileListLogic } from "@/Server/GraphQl/Operations/Logic/File_Logic";
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
 import { findMatchingItems } from "@/Components/Sidebar/Logic/L_Search/Logic_Search";
 import { useFolderStore } from '@/Zustand/Folder_Store';

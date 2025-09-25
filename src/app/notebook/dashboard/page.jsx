@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 import { ContextClick } from '@/Zustand/Context_Store';
-import { useToken } from '@/Server/Auth/Token';
-import { useAuthCheck } from '@/Server/Auth/Auth-Check';
+import { useToken } from '@/Server/AUTH/Token';
+import { useAuthCheck } from '@/Server/AUTH/Auth-Check';
 import ProjectSection from './Logic/ProjectSelection';
 import { useRouter } from 'next/navigation';
 export default function Dashboard() {

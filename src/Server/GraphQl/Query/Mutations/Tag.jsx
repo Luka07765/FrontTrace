@@ -1,51 +1,5 @@
 import { gql } from '@apollo/client';
 
-// --------------------- Queries ---------------------
-export const GET_TAGS = gql`
-  query GetTags {
-    getTags {
-      id
-      title
-      color
-      iconId
-    }
-  }
-`;
-
-export const GET_TAG_BY_ID = gql`
-  query GetTagById($id: UUID!) {
-    getTagById(id: $id) {
-      id
-      title
-      color
-      iconId
-      tagAssignments {
-        file {
-          id
-          title
-        }
-      }
-    }
-  }
-`;
-
-
-
-
-export const GET_FILES_BY_TAG = gql`
-  query GetFilesByTag($tagId: ID!) {
-    getFilesByTag(tagId: $tagId) {
-      id
-      title
-      content
-      folderId
-      colors
-      filePosition
-      iconId
-    }
-  }
-`;
-
 
 // --------------------- Mutations ---------------------
 export const CREATE_TAG = gql`
@@ -87,3 +41,19 @@ export const REMOVE_TAG_FROM_FILE = gql`
     removeTagFromFile(input: $input)
   }
 `;
+
+
+
+export const useCreateTag = () => useMutation(CREATE_TAG);
+
+// Update tag
+export const useUpdateTag = () => useMutation(UPDATE_TAG);
+
+// Delete tag
+export const useDeleteTag = () => useMutation(DELETE_TAG);
+
+// Assign tag to file
+export const useAssignTagToFile = () => useMutation(ASSIGN_TAG_TO_FILE);
+
+// Remove tag from file
+export const useRemoveTagFromFile = () => useMutation(REMOVE_TAG_FROM_FILE);

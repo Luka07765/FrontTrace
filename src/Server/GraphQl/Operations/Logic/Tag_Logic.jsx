@@ -1,17 +1,17 @@
 import {
-  useFetchTags,
+
   useCreateTag,
   useUpdateTag,
   useDeleteTag,
   useAssignTagToFile,
   useRemoveTagFromFile,
-} from '@/Server/Apollo/Query/FetchQuery/FetchTag';
+} from '@/Server/GraphQl/Operations/FetchTag';
 import {
   GET_TAGS,
-} from '@/Server/Apollo/Query/Queries/TagQueries';
+} from '@/Server/GraphQl/Query/Mutations/Tag';
 
 export function useTagLogic() {
-  const { tags, loading, error, refetch } = useFetchTags();
+
   const [createTag] = useCreateTag();
   const [updateTag] = useUpdateTag();
   const [deleteTag] = useDeleteTag();
@@ -148,14 +148,12 @@ const handleRemoveTagFromFile = async (fileId, tagId) => {
 };
 
   return {
-    tags,
-    loading,
-    error,
+
     handleCreateTag,
     handleUpdateTag,
     handleDeleteTag,
     handleAssignTagToFile,
     handleRemoveTagFromFile,
-    refetch,
+
   };
 }

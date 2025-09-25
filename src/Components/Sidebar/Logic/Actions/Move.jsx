@@ -2,8 +2,8 @@
 
 import { useFileStore } from '@/Zustand/File_Store';
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useFileListLogic } from '@/Server/Apollo/Logic/Notes/QueryWorkTable';
-import { useFolderListLogic } from '@/Server/Apollo/Logic/SideBar/QuerySideBar';
+import { useFileListLogic } from '@/Server/GraphQl/Operations/Logic/File_Logic';
+import { useFolderListLogic } from '@/Server/GraphQl/Operations/Logic/Folder_Logic';
 
 import React, { useRef } from 'react';
 export const useMoveLogic = (folder) => {

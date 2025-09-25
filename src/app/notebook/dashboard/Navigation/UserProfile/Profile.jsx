@@ -1,4 +1,4 @@
-import { useLogout } from '@/Server/Auth/Logout';
+import { useLogout } from '@/Server/AUTH/Logout';
 function Profile() {
   const { handleLogout } = useLogout();
   return (

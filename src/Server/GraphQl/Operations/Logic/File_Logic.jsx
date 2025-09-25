@@ -1,13 +1,13 @@
 import {
-  useFetchFiles,
+
   useCreateFile,
   useDeleteFile,
   useUpdateFile,
-} from '@/Server/Apollo/Query/FetchQuery/FetchFolderFile';
-import { GET_FILES } from '@/Server/Apollo/Query/Queries/FolderFileQueries';
+} from '@/Server/GraphQl/Query/Mutations/File';
+import { GET_FILES } from '@/Server/GraphQl/Query/Queries/File';
 
 export function useFileListLogic() {
-  const { files, loading, error, refetch } = useFetchFiles();
+
   const [createFile] = useCreateFile();
   const [deleteFile] = useDeleteFile();
   const [updateFile] = useUpdateFile();
@@ -115,9 +115,7 @@ export function useFileListLogic() {
 
 
   return {
-    files,
-    loading,
-    error,
+ 
     handleCreateFile,
     handleDeleteFile,
     handleUpdateFile,
