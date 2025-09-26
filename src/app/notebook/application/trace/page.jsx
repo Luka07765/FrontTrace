@@ -1,6 +1,6 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useMemo, useState } from "react";
+import { useMemo, useState,useRef,useEffect } from "react";
 import { ContextClick } from '@/Zustand/Context_Store';
 import {IconPickerModal} from "@/Components/Sidebar/Ui/U_Icons/IconUi"
 import { useToken } from '@/Server/AUTH/Token';
@@ -10,7 +10,7 @@ import { useFetchFiles } from "@/Server/GraphQl/Operations/FetchData/Fetch_File"
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
 import { findMatchingItems } from "@/Components/Sidebar/Logic/L_Search/Logic_Search";
 import { useFolderStore } from '@/Zustand/Folder_Store';
-
+import {useData} from "@/Zustand/Data"
 import Folder_Render from '@/Components/Sidebar/Render/Folder';
 import File from '@/Components/Work_Space/WorkPage';
 import NullSidebar from '@/Components/Sidebar/Ui/U_Null/UiNull';
@@ -25,7 +25,7 @@ export default function Dashboard() {
   const [collapsed, setCollapsed] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const { setContextMenuVisible,setSelectedFolderId } = ContextClick();
-
+  const { dataFolders, dataFiles, setDataFolders, setDataFiles } = useData();
   
   // Data Fetching
   const { folders, loading, error } = useFetchFolders();
@@ -37,12 +37,28 @@ export default function Dashboard() {
   const loadingAuth = useAuthCheck(cancelTokenRefresh);
   const { createFolder } = useContextMenuActions();
 
-  // Derived Data this is where i start
+  const initialized = useRef(false);
+  const fileInt = useRef(false);
+useEffect(() => {
+  if (!initialized.current && folders) {
+    setDataFolders(folders);
+    initialized.current = true; 
+  }
+}, [folders]);
+
+useEffect(() => {
+  if (!fileInt.current && files) {
+    setDataFiles(files);
+    fileInt.current = true; 
+  }
+}, [files]);
+
+
   const nestedFolders = useMemo(() => {
-    return Array.isArray(folders) && folders.length > 0
-      ? buildNestedStructure(folders, files)
+    return Array.isArray(dataFolders) && dataFolders.length > 0
+      ? buildNestedStructure(dataFolders, dataFiles)
       : null;
-  }, [folders, files]);
+  }, [dataFolders, dataFiles]);
   
   const matchingItems = searchTerm
     ? findMatchingItems(nestedFolders || [], searchTerm)
