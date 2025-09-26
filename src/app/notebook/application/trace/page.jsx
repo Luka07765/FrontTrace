@@ -1,43 +1,20 @@
 'use client';
-import { useRef, useEffect, useState } from "react";
+import { useState } from "react";
 import { useToken } from '@/Server/AUTH/Token';
 import { useAuthCheck } from '@/Server/AUTH/Auth-Check';
-import { useFetchFolders } from "@/Server/GraphQl/Operations/FetchData/Fetch_Folder";
-import { useFetchFiles } from "@/Server/GraphQl/Operations/FetchData/Fetch_File";
-import { useData } from "@/Zustand/Data";
-import Dash from "./Dash/DashBoard"
+import Dash from "./Dash/DashBoard";
 import FolderList from './Data';
 import Folder_Render from '@/Components/Sidebar/Render/Folder';
-
+import { useInitFoldersAndFiles } from "./Man";
+import { useData } from "@/Zustand/Data";
 export default function Dashboard() {
-  const { setDataFolders, setDataFiles } = useData();
-
-  const { folders: fetchedFolders, loading, error } = useFetchFolders();
-  const { files: fetchedFiles } = useFetchFiles();
-
+    const {dataFolder, setDataFolders, setDataFiles } = useData();
   const { cancelTokenRefresh } = useToken();
   const loadingAuth = useAuthCheck(cancelTokenRefresh);
 
-  const initializedFolders = useRef(false);
-  const initializedFiles = useRef(false);
+  const { loading, error } = useInitFoldersAndFiles();
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-  // Load folders into global store
-  useEffect(() => {
-    if (!initializedFolders.current && fetchedFolders) {
-      setDataFolders(fetchedFolders);
-      initializedFolders.current = true;
-    }
-  }, [fetchedFolders]);
-
-  // Load files into global store
-  useEffect(() => {
-    if (!initializedFiles.current && fetchedFiles) {
-      setDataFiles(fetchedFiles);
-      initializedFiles.current = true;
-    }
-  }, [fetchedFiles]);
 
   // Loading and error states
   if (loadingAuth) return <p>Loading...</p>;
@@ -45,7 +22,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-500">Loading folders...</p>
+        <p className="text-gray-500">Loading folders & files...</p>
       </div>
     );
   }
@@ -53,7 +30,7 @@ export default function Dashboard() {
   if (error) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-red-500">Error loading folders: {error.message}</p>
+        <p className="text-red-500">Error loading data: {error.message}</p>
       </div>
     );
   }
@@ -81,8 +58,6 @@ export default function Dashboard() {
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-         
-
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setIsPopupOpen(false)}
@@ -90,7 +65,7 @@ export default function Dashboard() {
               >
                 Cancel
               </button>
-            <Dash />
+              <Dash />
             </div>
           </div>
         </div>
