@@ -1,45 +1,29 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMemo, useState } from "react";
-
-// Context and State Management
 import { ContextClick } from '@/Zustand/Context_Store';
-
 import {IconPickerModal} from "@/Components/Sidebar/Ui/U_Icons/IconUi"
-// Server and Authentication
 import { useToken } from '@/Server/AUTH/Token';
 import { useAuthCheck } from '@/Server/AUTH/Auth-Check';
-
-// Data Logic
 import { useFetchFolders } from "@/Server/GraphQl/Operations/FetchData/Fetch_Folder";
 import { useFetchFiles } from "@/Server/GraphQl/Operations/FetchData/Fetch_File";
 import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
 import { findMatchingItems } from "@/Components/Sidebar/Logic/L_Search/Logic_Search";
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
-
-
 
 import Folder_Render from '@/Components/Sidebar/Render/Folder';
-
-
-// UI Components
 import File from '@/Components/Work_Space/WorkPage';
 import NullSidebar from '@/Components/Sidebar/Ui/U_Null/UiNull';
 import SearchResults from "@/Components/Sidebar/Ui/U_Search/Ui_Search";
 import CreateFolder from "@/Components/Sidebar/Logic/Actions/Create_Folder";
 import ContextMenu from '@/Components/Sidebar/Ui/U_ContextMenu/Context_Ui';
-
-// Hooks and Utilities
 import useResizable from '@/Components/Sidebar/Logic/Actions/Resize-Bar';
 import { useContextMenuActions } from "@/Components/Sidebar/Logic/L_Context/Actions";
 
 export default function Dashboard() {
-   const { creatingFolderParentId } = useFolderStore();
+  const { creatingFolderParentId } = useFolderStore();
   const [collapsed, setCollapsed] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
-  // Context and Store
   const { setContextMenuVisible,setSelectedFolderId } = ContextClick();
 
   
@@ -52,9 +36,7 @@ export default function Dashboard() {
   const { cancelTokenRefresh } = useToken();
   const loadingAuth = useAuthCheck(cancelTokenRefresh);
   const { createFolder } = useContextMenuActions();
-        const {
-    folderDrop,
-  } = useMoveLogic();
+
   // Derived Data this is where i start
   const nestedFolders = useMemo(() => {
     return Array.isArray(folders) && folders.length > 0
@@ -144,9 +126,7 @@ export default function Dashboard() {
   
           >
             <Folder_Render
-  folder={folder}
-
-    folderDrop={folderDrop} />         
+  folder={folder} />         
           </li>
         );
 
