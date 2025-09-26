@@ -32,6 +32,6 @@ export function drawNodes(g, root) {
     .attr("dy", "1.5em")
     .attr("text-anchor", "middle")
     .text((d) => d.data.name)
-    .style("font-size", "12px")
-    .style("fill", "#333");
+    .style("font-size", "30px")
+    .style("fill", "#ffffffff");
 }

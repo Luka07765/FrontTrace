@@ -9,6 +9,11 @@ export const transformStructure = (folder) => ({
       filesCount: 0,
       subfoldersCount: 0,
       children: [],
+            tags: (file.tags || []).map(tag => ({
+        id: tag.id,
+        title: tag.title,
+        color: tag.color || "#bb1010ff",
+      })),
     })),
     ...(folder.children || []).map((child) => transformStructure(child)),
   ],
