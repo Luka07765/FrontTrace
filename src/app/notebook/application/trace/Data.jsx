@@ -1,13 +1,12 @@
 'use client';
-import { useItemStore } from './itemStore';
-import { useMemo } from 'react';
+import { useData } from "@/Zustand/Data";
 
-export default function ItemList({ render }) {
-  const items = useItemStore(state => state.items);
+export default function FolderList({ render }) {
+  const nestedFolders = useData(state => state.nestedFolders);
+
   return (
     <>
-      {Object.values(items).map(item => render(item))}
+      {nestedFolders.map(folder => render(folder))}
     </>
   );
 }
-
