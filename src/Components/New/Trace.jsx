@@ -5,20 +5,26 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState,useRef} from "react";
 import NextIcon from "@/assets/FolderFile_Icons/next.png"
 import Image from 'next/image';
-import "@/Components/New/Render/style.css"
+import SimpleBar from "simplebar-react";
+import "simplebar-react/dist/simplebar.min.css";
 export default function Trace() {
     const [expand, setExpand] = useState(false);
   return (
-    <motion.div className="relative flex h-screen overflow-hidden">
+    <motion.div className="relative flex h-screen ">
       <motion.div   
-          className="sidebar overflow-x-hidden h-full bg-gray-900 text-white pb-40"
-          animate={{ maxWidth: expand ? '6rem' : '16rem' }}
+          className="h-full bg-gray-900 text-white pb-40"
+          animate={{ width: expand ? '6rem' : '16rem' }}
           transition={{ type: 'spring', damping: 15 }}
         >
-          <Folder_Data render={folder => (
-            <li className="list-none" key={folder.id}>
+          <SimpleBar style={{ maxHeight: "100vh" }}>
+            <ul className="p-2">
+              <Folder_Data render={folder => (
+                <li className="list-none" key={folder.id}>
                 <Folder folder={folder}  />
             </li> )}/>
+                       </ul>
+                    </SimpleBar>
+  
       </motion.div>
       
       <button
@@ -33,6 +39,7 @@ export default function Trace() {
           className="filter invert"
       />
 </button>
+        
     </motion.div>
   );
 }
