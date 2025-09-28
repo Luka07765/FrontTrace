@@ -22,7 +22,7 @@ function Folder_Render({ folder }) {
           height={40}
             className="filter invert flex-shrink-0"
         />
-        <span className="text-white truncate   font-medium text-base ">{folder.title}</span>
+  <span className="text-white font-medium text-base whitespace-nowrap ">{folder.title}</span>
       </div>
 
       {/* Right side: grab handle */}

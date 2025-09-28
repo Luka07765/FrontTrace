@@ -20,12 +20,20 @@ export default function Trace() {
           </li>
         )}/>
       </motion.div>
-                          <button
-          onClick={() => setExpand(!expand)}
-       className="h-2.5 opacity-0 hover:opacity-100 p-2 bg-gray-700 rounded transition-opacity duration-200"
-        >
-          {expand ? '▶' : '◀'}
-        </button>
+<button
+  onClick={() => setExpand(!expand)}
+  className="
+    h-8 w-8 flex items-center justify-center
+    bg-gray-700 text-white 
+    opacity-0 hover:opacity-100
+    transition-all duration-200
+    hover:bg-gray-600 hover:scale-110
+    shadow-md
+  "
+>
+  {expand ? '▶' : '◀'}
+</button>
+
     </motion.div>
   );
 }
