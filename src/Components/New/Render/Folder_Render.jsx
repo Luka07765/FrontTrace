@@ -9,6 +9,9 @@ function Folder_Render({ folder }) {
       className="flex items-center  pr-6 ml-2 justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors duration-200 group"
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.98 }}
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4 }}
     >
       {/* Left side: icon + title */}
       <div className="flex items-center space-x-3 overflow-hidden">
