@@ -4,8 +4,8 @@ import { useToken } from '@/Server/AUTH/Token';
 import { useAuthCheck } from '@/Server/AUTH/Auth-Check';
 
 import Folder_Data from './Data/Folder_Data';
-import Folder from '@/Components/Sidebar/Render/Folder';
-import { useDataFetch } from "./Data/Fetch_Data";
+import Folder from '@/app/notebook/application/trace/Render/Folder_Render';
+import { useDataFetch } from "@/app/notebook/application/trace/Data/Fetch_Data";
 
 export default function Dashboard() {
   const { cancelTokenRefresh } = useToken();
@@ -41,8 +41,6 @@ export default function Dashboard() {
             <Folder folder={folder} />
           </li>
         )} />
-
-
 
       </div>
 
