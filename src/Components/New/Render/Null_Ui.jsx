@@ -3,7 +3,7 @@ import { cn } from "@/Utils/cn";
 import NullFolder from "@/Components/Sidebar/Logic/L_Null/LogicNull";
 import ContextMenu from '@/Components/Sidebar/Ui/U_ContextMenu/Context_Ui';
 import { useState, useEffect } from "react";
-import { useFolderStore } from "@/Zustand/Folder_Store";
+import { useFolderStore } from "@/Zustand/Old_Folder";
 
 import useResizable from '@/Components/Sidebar/Logic/Actions/Resize-Bar';
 export default function NullSidebar({nestedFolders}) {

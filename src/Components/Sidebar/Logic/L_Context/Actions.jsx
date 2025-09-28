@@ -1,4 +1,4 @@
-import { useFolderStore } from '@/Zustand/Folder_Store';
+import { useFolderStore } from '@/Zustand/Old_Folder';
 import { useFolderListLogic } from '@/Server/GraphQl/Operations/Logic/Folder_Logic';
 import { useFileListLogic } from '@/Server/GraphQl/Operations/Logic/File_Logic';
 

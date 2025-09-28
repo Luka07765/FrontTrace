@@ -1,6 +1,6 @@
 'use client';
 
-import { useFolderStore } from '@/Zustand/Folder_Store';
+import { useFolderStore } from '@/Zustand/Old_Folder';
 import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
 import FileRender from '@/Components/Sidebar/Render/File';
 import CreateFolder from '@/Components/Sidebar/Logic/Actions/Create_Folder';

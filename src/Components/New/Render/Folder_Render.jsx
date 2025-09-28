@@ -4,6 +4,23 @@ import { motion } from 'framer-motion';
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
 
 function Folder_Render({ folder }) {
+    const handleClickFolder = (e) => {
+    e.stopPropagation();
+
+    // if (!folder.parentFolderId || folder.parentFolderId === 'None') {
+    //   setNullExpend(true);
+
+    //   return;
+    // }
+   console.group(
+  `%cFolder: ${folder.title}`,
+  'font-size: 16px; font-weight: bold; color: blue;'
+);
+console.table(folder.files);
+console.groupEnd();
+
+
+  };
   return (
     <motion.div
       className="flex items-center  pr-6 ml-2 justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors duration-200 group"
@@ -13,16 +30,18 @@ function Folder_Render({ folder }) {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.2 }}
     >
-      {/* Left side: icon + title */}
-      <div className="flex items-center space-x-3 overflow-hidden">
-        <Image
-          src={folderOpenIcon}
-          alt="Folder Open"
-          width={40}
-          height={40}
-            className="filter invert flex-shrink-0"
-        />
-  <span className="text-white font-medium text-base whitespace-nowrap ">{folder.title}</span>
+
+      <div 
+      onClick={handleClickFolder} 
+      className="flex items-center space-x-3 overflow-hidden">
+           <Image
+             src={folderOpenIcon}
+              alt="Folder Open"
+              width={40}
+              height={40}
+              className="filter invert flex-shrink-0"
+            />
+               <span className="text-white font-medium text-base whitespace-nowrap ">{folder.title}</span>
       </div>
 
       {/* Right side: grab handle */}

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useFileStore } from '@/Zustand/File_Store';
-import { useFolderStore } from '@/Zustand/Folder_Store';
+import { useFolderStore } from '@/Zustand/Old_Folder';
 
 import { ContextClick } from '@/Zustand/Context_Store';
 import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
