@@ -3,6 +3,8 @@ import Folder_Data from '@/Components/New/Data/Folder_Data';
 import Folder from '@/Components/New/Render/Folder_Render';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState} from "react";
+import NextIcon from "@/assets/FolderFile_Icons/next.png"
+import Image from 'next/image';
 export default function Trace() {
     const [expand, setExpand] = useState(false);
   return (
@@ -22,16 +24,15 @@ export default function Trace() {
       </motion.div>
 <button
   onClick={() => setExpand(!expand)}
-  className="
-    h-8 w-8 flex items-center justify-center
-    bg-gray-700 text-white 
-    opacity-0 hover:opacity-100
-    transition-all duration-200
-    hover:bg-gray-600 hover:scale-110
-    shadow-md
-  "
+  className="h-8 w-8 flex items-center justify-center opacity-0 hover:opacity-100 transition-all duration-200"
 >
-  {expand ? '▶' : '◀'}
+      <Image
+                  src={ NextIcon }
+                  alt={'Folder Open' }
+                  width={35}
+                  height={25}
+                 className="filter invert"
+                />
 </button>
 
     </motion.div>
