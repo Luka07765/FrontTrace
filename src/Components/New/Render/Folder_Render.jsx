@@ -11,7 +11,7 @@ function Folder_Render({ folder }) {
       whileTap={{ scale: 0.98 }}
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.2 }}
     >
       {/* Left side: icon + title */}
       <div className="flex items-center space-x-3 overflow-hidden">
@@ -22,7 +22,7 @@ function Folder_Render({ folder }) {
           height={40}
             className="filter invert flex-shrink-0"
         />
-        <span className="text-white  font-medium text-base truncate  group-hover:whitespace-normal group-hover:overflow-visible">{folder.title}</span>
+        <span className="text-white truncate   font-medium text-base ">{folder.title}</span>
       </div>
 
       {/* Right side: grab handle */}
