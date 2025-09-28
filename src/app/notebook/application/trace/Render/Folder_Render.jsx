@@ -1,123 +1,30 @@
 import React from 'react';
 import Image from 'next/image';
-import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import { useFileStore } from '@/Zustand/File_Store';
-import { useFolderStore } from '@/Zustand/Folder_Store';
-
-import { ContextClick } from '@/Zustand/Context_Store';
-import { useMoveLogic } from '@/Components/Sidebar/Logic/Actions/Move';
-import { useFolderColors } from '@/Components/Sidebar/Logic/L_Colors/ColorLogic';
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
-import folderClosedIcon from '@/assets/FolderFile_Icons/folder.png';
-import RenameFolder from '@/Components/Sidebar/Logic/Actions/Rename_Folder';
-import {UiColors} from '@/Components/Sidebar/Ui/U_Colors/UiColors';
 
 function Folder_Render({ folder }) {
-
-  const { setContextMenuPosition, setContextMenuVisible, setContextMenuTarget,selectedFolderId, setSelectedFolderId  } = ContextClick();
-
-  const { 
-    expandedFolders, setExpandedFolders, 
-    editingFolderId, setDragFolder, dragFolder,
-    setNullExpend, setPopupFolder,
-    setMoveFolder, moveFolder
-  } = useFolderStore();
- const { setMoveData } = useFileStore();
-  const { folderDrop, handleDragEnter, moveFileToFolder } = useMoveLogic(folder);
-  const { redCount, yellowCount } = useFolderColors(folder);
-
-  const isExpanded = expandedFolders[folder.id];
-  const isEditing = editingFolderId === folder.id;
-
-  // === Handlers ===
-  const handleClickFolder = (e) => {
-    e.stopPropagation();
-
-    if (!folder.parentFolderId || folder.parentFolderId === 'None') {
-      setNullExpend(true);
-      setPopupFolder(folder);
-      return;
-    }
-   console.group(
-  `%cFolder: ${folder.title}`,
-  'font-size: 16px; font-weight: bold; color: blue;'
-);
-console.table(folder.files);
-console.groupEnd();
-
-    setSelectedFolderId(selectedFolderId === folder.id ? null : folder.id);
-    setExpandedFolders(folder.id);
-  };
-
-  const handleContextMenu = (e) => {
-    e.preventDefault();
-    setSelectedFolderId(folder.id);
-    setContextMenuVisible(true);
-    setContextMenuTarget({ type: 'folder' });
-    setContextMenuPosition({ x: e.pageX, y: e.pageY - 100 });
-  };
-
-  const handleDragEnd = () => {
-    folderDrop({ sourceFolderId: dragFolder, targetFolderId: moveFolder });
-    setMoveFolder(null);
-  };
-
-  // === Render ===
   return (
     <motion.div
-      className={`flex items-center p-2 rounded cursor-pointer hover:bg-gray-600 ${
-        selectedFolderId === folder.id ? 'border-2 border-blue-500' : ''
-      }`}
-      onContextMenu={handleContextMenu}
-      onDragOver={(e) => e.preventDefault()}
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.4 }}
+      className="flex items-center justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors duration-200"
+      whileHover={{ scale: 1.07 }}
+      whileTap={{ scale: 0.98 }}
     >
-      {/* Chevron */}
-      <span onDragEnter={handleDragEnter} onClick={() => setExpandedFolders(folder.id)} className="mr-1">
-        {folder.parentFolderId !== 'None' &&
-          (isExpanded ? <FaChevronDown className="inline" /> : <FaChevronRight className="inline" />)}
-      </span>
+      {/* Left side: icon + title */}
+      <div className="flex items-center space-x-3 list-none">
+        <Image
+          src={folderOpenIcon}
+          alt="Folder Open"
+          width={35}
+          height={35}
+          className="filter invert"
+        />
+        <span className="text-white font-medium text-sm truncate">{folder.title}</span>
+      </div>
 
-      {/* Folder Content */}
-      <div onClick={handleClickFolder} className="flex-grow">
-        {isEditing ? (
-          <RenameFolder folder={folder} />
-        ) : (
-          <div onDragEnter={moveFileToFolder} className="flex items-center space-x-3">
-            {/* Folder Icon */}
-               <UiColors redCount={redCount} yellowCount={yellowCount} />
-            <div className='flex-shrink-0'>
-              <Image
-                src={isExpanded ? folderOpenIcon : folderClosedIcon}
-                alt={isExpanded ? 'Folder Open' : 'Folder Closed'}
-                width={35}
-                height={35}
-                className="filter invert"
-              />
-            </div>
-
-            {/* Colors */}
-         
-
-            {/* Title & Drag Menu */}
-            <div className="flex items-center space-x-1">
-              <div className="ml-1">{folder.title}</div>
-              <div
-                draggable
-                onDragStart={() => {setDragFolder(folder.id);}}
-                 onDragEnter={() => setMoveData(folder.files)}
-                onDragEnd={handleDragEnd}
-                title="Drag to move folder"
-                className="cursor-grab text-gray-300 hover:text-white"
-              >
-                <span className="text-xl leading-none select-none">⋮</span>
-              </div>
-            </div>
-          </div>
-        )}
+      {/* Right side: grab handle */}
+      <div className="cursor-grab text-gray-400 hover:text-white select-none">
+        <span className="text-xl leading-none">⋮</span>
       </div>
     </motion.div>
   );
