@@ -7,19 +7,19 @@ function Folder_Render({ folder }) {
   return (
     <motion.div
       className="flex items-center justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors duration-200"
-      whileHover={{ scale: 1.07 }}
+      whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.98 }}
     >
       {/* Left side: icon + title */}
-      <div className="flex items-center space-x-3 list-none">
+      <div className="flex items-center space-x-3 ">
         <Image
           src={folderOpenIcon}
           alt="Folder Open"
-          width={35}
-          height={35}
+          width={40}
+          height={40}
           className="filter invert"
         />
-        <span className="text-white font-medium text-sm truncate">{folder.title}</span>
+        <span className="text-white  font-medium text-base truncate">{folder.title}</span>
       </div>
 
       {/* Right side: grab handle */}
