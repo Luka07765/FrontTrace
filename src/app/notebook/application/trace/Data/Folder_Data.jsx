@@ -1,7 +1,7 @@
 'use client';
 import { useData } from "@/Zustand/Data";
 
-export default function FolderList({ render }) {
+export default function useFolderData({ render }) {
   const nestedFolders = useData(state => state.nestedFolders);
 
   return (

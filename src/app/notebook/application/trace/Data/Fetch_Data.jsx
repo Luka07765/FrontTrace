@@ -4,8 +4,8 @@ import { useFetchFolders } from "@/Server/GraphQl/Operations/FetchData/Fetch_Fol
 import { useFetchFiles } from "@/Server/GraphQl/Operations/FetchData/Fetch_File";
 import { useData } from "@/Zustand/Data";
 
-export function useInitFoldersAndFiles() {
-  const {dataFolder, setDataFolders, setDataFiles } = useData();
+export function useDataFetch() {
+  const { setDataFolders, setDataFiles } = useData();
 
   const { folders, loading: foldersLoading, error: foldersError } = useFetchFolders();
   const { files, loading: filesLoading, error: filesError } = useFetchFiles();
@@ -19,16 +19,18 @@ export function useInitFoldersAndFiles() {
       setDataFolders(folders);
       initializedFolders.current = true;
     }
-    console.log("Zustand folders after set:", useData.getState().dataFolders);
-  }, [folders, setDataFolders]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [folders]);
 
   // Sync files
-  useEffect(() => {
-    if (!initializedFiles.current && files) {
-      setDataFiles(files);
-      initializedFiles.current = true;
-    }
-  }, [files, setDataFiles]);
+useEffect(() => {
+  if (!initializedFiles.current && files) {
+    setDataFiles(files);
+    initializedFiles.current = true;
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [files]);
+
  
   return {
     loading: foldersLoading || filesLoading,

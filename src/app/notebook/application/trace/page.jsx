@@ -3,19 +3,17 @@
 import { useToken } from '@/Server/AUTH/Token';
 import { useAuthCheck } from '@/Server/AUTH/Auth-Check';
 
-import FolderList from './Data';
-import Folder_Render from '@/Components/Sidebar/Render/Folder';
-import { useInitFoldersAndFiles } from "./Man";
+import Folder_Data from './Data/Folder_Data';
+import Folder from '@/Components/Sidebar/Render/Folder';
+import { useDataFetch } from "./Data/Fetch_Data";
 
 export default function Dashboard() {
   const { cancelTokenRefresh } = useToken();
   const loadingAuth = useAuthCheck(cancelTokenRefresh);
 
-  const { loading, error } = useInitFoldersAndFiles();
+  const { loading, error } = useDataFetch();
 
 
-
-  // Loading and error states
   if (loadingAuth) return <p>Loading...</p>;
 
   if (loading) {
@@ -34,14 +32,13 @@ export default function Dashboard() {
     );
   }
 
-  // Main UI
   return (
     <div className="relative flex h-screen overflow-hidden">
 
       <div className="overflow-auto h-full bg-gray-900 text-white flex flex-col items-center py-4">
-        <FolderList render={folder => (
+        <Folder_Data render={folder => (
           <li key={folder.id}>
-            <Folder_Render folder={folder} />
+            <Folder folder={folder} />
           </li>
         )} />
       </div>
