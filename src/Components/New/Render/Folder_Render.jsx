@@ -19,7 +19,7 @@ function Folder_Render({ folder }) {
           height={40}
             className="filter invert flex-shrink-0"
         />
-        <span className="text-white  font-medium text-base truncate group-hover:whitespace-normal group-hover:overflow-visible">{folder.title}</span>
+        <span className="text-white  font-medium text-base truncate  group-hover:whitespace-normal group-hover:overflow-visible">{folder.title}</span>
       </div>
 
       {/* Right side: grab handle */}
