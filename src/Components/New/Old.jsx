@@ -3,14 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useMemo, useState,useRef,useEffect } from "react";
 import { ContextClick } from '@/Zustand/Context_Store';
 import {IconPickerModal} from "@/Components/Sidebar/Ui/U_Icons/IconUi"
-import { useToken } from '@/Server/AUTH/Token';
-import { useAuthCheck } from '@/Server/AUTH/Auth-Check';
-import { useFetchFolders } from "@/Server/GraphQl/Operations/FetchData/Fetch_Folder";
-import { useFetchFiles } from "@/Server/GraphQl/Operations/FetchData/Fetch_File";
-import { buildNestedStructure } from "@/Utils/Data_Structure/Structure";
+
 import { findMatchingItems } from "@/Components/Sidebar/Logic/L_Search/Logic_Search";
 import { useFolderStore } from '@/Zustand/Folder_Store';
-import {useData} from "@/Zustand/Data"
+
 import Folder_Render from '@/Components/Sidebar/Render/Folder';
 import File from '@/Components/Work_Space/WorkPage';
 import NullSidebar from '@/Components/Sidebar/Ui/U_Null/UiNull';
@@ -22,67 +18,17 @@ import { useContextMenuActions } from "@/Components/Sidebar/Logic/L_Context/Acti
 
 export default function Dashboard() {
   const { creatingFolderParentId } = useFolderStore();
-  const [collapsed, setCollapsed] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const { setContextMenuVisible,setSelectedFolderId } = ContextClick();
-  const { dataFolders, dataFiles, setDataFolders, setDataFiles } = useData();
-  
-  // Data Fetching
-  const { folders, loading, error } = useFetchFolders();
-  const { files } = useFetchFiles();
-  
-  // Hooks
   const { contentRef } = useResizable();  
-  const { cancelTokenRefresh } = useToken();
-  const loadingAuth = useAuthCheck(cancelTokenRefresh);
+
   const { createFolder } = useContextMenuActions();
 
-  const initialized = useRef(false);
-  const fileInt = useRef(false);
-useEffect(() => {
-  if (!initialized.current && folders) {
-    setDataFolders(folders);
-    initialized.current = true; 
-  }
-}, [folders]);
-
-useEffect(() => {
-  if (!fileInt.current && files) {
-    setDataFiles(files);
-    fileInt.current = true; 
-  }
-}, [files]);
-
-
-  const nestedFolders = useMemo(() => {
-    return Array.isArray(dataFolders) && dataFolders.length > 0
-      ? buildNestedStructure(dataFolders, dataFiles)
-      : null;
-  }, [dataFolders, dataFiles]);
-  
   const matchingItems = searchTerm
     ? findMatchingItems(nestedFolders || [], searchTerm)
     : [];
 
-  // Loading States
-  if (loadingAuth) return <p>Loading...</p>;
-  
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-500">Loading folders...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-red-500">Error loading folders: {error.message}</p>
-      </div>
-    );
-  }
-
+ 
   return (
     <motion.div
       className="relative flex h-screen overflow-hidden "
@@ -90,8 +36,7 @@ useEffect(() => {
     >
       {/* Sidebar */}
       <motion.div
-        animate={{ width: collapsed ? '5rem' : '16rem' }}
-        transition={{ type: 'spring', damping: 15 }}
+  
         className="overflow-auto h-full bg-gray-900 text-white flex flex-col  items-center py-4"
       >
         {/* Search Input */}
@@ -103,13 +48,7 @@ useEffect(() => {
           onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
         />
         
-        {/* Collapse Button */}
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="mb-4 p-2 bg-gray-700 rounded hover:bg-gray-600"
-        >
-          {collapsed ? '▶' : '◀'}
-        </button>
+      
         
         {/* Create Folder Button */}
         <button
