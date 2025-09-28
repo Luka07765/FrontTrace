@@ -35,15 +35,18 @@ export default function Dashboard() {
   return (
     <div className="relative flex h-screen overflow-hidden">
 
-      <div className="overflow-auto h-full bg-gray-900 text-white flex flex-col items-center py-4">
+    <div className="overflow-auto h-full bg-gray-900 text-white flex flex-col items-left py-4">
         <Folder_Data render={folder => (
           <li key={folder.id}>
             <Folder folder={folder} />
           </li>
         )} />
+
+
+
       </div>
 
       
-    </div>
+    // </div>
   );
 }
