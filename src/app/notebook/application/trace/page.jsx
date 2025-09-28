@@ -1,18 +1,16 @@
+// DashboardContainer.jsx
 'use client';
 
 import { useToken } from '@/Server/AUTH/Token';
 import { useAuthCheck } from '@/Server/AUTH/Auth-Check';
-
-import Folder_Data from './Data/Folder_Data';
-import Folder from '@/app/notebook/application/trace/Render/Folder_Render';
 import { useDataFetch } from "@/app/notebook/application/trace/Data/Fetch_Data";
+import Trace from './Trace';
 
-export default function Dashboard() {
+export default function DashboardContainer() {
   const { cancelTokenRefresh } = useToken();
   const loadingAuth = useAuthCheck(cancelTokenRefresh);
 
   const { loading, error } = useDataFetch();
-
 
   if (loadingAuth) return <p>Loading...</p>;
 
@@ -32,15 +30,5 @@ export default function Dashboard() {
     );
   }
 
-  return (
-    <div className="relative flex h-screen overflow-hidden">
-    <div className="overflow-y-auto overflow-x-hidden h-full bg-gray-900 text-white items-left py-4">
-        <Folder_Data render={folder => (
-          <li className="list-none" key={folder.id}>
-            <Folder folder={folder} />
-          </li>
-        )} />
-      </div>
- </div>
-  );
+  return <Trace  />;
 }
