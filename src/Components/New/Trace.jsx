@@ -13,7 +13,7 @@ export default function Trace() {
     <motion.div className="relative flex h-screen ">
       <motion.div   
           className="h-full bg-gray-900 text-white "
-            layout
+        
           animate={{ width: expand ? '6rem' : '16rem' }}
           transition={{ type: 'spring', damping: expand ? 17 : 30 }}
         >
