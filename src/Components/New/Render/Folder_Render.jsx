@@ -41,7 +41,7 @@ console.groupEnd();
               height={50}
               className="filter invert flex-shrink-0"
             />
-               <span className="text-white font-medium text-base whitespace-nowrap ">{folder.title}</span>
+               <span className="text-white font-medium text-base whitespace-nowrap truncate ">{folder.title}</span>
       </div>
 
       {/* Right side: grab handle */}
