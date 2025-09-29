@@ -12,12 +12,12 @@ export default function Trace() {
   return (
     <motion.div className="relative flex h-screen ">
       <motion.div   
-          className="h-full bg-gray-900 text-white pb-40"
+          className="h-full bg-gray-900 text-white "
           animate={{ width: expand ? '6rem' : '16rem' }}
           transition={{ type: 'spring', damping: 15 }}
         >
-          <SimpleBar style={{ maxHeight: "100vh" }}>
-            <ul className="p-2">
+          <SimpleBar style={{ maxHeight: "100vh", overflowX: "hidden"  }}>
+            <ul className="p-2 pb-20">
               <Folder_Data render={folder => (
                 <li className="list-none" key={folder.id}>
                   <Folder folder={folder}  />
