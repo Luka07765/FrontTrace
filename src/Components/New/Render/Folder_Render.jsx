@@ -37,8 +37,8 @@ console.groupEnd();
            <Image
              src={folderOpenIcon}
               alt="Folder Open"
-              width={40}
-              height={40}
+              width={50}
+              height={50}
               className="filter invert flex-shrink-0"
             />
                <span className="text-white font-medium text-base whitespace-nowrap ">{folder.title}</span>
