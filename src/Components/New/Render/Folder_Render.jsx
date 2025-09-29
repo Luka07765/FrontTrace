@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
 
-function Folder_Render({ folder }) {
+function Folder_Render({ folder,expand }) {
     const handleClickFolder = (e) => {
     e.stopPropagation();
 
@@ -20,7 +20,7 @@ console.table(folder.files);
 console.groupEnd();
 
 
-  };
+  };console.log(folderOpenIcon);
   return (
     <motion.div
       className="flex items-center  pr-6 ml-2 justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors duration-200 group"
@@ -34,12 +34,15 @@ console.groupEnd();
       <div 
       onClick={handleClickFolder} 
       className="flex items-center space-x-3 overflow-hidden">
-           <Image
-             src={folderOpenIcon}
+           <motion.img
+                  src={folderOpenIcon.src}
               alt="Folder Open"
               width={50}
               height={50}
               className="filter invert flex-shrink-0"
+              animate={{ width: expand ? 24 : 60, height: expand ? 24 : 60 }}
+                        transition={{ type: 'spring', damping: 20, stiffness: 120 }}
+
             />
                <span className="text-white font-medium text-base whitespace-nowrap truncate ">{folder.title}</span>
       </div>

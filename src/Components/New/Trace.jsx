@@ -21,7 +21,7 @@ export default function Trace() {
             <ul className="p-2 pb-20">
               <Folder_Data render={folder => (
                 <li className="list-none" key={folder.id}>
-                  <Folder folder={folder}  />
+                  <Folder folder={folder} expand={expand}  />
                 </li> )}/>
             </ul>
           </SimpleBar>
