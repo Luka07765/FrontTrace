@@ -4,7 +4,7 @@ export function buildNestedStructure(folders, files) {
   folders.forEach((folder) => {
     folderMap[folder.id] = {
       ...folder,
-      children: [],
+      subFolders: [],
       files: [],
     };
   });
@@ -29,7 +29,7 @@ export function buildNestedStructure(folders, files) {
         ? null
         : folder.parentFolderId;
     if (parentId && folderMap[parentId]) {
-      folderMap[parentId].children.push(folderMap[folder.id]);
+      folderMap[parentId].subFolders.push(folderMap[folder.id]);
     } else {
       nested.push(folderMap[folder.id]);
     }

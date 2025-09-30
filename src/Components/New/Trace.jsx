@@ -16,7 +16,7 @@ export default function Trace() {
         
           animate={{ width: expand ? '6rem' : '16rem' }}
           transition={{ type: 'spring', damping: expand ? 17 : 30 }}
-        >
+        >      <ExpandButton expand={expand} setExpand={setExpand}/>
           <SimpleBar style={{ maxHeight: "100vh", overflowX: "hidden"  }}>
             <ul className="p-2 pb-20">
               <Folder_Data render={folder => (
@@ -28,7 +28,7 @@ export default function Trace() {
   
       </motion.div>
       
-      <ExpandButton expand={expand} setExpand={setExpand}/>
+
         
     </motion.div>
   );
