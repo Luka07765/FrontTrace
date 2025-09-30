@@ -1,16 +1,22 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import useResizable from '@/Components/Sidebar/Logic/Actions/Resize-Bar';
-export default function ExpandedSidebar() {
-  const {  setNullExpend } = useFolderStore();
-    const { sidebarRef, resizerRef, resizerInnerRef, handleMouseDown, hitAreaMargin } = useResizable();
+
+
+export default function NullSidebar() {
+  const { nullExpend ,setNullExpend} = useFolderStore();
+      const { sidebarRef, resizerRef, resizerInnerRef, handleMouseDown, hitAreaMargin } = useResizable();
   return (
-    
-    <motion.div
-      exit={{ width: 0 }}
-      transition={{ type: "spring", damping: 20 }}
+<div>
+      {nullExpend && (
+       <div className="relative z-[1000]">
+
+
+     <div
       className=" z-[1000] bg-gray-800 h-screen overflow-y-auto overflow-x-hidden"
-    >   <div
+    >   
+    <div
         ref={resizerRef}
         onMouseDown={handleMouseDown}
         className="absolute top-0 bottom-0 cursor-ew-resize z-[1001] group"
@@ -43,6 +49,12 @@ export default function ExpandedSidebar() {
         </div>
         
       </aside>
-    </motion.div>
+    </div>
+
+</div>
+      )}
+</div>
+
+
   );
 }

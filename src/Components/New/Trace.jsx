@@ -34,12 +34,7 @@ export default function Trace() {
       </motion.div>
       
       <NullSidebar />
-      <div
-         ref={contentRef}
-         className="overflow-auto flex-1"
-            >
-              <Content />
-      </div>
+
         
     </motion.div>
   );
