@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { cn } from "@/Utils/cn";
-import ContextMenu from '@/Components/Sidebar/Ui/U_ContextMenu/Context_Ui';
-
-export default function ExpandedSidebar({ sidebarRef, resizerRef, resizerInnerRef, handleMouseDown, hitAreaMargin, setNullExpend }) {
+import { useFolderStore } from '@/Zustand/Folder_Store';
+import useResizable from '@/Components/Sidebar/Logic/Actions/Resize-Bar';
+export default function ExpandedSidebar() {
+  const { nullExpend, setNullExpend } = useFolderStore();
+    const { sidebarRef, resizerRef, resizerInnerRef, handleMouseDown, hitAreaMargin } = useResizable();
   return (
     
     <motion.div
