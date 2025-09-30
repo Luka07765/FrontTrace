@@ -3,15 +3,14 @@ import { cn } from "@/Utils/cn";
 import NullFolder from "@/Components/Sidebar/Logic/L_Null/LogicNull";
 import ContextMenu from '@/Components/Sidebar/Ui/U_ContextMenu/Context_Ui';
 import { useState, useEffect } from "react";
-import { useFolderStore } from "@/Zustand/Old_Folder";
+import { useFolderStore } from '@/Zustand/Folder_Store';
 
 import useResizable from '@/Components/Sidebar/Logic/Actions/Resize-Bar';
 export default function NullSidebar({nestedFolders}) {
-  const { nullExpend, popupFolder, setNullExpend } = useFolderStore();
+  const { nullExpend, setNullExpend } = useFolderStore();
   const [animationDone, setAnimationDone] = useState(false);
       const {
     sidebarRef,
-
     resizerRef,
     resizerInnerRef,
     handleMouseDown,
@@ -46,7 +45,7 @@ export default function NullSidebar({nestedFolders}) {
               <aside ref={sidebarRef} style={{ width: 170 }}>
                 <div className="p-4">
                   <div className="flex justify-between items-center mb-2">
-                    <h2 className="text-lg font-bold">{popupFolder?.title || "Folder"}</h2>
+
                     <button
   onClick={() => {
     if (resizerRef.current) resizerRef.current.style.display = 'none';
@@ -58,7 +57,7 @@ export default function NullSidebar({nestedFolders}) {
 </button>
 
                   </div>
-                  <NullFolder nestedFolders={nestedFolders}/>
+                  <h1>CONTENT</h1>
                 </div>
               </aside>
               <ContextMenu />

@@ -2,16 +2,19 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import folderOpenIcon from '@/assets/FolderFile_Icons/open-folder.png';
-
+import { useFolderStore } from '@/Zustand/Folder_Store';
 function Folder_Render({ folder,expand }) {
+    const { 
+      setNullExpend,
+    } = useFolderStore();
     const handleClickFolder = (e) => {
     e.stopPropagation();
 
-    // if (!folder.parentFolderId || folder.parentFolderId === 'None') {
-    //   setNullExpend(true);
+    if (!folder.parentFolderId || folder.parentFolderId === 'None') {
+      setNullExpend(true);
 
-    //   return;
-    // }
+      return;
+    }
    console.group(
   `%cFolder: ${folder.title}`,
   'font-size: 16px; font-weight: bold; color: blue;'

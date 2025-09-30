@@ -6,7 +6,7 @@ import { useState} from "react";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import ExpandButton from "@/Components/New/Tools/other/ExpendButton"; // import button component
-
+import NullSidebar from '@/Components/New/Render/Null_Ui';
 export default function Trace() {
     const [expand, setExpand] = useState(false);
   return (
@@ -28,7 +28,7 @@ export default function Trace() {
   
       </motion.div>
       
-
+      <NullSidebar />
         
     </motion.div>
   );
