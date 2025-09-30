@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useFolderStore } from '@/Zustand/Folder_Store';
 import useResizable from '@/Components/Sidebar/Logic/Actions/Resize-Bar';
 export default function ExpandedSidebar() {
-  const { nullExpend, setNullExpend } = useFolderStore();
+  const {  setNullExpend } = useFolderStore();
     const { sidebarRef, resizerRef, resizerInnerRef, handleMouseDown, hitAreaMargin } = useResizable();
   return (
     
@@ -43,10 +43,6 @@ export default function ExpandedSidebar() {
         </div>
         
       </aside>
-
-
-
-   
     </motion.div>
   );
 }

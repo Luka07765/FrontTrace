@@ -6,7 +6,7 @@ import { useState} from "react";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import ExpandButton from "@/Components/New/Tools/other/ExpendButton"; // import button component
-import NullSidebar from '@/Components/New/Render/Null/mainNull';
+import NullSidebar from '@/Components/New/Render/Null/NullSidebar';
 import Content from "@/Components/New/Tools/Content"
 import useResizable from '@/Components/Sidebar/Logic/Actions/Resize-Bar';
 export default function Trace() {
