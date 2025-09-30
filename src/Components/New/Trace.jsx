@@ -6,9 +6,10 @@ import { useState} from "react";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import ExpandButton from "@/Components/New/Tools/other/ExpendButton"; // import button component
-import NullSidebar from '@/Components/New/Render/Null_Ui';
+import NullSidebar from '@/Components/New/Render/mainNull';
 export default function Trace() {
     const [expand, setExpand] = useState(false);
+    
   return (
     <motion.div className="relative flex h-screen ">
       <motion.div   
@@ -16,7 +17,8 @@ export default function Trace() {
         
           animate={{ width: expand ? '6rem' : '16rem' }}
           transition={{ type: 'spring', damping: expand ? 17 : 30 }}
-        >      <ExpandButton expand={expand} setExpand={setExpand}/>
+        > 
+          <ExpandButton expand={expand} setExpand={setExpand}/>
           <SimpleBar style={{ maxHeight: "100vh", overflowX: "hidden"  }}>
             <ul className="p-2 pb-20">
               <Folder_Data render={folder => (
