@@ -16,7 +16,7 @@ function Folder_Render({ folder,expand }) {
     >
 
       <div 
-      onClick={handleClickFolder} 
+
       className="flex items-center space-x-3 overflow-hidden">
            <motion.img
                   src={folderOpenIcon.src}
