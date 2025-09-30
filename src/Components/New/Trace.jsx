@@ -7,7 +7,10 @@ import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import ExpandButton from "@/Components/New/Tools/other/ExpendButton"; // import button component
 import NullSidebar from '@/Components/New/Render/mainNull';
+import Content from "@/Components/New/Tools/Content"
+import useResizable from '@/Components/Sidebar/Logic/Actions/Resize-Bar';
 export default function Trace() {
+    const { contentRef } = useResizable();  
     const [expand, setExpand] = useState(false);
     
   return (
@@ -31,6 +34,12 @@ export default function Trace() {
       </motion.div>
       
       <NullSidebar />
+      <div
+         ref={contentRef}
+         className="overflow-auto flex-1"
+            >
+              <Content />
+      </div>
         
     </motion.div>
   );
