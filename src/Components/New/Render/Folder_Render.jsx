@@ -10,20 +10,11 @@ function Folder_Render({ folder,expand }) {
     const handleClickFolder = (e) => {
     e.stopPropagation();
 
-    if (!folder.parentFolderId || folder.parentFolderId === 'None') {
+    if ( folder.parentFolderId === 'None') {
       setNullExpend(true);
-
       return;
     }
-   console.group(
-  `%cFolder: ${folder.title}`,
-  'font-size: 16px; font-weight: bold; color: blue;'
-);
-console.table(folder.files);
-console.groupEnd();
-
-
-  };console.log(folderOpenIcon);
+  };
   return (
     <motion.div
       className="flex items-center  pr-6 ml-2 justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors duration-200 group"
